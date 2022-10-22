@@ -1,0 +1,4 @@
+enum EasyDialogsAnimationType {
+  fade,
+  slide,
+}
