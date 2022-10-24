@@ -6,10 +6,12 @@ const _kDuration = Duration(milliseconds: 300);
 const _kReverseDuration = Duration(milliseconds: 300);
 const _kCurve = Curves.easeInOutCubic;
 
-typedef OnDialogControlPanelCreated = void Function(
+typedef DialogControlPanelCreatedCallback = void Function(
     IDialogControlPanel controlPanel);
 
+/// Interface for interractiong with dialog
 abstract class IDialogControlPanel {
+  /// Hide this dialog
   Future<void> dismiss();
 
   bool get isAbleToInterract;
@@ -22,7 +24,7 @@ abstract class EasyDialogBase extends StatefulWidget {
   /// Animation
   final EasyDialogsAnimation animation;
 
-  final OnDialogControlPanelCreated? onCotrollPanelCreated;
+  final DialogControlPanelCreatedCallback? onCotrollPanelCreated;
 
   const EasyDialogBase({
     required this.child,
@@ -49,8 +51,8 @@ abstract class EasyDialogBaseState<T extends EasyDialogBase> extends State<T>
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      duration: widget.animation.duration,
-      reverseDuration: widget.animation.reverseDuration,
+      duration: widget.animation.data.duration,
+      reverseDuration: widget.animation.data.reverseDuration,
     );
     widget.onCotrollPanelCreated?.call(this);
     animationController.forward();

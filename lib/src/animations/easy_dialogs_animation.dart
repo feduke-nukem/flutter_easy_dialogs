@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_dialogs/src/animations/easy_dialogs_animatable_data.dart';
 
 /// Base class of animation for EasyDialog
-abstract class EasyDialogsAnimation extends EasyDialogsAnimatableData
-    implements IEasyDialogsAnimator {
+abstract class EasyDialogsAnimation implements IEasyDialogsAnimator {
+  final EasyDialogsAnimatableData data;
+
   EasyDialogsAnimation({
-    required super.curve,
-    required super.duration,
-    required super.reverseDuration,
+    required this.data,
   });
 }
 
@@ -17,23 +17,5 @@ abstract class IEasyDialogsAnimator {
   Widget animate({
     required Animation<double> parent,
     required Widget child,
-  });
-}
-
-/// Data class of animation information
-abstract class EasyDialogsAnimatableData {
-  /// Animation's duration
-  final Duration duration;
-
-  /// Animation's reverse duration
-  final Duration reverseDuration;
-
-  /// Animation's curve
-  final Curve curve;
-
-  const EasyDialogsAnimatableData({
-    required this.curve,
-    required this.duration,
-    required this.reverseDuration,
   });
 }
