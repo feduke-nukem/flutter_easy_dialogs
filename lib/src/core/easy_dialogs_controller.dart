@@ -2,20 +2,21 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_settings.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/enums/easy_dialog_type.dart';
-import 'package:flutter_easy_dialogs/src/widgets/easy_dialogs/easy_dialogs_overlay.dart';
 import 'package:flutter_easy_dialogs/src/widgets/easy_dialogs/easy_dialogs_theme.dart';
 import 'package:flutter_easy_dialogs/src/widgets/pre_built_dialogs/easy_dialog.dart';
 
 import '../animations/animations.dart';
+import '../overlay/overlay.dart';
 
 /// Controller for manipulating dialogs via [FlutterEasyDialogs]
 class EasyDialogsController {
   /// For manipulating things via [Overlay]
   GlobalKey<EasyDialogsOverlayState> get overlayKey => _overlayKey;
 
-  final _currentBanners = <IDialogControlPanel>[];
+  final _currentDialogs = <EasyDialogSettings, IDialogControlPanel>{};
 
   final _overlayKey = GlobalKey<EasyDialogsOverlayState>();
 
@@ -64,20 +65,27 @@ class EasyDialogsController {
   /// Shows material banner
   Future<void> showBanner({
     required Widget content,
-    EasyDialogsPosition position = EasyDialogsPosition.top,
+    EasyDialogPosition position = EasyDialogPosition.top,
     EasyDialogsAnimationType animationType = EasyDialogsAnimationType.slide,
     bool autoHide = false,
     Color? backgroundColor,
   }) async {
-    for (var dialog in _currentBanners) {
-      await dialog.dismiss();
+    final dialogSettings = EasyDialogSettings(
+      position: position,
+      type: EasyDialogType.banner,
+    );
+
+    for (var dialog in _currentDialogs.entries) {
+      if (dialog.key != dialogSettings) continue;
+
+      await dialog.value.dismiss();
     }
-    _overlayState.removeEntriesByType(EasyDialogType.banner);
+    _overlayState.removeEntryByData(dialogSettings);
 
     late final IDialogControlPanel bannerControlPanel;
 
     final banner = _easyDialogsFactory.createBanner(
-      data: const EasyDialogsAnimatableData(
+      animationSettings: const EasyDialogsAnimationSettings(
         curve: Curves.fastOutSlowIn,
         duration: Duration(milliseconds: 200),
         reverseDuration: Duration(milliseconds: 300),
@@ -85,7 +93,7 @@ class EasyDialogsController {
       backgroundColor: backgroundColor,
       onControlPanelCreated: (controlPanel) {
         bannerControlPanel = controlPanel;
-        _currentBanners.add(bannerControlPanel);
+        _currentDialogs[dialogSettings] = bannerControlPanel;
       },
       animationType: animationType,
       position: position,
@@ -93,7 +101,7 @@ class EasyDialogsController {
     );
 
     final overlay = EasyDialogsOverlayEntry(
-      type: EasyDialogType.banner,
+      dialogData: dialogSettings,
       builder: (context) => banner,
     );
     _overlayState.insert(overlay);
@@ -108,7 +116,7 @@ class EasyDialogsController {
         if (!overlay.mounted) return;
 
         overlay.remove();
-        _currentBanners.remove(bannerControlPanel);
+        _currentDialogs.remove(bannerControlPanel);
       },
     );
   }

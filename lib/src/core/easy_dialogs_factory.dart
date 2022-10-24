@@ -13,25 +13,23 @@ class EasyDialogsFactory implements IEasyDialogsFactory {
 
   @override
   EasyDialogBase createBanner({
-    required EasyDialogsAnimatableData data,
+    required EasyDialogsAnimationSettings animationSettings,
     required EasyDialogsAnimationType animationType,
-    required EasyDialogsPosition position,
+    required EasyDialogPosition position,
     required Widget content,
     DialogControlPanelCreatedCallback? onControlPanelCreated,
     Color? backgroundColor,
     EdgeInsets? padding,
   }) {
     final animation = _converter.convert(
-      data: data,
+      animationSettings: animationSettings,
       animationType: animationType,
       position: position,
     );
 
     final banner = EasyBanner(
-      topSafeArea: position == EasyDialogsPosition.top ||
-          position == EasyDialogsPosition.center,
-      bottomSafeArea: position == EasyDialogsPosition.bottom ||
-          position == EasyDialogsPosition.center,
+      topSafeArea: position == EasyDialogPosition.top,
+      bottomSafeArea: position == EasyDialogPosition.bottom,
       animation: animation,
       backgroundColor: backgroundColor,
       padding: padding,
@@ -45,9 +43,9 @@ class EasyDialogsFactory implements IEasyDialogsFactory {
 
 abstract class IEasyDialogsFactory {
   EasyDialogBase createBanner({
-    required EasyDialogsAnimatableData data,
+    required EasyDialogsAnimationSettings animationSettings,
     required EasyDialogsAnimationType animationType,
-    required EasyDialogsPosition position,
+    required EasyDialogPosition position,
     required Widget content,
     DialogControlPanelCreatedCallback? onControlPanelCreated,
     Color? backgroundColor,

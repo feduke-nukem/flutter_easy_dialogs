@@ -6,28 +6,28 @@ import '../animations/animations.dart';
 /// Class-converter for getting mathching animation instance
 abstract class IPositionToAnimationConverter {
   EasyDialogsAnimation convert({
-    required EasyDialogsAnimatableData data,
+    required EasyDialogsAnimationSettings animationSettings,
     required EasyDialogsAnimationType animationType,
-    required EasyDialogsPosition position,
+    required EasyDialogPosition position,
   });
 }
 
 class PositionToAnimationConverter implements IPositionToAnimationConverter {
   @override
   EasyDialogsAnimation convert({
-    required EasyDialogsAnimatableData data,
+    required EasyDialogsAnimationSettings animationSettings,
     required EasyDialogsAnimationType animationType,
-    required EasyDialogsPosition position,
+    required EasyDialogPosition position,
   }) {
     switch (animationType) {
       case EasyDialogsAnimationType.slide:
         return _convertToSlideAnimation(
-          data: data,
+          data: animationSettings,
           position: position,
         );
       case EasyDialogsAnimationType.fade:
         return _convertToFadeAnimation(
-          data: data,
+          data: animationSettings,
           position: position,
         );
       default:
@@ -39,13 +39,13 @@ class PositionToAnimationConverter implements IPositionToAnimationConverter {
   }
 
   EasyDialogsAnimation _convertToSlideAnimation({
-    required EasyDialogsAnimatableData data,
-    required EasyDialogsPosition position,
+    required EasyDialogsAnimationSettings data,
+    required EasyDialogPosition position,
   }) {
     switch (position) {
-      case EasyDialogsPosition.top:
+      case EasyDialogPosition.top:
         return EasyDialogsSlideFromTopAnimation(data: data);
-      case EasyDialogsPosition.bottom:
+      case EasyDialogPosition.bottom:
         return EasyDialogsSlideFromBotAnimation(data: data);
       default:
         Error.throwWithStackTrace(
@@ -56,8 +56,8 @@ class PositionToAnimationConverter implements IPositionToAnimationConverter {
   }
 
   EasyDialogsAnimation _convertToFadeAnimation({
-    required EasyDialogsAnimatableData data,
-    required EasyDialogsPosition position,
+    required EasyDialogsAnimationSettings data,
+    required EasyDialogPosition position,
   }) {
     return EasyDialogsFadeAnimation(data: data, position: position);
   }

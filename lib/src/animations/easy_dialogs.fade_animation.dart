@@ -4,7 +4,7 @@ import 'package:flutter_easy_dialogs/src/core/enums/easy_dialogs_position.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs_exception.dart';
 
 class EasyDialogsFadeAnimation extends EasyDialogsAnimation {
-  final EasyDialogsPosition position;
+  final EasyDialogPosition position;
 
   EasyDialogsFadeAnimation({
     required super.data,
@@ -26,13 +26,13 @@ class EasyDialogsFadeAnimation extends EasyDialogsAnimation {
 
   Alignment get _aligment {
     switch (position) {
-      case EasyDialogsPosition.top:
+      case EasyDialogPosition.top:
         return Alignment.topCenter;
 
-      case EasyDialogsPosition.bottom:
+      case EasyDialogPosition.bottom:
         return Alignment.bottomCenter;
 
-      case EasyDialogsPosition.center:
+      case EasyDialogPosition.center:
         return Alignment.center;
       default:
         Error.throwWithStackTrace(
