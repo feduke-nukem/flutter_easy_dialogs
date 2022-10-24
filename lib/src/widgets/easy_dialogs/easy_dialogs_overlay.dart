@@ -54,7 +54,7 @@ class EasyDialogsOverlayState extends OverlayState {
 
     final list = _entriesMap[type];
 
-    if (type == EasyDialogType.main) {
+    if (type == EasyDialogType.app) {
       assert(list == null,
           'Only one main $EasyDialogsOverlay can be presented at the same time');
     }
@@ -63,12 +63,18 @@ class EasyDialogsOverlayState extends OverlayState {
   }
 }
 
-class EasyDialogsOverlayEntry extends OverlayEntry {
+class EasyDialogsOverlayEntry extends EasyDialogsOverlayEntryBase {
   /// Dialog type
   final EasyDialogType type;
 
   EasyDialogsOverlayEntry({
     required this.type,
+    required super.builder,
+  });
+}
+
+abstract class EasyDialogsOverlayEntryBase extends OverlayEntry {
+  EasyDialogsOverlayEntryBase({
     required super.builder,
   });
 

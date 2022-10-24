@@ -1,5 +1,5 @@
 enum EasyDialogType {
-  main,
+  app,
   banner,
   other,
 }

@@ -36,24 +36,22 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _showBanner(BuildContext context) {
+    // ScaffoldMessenger.of(context).clearSnackBars();
     final dialogController = FlutterEasyDialogs.of(context);
 
     dialogController.showBanner(
-      content: Container(
-        height: 200.0,
-        color: Colors.red,
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Text(
-              'BANNER YO',
-              style: TextStyle(fontSize: 30),
-            ),
-          ),
+      content: ElevatedButton(
+        onPressed: () {},
+        child: const Text(
+          'BANNER YO',
+          style: TextStyle(fontSize: 30),
         ),
       ),
       autoHide: true,
+      animationType: EasyDialogsAnimationType.fade,
+      position: EasyDialogsPosition.center,
     );
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('SSSS')));
   }
 
   @override
@@ -72,11 +70,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showBanner(context),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: Builder(builder: (context) {
+        return FloatingActionButton(
+          onPressed: () => _showBanner(context),
+          tooltip: 'Increment',
+          child: const Icon(Icons.add),
+        );
+      }),
     );
   }
 }
