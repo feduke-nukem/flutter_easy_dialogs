@@ -36,6 +36,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _showBanner(BuildContext context) {
+    // ScaffoldMessenger.of(context).clearSnackBars();
     final dialogController = FlutterEasyDialogs.of(context);
 
     dialogController.showBanner(
@@ -54,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       autoHide: true,
     );
+    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('SSSS')));
   }
 
   @override
@@ -72,11 +74,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showBanner(context),
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: Builder(builder: (context) {
+        return FloatingActionButton(
+          onPressed: () => _showBanner(context),
+          tooltip: 'Increment',
+          child: const Icon(Icons.add),
+        );
+      }),
     );
   }
 }

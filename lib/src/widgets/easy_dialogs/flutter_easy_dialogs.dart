@@ -96,7 +96,7 @@ class _EasyDialogsShellState extends State<_EasyDialogsShell>
           key: _controller.overlayKey,
           initialEntries: [
             EasyDialogsOverlayEntry(
-              type: EasyDialogType.main,
+              type: EasyDialogType.app,
               builder: (context) => widget.child,
             ),
           ],

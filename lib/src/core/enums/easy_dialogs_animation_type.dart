@@ -1,4 +1,7 @@
 enum EasyDialogsAnimationType {
   fade,
-  slide,
+  slideFromTop,
+  slideFromLeft,
+  slideFromRigth,
+  slideFromBottom,
 }
