@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_factory.dart';
-import 'package:flutter_easy_dialogs/src/core/enums/easy_dialog_type.dart';
+import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay.dart';
+import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_entry.dart';
 import 'package:flutter_easy_dialogs/src/utils/position_to_animation_converter.dart';
-import 'package:flutter_easy_dialogs/src/widgets/easy_dialogs/easy_dialogs_overlay.dart';
 
 import 'easy_dialogs_theme.dart';
 
@@ -100,8 +100,7 @@ class _EasyDialogsShellState extends State<_EasyDialogsShell>
         child: EasyDialogsOverlay(
           key: _controller.overlayKey,
           initialEntries: [
-            EasyDialogsOverlayEntry(
-              type: EasyDialogType.app,
+            EasyDialogsOverlayEntry.app(
               builder: (context) => widget.child,
             ),
           ],

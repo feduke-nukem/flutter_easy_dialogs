@@ -1,5 +1,6 @@
-enum EasyDialogsPosition {
+enum EasyDialogPosition {
   top,
   bottom,
   center,
+  other,
 }

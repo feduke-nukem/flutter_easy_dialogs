@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Data class of animation information
-class EasyDialogsAnimatableData {
+class EasyDialogsAnimationSettings {
   /// Animation's duration
   final Duration duration;
 
@@ -11,7 +11,7 @@ class EasyDialogsAnimatableData {
   /// Animation's curve
   final Curve curve;
 
-  const EasyDialogsAnimatableData({
+  const EasyDialogsAnimationSettings({
     required this.curve,
     required this.duration,
     required this.reverseDuration,
@@ -22,7 +22,7 @@ class EasyDialogsAnimatableData {
     if (identical(this, other)) return true;
 
     return runtimeType == other.runtimeType &&
-        other is EasyDialogsAnimatableData &&
+        other is EasyDialogsAnimationSettings &&
         duration == other.duration &&
         reverseDuration == other.duration &&
         curve == other.curve;

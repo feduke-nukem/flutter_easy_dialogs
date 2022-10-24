@@ -47,9 +47,9 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(fontSize: 30),
         ),
       ),
-      autoHide: true,
-      animationType: EasyDialogsAnimationType.fade,
-      position: EasyDialogsPosition.center,
+      autoHide: false,
+      animationType: EasyDialogsAnimationType.slide,
+      position: EasyDialogPosition.top,
     );
     // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('SSSS')));
   }
