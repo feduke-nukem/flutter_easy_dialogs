@@ -36,7 +36,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   void _showBanner(BuildContext context) {
-    // ScaffoldMessenger.of(context).clearSnackBars();
     final dialogController = FlutterEasyDialogs.of(context);
 
     dialogController.showBanner(
@@ -47,11 +46,10 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(fontSize: 30),
         ),
       ),
-      autoHide: false,
+      autoHide: true,
       animationType: EasyDialogsAnimationType.slide,
       position: EasyDialogPosition.top,
     );
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('SSSS')));
   }
 
   @override

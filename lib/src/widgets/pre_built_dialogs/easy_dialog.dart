@@ -2,10 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/animations/easy_dialogs_animation.dart';
 
-const _kDuration = Duration(milliseconds: 300);
-const _kReverseDuration = Duration(milliseconds: 300);
-const _kCurve = Curves.easeInOutCubic;
-
 typedef DialogControlPanelCreatedCallback = void Function(
     IDialogControlPanel controlPanel);
 
@@ -51,8 +47,8 @@ abstract class EasyDialogBaseState<T extends EasyDialogBase> extends State<T>
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      duration: widget.animation.data.duration,
-      reverseDuration: widget.animation.data.reverseDuration,
+      duration: widget.animation.settings.duration,
+      reverseDuration: widget.animation.settings.reverseDuration,
     );
     widget.onCotrollPanelCreated?.call(this);
     animationController.forward();

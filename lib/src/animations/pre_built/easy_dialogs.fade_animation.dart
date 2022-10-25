@@ -7,7 +7,7 @@ class EasyDialogsFadeAnimation extends EasyDialogsAnimation {
   final EasyDialogPosition position;
 
   EasyDialogsFadeAnimation({
-    required super.data,
+    required super.settings,
     required this.position,
   });
 

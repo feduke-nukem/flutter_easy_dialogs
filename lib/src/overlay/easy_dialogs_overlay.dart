@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_settings.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_orverlay_entry_properties.dart';
 import 'package:flutter_easy_dialogs/src/core/enums/easy_dialog_type.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_entry.dart';
+import 'package:flutter_easy_dialogs/src/widgets/pre_built_dialogs/easy_dialog.dart';
 
 class EasyDialogsOverlay extends Overlay {
   const EasyDialogsOverlay({
@@ -15,8 +16,30 @@ class EasyDialogsOverlay extends Overlay {
   OverlayState createState() => EasyDialogsOverlayState();
 }
 
-class EasyDialogsOverlayState extends OverlayState {
-  final _entriesMap = <EasyDialogSettings, OverlayEntry>{};
+class EasyDialogsOverlayState extends OverlayState
+    implements IEasyDialogsOverlayController {
+  final _entriesMap = <EasyDialogOverlayEntryProperties, OverlayEntry>{};
+
+  @override
+  EasyDialogsOverlayEntry insertDialog({
+    required EasyDialogBase child,
+    required EasyDialogPosition position,
+    required EasyDialogType type,
+  }) {
+    final props = EasyDialogOverlayEntryProperties(
+      dialogPosition: position,
+      dialogType: type,
+    );
+
+    final entry = EasyDialogsOverlayEntry(
+      properties: props,
+      builder: (_) => child,
+    );
+
+    insert(entry);
+
+    return entry;
+  }
 
   @override
   void insert(OverlayEntry entry, {OverlayEntry? below, OverlayEntry? above}) {
@@ -38,17 +61,26 @@ class EasyDialogsOverlayState extends OverlayState {
     if (above != null) _handleNewEntry(above);
   }
 
-  void removeEntryByData(EasyDialogSettings data) {
+  @override
+  void removeDialogByTypeAndPosition({
+    required EasyDialogType type,
+    required EasyDialogPosition position,
+  }) {
     if (_entriesMap.entries.isEmpty) return;
 
-    _entriesMap.remove(data);
+    _entriesMap.remove(
+      EasyDialogOverlayEntryProperties(
+        dialogPosition: position,
+        dialogType: type,
+      ),
+    );
   }
 
   void removeEntriesByType(EasyDialogType type) {
     if (_entriesMap.entries.isEmpty) return;
 
     for (final entry in _entriesMap.entries) {
-      final shouldRemove = entry.key.type == type && entry.value.mounted;
+      final shouldRemove = entry.key.dialogType == type && entry.value.mounted;
 
       if (!shouldRemove) continue;
 
@@ -62,7 +94,7 @@ class EasyDialogsOverlayState extends OverlayState {
 
     for (final entry in _entriesMap.entries) {
       final shouldRemove =
-          entry.key.position == position && entry.value.mounted;
+          entry.key.dialogPosition == position && entry.value.mounted;
 
       if (!shouldRemove) continue;
 
@@ -72,28 +104,42 @@ class EasyDialogsOverlayState extends OverlayState {
   }
 
   void _handleNewEntry(OverlayEntry entry) {
-    final newDialogData = (entry is EasyDialogsOverlayEntry)
-        ? entry.dialogData
-        : EasyDialogSettings.other();
+    final newOverlayEntryProps = (entry is EasyDialogsOverlayEntry)
+        ? entry.properties
+        : EasyDialogOverlayEntryProperties.other();
 
-    if (newDialogData.type == EasyDialogType.app) {
+    if (newOverlayEntryProps.dialogType == EasyDialogType.app) {
       assert(
           !_entriesMap.keys
-              .any((element) => element.type == EasyDialogType.app),
+              .any((element) => element.dialogType == EasyDialogType.app),
           'Only one app $EasyDialogsOverlay can be presented at the same time');
     }
 
     assert(
-      !_entriesMap.keys.contains(newDialogData),
+      !_entriesMap.keys.contains(newOverlayEntryProps),
       'only single one $EasyDialogType with the same $EasyDialogPosition can be presented at the same time',
     );
 
     assert(
       !_entriesMap.keys
-          .any((element) => element.type == EasyDialogPosition.other),
+          .any((element) => element.dialogType == EasyDialogPosition.other),
       'Only single one $EasyDialogType of "other" can be presented at the same time',
     );
 
-    _entriesMap[newDialogData] = entry;
+    _entriesMap[newOverlayEntryProps] = entry;
   }
+}
+
+/// Interface for manipulating overlay with dialogs
+abstract class IEasyDialogsOverlayController {
+  EasyDialogsOverlayEntry insertDialog({
+    required EasyDialogBase child,
+    required EasyDialogPosition position,
+    required EasyDialogType type,
+  });
+
+  void removeDialogByTypeAndPosition({
+    required EasyDialogType type,
+    required EasyDialogPosition position,
+  });
 }
