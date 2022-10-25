@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/animations/easy_dialogs_animation_settings.dart';
 
 /// Base class of animation for EasyDialog
 abstract class EasyDialogsAnimation implements IEasyDialogsAnimator {
-  final EasyDialogsAnimationSettings settings;
+  final Curve? curve;
 
-  EasyDialogsAnimation({
-    required this.settings,
+  const EasyDialogsAnimation({
+    this.curve,
   });
 }
 

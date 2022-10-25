@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/widgets/pre_built_dialogs/easy_banner.dart';
 
 const _durationUntilAutoHide = Duration(seconds: 3);
-const _duration = Duration(milliseconds: 300);
-const _curve = Curves.fastOutSlowIn;
+const _duration = Duration(milliseconds: 500);
+const _curve = Curves.fastLinearToSlowEaseIn;
 
 /// Theme data class that affects [EasyBanner]
 class EasyBannerThemeData {

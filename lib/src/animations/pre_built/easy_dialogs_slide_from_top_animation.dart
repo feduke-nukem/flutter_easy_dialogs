@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/animations/easy_dialogs_animation.dart';
 
 class EasyDialogsSlideFromTopAnimation extends EasyDialogsAnimation {
-  EasyDialogsSlideFromTopAnimation({
-    required super.settings,
-  });
-
   final _tween = Tween<Offset>(
     begin: const Offset(0.0, -1.0),
     end: const Offset(0.0, 0.0),
   );
+
+  EasyDialogsSlideFromTopAnimation({
+    super.curve,
+  });
 
   @override
   Widget animate({
@@ -19,7 +19,13 @@ class EasyDialogsSlideFromTopAnimation extends EasyDialogsAnimation {
     return Align(
       alignment: Alignment.topCenter,
       child: SlideTransition(
-        position: _tween.animate(parent),
+        position: curve != null
+            ? parent.drive(
+                _tween.chain(
+                  CurveTween(curve: curve!),
+                ),
+              )
+            : _tween.animate(parent),
         child: child,
       ),
     );

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/enums/easy_dialogs_position.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs_exception.dart';
 
@@ -6,7 +7,7 @@ import '../animations/animations.dart';
 /// Class-converter for getting mathching animation instance
 abstract class IPositionToAnimationConverter {
   EasyDialogsAnimation convert({
-    required EasyDialogsAnimationSettings animationSettings,
+    required Curve curve,
     required EasyDialogsAnimationType animationType,
     required EasyDialogPosition position,
   });
@@ -15,19 +16,19 @@ abstract class IPositionToAnimationConverter {
 class PositionToAnimationConverter implements IPositionToAnimationConverter {
   @override
   EasyDialogsAnimation convert({
-    required EasyDialogsAnimationSettings animationSettings,
+    required Curve curve,
     required EasyDialogsAnimationType animationType,
     required EasyDialogPosition position,
   }) {
     switch (animationType) {
       case EasyDialogsAnimationType.slide:
         return _convertToSlideAnimation(
-          settings: animationSettings,
+          curve: curve,
           position: position,
         );
       case EasyDialogsAnimationType.fade:
         return _convertToFadeAnimation(
-          data: animationSettings,
+          curve: curve,
           position: position,
         );
       default:
@@ -39,14 +40,14 @@ class PositionToAnimationConverter implements IPositionToAnimationConverter {
   }
 
   EasyDialogsAnimation _convertToSlideAnimation({
-    required EasyDialogsAnimationSettings settings,
     required EasyDialogPosition position,
+    required Curve? curve,
   }) {
     switch (position) {
       case EasyDialogPosition.top:
-        return EasyDialogsSlideFromTopAnimation(settings: settings);
+        return EasyDialogsSlideFromTopAnimation(curve: curve);
       case EasyDialogPosition.bottom:
-        return EasyDialogsSlideFromBotAnimation(settings: settings);
+        return EasyDialogsSlideFromBotAnimation(curve: curve);
       default:
         Error.throwWithStackTrace(
           FlutterEasyDialogsError(message: 'no case for $position'),
@@ -56,9 +57,12 @@ class PositionToAnimationConverter implements IPositionToAnimationConverter {
   }
 
   EasyDialogsAnimation _convertToFadeAnimation({
-    required EasyDialogsAnimationSettings data,
     required EasyDialogPosition position,
+    required Curve? curve,
   }) {
-    return EasyDialogsFadeAnimation(settings: data, position: position);
+    return EasyDialogsFadeAnimation(
+      position: position,
+      curve: curve,
+    );
   }
 }

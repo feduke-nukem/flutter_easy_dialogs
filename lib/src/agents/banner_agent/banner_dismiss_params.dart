@@ -6,7 +6,6 @@ class BannerDismissParams extends DismissParams {
   final bool dismissAll;
 
   const BannerDismissParams({
-    required super.overlayController,
     required this.dismissAll,
     required this.position,
   });

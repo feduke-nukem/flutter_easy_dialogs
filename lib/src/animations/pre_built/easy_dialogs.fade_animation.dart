@@ -4,23 +4,30 @@ import 'package:flutter_easy_dialogs/src/core/enums/easy_dialogs_position.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs_exception.dart';
 
 class EasyDialogsFadeAnimation extends EasyDialogsAnimation {
+  final _tween = Tween<double>(begin: 0.0, end: 1.0);
   final EasyDialogPosition position;
 
   EasyDialogsFadeAnimation({
-    required super.settings,
     required this.position,
+    required super.curve,
   });
 
   @override
   Widget animate({required Animation<double> parent, required Widget child}) {
-    final animation = FadeTransition(
-      opacity: parent,
+    final transition = FadeTransition(
+      opacity: curve != null
+          ? parent.drive(
+              _tween.chain(
+                CurveTween(curve: curve!),
+              ),
+            )
+          : _tween.animate(parent),
       child: child,
     );
 
     return Align(
       alignment: _aligment,
-      child: animation,
+      child: transition,
     );
   }
 
