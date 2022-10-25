@@ -3,7 +3,7 @@ import 'package:flutter_easy_dialogs/src/animations/easy_dialogs_animation.dart'
 
 class EasyDialogsSlideFromBotAnimation extends EasyDialogsAnimation {
   EasyDialogsSlideFromBotAnimation({
-    required super.data,
+    required super.settings,
   });
 
   final _tween = Tween<Offset>(

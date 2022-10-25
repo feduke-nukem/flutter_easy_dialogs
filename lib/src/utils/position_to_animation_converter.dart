@@ -22,7 +22,7 @@ class PositionToAnimationConverter implements IPositionToAnimationConverter {
     switch (animationType) {
       case EasyDialogsAnimationType.slide:
         return _convertToSlideAnimation(
-          data: animationSettings,
+          settings: animationSettings,
           position: position,
         );
       case EasyDialogsAnimationType.fade:
@@ -39,14 +39,14 @@ class PositionToAnimationConverter implements IPositionToAnimationConverter {
   }
 
   EasyDialogsAnimation _convertToSlideAnimation({
-    required EasyDialogsAnimationSettings data,
+    required EasyDialogsAnimationSettings settings,
     required EasyDialogPosition position,
   }) {
     switch (position) {
       case EasyDialogPosition.top:
-        return EasyDialogsSlideFromTopAnimation(data: data);
+        return EasyDialogsSlideFromTopAnimation(settings: settings);
       case EasyDialogPosition.bottom:
-        return EasyDialogsSlideFromBotAnimation(data: data);
+        return EasyDialogsSlideFromBotAnimation(settings: settings);
       default:
         Error.throwWithStackTrace(
           FlutterEasyDialogsError(message: 'no case for $position'),
@@ -59,6 +59,6 @@ class PositionToAnimationConverter implements IPositionToAnimationConverter {
     required EasyDialogsAnimationSettings data,
     required EasyDialogPosition position,
   }) {
-    return EasyDialogsFadeAnimation(data: data, position: position);
+    return EasyDialogsFadeAnimation(settings: data, position: position);
   }
 }

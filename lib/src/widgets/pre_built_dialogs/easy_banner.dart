@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_dialogs/src/widgets/easy_dialogs/easy_dialogs_theme.dart';
 import 'package:flutter_easy_dialogs/src/widgets/pre_built_dialogs/easy_dialog.dart';
 
 /// Dialog banner
 class EasyBanner extends EasyDialogBase {
   final Color? backgroundColor;
-  final double? height;
 
   /// Default is ```EdgeInsets.all(10.0)```
   final EdgeInsets? padding;
@@ -13,12 +13,11 @@ class EasyBanner extends EasyDialogBase {
   final bool bottomSafeArea;
 
   const EasyBanner({
-    required super.child,
     required super.animation,
+    required super.child,
     this.topSafeArea = true,
     this.bottomSafeArea = true,
     this.backgroundColor,
-    this.height,
     this.padding,
     super.onCotrollPanelCreated,
     super.key,
@@ -34,7 +33,8 @@ class _DialogBannerState extends EasyDialogBaseState<EasyBanner> {
   @override
   Widget buildDialog(Widget content) {
     return ColoredBox(
-      color: widget.backgroundColor ?? Colors.red,
+      color: widget.backgroundColor ??
+          EasyDialogsTheme.of(context).easyBannerTheme.backgroundColor,
       child: SafeArea(
         top: widget.topSafeArea,
         bottom: widget.bottomSafeArea,

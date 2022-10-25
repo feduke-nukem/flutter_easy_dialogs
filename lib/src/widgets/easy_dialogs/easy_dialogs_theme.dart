@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_dialogs/src/common/themes/easy_banner_theme_data.dart';
 
 class EasyDialogsTheme extends StatelessWidget {
   final EasyDialogsThemeData data;
@@ -48,57 +49,37 @@ class _DialogServiceInheritedTheme extends InheritedTheme {
 }
 
 class EasyDialogsThemeData with Diagnosticable {
-  final Color modalBannerBackgroundColor;
-  final TextStyle modalBanerTextStyle;
-  final Duration modalBannerDuration;
+  final EasyBannerThemeData easyBannerTheme;
 
   const EasyDialogsThemeData({
-    required this.modalBanerTextStyle,
-    required this.modalBannerBackgroundColor,
-    required this.modalBannerDuration,
+    required this.easyBannerTheme,
   });
 
   factory EasyDialogsThemeData.fallback() => EasyDialogsThemeData.basic();
 
-  factory EasyDialogsThemeData.basic() => const EasyDialogsThemeData(
-        modalBanerTextStyle: TextStyle(),
-        modalBannerBackgroundColor: Colors.white,
-        modalBannerDuration: Duration(
-          seconds: 3,
-        ),
+  factory EasyDialogsThemeData.basic() => EasyDialogsThemeData(
+        easyBannerTheme: EasyBannerThemeData.light(),
       );
 
   EasyDialogsThemeData copyWith({
-    Color? modalBannerBackgroundColor,
-    TextStyle? modalBanerTextStyle,
-    Duration? modalBannerDuration,
+    EasyBannerThemeData? easyBannerTheme,
   }) =>
       EasyDialogsThemeData(
-        modalBanerTextStyle: modalBanerTextStyle ?? this.modalBanerTextStyle,
-        modalBannerDuration: modalBannerDuration ?? this.modalBannerDuration,
-        modalBannerBackgroundColor:
-            modalBannerBackgroundColor ?? this.modalBannerBackgroundColor,
+        easyBannerTheme: easyBannerTheme ?? this.easyBannerTheme,
       );
 
   @override
   bool operator ==(Object? other) {
     if (identical(this, other)) return true;
 
-    if (runtimeType != other.runtimeType) return false;
-
-    return other is EasyDialogsThemeData &&
-        modalBanerTextStyle == other.modalBanerTextStyle &&
-        modalBannerBackgroundColor == other.modalBannerBackgroundColor &&
-        modalBannerDuration == other.modalBannerDuration;
+    return runtimeType == other.runtimeType &&
+        other is EasyDialogsThemeData &&
+        easyBannerTheme == other.easyBannerTheme;
   }
 
   @override
   int get hashCode {
-    final values = [
-      modalBanerTextStyle,
-      modalBannerBackgroundColor,
-      modalBannerDuration,
-    ];
+    final values = [easyBannerTheme];
 
     return Object.hashAll(values);
   }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_dialogs/src/agents/banner_agent/banner_agent.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialogs_factory.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_entry.dart';
 import 'package:flutter_easy_dialogs/src/utils/position_to_animation_converter.dart';
@@ -78,12 +78,16 @@ class _EasyDialogsShellState extends State<_EasyDialogsShell>
   late EasyDialogsThemeData theme;
 
   /// Instance of [EasyDialogsController]
-  late final _controller = EasyDialogsController(
-    theme: theme,
-    easyDialogsFactory: EasyDialogsFactory(
-      PositionToAnimationConverter(),
-    ),
-  );
+  late final EasyDialogsController _controller;
+
+  /// For manipulating things via [Overlay]
+  final _overlayKey = GlobalKey<EasyDialogsOverlayState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
 
   @override
   void didChangeDependencies() {
@@ -98,7 +102,7 @@ class _EasyDialogsShellState extends State<_EasyDialogsShell>
       controller: _controller,
       child: Material(
         child: EasyDialogsOverlay(
-          key: _controller.overlayKey,
+          key: _overlayKey,
           initialEntries: [
             EasyDialogsOverlayEntry.app(
               builder: (context) => widget.child,
@@ -106,6 +110,18 @@ class _EasyDialogsShellState extends State<_EasyDialogsShell>
           ],
         ),
       ),
+    );
+  }
+
+  void _init() {
+    final positionToAnimationConverter = PositionToAnimationConverter();
+    final bannerAgent = BannerAgent(
+      positionToAnimationConverter: positionToAnimationConverter,
+    );
+
+    _controller = EasyDialogsController(
+      bannerAgent: bannerAgent,
+      overlayKey: _overlayKey,
     );
   }
 }

@@ -2,64 +2,52 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_settings.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialogs_factory.dart';
-import 'package:flutter_easy_dialogs/src/core/enums/easy_dialog_type.dart';
+import 'package:flutter_easy_dialogs/src/agents/banner_agent/banner_dismiss_params.dart';
+import 'package:flutter_easy_dialogs/src/agents/banner_agent/banner_show_params.dart';
+import 'package:flutter_easy_dialogs/src/agents/dialog_agent_base.dart';
+import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay.dart';
 import 'package:flutter_easy_dialogs/src/widgets/easy_dialogs/easy_dialogs_theme.dart';
-import 'package:flutter_easy_dialogs/src/widgets/pre_built_dialogs/easy_dialog.dart';
-
-import '../animations/animations.dart';
-import '../overlay/overlay.dart';
 
 /// Controller for manipulating dialogs via [FlutterEasyDialogs]
 class EasyDialogsController {
-  /// For manipulating things via [Overlay]
-  GlobalKey<EasyDialogsOverlayState> get overlayKey => _overlayKey;
-
-  final _currentDialogs = <EasyDialogSettings, IDialogControlPanel>{};
-
-  final _overlayKey = GlobalKey<EasyDialogsOverlayState>();
-
-  final IEasyDialogsFactory _easyDialogsFactory;
+  final GlobalKey<EasyDialogsOverlayState> _overlayKey;
+  final DialogAgentBase _bannerAgent;
 
   /// Data of [EasyDialogsTheme]
-  EasyDialogsThemeData _theme;
+  EasyDialogsThemeData? _theme;
 
   /// Craetes instance of [EasyDialogsController]
   EasyDialogsController({
-    required EasyDialogsThemeData theme,
-    required IEasyDialogsFactory easyDialogsFactory,
-  })  : _theme = theme,
-        _easyDialogsFactory = easyDialogsFactory;
+    required DialogAgentBase bannerAgent,
+    required GlobalKey<EasyDialogsOverlayState> overlayKey,
+  })  : _bannerAgent = bannerAgent,
+        _overlayKey = overlayKey;
 
   @override
   bool operator ==(Object? other) {
     if (identical(this, other)) return true;
 
-    if (runtimeType != other.runtimeType) return false;
-
-    return other is EasyDialogsController &&
+    return runtimeType == other.runtimeType &&
+        other is EasyDialogsController &&
         _theme == other._theme &&
-        _overlayKey == other._overlayKey;
+        _bannerAgent == other._bannerAgent;
   }
 
   @override
   int get hashCode {
     final values = [
       _theme,
-      _overlayKey,
+      _bannerAgent,
     ];
 
     return Object.hashAll(values);
   }
 
-  EasyDialogsOverlayState get _overlayState => _overlayKey.currentState!;
-
   /// Updates [EasyDialogsThemeData] of [EasyDialogsController]
   void updateTheme(EasyDialogsThemeData theme) {
     if (theme == _theme) return;
 
-    _theme == theme;
+    _theme = theme;
   }
 
   /// Shows material banner
@@ -68,56 +56,32 @@ class EasyDialogsController {
     EasyDialogPosition position = EasyDialogPosition.top,
     EasyDialogsAnimationType animationType = EasyDialogsAnimationType.slide,
     bool autoHide = false,
+    Duration? durationUntilHide,
     Color? backgroundColor,
   }) async {
-    final dialogSettings = EasyDialogSettings(
-      position: position,
-      type: EasyDialogType.banner,
-    );
-
-    for (var dialog in _currentDialogs.entries) {
-      if (dialog.key != dialogSettings) continue;
-
-      await dialog.value.dismiss();
-    }
-    _overlayState.removeEntryByData(dialogSettings);
-
-    late final IDialogControlPanel bannerControlPanel;
-
-    final banner = _easyDialogsFactory.createBanner(
-      animationSettings: const EasyDialogsAnimationSettings(
-        curve: Curves.fastOutSlowIn,
-        duration: Duration(milliseconds: 200),
-        reverseDuration: Duration(milliseconds: 300),
+    await _bannerAgent.show(
+      params: BannerShowParams(
+        overlayController: _overlayKey.currentState!,
+        animationType: animationType,
+        position: position,
+        autoHide: autoHide,
+        durationUntilHide: durationUntilHide,
+        content: content,
+        theme: _theme!,
       ),
-      backgroundColor: backgroundColor,
-      onControlPanelCreated: (controlPanel) {
-        bannerControlPanel = controlPanel;
-        _currentDialogs[dialogSettings] = bannerControlPanel;
-      },
-      animationType: animationType,
-      position: position,
-      content: content,
     );
+  }
 
-    final overlay = EasyDialogsOverlayEntry(
-      dialogData: dialogSettings,
-      builder: (context) => banner,
-    );
-    _overlayState.insert(overlay);
-
-    if (!autoHide) return;
-
-    Future.delayed(
-      _theme.modalBannerDuration,
-      () async {
-        await bannerControlPanel.dismiss();
-
-        if (!overlay.mounted) return;
-
-        overlay.remove();
-        _currentDialogs.remove(bannerControlPanel);
-      },
+  Future<void> dismissBanner({
+    required EasyDialogPosition position,
+    bool dismissAll = false,
+  }) async {
+    await _bannerAgent.dismiss(
+      params: BannerDismissParams(
+        overlayController: _overlayKey.currentState!,
+        dismissAll: dismissAll,
+        position: position,
+      ),
     );
   }
 }

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_settings.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_orverlay_entry_properties.dart';
 import 'package:flutter_easy_dialogs/src/core/enums/easy_dialog_type.dart';
 
 class EasyDialogsOverlayEntry extends EasyDialogsOverlayEntryBase {
   /// Dialog type
-  final EasyDialogSettings dialogData;
+  final EasyDialogOverlayEntryProperties properties;
 
   EasyDialogsOverlayEntry({
-    required this.dialogData,
+    required this.properties,
     required super.builder,
   });
 
@@ -17,9 +17,9 @@ class EasyDialogsOverlayEntry extends EasyDialogsOverlayEntryBase {
     required WidgetBuilder builder,
   }) {
     return EasyDialogsOverlayEntry(
-      dialogData: const EasyDialogSettings(
-        position: EasyDialogPosition.center,
-        type: EasyDialogType.app,
+      properties: const EasyDialogOverlayEntryProperties(
+        dialogPosition: EasyDialogPosition.center,
+        dialogType: EasyDialogType.app,
       ),
       builder: builder,
     );

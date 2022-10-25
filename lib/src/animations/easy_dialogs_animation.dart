@@ -3,10 +3,10 @@ import 'package:flutter_easy_dialogs/src/animations/easy_dialogs_animation_setti
 
 /// Base class of animation for EasyDialog
 abstract class EasyDialogsAnimation implements IEasyDialogsAnimator {
-  final EasyDialogsAnimationSettings data;
+  final EasyDialogsAnimationSettings settings;
 
   EasyDialogsAnimation({
-    required this.data,
+    required this.settings,
   });
 }
 
