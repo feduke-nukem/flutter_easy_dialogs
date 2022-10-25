@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/widgets/easy_dialogs/easy_dialogs_theme.dart';
-import 'package:flutter_easy_dialogs/src/widgets/pre_built_dialogs/easy_dialog.dart';
 
 /// Dialog banner
-class EasyBanner extends EasyDialogBase {
+class EasyBanner extends StatelessWidget {
   final Color? backgroundColor;
+  final Widget child;
 
   /// Default is ```EdgeInsets.all(10.0)```
   final EdgeInsets? padding;
@@ -13,36 +14,37 @@ class EasyBanner extends EasyDialogBase {
   final bool bottomSafeArea;
 
   const EasyBanner({
-    required super.animation,
-    required super.child,
+    required this.child,
     this.topSafeArea = true,
     this.bottomSafeArea = true,
     this.backgroundColor,
     this.padding,
-    super.onCotrollPanelCreated,
     super.key,
   });
 
-  /// Creates instance of [EasyBanner]
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty<Color?>('backgroundColor', backgroundColor))
+      ..add(DiagnosticsProperty<bool>('topSafeArea', topSafeArea))
+      ..add(DiagnosticsProperty<bool>('bottomSafeArea', bottomSafeArea))
+      ..add(DiagnosticsProperty<EdgeInsets>('padding', padding));
+  }
 
   @override
-  EasyDialogBaseState createState() => _DialogBannerState();
-}
-
-class _DialogBannerState extends EasyDialogBaseState<EasyBanner> {
-  @override
-  Widget buildDialog(Widget content) {
+  Widget build(BuildContext context) {
     return ColoredBox(
-      color: widget.backgroundColor ??
+      color: backgroundColor ??
           EasyDialogsTheme.of(context).easyBannerTheme.backgroundColor,
       child: SafeArea(
-        top: widget.topSafeArea,
-        bottom: widget.bottomSafeArea,
+        top: topSafeArea,
+        bottom: bottomSafeArea,
         child: Padding(
-          padding: widget.padding ?? const EdgeInsets.all(10.0),
+          padding: padding ?? const EdgeInsets.all(10.0),
           child: SizedBox(
             width: double.infinity,
-            child: content,
+            child: child,
           ),
         ),
       ),

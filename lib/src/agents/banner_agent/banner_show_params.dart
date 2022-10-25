@@ -8,7 +8,6 @@ import '../../animations/easy_dialogs_animation_type.dart';
 class BannerShowParams extends ShowParams
     implements IPositionable, IAnimatable, IAutoHidable {
   BannerShowParams({
-    required super.overlayController,
     required this.animationType,
     required this.position,
     required this.autoHide,

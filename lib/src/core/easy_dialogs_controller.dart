@@ -5,12 +5,10 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/agents/banner_agent/banner_dismiss_params.dart';
 import 'package:flutter_easy_dialogs/src/agents/banner_agent/banner_show_params.dart';
 import 'package:flutter_easy_dialogs/src/agents/dialog_agent_base.dart';
-import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay.dart';
 import 'package:flutter_easy_dialogs/src/widgets/easy_dialogs/easy_dialogs_theme.dart';
 
 /// Controller for manipulating dialogs via [FlutterEasyDialogs]
 class EasyDialogsController {
-  final GlobalKey<EasyDialogsOverlayState> _overlayKey;
   final DialogAgentBase _bannerAgent;
 
   /// Data of [EasyDialogsTheme]
@@ -19,9 +17,7 @@ class EasyDialogsController {
   /// Craetes instance of [EasyDialogsController]
   EasyDialogsController({
     required DialogAgentBase bannerAgent,
-    required GlobalKey<EasyDialogsOverlayState> overlayKey,
-  })  : _bannerAgent = bannerAgent,
-        _overlayKey = overlayKey;
+  }) : _bannerAgent = bannerAgent;
 
   @override
   bool operator ==(Object? other) {
@@ -61,7 +57,6 @@ class EasyDialogsController {
   }) async {
     await _bannerAgent.show(
       params: BannerShowParams(
-        overlayController: _overlayKey.currentState!,
         animationType: animationType,
         position: position,
         autoHide: autoHide,
@@ -76,9 +71,8 @@ class EasyDialogsController {
     required EasyDialogPosition position,
     bool dismissAll = false,
   }) async {
-    await _bannerAgent.dismiss(
+    await _bannerAgent.hide(
       params: BannerDismissParams(
-        overlayController: _overlayKey.currentState!,
         dismissAll: dismissAll,
         position: position,
       ),

@@ -11,6 +11,7 @@ linter:
     - avoid_null_checks_in_equality_operators
     - avoid_relative_lib_imports
     # - avoid_renaming_method_parameters
+    - avoid_redundant_argument_values
     - use_function_type_syntax_for_parameters
     - avoid_return_types_on_setters
     - avoid_returning_null
@@ -60,6 +61,7 @@ linter:
     - prefer_single_quotes
     - prefer_typing_uninitialized_variables
     - recursive_getters
+    - require_trailing_commas
     - slash_for_doc_comments
     - test_types_in_equals
     - throw_in_finally

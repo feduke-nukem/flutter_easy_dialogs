@@ -1,114 +1,143 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/agents/banner_agent/banner_dismiss_params.dart';
 import 'package:flutter_easy_dialogs/src/agents/banner_agent/banner_show_params.dart';
 import 'package:flutter_easy_dialogs/src/agents/dialog_agent_base.dart';
-import 'package:flutter_easy_dialogs/src/animations/easy_dialogs_animation_settings.dart';
 import 'package:flutter_easy_dialogs/src/core/enums/easy_dialog_type.dart';
-import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay.dart';
 import 'package:flutter_easy_dialogs/src/utils/position_to_animation_converter.dart';
 import 'package:flutter_easy_dialogs/src/widgets/pre_built_dialogs/easy_banner.dart';
-import 'package:flutter_easy_dialogs/src/widgets/pre_built_dialogs/easy_dialog.dart';
 
 class BannerAgent extends DialogAgentBase {
   final IPositionToAnimationConverter _positionToAnimationConverter;
-  final _currentBanners = <EasyDialogPosition, IDialogControlPanel>{};
+  final _currentBanners = <EasyDialogPosition, AnimationController>{};
 
   @override
-  Future<void> dismiss({
+  Future<void> hide({
     required BannerDismissParams params,
   }) async {
     if (params.dismissAll) {
       for (final entry in _currentBanners.entries) {
-        await _dismiss(
+        await _hide(
           position: entry.key,
-          controlPanel: entry.value,
-          overlayController: params.overlayController,
+          animationController: entry.value,
+          removeFromCurrentBanners: false,
         );
       }
+      _currentBanners.clear();
 
       return;
     }
 
-    final controlPanel = _currentBanners[params.position];
+    final animationController =
+        _getAnimationControllerOfPosition(params.position);
 
-    if (controlPanel == null) return;
+    if (animationController == null) return;
 
-    await _dismiss(
+    await _hide(
       position: params.position,
-      controlPanel: controlPanel,
-      overlayController: params.overlayController,
+      animationController: animationController,
     );
   }
 
   BannerAgent({
     required IPositionToAnimationConverter positionToAnimationConverter,
+    required super.overlayController,
   }) : _positionToAnimationConverter = positionToAnimationConverter;
 
   @override
   Future<void> show({
     required BannerShowParams params,
   }) async {
-    final existingControlPanel = _currentBanners[params.position];
+    final existingDialogAnimationController = _getAnimationControllerOfPosition(
+      params.position,
+    );
 
-    if (existingControlPanel != null) {
-      await existingControlPanel.dismiss();
-      params.overlayController.removeDialogByTypeAndPosition(
-        type: EasyDialogType.banner,
+    if (existingDialogAnimationController != null) {
+      await _hide(
         position: params.position,
+        animationController: existingDialogAnimationController,
       );
     }
 
-    late final IDialogControlPanel bannerControlPanel;
+    final newAnimationController = _createAnimationController(params: params);
 
-    final banner = _createBanner(
-        params: params,
-        onControlPanelCreated: (controlPanel) {
-          bannerControlPanel = controlPanel;
-
-          _currentBanners[params.position] = controlPanel;
-        });
-
-    final entry = params.overlayController.insertDialog(
-      child: banner,
-      position: params.position,
-      type: EasyDialogType.banner,
+    final dialog = _createDialog(
+      animationController: newAnimationController,
+      params: params,
     );
+
+    super.overlayController.insertDialog(
+          child: dialog,
+          position: params.position,
+          type: EasyDialogType.banner,
+        );
+
+    _addAnimationControllerOfPosition(
+      params.position,
+      newAnimationController,
+    );
+
+    await newAnimationController.forward();
 
     if (!params.autoHide) return;
 
-    Future.delayed(
-      params.theme.easyBannerTheme.durationUntilAutoHide,
-      () async {
-        await bannerControlPanel.dismiss();
+    await Future.delayed(params.theme.easyBannerTheme.durationUntilAutoHide);
 
-        if (!entry.mounted) return;
+    final animationControllerOfPosition =
+        _getAnimationControllerOfPosition(params.position);
 
-        entry.remove();
-        _currentBanners.remove(params.position);
-      },
+    final shouldHide = identical(
+      newAnimationController,
+      animationControllerOfPosition,
+    );
+
+    if (!shouldHide) return;
+
+    await _hide(
+      position: params.position,
+      animationController: newAnimationController,
     );
   }
 
-  EasyDialogBase _createBanner({
+  IEasyDialogsAnimator _createAnimator({
     required BannerShowParams params,
-    required DialogControlPanelCreatedCallback onControlPanelCreated,
+    required AnimationController animationController,
   }) {
     final animation = _positionToAnimationConverter.convert(
-      animationSettings: params.animationSettings ??
-          EasyDialogsAnimationSettings(
-            curve: params.theme.easyBannerTheme.animationCurve,
-            duration: params.theme.easyBannerTheme.forwardDuration,
-            reverseDuration: params.theme.easyBannerTheme.reverseDuration,
-          ),
+      curve: params.animationSettings?.curve ??
+          params.theme.easyBannerTheme.animationCurve,
       animationType: params.animationType,
       position: params.position,
     );
 
+    return animation;
+  }
+
+  Widget _createDialog({
+    required BannerShowParams params,
+    required AnimationController animationController,
+  }) {
+    final animator = _createAnimator(
+      params: params,
+      animationController: animationController,
+    );
+
+    final banner = _createBanner(params: params);
+
+    final dialog = animator.animate(
+      parent: animationController,
+      child: banner,
+    );
+
+    return dialog;
+  }
+
+  Widget _createBanner({
+    required BannerShowParams params,
+  }) {
     final banner = EasyBanner(
-      animation: animation,
       topSafeArea: params.position == EasyDialogPosition.top,
       bottomSafeArea: params.position == EasyDialogPosition.bottom,
-      onCotrollPanelCreated: onControlPanelCreated,
       padding: params.padding,
       child: params.content,
     );
@@ -116,16 +145,42 @@ class BannerAgent extends DialogAgentBase {
     return banner;
   }
 
-  Future<void> _dismiss({
+  AnimationController _createAnimationController({
+    required BannerShowParams params,
+  }) {
+    return AnimationController(
+      vsync: super.overlayController,
+      duration: params.animationSettings?.duration ??
+          params.theme.easyBannerTheme.forwardDuration,
+      reverseDuration: params.animationSettings?.reverseDuration ??
+          params.theme.easyBannerTheme.reverseDuration,
+    );
+  }
+
+  Future<void> _hide({
     required EasyDialogPosition position,
-    required IDialogControlPanel controlPanel,
-    required IEasyDialogsOverlayController overlayController,
+    required AnimationController animationController,
+    bool removeFromCurrentBanners = true,
   }) async {
-    await controlPanel.dismiss();
+    await animationController.reverse();
+    animationController.dispose();
 
     overlayController.removeDialogByTypeAndPosition(
       type: EasyDialogType.banner,
       position: position,
     );
+
+    if (removeFromCurrentBanners) _currentBanners.remove(position);
   }
+
+  AnimationController? _getAnimationControllerOfPosition(
+    EasyDialogPosition position,
+  ) =>
+      _currentBanners[position];
+
+  void _addAnimationControllerOfPosition(
+    EasyDialogPosition position,
+    AnimationController controller,
+  ) =>
+      _currentBanners[position] = controller;
 }

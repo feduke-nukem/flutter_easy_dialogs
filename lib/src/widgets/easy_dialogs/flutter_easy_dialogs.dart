@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/agents/banner_agent/banner_agent.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_entry.dart';
-import 'package:flutter_easy_dialogs/src/utils/position_to_animation_converter.dart';
 
 import 'easy_dialogs_theme.dart';
 
@@ -22,13 +20,12 @@ class FlutterEasyDialogs extends StatelessWidget {
     super.key,
   });
 
-  /// Provides access to [_EasyDialogsShellState] for dialogs' control
   static EasyDialogsController of(
     BuildContext context,
   ) {
     final scope = context
-        .getElementForInheritedWidgetOfExactType<_EasyDialogsScope>()!
-        .widget as _EasyDialogsScope;
+        .getElementForInheritedWidgetOfExactType<EasyDialogsScope>()!
+        .widget as EasyDialogsScope;
 
     return scope.controller;
   }
@@ -49,96 +46,33 @@ class FlutterEasyDialogs extends StatelessWidget {
   Widget build(BuildContext context) {
     return EasyDialogsTheme(
       data: theme ?? EasyDialogsThemeData.basic(),
-      child: _EasyDialogsShell(
-        child: child,
-      ),
-    );
-  }
-}
-
-/// [FlutterEasyDialogs] shell widget
-/// Provides some data into [EasyDialogsController] and wraps it's child into
-/// helper - widgets like [Overlay]
-class _EasyDialogsShell extends StatefulWidget {
-  /// Child widget
-  final Widget child;
-
-  /// Creates instance of [_EasyDialogsShell]
-  const _EasyDialogsShell({
-    required this.child,
-  });
-
-  @override
-  State<_EasyDialogsShell> createState() => _EasyDialogsShellState();
-}
-
-class _EasyDialogsShellState extends State<_EasyDialogsShell>
-    with TickerProviderStateMixin {
-  /// Data of [DialogTheme]
-  late EasyDialogsThemeData theme;
-
-  /// Instance of [EasyDialogsController]
-  late final EasyDialogsController _controller;
-
-  /// For manipulating things via [Overlay]
-  final _overlayKey = GlobalKey<EasyDialogsOverlayState>();
-
-  @override
-  void initState() {
-    super.initState();
-    _init();
-  }
-
-  @override
-  void didChangeDependencies() {
-    theme = EasyDialogsTheme.of(context);
-    _controller.updateTheme(theme);
-    super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _EasyDialogsScope(
-      controller: _controller,
       child: Material(
         child: EasyDialogsOverlay(
-          key: _overlayKey,
           initialEntries: [
             EasyDialogsOverlayEntry.app(
-              builder: (context) => widget.child,
+              builder: (context) => child,
             ),
           ],
         ),
       ),
     );
   }
-
-  void _init() {
-    final positionToAnimationConverter = PositionToAnimationConverter();
-    final bannerAgent = BannerAgent(
-      positionToAnimationConverter: positionToAnimationConverter,
-    );
-
-    _controller = EasyDialogsController(
-      bannerAgent: bannerAgent,
-      overlayKey: _overlayKey,
-    );
-  }
 }
 
 /// Inherited scope for providing [EasyDialogsController]
-class _EasyDialogsScope extends InheritedWidget {
+class EasyDialogsScope extends InheritedWidget {
   /// Instance of [EasyDialogsController]
   final EasyDialogsController controller;
 
-  /// Creates instance of [_EasyDialogsScope]
-  const _EasyDialogsScope({
+  /// Creates instance of [EasyDialogsScope]
+  const EasyDialogsScope({
     required super.child,
     required this.controller,
+    super.key,
   });
 
   @override
-  bool updateShouldNotify(_EasyDialogsScope oldWidget) {
+  bool updateShouldNotify(EasyDialogsScope oldWidget) {
     return controller != oldWidget.controller;
   }
 }

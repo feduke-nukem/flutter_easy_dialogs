@@ -1,9 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
+import 'package:flutter_easy_dialogs/src/agents/banner_agent/banner_agent.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_orverlay_entry_properties.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/enums/easy_dialog_type.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_entry.dart';
-import 'package:flutter_easy_dialogs/src/widgets/pre_built_dialogs/easy_dialog.dart';
+import 'package:flutter_easy_dialogs/src/utils/position_to_animation_converter.dart';
+import 'package:flutter_easy_dialogs/src/widgets/easy_dialogs/easy_dialogs_theme.dart';
 
 class EasyDialogsOverlay extends Overlay {
   const EasyDialogsOverlay({
@@ -13,16 +17,50 @@ class EasyDialogsOverlay extends Overlay {
   });
 
   @override
-  OverlayState createState() => EasyDialogsOverlayState();
+  OverlayState createState() => _EasyDialogsOverlayState();
 }
 
-class EasyDialogsOverlayState extends OverlayState
+class _EasyDialogsOverlayState extends OverlayState
     implements IEasyDialogsOverlayController {
-  final _entriesMap = <EasyDialogOverlayEntryProperties, OverlayEntry>{};
+  final _currentEntries = <EasyDialogOverlayEntryProperties, OverlayEntry>{};
+  late final EasyDialogsController _easyDialogsController;
 
   @override
-  EasyDialogsOverlayEntry insertDialog({
-    required EasyDialogBase child,
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(
+      DiagnosticsProperty<Map<EasyDialogOverlayEntryProperties, OverlayEntry>>(
+        'currentEntries',
+        _currentEntries,
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _init();
+  }
+
+  @override
+  void didChangeDependencies() {
+    final theme = EasyDialogsTheme.of(context);
+    _easyDialogsController.updateTheme(theme);
+
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return EasyDialogsScope(
+      controller: _easyDialogsController,
+      child: super.build(context),
+    );
+  }
+
+  @override
+  void insertDialog({
+    required Widget child,
     required EasyDialogPosition position,
     required EasyDialogType type,
   }) {
@@ -37,12 +75,14 @@ class EasyDialogsOverlayState extends OverlayState
     );
 
     insert(entry);
-
-    return entry;
   }
 
   @override
-  void insert(OverlayEntry entry, {OverlayEntry? below, OverlayEntry? above}) {
+  void insert(
+    OverlayEntry entry, {
+    OverlayEntry? below,
+    OverlayEntry? above,
+  }) {
     super.insert(entry, below: below, above: above);
     _handleNewEntry(entry);
 
@@ -51,8 +91,11 @@ class EasyDialogsOverlayState extends OverlayState
   }
 
   @override
-  void insertAll(Iterable<OverlayEntry> entries,
-      {OverlayEntry? below, OverlayEntry? above}) {
+  void insertAll(
+    Iterable<OverlayEntry> entries, {
+    OverlayEntry? below,
+    OverlayEntry? above,
+  }) {
     super.insertAll(entries, below: below, above: above);
 
     entries.forEach(_handleNewEntry);
@@ -66,41 +109,18 @@ class EasyDialogsOverlayState extends OverlayState
     required EasyDialogType type,
     required EasyDialogPosition position,
   }) {
-    if (_entriesMap.entries.isEmpty) return;
+    if (_currentEntries.entries.isEmpty) return;
 
-    _entriesMap.remove(
+    final entry = _currentEntries.remove(
       EasyDialogOverlayEntryProperties(
         dialogPosition: position,
         dialogType: type,
       ),
     );
-  }
 
-  void removeEntriesByType(EasyDialogType type) {
-    if (_entriesMap.entries.isEmpty) return;
+    if (entry == null || !entry.mounted) return;
 
-    for (final entry in _entriesMap.entries) {
-      final shouldRemove = entry.key.dialogType == type && entry.value.mounted;
-
-      if (!shouldRemove) continue;
-
-      entry.value.remove();
-      _entriesMap.remove(entry.key);
-    }
-  }
-
-  void removeEntriesByPosition(EasyDialogPosition position) {
-    if (_entriesMap.entries.isEmpty) return;
-
-    for (final entry in _entriesMap.entries) {
-      final shouldRemove =
-          entry.key.dialogPosition == position && entry.value.mounted;
-
-      if (!shouldRemove) continue;
-
-      entry.value.remove();
-      _entriesMap.remove(entry.key);
-    }
+    entry.remove();
   }
 
   void _handleNewEntry(OverlayEntry entry) {
@@ -110,30 +130,44 @@ class EasyDialogsOverlayState extends OverlayState
 
     if (newOverlayEntryProps.dialogType == EasyDialogType.app) {
       assert(
-          !_entriesMap.keys
-              .any((element) => element.dialogType == EasyDialogType.app),
-          'Only one app $EasyDialogsOverlay can be presented at the same time');
+        !_currentEntries.keys
+            .any((props) => props.dialogType == EasyDialogType.app),
+        'Only one app $EasyDialogsOverlay can be presented at the same time',
+      );
     }
 
     assert(
-      !_entriesMap.keys.contains(newOverlayEntryProps),
+      !_currentEntries.containsKey(newOverlayEntryProps),
       'only single one $EasyDialogType with the same $EasyDialogPosition can be presented at the same time',
     );
 
     assert(
-      !_entriesMap.keys
-          .any((element) => element.dialogType == EasyDialogPosition.other),
+      !_currentEntries.keys
+          .any((props) => props.dialogType == EasyDialogPosition.other),
       'Only single one $EasyDialogType of "other" can be presented at the same time',
     );
 
-    _entriesMap[newOverlayEntryProps] = entry;
+    _currentEntries[newOverlayEntryProps] = entry;
+  }
+
+  void _init() {
+    final positionToAnimationConverter = PositionToAnimationConverter();
+
+    final bannerAgent = BannerAgent(
+      positionToAnimationConverter: positionToAnimationConverter,
+      overlayController: this,
+    );
+
+    _easyDialogsController = EasyDialogsController(
+      bannerAgent: bannerAgent,
+    );
   }
 }
 
 /// Interface for manipulating overlay with dialogs
-abstract class IEasyDialogsOverlayController {
-  EasyDialogsOverlayEntry insertDialog({
-    required EasyDialogBase child,
+abstract class IEasyDialogsOverlayController extends TickerProvider {
+  void insertDialog({
+    required Widget child,
     required EasyDialogPosition position,
     required EasyDialogType type,
   });
