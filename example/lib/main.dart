@@ -35,10 +35,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  void _showBanner(BuildContext context) {
-    final dialogController = FlutterEasyDialogs.of(context);
-
-    dialogController.showBanner(
+  void _showBanner(
+    BuildContext context,
+    bool autoHide,
+    EasyDialogPosition position,
+  ) {
+    FlutterEasyDialogs.of(context).showBanner(
+      onDismissed: () {},
       content: ElevatedButton(
         onPressed: () {},
         child: const Text(
@@ -46,9 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(fontSize: 30),
         ),
       ),
-      autoHide: true,
-      animationType: EasyDialogsAnimationType.slide,
-      position: EasyDialogPosition.top,
+      autoHide: autoHide,
+      position: position,
     );
   }
 
@@ -62,19 +64,50 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+            ElevatedButton(
+              onPressed: () => _showBanner(
+                context,
+                true,
+                EasyDialogPosition.top,
+              ),
+              child: const Text('Show autohide top banner'),
+            ),
+            ElevatedButton(
+              onPressed: () => _showBanner(
+                context,
+                false,
+                EasyDialogPosition.top,
+              ),
+              child: const Text('Show top banner'),
+            ),
+            ElevatedButton(
+              onPressed: () => _showBanner(
+                context,
+                false,
+                EasyDialogPosition.center,
+              ),
+              child: const Text('Show center banner'),
+            ),
+            ElevatedButton(
+              onPressed: () => _showBanner(
+                context,
+                false,
+                EasyDialogPosition.bottom,
+              ),
+              child: const Text('Show bot banner'),
             ),
           ],
         ),
       ),
-      floatingActionButton: Builder(builder: (context) {
-        return FloatingActionButton(
-          onPressed: () => _showBanner(context),
-          tooltip: 'Increment',
-          child: const Icon(Icons.add),
-        );
-      }),
+      floatingActionButton: Builder(
+        builder: (context) {
+          return FloatingActionButton(
+            onPressed: () => FlutterEasyDialogs.of(context).hideAllBanners(),
+            tooltip: 'Increment',
+            child: const Icon(Icons.add),
+          );
+        },
+      ),
     );
   }
 }

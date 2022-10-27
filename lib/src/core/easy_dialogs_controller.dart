@@ -2,21 +2,20 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/agents/banner_agent/banner_dismiss_params.dart';
-import 'package:flutter_easy_dialogs/src/agents/banner_agent/banner_show_params.dart';
-import 'package:flutter_easy_dialogs/src/agents/dialog_agent_base.dart';
-import 'package:flutter_easy_dialogs/src/widgets/easy_dialogs/easy_dialogs_theme.dart';
+import 'package:flutter_easy_dialogs/src/core/agents/banner/banner_hide_params.dart';
+import 'package:flutter_easy_dialogs/src/core/agents/banner/banner_show_params.dart';
+import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dart/positioned_dialog_agent.dart';
 
 /// Controller for manipulating dialogs via [FlutterEasyDialogs]
 class EasyDialogsController {
-  final DialogAgentBase _bannerAgent;
+  final PositionedDialogAgent _bannerAgent;
 
   /// Data of [EasyDialogsTheme]
   EasyDialogsThemeData? _theme;
 
   /// Craetes instance of [EasyDialogsController]
   EasyDialogsController({
-    required DialogAgentBase bannerAgent,
+    required PositionedDialogAgent bannerAgent,
   }) : _bannerAgent = bannerAgent;
 
   @override
@@ -50,14 +49,18 @@ class EasyDialogsController {
   Future<void> showBanner({
     required Widget content,
     EasyDialogPosition position = EasyDialogPosition.top,
-    EasyDialogsAnimationType animationType = EasyDialogsAnimationType.slide,
+    EasyAnimationType animationType = EasyAnimationType.slide,
+    EasyDismissibleType dismissibleType = EasyDismissibleType.tap,
+    EasyDismissCallback? onDismissed,
     bool autoHide = false,
     Duration? durationUntilHide,
     Color? backgroundColor,
   }) async {
     await _bannerAgent.show(
       params: BannerShowParams(
+        onDismissed: onDismissed,
         animationType: animationType,
+        dismissibleType: dismissibleType,
         position: position,
         autoHide: autoHide,
         durationUntilHide: durationUntilHide,
@@ -67,14 +70,20 @@ class EasyDialogsController {
     );
   }
 
-  Future<void> dismissBanner({
+  Future<void> hideBanner({
     required EasyDialogPosition position,
-    bool dismissAll = false,
   }) async {
     await _bannerAgent.hide(
-      params: BannerDismissParams(
-        dismissAll: dismissAll,
+      params: BannerHideParams(
         position: position,
+      ),
+    );
+  }
+
+  Future<void> hideAllBanners() async {
+    await _bannerAgent.hide(
+      params: const BannerHideParams(
+        hideAll: true,
       ),
     );
   }
