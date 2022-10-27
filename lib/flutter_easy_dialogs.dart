@@ -1,6 +1,8 @@
 library flutter_easy_dialogs;
 
-export 'src/animations/easy_dialogs_animation.dart';
-export 'src/animations/easy_dialogs_animation_type.dart';
-export 'src/core/enums/easy_dialogs_position.dart';
-export 'src/widgets/easy_dialogs/flutter_easy_dialogs.dart';
+export 'src/core/animations/animations.dart';
+export 'src/core/dialogs/dialogs.dart';
+export 'src/core/dismissibles/dismissibles.dart';
+export 'src/core/dismissibles/easy_dismissible_type.dart';
+export 'src/core/flutter_easy_dialogs/easy_dialogs_theme.dart';
+export 'src/core/flutter_easy_dialogs/flutter_easy_dialogs.dart';
