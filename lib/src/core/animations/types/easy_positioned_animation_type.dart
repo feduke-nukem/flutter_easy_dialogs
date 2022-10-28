@@ -1,4 +1,4 @@
-enum EasyAnimationType {
+enum EasyPositionedAnimationType {
   fade,
   slide,
   expansion,

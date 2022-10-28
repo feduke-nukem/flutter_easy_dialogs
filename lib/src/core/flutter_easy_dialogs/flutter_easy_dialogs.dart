@@ -3,12 +3,12 @@ import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 
 import 'easy_dialog_scope.dart';
-import 'easy_dialogs_theme.dart';
+import 'flutter_easy_dialogs_theme.dart';
 
 /// Service - helper for easy use different custom dialogs
 class FlutterEasyDialogs extends StatelessWidget {
   /// Theme of [FlutterEasyDialogs]
-  final EasyDialogsThemeData? theme;
+  final FlutterEasyDialogsThemeData? theme;
 
   /// Child widget
   final Widget child;
@@ -34,7 +34,7 @@ class FlutterEasyDialogs extends StatelessWidget {
   static const builder = _builder;
 
   static TransitionBuilder _builder({
-    EasyDialogsThemeData? theme,
+    FlutterEasyDialogsThemeData? theme,
   }) {
     return (context, child) => FlutterEasyDialogs(
           theme: theme,
@@ -44,8 +44,8 @@ class FlutterEasyDialogs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EasyDialogsTheme(
-      data: theme ?? EasyDialogsThemeData.basic(),
+    return FlutterEasyDialogsTheme(
+      data: theme ?? FlutterEasyDialogsThemeData.basic(),
       child: Material(
         child: EasyOverlay(
           initialEntries: [

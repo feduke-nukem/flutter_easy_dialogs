@@ -4,8 +4,8 @@ abstract class IPositionableSettings {
   EasyDialogPosition? get position;
 }
 
-abstract class IAnimatableSettings {
-  EasyAnimationType get animationType;
+abstract class IPositionedAnimatableSettings {
+  EasyPositionedAnimationType get animationType;
 }
 
 abstract class IAutoHidableSettings {
@@ -15,6 +15,6 @@ abstract class IAutoHidableSettings {
 }
 
 abstract class IDissmisableSettings {
-  EasyDismissibleType get dismissibleType;
+  EasyPositionedDismissibleType get dismissibleType;
   EasyDismissCallback? get onDismissed;
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/banner/banner_show_params.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/factory/positioned_animation_factory/positioned_animation_create_params.dart';
+import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_banner/easy_banner_show_params.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/i_easy_dismissible_factory.dart';
 
 class EasyBannerFactory implements IEasyDialogFactory {
@@ -19,11 +19,10 @@ class EasyBannerFactory implements IEasyDialogFactory {
 
   @override
   Widget createDialog({
-    required BannerShowParams params,
+    required EasyBannerShowParams params,
   }) {
     final banner = EasyBanner(
-      topSafeArea: params.position == EasyDialogPosition.top,
-      bottomSafeArea: params.position == EasyDialogPosition.bottom,
+      position: params.position,
       padding: params.padding,
       child: params.content,
     );
@@ -33,13 +32,13 @@ class EasyBannerFactory implements IEasyDialogFactory {
 
   @override
   IEasyDismissor createDismissible({
-    required BannerShowParams params,
+    required EasyBannerShowParams params,
     VoidCallback? handleOnDismissed,
   }) {
-    if (params.dismissibleType != EasyDismissibleType.none) {
+    if (params.dismissibleType != EasyPositionedDismissibleType.none) {
       assert(
         params.onDismissed != null,
-        '${params.onDismissed} must be provided',
+        'params.onDismissed must be provided',
       );
     }
 
@@ -60,7 +59,7 @@ class EasyBannerFactory implements IEasyDialogFactory {
 
   @override
   IEasyAnimator createAnimation({
-    required BannerShowParams params,
+    required EasyBannerShowParams params,
   }) {
     final animation = _animationFactory.createAnimation(
       params: PositionedAnimationCreateParams(

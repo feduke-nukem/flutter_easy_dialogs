@@ -6,14 +6,12 @@ import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dar
 import 'positioned_dialog_show_params.dart';
 
 class PositionedDialogAgent extends EasyDialogAgentBase {
-  final IEasyDialogFactory _dialogFactory;
-
   final _currentDialogs = <EasyDialogPosition, AnimationController>{};
 
   PositionedDialogAgent({
     required super.overlayController,
-    required IEasyDialogFactory dialogFactory,
-  }) : _dialogFactory = dialogFactory;
+    required super.dialogFactory,
+  });
 
   @override
   Future<void> hide({
@@ -71,7 +69,7 @@ class PositionedDialogAgent extends EasyDialogAgentBase {
     super.overlayController.insertDialog(
           child: dialog,
           position: params.position,
-          type: _dialogFactory.dialogType,
+          type: super.dialogFactory.dialogType,
         );
 
     _addAnimationControllerOfPosition(
@@ -117,24 +115,24 @@ class PositionedDialogAgent extends EasyDialogAgentBase {
     required PositionedDialogShowParams params,
     required AnimationController animationController,
   }) {
-    final dialog = _dialogFactory.createDialog(params: params);
+    final dialog = super.dialogFactory.createDialog(params: params);
 
-    final animation = _dialogFactory.createAnimation(params: params);
+    final animation = super.dialogFactory.createAnimation(params: params);
 
     final animatedDialog =
         animation.animate(parent: animationController, child: dialog);
 
-    if (params.dismissibleType == EasyDismissibleType.none) {
+    if (params.dismissibleType == EasyPositionedDismissibleType.none) {
       return animatedDialog;
     }
 
-    final dismissible = _dialogFactory.createDismissible(
-      params: params,
-      handleOnDismissed: () => _hide(
-        position: params.position,
-        animationController: animationController,
-      ),
-    );
+    final dismissible = super.dialogFactory.createDismissible(
+          params: params,
+          handleOnDismissed: () => _hide(
+            position: params.position,
+            animationController: animationController,
+          ),
+        );
 
     return dismissible.makeDismissible(animatedDialog);
   }
@@ -147,10 +145,10 @@ class PositionedDialogAgent extends EasyDialogAgentBase {
     await animationController.reverse();
     animationController.dispose();
 
-    overlayController.removeDialogByTypeAndPosition(
-      type: _dialogFactory.dialogType,
-      position: position,
-    );
+    super.overlayController.removeDialogByTypeAndPosition(
+          type: super.dialogFactory.dialogType,
+          position: position,
+        );
 
     if (removeFromCurrentDialogs) _currentDialogs.remove(position);
   }

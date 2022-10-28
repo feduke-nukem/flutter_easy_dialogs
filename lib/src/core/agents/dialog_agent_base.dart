@@ -1,39 +1,43 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/animations/easy_animation_settings.dart';
-import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialogs_theme.dart';
+import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 
 abstract class EasyDialogAgentBase {
+  @protected
+  @nonVirtual
+  final IEasyDialogFactory dialogFactory;
+
   @protected
   @nonVirtual
   final IEasyOverlayController overlayController;
 
   const EasyDialogAgentBase({
     required this.overlayController,
+    required this.dialogFactory,
   });
 
   Future<void> show({
-    required covariant ShowParams params,
+    required covariant AgentShowParams params,
   });
 
   Future<void> hide({
-    required covariant HideParams params,
+    required covariant AgentHideParams? params,
   });
 }
 
-abstract class ShowParams {
+abstract class AgentShowParams {
   final Widget content;
-  final EasyDialogsThemeData theme;
+  final FlutterEasyDialogsThemeData theme;
   final EasyAnimationSettings? animationSettings;
 
-  const ShowParams({
+  const AgentShowParams({
     required this.theme,
     required this.content,
     this.animationSettings,
   });
 }
 
-abstract class HideParams {
-  const HideParams();
+abstract class AgentHideParams {
+  const AgentHideParams();
 }
