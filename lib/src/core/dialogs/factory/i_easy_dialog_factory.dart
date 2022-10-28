@@ -8,15 +8,15 @@ abstract class IEasyDialogFactory {
   EasyDialogType get dialogType;
 
   Widget createDialog({
-    required covariant ShowParams params,
+    required covariant AgentShowParams params,
   });
 
   IEasyDismissor createDismissible({
-    required covariant ShowParams params,
+    required covariant AgentShowParams params,
     VoidCallback? handleOnDismissed,
   });
 
   IEasyAnimator createAnimation({
-    required covariant ShowParams params,
+    required covariant AgentShowParams params,
   });
 }

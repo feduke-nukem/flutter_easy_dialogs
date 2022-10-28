@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/compose_interfaces.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dart/positioned_dialog_show_params.dart';
-import 'package:flutter_easy_dialogs/src/core/animations/easy_animation_type.dart';
+import 'package:flutter_easy_dialogs/src/core/animations/types/easy_positioned_animation_type.dart';
 
-class BannerShowParams extends PositionedDialogShowParams
-    implements IAnimatableSettings, IDissmisableSettings {
+class EasyBannerShowParams extends PositionedDialogShowParams
+    implements IPositionedAnimatableSettings, IDissmisableSettings {
   final EdgeInsets? padding;
 
   @override
-  final EasyAnimationType animationType;
+  final EasyPositionedAnimationType animationType;
 
-  BannerShowParams({
+  EasyBannerShowParams({
     required this.animationType,
     required super.position,
     required super.autoHide,

@@ -1,14 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/fullscreen_dialog_agent.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dart/positioned_dialog_agent.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/factory/positioned_animation_factory/positioned_animation_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/easy_dialog_position.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/easy_dialog_type.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/factory/easy_banner_factory.dart';
+import 'package:flutter_easy_dialogs/src/core/dialogs/factory/easy_modal_banner_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/positioned_dismissible_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialog_scope.dart';
-import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialogs_theme.dart';
+import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/flutter_easy_dialogs_theme.dart';
 import 'package:flutter_easy_dialogs/src/core/overlay/easy_orverlay_entry_properties.dart';
 import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 import 'package:flutter_easy_dialogs/src/utils/position_to_animation_converter/position_to_animation_converter.dart';
@@ -47,7 +49,7 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
 
   @override
   void didChangeDependencies() {
-    final theme = EasyDialogsTheme.of(context);
+    final theme = FlutterEasyDialogsTheme.of(context);
     _easyDialogsController.updateTheme(theme);
 
     super.didChangeDependencies();
@@ -159,6 +161,7 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
         PositionedAnimationFactory(positionToAnimationConverter);
 
     final positionedDismissibleFactory = PositionedDismissibleFactory();
+    final modalBannerFactory = EasyModalBannerFactory();
 
     final bannerAgent = PositionedDialogAgent(
       overlayController: this,
@@ -168,8 +171,14 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
       ),
     );
 
+    final modalBannerAgent = FullScreenDialogAgent(
+      overlayController: this,
+      dialogFactory: modalBannerFactory,
+    );
+
     _easyDialogsController = EasyDialogsController(
       bannerAgent: bannerAgent,
+      modalBannerAgent: modalBannerAgent,
     );
   }
 }
