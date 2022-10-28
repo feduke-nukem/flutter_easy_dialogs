@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
+import 'package:flutter_easy_dialogs/src/core/agents/dialog_agent_base.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/fullscreen_dialog_agent.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/fullscreen_dialog_hide_params.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dart/positioned_dialog_agent.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_modal_banne
 class EasyDialogsController {
   final PositionedDialogAgent _bannerAgent;
   final FullScreenDialogAgent _modalBannerAgent;
+  final Map<String, EasyDialogAgentBase>? _customAgents;
 
   /// Data of [FlutterEasyDialogsTheme]
   FlutterEasyDialogsThemeData? _theme;
@@ -21,8 +23,10 @@ class EasyDialogsController {
   EasyDialogsController({
     required PositionedDialogAgent bannerAgent,
     required FullScreenDialogAgent modalBannerAgent,
+    Map<String, EasyDialogAgentBase>? customAgents,
   })  : _bannerAgent = bannerAgent,
-        _modalBannerAgent = modalBannerAgent;
+        _modalBannerAgent = modalBannerAgent,
+        _customAgents = customAgents;
 
   @override
   bool operator ==(Object? other) {
@@ -125,4 +129,31 @@ class EasyDialogsController {
   Future<void> hideModalBanner() => _modalBannerAgent.hide(
         params: FullScreenHideParams(),
       );
+
+  Future<void> showCustom({
+    required String name,
+    required AgentShowParams params,
+  }) async {
+    if (_customAgents == null) return;
+
+    assert(
+      _customAgents!.containsKey(name),
+      'You should register agent named $name before calling it',
+    );
+
+    await _customAgents![name]!.show(params: params);
+  }
+
+  Future<void> hideCustom({
+    required String name,
+    required AgentHideParams params,
+  }) async {
+    if (_customAgents == null) return;
+    assert(
+      _customAgents!.containsKey(name),
+      'You should register agent named $name before calling it',
+    );
+
+    await _customAgents![name]!.hide(params: params);
+  }
 }

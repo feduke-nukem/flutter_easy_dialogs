@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_dialogs/src/core/agents/dialog_agent_base.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/fullscreen_dialog_agent.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dart/positioned_dialog_agent.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/factory/positioned_animation_factory/positioned_animation_factory.dart';
@@ -8,17 +9,24 @@ import 'package:flutter_easy_dialogs/src/core/dialogs/easy_dialog_type.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/factory/easy_banner_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/factory/easy_modal_banner_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/positioned_dismissible_factory.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialog_scope.dart';
+import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/flutter_easy_dialogs_theme.dart';
 import 'package:flutter_easy_dialogs/src/core/overlay/easy_orverlay_entry_properties.dart';
 import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 import 'package:flutter_easy_dialogs/src/utils/position_to_animation_converter/position_to_animation_converter.dart';
 
+typedef CustomAgentBuilder = Map<String, EasyDialogAgentBase> Function(
+  IEasyOverlayController overlayController,
+);
+
 class EasyOverlay extends Overlay {
+  final CustomAgentBuilder? customAgentBuilder;
+
   const EasyOverlay({
     super.initialEntries = const <OverlayEntry>[],
     super.clipBehavior = Clip.hardEdge,
+    this.customAgentBuilder,
     super.key,
   });
 
@@ -175,10 +183,12 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
       overlayController: this,
       dialogFactory: modalBannerFactory,
     );
+    final customAgents = (widget as EasyOverlay).customAgentBuilder?.call(this);
 
     _easyDialogsController = EasyDialogsController(
       bannerAgent: bannerAgent,
       modalBannerAgent: modalBannerAgent,
+      customAgents: customAgents,
     );
   }
 }
