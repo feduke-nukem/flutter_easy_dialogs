@@ -5,6 +5,7 @@ import 'package:flutter_easy_dialogs/src/core/dialogs/easy_dialog_position.dart'
 class PositionedDialogHideParams extends AgentHideParams
     implements IPositionableSettings {
   final bool hideAll;
+
   @override
   final EasyDialogPosition? position;
 

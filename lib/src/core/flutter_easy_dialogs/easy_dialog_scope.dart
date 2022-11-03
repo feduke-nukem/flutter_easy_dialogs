@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
+import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialogs_controller.dart';
 
 /// Inherited scope for providing [EasyDialogsController]
 class EasyDialogsScope extends InheritedWidget {

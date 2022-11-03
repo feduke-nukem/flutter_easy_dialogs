@@ -18,7 +18,7 @@ class FullScreenDialogAgent extends EasyDialogAgentBase {
   bool get _isPresented => _animationController != null;
 
   @override
-  Future<void> hide({required FullScreenHideParams params}) async {
+  Future<void> hide({FullScreenHideParams? params}) async {
     await _hide();
   }
 
@@ -30,7 +30,10 @@ class FullScreenDialogAgent extends EasyDialogAgentBase {
 
     _animationController = AnimationController(
       vsync: super.overlayController,
-      duration: const Duration(milliseconds: 180),
+      duration: params.contentAnimationType ==
+              EasyFullScreenContentAnimationType.bounce
+          ? const Duration(milliseconds: 180)
+          : const Duration(milliseconds: 300),
     );
 
     final dialog = _createDialog(params);

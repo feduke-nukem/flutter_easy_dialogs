@@ -7,11 +7,15 @@ import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs_exception.dar
 class EasyFullScreenAnimation extends EasyAnimation {
   final EasyFullScreenContentAnimationType contentAnimationType;
   final EasyFullScreenBackgroungAnimationType backgroungAnimationType;
+  final IEasyAnimator? customContentAnimation;
+  final IEasyAnimator? customBackgroundAnimation;
   final Color? backgroundColor;
 
   EasyFullScreenAnimation({
     required this.backgroungAnimationType,
     required this.contentAnimationType,
+    this.customBackgroundAnimation,
+    this.customContentAnimation,
     this.backgroundColor,
     super.curve,
   });
@@ -21,9 +25,12 @@ class EasyFullScreenAnimation extends EasyAnimation {
     required Animation<double> parent,
     required Widget child,
   }) {
-    final content = _animateChild(child: child, parent: parent);
+    final content =
+        customContentAnimation?.animate(parent: parent, child: child) ??
+            _animateChild(child: child, parent: parent);
 
-    return _animateBackground(child: content, parent: parent);
+    return customBackgroundAnimation?.animate(child: child, parent: parent) ??
+        _animateBackground(child: content, parent: parent);
   }
 
   Widget _animateBackground({

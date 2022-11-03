@@ -1,5 +1,6 @@
 library flutter_easy_dialogs;
 
+export 'src/core/agents/dialog_agent_base.dart';
 export 'src/core/animations/animations.dart';
 export 'src/core/dialogs/dialogs.dart';
 export 'src/core/dismissibles/dismissibles.dart';

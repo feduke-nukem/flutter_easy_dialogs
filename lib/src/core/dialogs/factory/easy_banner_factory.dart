@@ -61,6 +61,8 @@ class EasyBannerFactory implements IEasyDialogFactory {
   IEasyAnimator createAnimation({
     required EasyBannerShowParams params,
   }) {
+    if (params.customAnimation != null) return params.customAnimation!;
+
     final animation = _animationFactory.createAnimation(
       params: PositionedAnimationCreateParams(
         curve: params.animationSettings?.curve ??
