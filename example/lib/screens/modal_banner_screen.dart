@@ -18,6 +18,7 @@ class ModalBannerScreen extends StatelessWidget {
               onPressed: () async {
                 final controller = FlutterEasyDialogs.of(context);
                 await controller.showModalBanner(
+                  contentAnimationType: EasyFullScreenContentAnimationType.fade,
                   onDismissed: controller.hideModalBanner,
                   backgroundColor: Colors.black,
                   content: Container(
