@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_banner/easy_banner_theme_data.dart';
-import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_modal_banner.dart/easy_modal_banner_theme_data.dart';
+import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_modal_banner/easy_modal_banner_theme_data.dart';
 
 class FlutterEasyDialogsTheme extends StatelessWidget {
   final FlutterEasyDialogsThemeData data;
