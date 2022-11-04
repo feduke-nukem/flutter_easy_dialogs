@@ -1,6 +1,5 @@
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/compose_interfaces.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/dialog_agent_base.dart';
 
 class PositionedDialogShowParams extends AgentShowParams
     implements

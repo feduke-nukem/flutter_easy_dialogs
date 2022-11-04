@@ -5,14 +5,12 @@ import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/ful
 import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dart/positioned_dialog_agent.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/factory/positioned_animation_factory/positioned_animation_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/easy_dialog_position.dart';
-import 'package:flutter_easy_dialogs/src/core/dialogs/easy_dialog_type.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/factory/easy_banner_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/factory/easy_modal_banner_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/positioned_dismissible_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialog_scope.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/flutter_easy_dialogs_theme.dart';
-import 'package:flutter_easy_dialogs/src/core/overlay/easy_orverlay_entry_properties.dart';
 import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 import 'package:flutter_easy_dialogs/src/utils/position_to_animation_converter/position_to_animation_converter.dart';
 
@@ -35,18 +33,33 @@ class EasyOverlay extends Overlay {
 }
 
 class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
-  final _currentEntries = <EasyOverlayEntryProperties, OverlayEntry>{};
+  final _currentPositionedEntries = <EasyDialogPosition, OverlayEntry>{};
+  final _currentCustomEntries = <String, OverlayEntry>{};
+
+  OverlayEntry? _currentFullScreenEntry;
+  OverlayEntry? _appEntry;
+
   late final EasyDialogsController _easyDialogsController;
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(
-      DiagnosticsProperty<Map<EasyOverlayEntryProperties, OverlayEntry>>(
-        'currentEntries',
-        _currentEntries,
-      ),
-    );
+    properties
+      ..add(
+        DiagnosticsProperty<Map<EasyDialogPosition, OverlayEntry>>(
+          'currentPositionedEntries',
+          _currentPositionedEntries,
+        ),
+      )
+      ..add(
+        DiagnosticsProperty<OverlayEntry?>('appEntry', _appEntry),
+      )
+      ..add(
+        DiagnosticsProperty<OverlayEntry?>(
+          'currentFullScreenEntry',
+          _currentFullScreenEntry,
+        ),
+      );
   }
 
   @override
@@ -72,22 +85,48 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
   }
 
   @override
-  void insertDialog({
-    required Widget child,
+  void insertPositionedDialog({
+    required Widget dialog,
     required EasyDialogPosition position,
-    required EasyDialogType type,
   }) {
-    final props = EasyOverlayEntryProperties(
-      dialogPosition: position,
-      dialogType: type,
+    assert(
+      !_currentPositionedEntries.containsKey(position),
+      'only single one $EasyOverlayEntry with the same $EasyDialogPosition can be presented at the same time',
     );
 
     final entry = EasyOverlayEntry(
-      properties: props,
-      builder: (_) => child,
+      builder: (_) => dialog,
+    );
+
+    _currentPositionedEntries[position] = entry;
+
+    insert(entry);
+  }
+
+  @override
+  void insertFullScreenDialog({
+    required Widget dialog,
+  }) {
+    assert(
+      _currentFullScreenEntry == null,
+      'only single one full screen $EasyOverlayEntry can be presented',
+    );
+
+    final entry = EasyOverlayEntry(
+      builder: (_) => dialog,
     );
 
     insert(entry);
+
+    _currentFullScreenEntry = entry;
+  }
+
+  @override
+  void removeFullScreenDialog() {
+    if (_currentFullScreenEntry!.mounted) {
+      _currentFullScreenEntry!.remove();
+      _currentFullScreenEntry = null;
+    }
   }
 
   @override
@@ -96,71 +135,29 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
     OverlayEntry? below,
     OverlayEntry? above,
   }) {
+    if (entry is EasyOverlayAppEntry ||
+        below is EasyOverlayAppEntry ||
+        above is EasyOverlayAppEntry) {
+      assert(
+        _appEntry == null,
+        'Only one $EasyOverlayAppEntry can be presented at the same time',
+      );
+    }
+
     super.insert(entry, below: below, above: above);
-    _handleNewEntry(entry);
-
-    if (below != null) _handleNewEntry(below);
-    if (above != null) _handleNewEntry(above);
   }
 
   @override
-  void insertAll(
-    Iterable<OverlayEntry> entries, {
-    OverlayEntry? below,
-    OverlayEntry? above,
-  }) {
-    super.insertAll(entries, below: below, above: above);
-
-    entries.forEach(_handleNewEntry);
-
-    if (below != null) _handleNewEntry(below);
-    if (above != null) _handleNewEntry(above);
-  }
-
-  @override
-  void removeDialogByTypeAndPosition({
-    required EasyDialogType type,
+  void removePositionedDialog({
     required EasyDialogPosition position,
   }) {
-    if (_currentEntries.entries.isEmpty) return;
+    if (_currentPositionedEntries.entries.isEmpty) return;
 
-    final entry = _currentEntries.remove(
-      EasyOverlayEntryProperties(
-        dialogPosition: position,
-        dialogType: type,
-      ),
-    );
+    final entry = _currentPositionedEntries.remove(position);
 
     if (entry == null || !entry.mounted) return;
 
     entry.remove();
-  }
-
-  void _handleNewEntry(OverlayEntry entry) {
-    final newOverlayEntryProps = (entry is EasyOverlayEntry)
-        ? entry.properties
-        : EasyOverlayEntryProperties.other();
-
-    if (newOverlayEntryProps.dialogType == EasyDialogType.app) {
-      assert(
-        !_currentEntries.keys
-            .any((props) => props.dialogType == EasyDialogType.app),
-        'Only one app $EasyOverlay can be presented at the same time',
-      );
-    }
-
-    assert(
-      !_currentEntries.containsKey(newOverlayEntryProps),
-      'only single one $EasyDialogType with the same $EasyDialogPosition can be presented at the same time',
-    );
-
-    assert(
-      !_currentEntries.keys
-          .any((props) => props.dialogType == EasyDialogPosition.other),
-      'Only single one $EasyDialogType of "other" can be presented at the same time',
-    );
-
-    _currentEntries[newOverlayEntryProps] = entry;
   }
 
   void _init() {
@@ -191,18 +188,52 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
       customAgents: customAgents,
     );
   }
+
+  @override
+  void insertCustomDialog({required String name, required Widget dialog}) {
+    assert(
+      !_currentCustomEntries.containsKey(name),
+      'custom dialog with such $name already exists',
+    );
+    final entry = OverlayEntry(builder: (_) => dialog);
+    _currentCustomEntries[name] = entry;
+
+    insert(entry);
+  }
+
+  @override
+  void removeCustomDialog({required String name}) {
+    final entry = _currentCustomEntries.remove(name);
+
+    if (entry == null || !entry.mounted) return;
+
+    entry.remove();
+  }
 }
 
 /// Interface for manipulating overlay with dialogs
 abstract class IEasyOverlayController extends TickerProvider {
-  void insertDialog({
-    required Widget child,
+  void insertPositionedDialog({
+    required Widget dialog,
     required EasyDialogPosition position,
-    required EasyDialogType type,
   });
 
-  void removeDialogByTypeAndPosition({
-    required EasyDialogType type,
+  void removePositionedDialog({
     required EasyDialogPosition position,
+  });
+
+  void insertFullScreenDialog({
+    required Widget dialog,
+  });
+
+  void removeFullScreenDialog();
+
+  void insertCustomDialog({
+    required String name,
+    required Widget dialog,
+  });
+
+  void removeCustomDialog({
+    required String name,
   });
 }

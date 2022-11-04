@@ -1,11 +1,8 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/dialog_agent_base.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/fullscreen_dialog_hide_params.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/fullscreen_dialog_show_params.dart';
-
-const _position = EasyDialogPosition.center;
 
 class FullScreenDialogAgent extends EasyDialogAgentBase {
   FullScreenDialogAgent({
@@ -38,11 +35,7 @@ class FullScreenDialogAgent extends EasyDialogAgentBase {
 
     final dialog = _createDialog(params);
 
-    super.overlayController.insertDialog(
-          child: dialog,
-          position: _position,
-          type: super.dialogFactory.dialogType,
-        );
+    super.overlayController.insertFullScreenDialog(dialog: dialog);
 
     await _animationController!.forward();
   }
@@ -76,10 +69,7 @@ class FullScreenDialogAgent extends EasyDialogAgentBase {
     _animationController!.dispose();
     _animationController = null;
 
-    super.overlayController.removeDialogByTypeAndPosition(
-          type: super.dialogFactory.dialogType,
-          position: _position,
-        );
+    super.overlayController.removeFullScreenDialog();
 
     BackButtonInterceptor.remove(_backButtonInterceptor);
   }

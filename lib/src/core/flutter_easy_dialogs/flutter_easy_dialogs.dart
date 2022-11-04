@@ -55,7 +55,7 @@ class FlutterEasyDialogs extends StatelessWidget {
         child: EasyOverlay(
           customAgentBuilder: customAgentBuilder,
           initialEntries: [
-            EasyOverlayEntry.app(
+            EasyOverlayAppEntry(
               builder: (context) => child,
             ),
           ],

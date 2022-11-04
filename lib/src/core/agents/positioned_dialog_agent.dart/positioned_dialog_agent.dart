@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/dialog_agent_base.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dart/positioned_dialog_hide_params.dart';
 
 import 'positioned_dialog_show_params.dart';
@@ -66,10 +65,9 @@ class PositionedDialogAgent extends EasyDialogAgentBase {
       animationController: newAnimationController,
     );
 
-    super.overlayController.insertDialog(
-          child: dialog,
+    super.overlayController.insertPositionedDialog(
+          dialog: dialog,
           position: params.position,
-          type: super.dialogFactory.dialogType,
         );
 
     _addAnimationControllerOfPosition(
@@ -145,8 +143,7 @@ class PositionedDialogAgent extends EasyDialogAgentBase {
     await animationController.reverse();
     animationController.dispose();
 
-    super.overlayController.removeDialogByTypeAndPosition(
-          type: super.dialogFactory.dialogType,
+    super.overlayController.removePositionedDialog(
           position: position,
         );
 
