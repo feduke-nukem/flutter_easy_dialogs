@@ -10,6 +10,7 @@ class EasySwipeDismissible extends EasyDismissible {
   Widget makeDismissible(Widget child) {
     return Dismissible(
       key: UniqueKey(),
+      behavior: HitTestBehavior.deferToChild,
       onDismissed: (_) => super.onDismissed(),
       child: child,
     );

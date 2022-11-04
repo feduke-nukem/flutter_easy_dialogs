@@ -12,11 +12,17 @@ class EasyBanner extends StatelessWidget {
 
   final EasyDialogPosition position;
 
+  final EdgeInsets? margin;
+
+  final double? radius;
+
   const EasyBanner({
     required this.child,
     required this.position,
     this.backgroundColor,
     this.padding,
+    this.margin,
+    this.radius,
     super.key,
   });
 
@@ -31,17 +37,27 @@ class EasyBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: backgroundColor ??
-          FlutterEasyDialogsTheme.of(context).easyBannerTheme.backgroundColor,
-      child: SafeArea(
-        top: position == EasyDialogPosition.top,
-        bottom: position == EasyDialogPosition.bottom,
-        child: Padding(
-          padding: padding ?? const EdgeInsets.all(10.0),
-          child: SizedBox(
-            width: double.infinity,
-            child: child,
+    final theme = FlutterEasyDialogsTheme.of(context).easyBannerTheme;
+
+    return Padding(
+      padding: margin ?? theme.margin,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(theme.radius),
+        child: ColoredBox(
+          color: backgroundColor ??
+              FlutterEasyDialogsTheme.of(context)
+                  .easyBannerTheme
+                  .backgroundColor,
+          child: SafeArea(
+            top: position == EasyDialogPosition.top,
+            bottom: position == EasyDialogPosition.bottom,
+            child: Padding(
+              padding: padding ?? const EdgeInsets.all(10.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: child,
+              ),
+            ),
           ),
         ),
       ),

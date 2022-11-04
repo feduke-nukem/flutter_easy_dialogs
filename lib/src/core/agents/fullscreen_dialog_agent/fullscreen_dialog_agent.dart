@@ -5,10 +5,11 @@ import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/ful
 import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/fullscreen_dialog_show_params.dart';
 
 class FullScreenDialogAgent extends EasyDialogAgentBase {
+  final IEasyDialogFactory _dialogFactory;
   FullScreenDialogAgent({
     required super.overlayController,
-    required super.dialogFactory,
-  });
+    required IEasyDialogFactory dialogFactory,
+  }) : _dialogFactory = dialogFactory;
 
   AnimationController? _animationController;
 
@@ -41,9 +42,9 @@ class FullScreenDialogAgent extends EasyDialogAgentBase {
   }
 
   Widget _createDialog(FullScreenShowParams params) {
-    final modalBanner = super.dialogFactory.createDialog(params: params);
+    final modalBanner = _dialogFactory.createDialog(params: params);
 
-    final animation = super.dialogFactory.createAnimation(params: params);
+    final animation = _dialogFactory.createAnimation(params: params);
 
     assert(
       _animationController != null,
@@ -57,7 +58,7 @@ class FullScreenDialogAgent extends EasyDialogAgentBase {
 
     if (params.onDismissed == null) return animatedModalBanner;
 
-    return dialogFactory
+    return _dialogFactory
         .createDismissible(params: params)
         .makeDismissible(animatedModalBanner);
   }

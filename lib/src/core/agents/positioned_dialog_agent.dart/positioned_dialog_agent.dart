@@ -6,11 +6,12 @@ import 'positioned_dialog_show_params.dart';
 
 class PositionedDialogAgent extends EasyDialogAgentBase {
   final _currentDialogs = <EasyDialogPosition, AnimationController>{};
+  final IEasyDialogFactory _dialogFactory;
 
   PositionedDialogAgent({
     required super.overlayController,
-    required super.dialogFactory,
-  });
+    required IEasyDialogFactory dialogFactory,
+  }) : _dialogFactory = dialogFactory;
 
   @override
   Future<void> hide({
@@ -79,7 +80,10 @@ class PositionedDialogAgent extends EasyDialogAgentBase {
 
     if (!params.autoHide) return;
 
-    await Future.delayed(params.theme.easyBannerTheme.durationUntilAutoHide);
+    await Future.delayed(
+      params.durationUntilHide ??
+          params.theme.easyBannerTheme.durationUntilAutoHide,
+    );
 
     final animationControllerOfPosition =
         _getAnimationControllerOfPosition(params.position);
@@ -113,9 +117,9 @@ class PositionedDialogAgent extends EasyDialogAgentBase {
     required PositionedDialogShowParams params,
     required AnimationController animationController,
   }) {
-    final dialog = super.dialogFactory.createDialog(params: params);
+    final dialog = _dialogFactory.createDialog(params: params);
 
-    final animation = super.dialogFactory.createAnimation(params: params);
+    final animation = _dialogFactory.createAnimation(params: params);
 
     final animatedDialog =
         animation.animate(parent: animationController, child: dialog);
@@ -124,13 +128,13 @@ class PositionedDialogAgent extends EasyDialogAgentBase {
       return animatedDialog;
     }
 
-    final dismissible = super.dialogFactory.createDismissible(
-          params: params,
-          handleOnDismissed: () => _hide(
-            position: params.position,
-            animationController: animationController,
-          ),
-        );
+    final dismissible = _dialogFactory.createDismissible(
+      params: params,
+      handleOnDismissed: () => _hide(
+        position: params.position,
+        animationController: animationController,
+      ),
+    );
 
     return dismissible.makeDismissible(animatedDialog);
   }

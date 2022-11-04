@@ -109,6 +109,8 @@ class EasyDialogsController {
     EasyDismissCallback? onDismissed,
     EdgeInsets? padding,
     EdgeInsets? margin,
+    IEasyAnimator? customBackgroundAnimation,
+    IEasyAnimator? customContentAnimation,
   }) async {
     await _modalBannerAgent.show(
       params: EasyModalBannerShowParams(
@@ -120,6 +122,8 @@ class EasyDialogsController {
         contentAnimationType: contentAnimationType,
         padding: padding,
         margin: margin,
+        customBackgroungAnimation: customBackgroundAnimation,
+        customContentAnimation: customContentAnimation,
       ),
     );
   }
@@ -142,7 +146,7 @@ class EasyDialogsController {
 
   Future<void> hideCustom({
     required String name,
-    required AgentHideParams params,
+    covariant AgentHideParams? params,
   }) async {
     if (_customAgents == null) return;
     assert(

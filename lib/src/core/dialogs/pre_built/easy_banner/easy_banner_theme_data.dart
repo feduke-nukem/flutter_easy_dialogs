@@ -4,6 +4,8 @@ import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_banner/easy
 const _durationUntilAutoHide = Duration(seconds: 3);
 const _duration = Duration(milliseconds: 500);
 const _curve = Curves.fastLinearToSlowEaseIn;
+const _margin = EdgeInsets.zero;
+const _borderRadius = 0.0;
 
 /// Theme data class that affects [EasyBanner]
 class EasyBannerThemeData {
@@ -12,6 +14,8 @@ class EasyBannerThemeData {
   final Duration reverseDuration;
   final Color backgroundColor;
   final Curve animationCurve;
+  final EdgeInsets margin;
+  final double radius;
 
   const EasyBannerThemeData.raw({
     required this.backgroundColor,
@@ -19,6 +23,8 @@ class EasyBannerThemeData {
     required this.forwardDuration,
     required this.reverseDuration,
     required this.animationCurve,
+    required this.margin,
+    required this.radius,
   });
 
   factory EasyBannerThemeData.light() {
@@ -28,6 +34,8 @@ class EasyBannerThemeData {
       forwardDuration: _duration,
       reverseDuration: _duration,
       animationCurve: _curve,
+      margin: _margin,
+      radius: _borderRadius,
     );
   }
 

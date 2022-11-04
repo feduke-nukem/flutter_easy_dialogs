@@ -6,15 +6,10 @@ import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 abstract class EasyDialogAgentBase {
   @protected
   @nonVirtual
-  final IEasyDialogFactory dialogFactory;
-
-  @protected
-  @nonVirtual
   final IEasyOverlayController overlayController;
 
   const EasyDialogAgentBase({
     required this.overlayController,
-    required this.dialogFactory,
   });
 
   Future<void> show({

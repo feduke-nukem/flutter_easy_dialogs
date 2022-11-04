@@ -25,12 +25,13 @@ class EasyFullScreenAnimation extends EasyAnimation {
     required Animation<double> parent,
     required Widget child,
   }) {
-    final content =
-        customContentAnimation?.animate(parent: parent, child: child) ??
-            _animateChild(child: child, parent: parent);
+    final content = customContentAnimation != null
+        ? customContentAnimation!.animate(parent: parent, child: child)
+        : _animateChild(child: child, parent: parent);
 
-    return customBackgroundAnimation?.animate(child: child, parent: parent) ??
-        _animateBackground(child: content, parent: parent);
+    return customBackgroundAnimation != null
+        ? customBackgroundAnimation!.animate(child: content, parent: parent)
+        : _animateBackground(child: content, parent: parent);
   }
 
   Widget _animateBackground({

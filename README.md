@@ -1,39 +1,130 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+ 
+# FlutterEasyDialogs
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Flutter overlay based service for easy usage of different kinds of 'dialogs'.  
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+* Different pre-built dialogs and animations
+* Flexible mechanism of integrating custom self-built dialogs and animations
+* Show dialogs in any place of the application via BuildContext
 
+## Install
+
+In the `pubspec.yaml` of your flutter project, add the following dependency:
+
+```yaml
+dependencies:
+  flutter_easy_dialogs: <latest_version>
+```
+
+In your library add the following import:
+
+```dart
+import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart'
+```
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+Example:
+Wrap your MaterialApp with FlutterEasyDialogs.builder().
+
+```dart
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      builder: FlutterEasyDialogs.builder(),
+    );
+  }
+}
+```
+
+Also you can provide your own custom dialog agent.
+
+```dart
+const customAgentName = 'customDialogAgent';
+const customDialogName = 'customDialog';
+
+class CustomDialogAgent extends EasyDialogAgentBase {
+  CustomDialogAgent({required super.overlayController});
+
+  @override
+  Future<void> hide({required AgentHideParams? params}) async {
+    super.overlayController.removeCustomDialog(name: customDialogName);
+  }
+
+  @override
+  Future<void> show({required CustomAgentShowParams params}) async {
+    super.overlayController.insertCustomDialog(
+          name: customDialogName,
+          dialog: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: 200.0,
+              width: 200.0,
+              color: params.color,
+              child: Center(child: params.content),
+            ),
+          ),
+        );
+  }
+}
+
+class CustomAgentShowParams extends AgentShowParams {
+  final Color color;
+
+  const CustomAgentShowParams({
+    required super.theme,
+    required super.content,
+    required this.color,
+  });
+}
+
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(  
+      builder: (context, child) {
+        final builder = FlutterEasyDialogs.builder( 
+          customAgentBuilder: (overlayController) => {
+            customAgentName:
+                CustomDialogAgent(overlayController: overlayController)
+          },
+        );
+
+        return builder(context, child);
+      },
+    );
+  }
+}
+```
+
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Show dialog example:
 
 ```dart
-const like = 'sample';
+ FlutterEasyDialogs.of(context).showBanner(
+      onDismissed: () {},
+      content: ElevatedButton(
+        style: ElevatedButton.styleFrom(primary: Colors.red),
+        onPressed: () {},
+        child: const Text(
+          'BANNER',
+          style: TextStyle(fontSize: 30),
+        ),
+      ),
+      durationUntilHide: Duration(milliseconds: _autoHideDuration.toInt()),
+      autoHide: true,
+      position: EasyDialogPosition.top,
+      animationType: EasyPositionedAnimationType.fade,
+      dismissibleType: EasyPositionedDismissibleType.swipe,
+    );
 ```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+ 

@@ -13,6 +13,8 @@ class EasyModalBannerFactory extends IEasyDialogFactory {
       contentAnimationType: params.contentAnimationType,
       backgroungAnimationType: params.backgroungAnimationType,
       backgroundColor: params.backgroundColor,
+      customBackgroundAnimation: params.customBackgroungAnimation,
+      customContentAnimation: params.customContentAnimation,
     );
 
     return animation;

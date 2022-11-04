@@ -1,23 +1,14 @@
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/compose_interfaces.dart';
 
-class PositionedDialogShowParams extends AgentShowParams
-    implements
-        IPositionableSettings,
-        IAutoHidableSettings,
-        IDissmisableSettings {
-  @override
+class PositionedDialogShowParams extends AgentShowParams {
   final EasyDialogPosition position;
-  @override
+
   final bool autoHide;
 
-  @override
   final Duration? durationUntilHide;
 
-  @override
   final EasyPositionedDismissibleType dismissibleType;
 
-  @override
   final EasyDismissCallback? onDismissed;
 
   const PositionedDialogShowParams({

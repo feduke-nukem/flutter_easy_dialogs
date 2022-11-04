@@ -16,5 +16,7 @@ class EasyModalBannerShowParams extends FullScreenShowParams {
     this.margin,
     this.decoration,
     super.backgroundColor,
+    super.customBackgroungAnimation,
+    super.customContentAnimation,
   });
 }

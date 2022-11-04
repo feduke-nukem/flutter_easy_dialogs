@@ -1,3 +1,4 @@
+import 'package:example/custom_dialog_agent.dart';
 import 'package:example/easy_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
@@ -19,7 +20,13 @@ class MyApp extends StatelessWidget {
       initialRoute: EasyRouter.initialRoute,
       onGenerateRoute: EasyRouter.onGenerateRoute,
       builder: (context, child) {
-        final builder = FlutterEasyDialogs.builder();
+        final builder = FlutterEasyDialogs.builder(
+          /// Provide custom dialog agent
+          customAgentBuilder: (overlayController) => {
+            customAgentName:
+                CustomDialogAgent(overlayController: overlayController)
+          },
+        );
 
         return builder(context, child);
       },

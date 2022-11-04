@@ -23,6 +23,11 @@ class HomeScreen extends StatelessWidget {
               onPressed: () =>
                   Navigator.of(context).pushNamed(EasyRouter.modalBannerRoute),
               child: const Text('Modal banner example'),
+            ),
+            ElevatedButton(
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(EasyRouter.customAgentRoute),
+              child: const Text('Custom agent  example'),
             )
           ],
         ),
