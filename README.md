@@ -24,8 +24,7 @@ In your library add the following import:
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart'
 ```
 ## Getting started
-
-Example:
+ 
 Wrap your MaterialApp with ```FlutterEasyDialogs.builder()```.
 
 ```dart
@@ -39,6 +38,36 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+```
+
+
+That's it. Now you are able to call show methods from ```EasyDialogController``` like so:
+```dart
+ FlutterEasyDialogs.of(context).showBanner(
+      content: ElevatedButton(
+        style: ElevatedButton.styleFrom(primary: Colors.red),
+        onPressed: () {},
+        child: const Text(
+          'BANNER',
+          style: TextStyle(fontSize: 30),
+        ),
+      )
+    );
+```
+Or
+
+```dart
+ FlutterEasyDialogs.of(context).showModalBanner(
+   content: Container(
+     height: 200.0,
+     width: 200.0,
+     color: Colors.red,
+     child: const Icon(
+       Icons.home,
+       size: 60,
+     ),
+   ),
+ );
 ```
 
 Also you can provide your own custom dialog agent.
@@ -127,7 +156,33 @@ Show dialog example:
       dismissibleType: EasyPositionedDismissibleType.swipe,
     );
 ```
- 
+
+## Theming
+
+It's possible to pre-configure some settings for dialogs using ```FlutterEasyDialogsThemeData```.
+
+```dart
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      builder: (context, child) {
+        final builder = FlutterEasyDialogs.builder(
+          theme: FlutterEasyDialogsThemeData(
+            easyBannerTheme: EasyBannerThemeData.light(),
+            easyModalBannerTheme: EasyModalBannerThemeData.light(),
+          ),
+        );
+
+        return builder(context, child);
+      },
+    );
+  }
+}
+```
+
 ## Positioned dialogs 
 
 Slide:
