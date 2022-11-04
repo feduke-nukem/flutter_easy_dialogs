@@ -5,6 +5,8 @@ import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 import 'easy_dialog_scope.dart';
 import 'flutter_easy_dialogs_theme.dart';
 
+final _globalKey = GlobalKey();
+
 /// Service - helper for easy use different custom dialogs
 class FlutterEasyDialogs extends StatelessWidget {
   /// Theme of [FlutterEasyDialogs]
@@ -53,6 +55,7 @@ class FlutterEasyDialogs extends StatelessWidget {
       data: theme ?? FlutterEasyDialogsThemeData.basic(),
       child: Material(
         child: EasyOverlay(
+          key: _globalKey,
           customAgentBuilder: customAgentBuilder,
           initialEntries: [
             EasyOverlayAppEntry(
