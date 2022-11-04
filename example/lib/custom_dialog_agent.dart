@@ -8,7 +8,7 @@ class CustomDialogAgent extends EasyDialogAgentBase {
   CustomDialogAgent({required super.overlayController});
 
   @override
-  Future<void> hide({required AgentHideParams? params}) async {
+  Future<void> hide({AgentHideParams? params}) async {
     super.overlayController.removeCustomDialog(name: customDialogName);
   }
 
