@@ -202,6 +202,9 @@ Expansion:
  
 ![Modal_Banner][modal_banner_blured]
 
+
+Thanks to [back_button_interceptor](https://github.com/marcglasberg/back_button_interceptor)
+
 <!-- Links -->
 [slide_positioned_banner]: https://user-images.githubusercontent.com/72284940/200048845-96a5487b-de11-442f-92e0-2cab6be9b539.gif
 [fade_positioned_banner]: https://user-images.githubusercontent.com/72284940/200050223-0976a2b8-c0ff-482b-be29-4963cf4472a6.gif
