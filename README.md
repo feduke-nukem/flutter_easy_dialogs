@@ -26,7 +26,7 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart'
 ## Getting started
 
 Example:
-Wrap your MaterialApp with FlutterEasyDialogs.builder().
+Wrap your MaterialApp with ```FlutterEasyDialogs.builder()```.
 
 ```dart
 class MyApp extends StatelessWidget {
