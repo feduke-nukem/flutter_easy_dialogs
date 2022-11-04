@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 
 abstract class EasyDialogAgentBase {
   @protected
