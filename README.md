@@ -51,7 +51,7 @@ class CustomDialogAgent extends EasyDialogAgentBase {
   CustomDialogAgent({required super.overlayController});
 
   @override
-  Future<void> hide({required AgentHideParams? params}) async {
+  Future<void> hide({AgentHideParams? params}) async {
     super.overlayController.removeCustomDialog(name: customDialogName);
   }
 
@@ -128,3 +128,27 @@ Show dialog example:
     );
 ```
  
+## Positioned dialogs 
+
+Slide:
+
+![Slide][slide_positioned_banner]
+
+Fade:
+
+![Fade][fade_positioned_banner]
+
+Expansion:
+
+![Expansion][expansion_positioned_banner] 
+
+
+## Fullscreen dialogs 
+ 
+![Modal_Banner][modal_banner_blured]
+
+<!-- Links -->
+[slide_positioned_banner]: https://user-images.githubusercontent.com/72284940/200048845-96a5487b-de11-442f-92e0-2cab6be9b539.gif
+[fade_positioned_banner]: https://user-images.githubusercontent.com/72284940/200050223-0976a2b8-c0ff-482b-be29-4963cf4472a6.gif
+[expansion_positioned_banner]: https://user-images.githubusercontent.com/72284940/200051054-cc8281cc-50a6-43b9-b5a0-38655d8919a8.gif
+[modal_banner_blured]: https://user-images.githubusercontent.com/72284940/200051692-d174a805-1739-4c94-9d2f-10fdaab0cba5.gif
