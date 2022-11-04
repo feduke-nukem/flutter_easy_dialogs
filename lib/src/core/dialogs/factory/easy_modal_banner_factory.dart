@@ -44,7 +44,4 @@ class EasyModalBannerFactory extends IEasyDialogFactory {
           : params.onDismissed!,
     );
   }
-
-  @override
-  final EasyDialogType dialogType = EasyDialogType.banner;
 }

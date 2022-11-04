@@ -5,9 +5,6 @@ import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_banner/easy
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/i_easy_dismissible_factory.dart';
 
 class EasyBannerFactory implements IEasyDialogFactory {
-  @override
-  final dialogType = EasyDialogType.banner;
-
   final IEasyAnimationFactory _animationFactory;
   final IEasyDismissibleFactory _dismissibleFactory;
 
