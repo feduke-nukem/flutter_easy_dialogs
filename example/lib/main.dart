@@ -1,3 +1,5 @@
+import 'package:example/custom_dialog_agent.dart';
+import 'package:example/easy_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
@@ -11,72 +13,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Easy Dialogs Example',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: EasyRouter.initialRoute,
+      onGenerateRoute: EasyRouter.onGenerateRoute,
       builder: (context, child) {
-        final builder = FlutterEasyDialogs.builder();
+        final builder = FlutterEasyDialogs.builder(
+          /// Provide custom dialog agent
+          customAgentBuilder: (overlayController) => {
+            customAgentName:
+                CustomDialogAgent(overlayController: overlayController)
+          },
+        );
 
         return builder(context, child);
       },
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  void _showBanner(BuildContext context) {
-    // ScaffoldMessenger.of(context).clearSnackBars();
-    final dialogController = FlutterEasyDialogs.of(context);
-
-    dialogController.showBanner(
-      content: ElevatedButton(
-        onPressed: () {},
-        child: const Text(
-          'BANNER YO',
-          style: TextStyle(fontSize: 30),
-        ),
-      ),
-      autoHide: true,
-      animationType: EasyDialogsAnimationType.fade,
-      position: EasyDialogsPosition.center,
-    );
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('SSSS')));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: Builder(builder: (context) {
-        return FloatingActionButton(
-          onPressed: () => _showBanner(context),
-          tooltip: 'Increment',
-          child: const Icon(Icons.add),
-        );
-      }),
     );
   }
 }
