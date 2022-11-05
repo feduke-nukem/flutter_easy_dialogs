@@ -3,14 +3,17 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/common/extensions/easy_dialog_position_x.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/transitions/expansion_transition.dart';
 
+/// Expansion animation
 class EasyExpansionAnimation extends EasyAnimation {
   final _tween = Tween<double>(
     begin: 0.0,
     end: 1.0,
   );
 
+  /// Dialog position
   final EasyDialogPosition position;
 
+  /// Creates an instance of [EasyExpansionAnimation]
   EasyExpansionAnimation({
     super.curve,
     required this.position,

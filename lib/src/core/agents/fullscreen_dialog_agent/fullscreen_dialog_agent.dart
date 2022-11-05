@@ -4,13 +4,20 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/fullscreen_dialog_hide_params.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/fullscreen_dialog_show_params.dart';
 
+/// ### Agent for displaying fullscreen dialogs
+/// Only one fullscreen dialog can be presented at the same time
 class FullScreenDialogAgent extends EasyDialogAgentBase {
+  /// factory
   final IEasyDialogFactory _dialogFactory;
+
+  /// Creates an instance of [FullScreenDialogAgent]
   FullScreenDialogAgent({
     required super.overlayController,
     required IEasyDialogFactory dialogFactory,
   }) : _dialogFactory = dialogFactory;
 
+  /// [AnimationController] for providing animations to the dialogs,
+  /// is null, when the dialog is not presented
   AnimationController? _animationController;
 
   bool get _isPresented => _animationController != null;
@@ -24,6 +31,7 @@ class FullScreenDialogAgent extends EasyDialogAgentBase {
   Future<void> show({required FullScreenShowParams params}) async {
     if (_isPresented) await _hide();
 
+    // For disabling back button on Android
     BackButtonInterceptor.add(_backButtonInterceptor);
 
     _animationController = AnimationController(

@@ -9,14 +9,28 @@ const _borderRadius = 0.0;
 
 /// Theme data class that affects [EasyBanner]
 class EasyBannerThemeData {
+  /// Duration until dialog will be hidden if it is marked as autohidable
   final Duration durationUntilAutoHide;
-  final Duration forwardDuration;
-  final Duration reverseDuration;
-  final Color backgroundColor;
-  final Curve animationCurve;
-  final EdgeInsets margin;
-  final double radius;
 
+  /// Forward duration of animation
+  final Duration forwardDuration;
+
+  /// Reverse duration of animation
+  final Duration reverseDuration;
+
+  /// Background color
+  final Color backgroundColor;
+
+  /// Animation curve
+  final Curve animationCurve;
+
+  /// Margin
+  final EdgeInsets margin;
+
+  /// Border radius
+  final double borderRadius;
+
+  /// Creates an instance of raw [EasyBannerThemeData]
   const EasyBannerThemeData.raw({
     required this.backgroundColor,
     required this.durationUntilAutoHide,
@@ -24,9 +38,10 @@ class EasyBannerThemeData {
     required this.reverseDuration,
     required this.animationCurve,
     required this.margin,
-    required this.radius,
+    required this.borderRadius,
   });
 
+  /// Creates an instance of ligth version of [EasyBannerThemeData]
   factory EasyBannerThemeData.light() {
     return const EasyBannerThemeData.raw(
       backgroundColor: Colors.blue,
@@ -35,7 +50,7 @@ class EasyBannerThemeData {
       reverseDuration: _duration,
       animationCurve: _curve,
       margin: _margin,
-      radius: _borderRadius,
+      borderRadius: _borderRadius,
     );
   }
 
@@ -63,5 +78,27 @@ class EasyBannerThemeData {
     ];
 
     return Object.hashAll(values);
+  }
+
+  /// Copy with method
+  EasyBannerThemeData copyWith({
+    Duration? durationUntilAutoHide,
+    Duration? forwardDuration,
+    Duration? reverseDuration,
+    Color? backgroundColor,
+    Curve? animationCurve,
+    EdgeInsets? margin,
+    double? borderRadius,
+  }) {
+    return EasyBannerThemeData.raw(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      durationUntilAutoHide:
+          durationUntilAutoHide ?? this.durationUntilAutoHide,
+      forwardDuration: forwardDuration ?? this.forwardDuration,
+      reverseDuration: reverseDuration ?? this.reverseDuration,
+      animationCurve: animationCurve ?? this.animationCurve,
+      margin: margin ?? this.margin,
+      borderRadius: borderRadius ?? this.borderRadius,
+    );
   }
 }

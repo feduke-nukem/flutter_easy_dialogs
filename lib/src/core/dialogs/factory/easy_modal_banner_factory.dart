@@ -5,6 +5,7 @@ import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_modal_banne
 import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_modal_banner/easy_modal_banner_show_params.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/pre_built/easy_gesture_dismissible.dart';
 
+/// [EasyModalBanner] factory
 class EasyModalBannerFactory extends IEasyDialogFactory {
   @override
   IEasyAnimator createAnimation({required EasyModalBannerShowParams params}) {

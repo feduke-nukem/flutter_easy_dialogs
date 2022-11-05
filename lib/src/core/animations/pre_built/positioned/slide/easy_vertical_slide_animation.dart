@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/common/extensions/easy_dialog_position_x.dart';
-import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs_exception.dart';
+import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs_error.dart';
 
+/// Vertical slide animation
 class EasyVerticalSlideAnimation extends EasyAnimation {
   late final _tween = _createTweenOfPosition();
 
+  /// Dialog position
   final EasyDialogPosition position;
 
+  /// Creates an instance of [EasyVerticalSlideAnimation]
   EasyVerticalSlideAnimation({
     super.curve,
     required this.position,

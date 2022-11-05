@@ -1,17 +1,17 @@
 import 'package:flutter_easy_dialogs/src/core/dismissibles/easy_dismissible.dart';
-import 'package:flutter_easy_dialogs/src/core/dismissibles/types/easy_positioned_dismissible_type.dart';
 
+/// Interface of factory for creating [IEasyDismissor]
 abstract class IEasyDismissibleFactory {
+  /// Create dismissible method using [DismissibleCreateParams] params
   IEasyDismissor createDismissible(covariant DismissibleCreateParams params);
 }
 
+/// Core dto class of [IEasyDismissibleFactory] createDismissible method params
 class DismissibleCreateParams {
+  final EasyDismissCallback onDismissed;
+
+  /// Creates an instance of [DismissibleCreateParams]
   const DismissibleCreateParams({
-    required this.dismissibleType,
     required this.onDismissed,
   });
-
-  final EasyPositionedDismissibleType dismissibleType;
-
-  final EasyDismissCallback onDismissed;
 }

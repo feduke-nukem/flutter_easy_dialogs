@@ -4,10 +4,20 @@ import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dar
 
 import 'positioned_dialog_show_params.dart';
 
+/// ### Agent for showing positioned dialog
+/// Only single dialog of concrete [EasyDialogPosition] can be presented at the
+/// same time
+///
+/// It's developer's responsibility to properly manage positioned dialogs
 class PositionedDialogAgent extends EasyDialogAgentBase {
+  /// [Map] of currently presented dialogs
+  /// Contains position of the dialog and associated [AnimationController]
   final _currentDialogs = <EasyDialogPosition, AnimationController>{};
+
+  /// Factory
   final IEasyDialogFactory _dialogFactory;
 
+  /// Creates an instance of [PositionedDialogAgent]
   PositionedDialogAgent({
     required super.overlayController,
     required IEasyDialogFactory dialogFactory,

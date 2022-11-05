@@ -3,6 +3,7 @@ import 'package:flutter_easy_dialogs/src/core/animations/animations.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/dialogs.dart';
 import 'package:flutter_easy_dialogs/src/utils/position_to_animation_converter/position_to_animation_converter.dart';
 
+/// Expansion convert strategy
 class ExpansionAnimationConverterApproach
     implements IPositionToAnimationConvertApproach {
   @override
@@ -13,5 +14,6 @@ class ExpansionAnimationConverterApproach
     return EasyExpansionAnimation(position: position, curve: curve);
   }
 
+  /// Creates an instance of [ExpansionAnimationConverterApproach]
   const ExpansionAnimationConverterApproach();
 }

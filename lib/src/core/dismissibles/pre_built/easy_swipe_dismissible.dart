@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/easy_dismissible.dart';
 
+/// Swipe dismissible
 class EasySwipeDismissible extends EasyDismissible {
   EasySwipeDismissible({
     required super.onDismissed,

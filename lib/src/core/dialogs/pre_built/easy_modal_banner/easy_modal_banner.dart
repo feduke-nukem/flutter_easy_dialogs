@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
+/// Widget of fullscreen content appearence
 class EasyModalBanner extends StatelessWidget {
+  /// Presented content
   final Widget child;
 
-  /// Defaults to  ```EdgeInsets.all(60.0)```
+  /// Padding
+  ///
+  /// Depends on [FlutterEasyDialogsTheme] if is null
   final EdgeInsets? padding;
 
-  ///  Defaults to  ```EdgeInsets.all(20.0)```
+  /// Margin
+  ///
+  /// Depends on [FlutterEasyDialogsTheme] if is null
   final EdgeInsets? margin;
 
+  /// Decoration
+  ///
+  /// Depends on [FlutterEasyDialogsTheme] if is null
   final BoxDecoration? boxDecoration;
 
+  /// Creates an instance of [EasyModalBanner]
   const EasyModalBanner({
     required this.child,
     this.padding,

@@ -4,25 +4,34 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
 /// Dialog banner
 class EasyBanner extends StatelessWidget {
+  /// Backgroung color
   final Color? backgroundColor;
+
+  /// Presented content
   final Widget child;
 
   /// Default is ```EdgeInsets.all(10.0)```
   final EdgeInsets? padding;
 
+  /// Position
   final EasyDialogPosition position;
 
+  /// Margin
+  /// Depends on a [FlutterEasyDialogsTheme] if is null
   final EdgeInsets? margin;
 
-  final double? radius;
+  /// Border radius
+  /// Depends on a [FlutterEasyDialogsTheme] if is null
+  final double? borderRadius;
 
+  /// Creates an instance of [EasyBanner]
   const EasyBanner({
     required this.child,
     required this.position,
     this.backgroundColor,
     this.padding,
     this.margin,
-    this.radius,
+    this.borderRadius,
     super.key,
   });
 
@@ -42,7 +51,7 @@ class EasyBanner extends StatelessWidget {
     return Padding(
       padding: margin ?? theme.margin,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(theme.radius),
+        borderRadius: BorderRadius.circular(theme.borderRadius),
         child: ColoredBox(
           color: backgroundColor ??
               FlutterEasyDialogsTheme.of(context)

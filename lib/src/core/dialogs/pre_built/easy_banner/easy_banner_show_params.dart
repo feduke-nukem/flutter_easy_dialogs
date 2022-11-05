@@ -3,14 +3,19 @@ import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dar
 import 'package:flutter_easy_dialogs/src/core/animations/easy_animation.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/types/easy_positioned_animation_type.dart';
 
+/// Show params for EasyBanner
 class EasyBannerShowParams extends PositionedDialogShowParams {
+  /// Padding
   final EdgeInsets? padding;
 
+  /// Animation type
   final EasyPositionedAnimationType animationType;
 
+  /// Custom animation
   final IEasyAnimator? customAnimation;
 
-  EasyBannerShowParams({
+  /// Creates an instance of [EasyBannerShowParams]
+  const EasyBannerShowParams({
     required this.animationType,
     required super.position,
     required super.autoHide,

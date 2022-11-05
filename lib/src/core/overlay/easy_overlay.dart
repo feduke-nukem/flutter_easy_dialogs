@@ -14,13 +14,17 @@ import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/flutter_easy_
 import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 import 'package:flutter_easy_dialogs/src/utils/position_to_animation_converter/position_to_animation_converter.dart';
 
+/// Function for providing custom agents
 typedef CustomAgentBuilder = Map<String, EasyDialogAgentBase> Function(
   IEasyOverlayController overlayController,
 );
 
+/// Overlay for providing dialogs
 class EasyOverlay extends Overlay {
+  /// Custom agent builder function
   final CustomAgentBuilder? customAgentBuilder;
 
+  /// Creates an instance of [EasyOverlay]
   const EasyOverlay({
     super.initialEntries = const <OverlayEntry>[],
     super.clipBehavior = Clip.hardEdge,
@@ -213,26 +217,34 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
 
 /// Interface for manipulating overlay with dialogs
 abstract class IEasyOverlayController extends TickerProvider {
+  /// Insert positioned dialog into overlay
+  ///
+  /// Only single one dialog of concrete position can persists at the same time
   void insertPositionedDialog({
     required Widget dialog,
     required EasyDialogPosition position,
   });
 
+  /// Remove positioned dialog from overlay
   void removePositionedDialog({
     required EasyDialogPosition position,
   });
 
+  /// Insert fullscreen dialog into overlay
   void insertFullScreenDialog({
     required Widget dialog,
   });
 
+  /// Remove fullscreen dialog into overlay
   void removeFullScreenDialog();
 
+  /// Insert custom dialog using [name]
   void insertCustomDialog({
     required String name,
     required Widget dialog,
   });
 
+  /// Remove custom dialog using [name]
   void removeCustomDialog({
     required String name,
   });

@@ -6,7 +6,7 @@ class EasyDialogsScope extends InheritedWidget {
   /// Instance of [EasyDialogsController]
   final EasyDialogsController controller;
 
-  /// Creates instance of [EasyDialogsScope]
+  /// Creates an instance of [EasyDialogsScope]
   const EasyDialogsScope({
     required super.child,
     required this.controller,

@@ -3,6 +3,7 @@ import 'package:flutter_easy_dialogs/src/common/extensions/easy_dialog_position_
 import 'package:flutter_easy_dialogs/src/core/animations/easy_animation.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/easy_dialog_position.dart';
 
+/// Fade animation
 class EasyFadeAnimation extends EasyAnimation {
   final _tween = Tween<double>(begin: 0.0, end: 1.0);
   final EasyDialogPosition position;

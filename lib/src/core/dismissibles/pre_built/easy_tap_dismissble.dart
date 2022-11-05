@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/easy_dismissible.dart';
 
+/// Animated tap dismissible
 class EasyTapDismissible extends EasyDismissible {
   const EasyTapDismissible({
     required super.onDismissed,

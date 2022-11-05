@@ -2,16 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/helper/multiply_animation.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/widgets/fullscreen_blur.dart';
-import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs_exception.dart';
+import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs_error.dart';
 
+/// Core fullsceen animation
 class EasyFullScreenAnimation extends EasyAnimation {
+  /// Pre-built animation type of content appearence
   final EasyFullScreenContentAnimationType contentAnimationType;
+
+  /// Background pre-built animation type
   final EasyFullScreenBackgroungAnimationType backgroungAnimationType;
+
+  /// Custom animation of content appearence
   final IEasyAnimator? customContentAnimation;
+
+  /// Custom animation of backgroung
   final IEasyAnimator? customBackgroundAnimation;
+
+  /// Backgroung color
+  ///
+  /// Won't be used if [customBackgroundAnimation] was provided
   final Color? backgroundColor;
 
-  EasyFullScreenAnimation({
+  /// Creates an instance of [EasyFullScreenAnimation]
+  const EasyFullScreenAnimation({
     required this.backgroungAnimationType,
     required this.contentAnimationType,
     this.customBackgroundAnimation,

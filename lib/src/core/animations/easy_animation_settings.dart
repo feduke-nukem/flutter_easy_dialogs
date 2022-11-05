@@ -11,6 +11,7 @@ class EasyAnimationSettings {
   /// Animation's curve
   final Curve curve;
 
+  /// Creates an instance of [EasyAnimationSettings]
   const EasyAnimationSettings({
     required this.curve,
     required this.duration,

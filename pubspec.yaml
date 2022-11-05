@@ -1,7 +1,7 @@
 name: flutter_easy_dialogs
-description: A new Flutter package project.
+description: Easy service for showing dialogs inside your application.
 version: 0.0.1
-homepage:
+homepage: https://github.com/feduke-nukem/flutter_easy_dialogs
 
 environment:
   sdk: ">=2.17.6 <3.0.0"

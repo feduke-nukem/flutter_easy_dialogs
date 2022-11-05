@@ -3,9 +3,14 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/factory/positioned_animation_factory/positioned_animation_create_params.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_banner/easy_banner_show_params.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/i_easy_dismissible_factory.dart';
+import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/positioned_dismissible_factory.dart';
 
+/// [EasyBanner] factory
 class EasyBannerFactory implements IEasyDialogFactory {
+  /// Animation factory
   final IEasyAnimationFactory _animationFactory;
+
+  /// Dismissible factory
   final IEasyDismissibleFactory _dismissibleFactory;
 
   const EasyBannerFactory({
@@ -40,7 +45,7 @@ class EasyBannerFactory implements IEasyDialogFactory {
     }
 
     final dismissible = _dismissibleFactory.createDismissible(
-      DismissibleCreateParams(
+      PositionedDismissibleCreateParams(
         dismissibleType: params.dismissibleType,
         onDismissed: handleOnDismissed != null
             ? () {

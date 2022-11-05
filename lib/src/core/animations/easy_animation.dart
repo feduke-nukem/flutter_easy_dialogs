@@ -10,9 +10,9 @@ abstract class EasyAnimation implements IEasyAnimator {
 }
 
 /// Interface of class - Animator for EasyDialogs
-/// It's main purpose is to animate provided [Widget] child
+/// It's main purpose is to apply an animation to the provided [Widget] child
 abstract class IEasyAnimator {
-  /// Animate widget [child]
+  /// Animate [child] using [parent] animation
   Widget animate({
     required Animation<double> parent,
     required Widget child,

@@ -17,7 +17,7 @@ class FlutterEasyDialogs extends StatelessWidget {
   /// Child widget
   final Widget child;
 
-  /// Creates instance of [FlutterEasyDialogs]
+  /// Creates an instance of [FlutterEasyDialogs]
   const FlutterEasyDialogs({
     required this.child,
     this.customAgentBuilder,
@@ -25,6 +25,7 @@ class FlutterEasyDialogs extends StatelessWidget {
     super.key,
   });
 
+  /// Gets [EasyDialogsController] from provided [context]
   static EasyDialogsController of(
     BuildContext context,
   ) {

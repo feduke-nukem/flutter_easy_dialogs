@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/fullscreen_dialog_agent.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dart/positioned_dialog_agent.dart';
-import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_banner/easy_banner_hide_params.dart';
+import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dart/positioned_dialog_hide_params.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_banner/easy_banner_show_params.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_modal_banner/easy_modal_banner_show_params.dart';
 
@@ -17,7 +17,7 @@ class EasyDialogsController {
   /// Data of [FlutterEasyDialogsTheme]
   FlutterEasyDialogsThemeData? _theme;
 
-  /// Craetes instance of [EasyDialogsController]
+  /// Craetes an instance of [EasyDialogsController]
   EasyDialogsController({
     required PositionedDialogAgent bannerAgent,
     required FullScreenDialogAgent modalBannerAgent,
@@ -80,24 +80,27 @@ class EasyDialogsController {
     );
   }
 
+  /// Hide banner
   Future<void> hideBanner({
     required EasyDialogPosition position,
   }) async {
     await _bannerAgent.hide(
-      params: EasyBannerHideParams(
+      params: PositionedDialogHideParams(
         position: position,
       ),
     );
   }
 
+  /// Hide all positioned banners
   Future<void> hideAllBanners() async {
     await _bannerAgent.hide(
-      params: const EasyBannerHideParams(
+      params: const PositionedDialogHideParams(
         hideAll: true,
       ),
     );
   }
 
+  /// Show fullscreen modal banner
   Future<void> showModalBanner({
     required Widget content,
     Color? backgroundColor,
@@ -128,8 +131,10 @@ class EasyDialogsController {
     );
   }
 
+  /// Hide fullscreen modal banner
   Future<void> hideModalBanner() => _modalBannerAgent.hide();
 
+  /// Show custom dialog that belongs to a custom agent
   Future<void> showCustom({
     required String name,
     required AgentShowParams params,
@@ -144,9 +149,10 @@ class EasyDialogsController {
     await _customAgents![name]!.show(params: params);
   }
 
+  /// Hide custom dialog that belongs to a custom agent
   Future<void> hideCustom({
     required String name,
-    covariant AgentHideParams? params,
+    AgentHideParams? params,
   }) async {
     if (_customAgents == null) return;
     assert(
