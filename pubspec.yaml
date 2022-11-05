@@ -1,6 +1,6 @@
 name: flutter_easy_dialogs
-description: Easy service for showing dialogs inside your application.
-version: 0.0.1
+description: Easy, lightweight and flexible service for showing dialogs inside your Flutter application using BuildContext.
+version: 0.0.2
 homepage: https://github.com/feduke-nukem/flutter_easy_dialogs
 
 environment:
