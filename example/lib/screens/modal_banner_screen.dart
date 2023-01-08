@@ -9,7 +9,7 @@ class ModalBannerScreen extends StatefulWidget {
 }
 
 class _ModalBannerScreenState extends State<ModalBannerScreen> {
-  late final _easyDialogsController = FlutterEasyDialogs.of(context);
+  final _easyDialogsController = FlutterEasyDialogs.dialogsController;
 
   final _contentAnimationTypeDropDownItems =
       EasyFullScreenContentAnimationType.values
