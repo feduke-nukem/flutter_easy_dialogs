@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
 
 That's it. Now you are able to call show methods from ```EasyDialogController``` like so:
 ```dart
- FlutterEasyDialogs.of(context).showBanner(
+ FlutterEasyDialogs.dialogsController.showBanner(
       content: ElevatedButton(
         style: ElevatedButton.styleFrom(primary: Colors.red),
         onPressed: () {},
@@ -57,7 +57,7 @@ That's it. Now you are able to call show methods from ```EasyDialogController```
 Or
 
 ```dart
- FlutterEasyDialogs.of(context).showModalBanner(
+ FlutterEasyDialogs.dialogsController.showModalBanner(
    content: Container(
      height: 200.0,
      width: 200.0,
@@ -139,7 +139,7 @@ class MyApp extends StatelessWidget {
 Show dialog example:
 
 ```dart
- FlutterEasyDialogs.of(context).showBanner(
+ FlutterEasyDialogs.dialogsController.showBanner(
       onDismissed: () {},
       content: ElevatedButton(
         style: ElevatedButton.styleFrom(primary: Colors.red),

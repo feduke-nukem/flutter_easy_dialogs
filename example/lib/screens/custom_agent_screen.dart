@@ -13,7 +13,7 @@ class CustomAgentDialogsScreen extends StatefulWidget {
 }
 
 class _CustomAgentDialogsScreenState extends State<CustomAgentDialogsScreen> {
-  late final _easyDialogsController = FlutterEasyDialogs.of(context);
+  final _easyDialogsController = FlutterEasyDialogs.dialogsController;
 
   @override
   Widget build(BuildContext context) {

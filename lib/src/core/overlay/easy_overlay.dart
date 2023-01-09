@@ -8,11 +8,67 @@ import 'package:flutter_easy_dialogs/src/core/dialogs/easy_dialog_position.dart'
 import 'package:flutter_easy_dialogs/src/core/dialogs/factory/easy_banner_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/factory/easy_modal_banner_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/positioned_dismissible_factory.dart';
-import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialog_scope.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/flutter_easy_dialogs_theme.dart';
 import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 import 'package:flutter_easy_dialogs/src/utils/position_to_animation_converter/position_to_animation_converter.dart';
+
+// Service - helper for easy use different custom dialogs
+class FlutterEasyDialogs extends StatelessWidget {
+  /// Theme of [FlutterEasyDialogs]
+  final FlutterEasyDialogsThemeData? theme;
+
+  final CustomAgentBuilder? customAgentBuilder;
+
+  /// Child widget
+  final Widget child;
+
+  /// Creates an instance of [FlutterEasyDialogs]
+  const FlutterEasyDialogs({
+    required this.child,
+    this.customAgentBuilder,
+    this.theme,
+    super.key,
+  });
+
+  static final _key = GlobalKey<_EasyOverlayState>();
+
+  /// Gets [EasyDialogsController]
+  static EasyDialogsController get dialogsController =>
+      _key.currentState!._easyDialogsController;
+
+  /// For using in [MaterialApp.builder]
+  static const builder = _builder;
+
+  static TransitionBuilder _builder({
+    FlutterEasyDialogsThemeData? theme,
+    CustomAgentBuilder? customAgentBuilder,
+  }) {
+    return (context, child) => FlutterEasyDialogs(
+          theme: theme,
+          customAgentBuilder: customAgentBuilder,
+          child: child ?? const SizedBox.shrink(),
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FlutterEasyDialogsTheme(
+      data: theme ?? FlutterEasyDialogsThemeData.basic(),
+      child: Material(
+        child: EasyOverlay(
+          key: _key,
+          customAgentBuilder: customAgentBuilder,
+          initialEntries: [
+            EasyOverlayAppEntry(
+              builder: (context) => child,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 /// Function for providing custom agents
 typedef CustomAgentBuilder = Map<String, EasyDialogAgentBase> Function(
@@ -78,14 +134,6 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
     _easyDialogsController.updateTheme(theme);
 
     super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return EasyDialogsScope(
-      controller: _easyDialogsController,
-      child: super.build(context),
-    );
   }
 
   @override

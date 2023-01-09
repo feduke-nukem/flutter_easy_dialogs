@@ -10,7 +10,7 @@ class PositionedDialogsScreen extends StatefulWidget {
 }
 
 class _PositionedDialogsScreenState extends State<PositionedDialogsScreen> {
-  late final _easyDialogsController = FlutterEasyDialogs.of(context);
+  final _easyDialogsController = FlutterEasyDialogs.dialogsController;
   final _animationTypeDropDownItems = EasyPositionedAnimationType.values
       .map(
         (e) => DropdownMenuItem<EasyPositionedAnimationType>(
