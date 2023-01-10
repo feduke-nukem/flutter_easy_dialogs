@@ -7,7 +7,7 @@ Flutter overlay based service for easy usage of different kinds of 'dialogs'.
 
 * Different pre-built dialogs and animations
 * Flexible mechanism of integrating custom self-built dialogs and animations
-* Show dialogs in any place of the application via BuildContext
+* Show dialogs in any place of the application
 
 ## Install
 

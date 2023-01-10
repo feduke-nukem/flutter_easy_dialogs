@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent.dart/positioned_dialog_show_params.dart';
+import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent/positioned_dialog_show_params.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/easy_animation.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/types/easy_positioned_animation_type.dart';
 

@@ -1,3 +1,6 @@
+## 1.0.2
+
+* Removed typo in folder name. Updated readme
 ## 1.0.1
 
 * Updated readme
