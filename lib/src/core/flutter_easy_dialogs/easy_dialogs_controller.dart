@@ -65,6 +65,9 @@ class EasyDialogsController {
     bool autoHide = false,
     Duration? durationUntilHide,
     Color? backgroundColor,
+    double? borderRadius,
+    EdgeInsets? margin,
+    EdgeInsets? padding,
   }) async {
     await _bannerAgent.show(
       params: EasyBannerShowParams(
@@ -73,8 +76,12 @@ class EasyDialogsController {
         dismissibleType: dismissibleType,
         position: position,
         autoHide: autoHide,
+        padding: padding,
         durationUntilHide: durationUntilHide,
         content: content,
+        margin: margin,
+        backgroundColor: backgroundColor,
+        borderRaduius: borderRadius,
         theme: _theme!,
       ),
     );

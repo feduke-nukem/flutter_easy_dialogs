@@ -14,6 +14,14 @@ class EasyBannerShowParams extends PositionedDialogShowParams {
   /// Custom animation
   final IEasyAnimator? customAnimation;
 
+  /// Margin
+  final EdgeInsets? margin;
+
+  /// Border raduis
+  final double? borderRaduius;
+
+  final Color? backgroundColor;
+
   /// Creates an instance of [EasyBannerShowParams]
   const EasyBannerShowParams({
     required this.animationType,
@@ -24,6 +32,9 @@ class EasyBannerShowParams extends PositionedDialogShowParams {
     required super.theme,
     this.padding,
     this.customAnimation,
+    this.borderRaduius,
+    this.margin,
+    this.backgroundColor,
     super.onDismissed,
     super.durationUntilHide,
     super.animationSettings,

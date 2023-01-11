@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Fixed not specified showBanner params (padding, margin, backgroundColor, borderRadius)
+
 ## 1.0.2
 
 * Removed typo in folder name. Updated readme
