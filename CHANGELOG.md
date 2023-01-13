@@ -1,3 +1,7 @@
+## 1.0.4
+
+* Updated description
+
 ## 1.0.3
 
 * Fixed not specified showBanner params (padding, margin, backgroundColor, borderRadius)
