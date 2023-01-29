@@ -40,19 +40,12 @@ class EasyBannerFactory implements IEasyDialogFactory {
     required EasyBannerShowParams params,
     VoidCallback? handleOnDismissed,
   }) {
-    if (params.dismissibleType != EasyPositionedDismissibleType.none) {
-      assert(
-        params.onDismissed != null,
-        'params.onDismissed must be provided',
-      );
-    }
-
     final dismissible = _dismissibleFactory.createDismissible(
       PositionedDismissibleCreateParams(
         dismissibleType: params.dismissibleType,
         onDismissed: handleOnDismissed != null
             ? () {
-                params.onDismissed!();
+                params.onDismissed?.call();
                 handleOnDismissed();
               }
             : params.onDismissed!,

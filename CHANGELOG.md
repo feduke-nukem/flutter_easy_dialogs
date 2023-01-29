@@ -1,3 +1,7 @@
+## 1.0.5
+
+* Removed pontless assert for dismissible callback
+
 ## 1.0.4
 
 * Updated description
