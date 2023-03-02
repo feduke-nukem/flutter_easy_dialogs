@@ -21,9 +21,9 @@ class _ModalBannerScreenState extends State<ModalBannerScreen> {
           )
           .toList();
   final _backgroundAnimationTypeDropDownItems =
-      EasyFullScreenBackgroungAnimationType.values
+      EasyFullScreenBackgroundAnimationType.values
           .map(
-            (e) => DropdownMenuItem<EasyFullScreenBackgroungAnimationType>(
+            (e) => DropdownMenuItem<EasyFullScreenBackgroundAnimationType>(
               value: e,
               child: Text(e.name),
             ),
@@ -32,7 +32,7 @@ class _ModalBannerScreenState extends State<ModalBannerScreen> {
 
   var _selectedContentAnimationType = EasyFullScreenContentAnimationType.bounce;
   var _selectedBackgroundAnimationType =
-      EasyFullScreenBackgroungAnimationType.blur;
+      EasyFullScreenBackgroundAnimationType.blur;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class _ModalBannerScreenState extends State<ModalBannerScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text('Backgroung animation type'),
-                    DropdownButton<EasyFullScreenBackgroungAnimationType>(
+                    DropdownButton<EasyFullScreenBackgroundAnimationType>(
                       items: _backgroundAnimationTypeDropDownItems,
                       onChanged: (type) => setState(
                         () => _selectedBackgroundAnimationType = type!,
@@ -80,7 +80,7 @@ class _ModalBannerScreenState extends State<ModalBannerScreen> {
                 await _easyDialogsController.showModalBanner(
                   contentAnimationType: _selectedContentAnimationType,
                   onDismissed: _easyDialogsController.hideModalBanner,
-                  backgroungAnimationType: _selectedBackgroundAnimationType,
+                  backgroundAnimationType: _selectedBackgroundAnimationType,
                   backgroundColor: Colors.black,
                   content: Container(
                     height: 200.0,
@@ -100,7 +100,7 @@ class _ModalBannerScreenState extends State<ModalBannerScreen> {
                 await _easyDialogsController.showModalBanner(
                   contentAnimationType: _selectedContentAnimationType,
                   onDismissed: _easyDialogsController.hideModalBanner,
-                  backgroungAnimationType: _selectedBackgroundAnimationType,
+                  backgroundAnimationType: _selectedBackgroundAnimationType,
                   customBackgroundAnimation: CustomAnimator(),
                   backgroundColor: Colors.black,
                   content: Container(

@@ -81,7 +81,7 @@ class EasyDialogsController {
         content: content,
         margin: margin,
         backgroundColor: backgroundColor,
-        borderRaduius: borderRadius,
+        borderRadius: borderRadius,
         theme: _theme!,
       ),
     );
@@ -113,8 +113,8 @@ class EasyDialogsController {
     Color? backgroundColor,
     EasyFullScreenContentAnimationType contentAnimationType =
         EasyFullScreenContentAnimationType.bounce,
-    EasyFullScreenBackgroungAnimationType backgroungAnimationType =
-        EasyFullScreenBackgroungAnimationType.blur,
+    EasyFullScreenBackgroundAnimationType backgroundAnimationType =
+        EasyFullScreenBackgroundAnimationType.blur,
     BoxDecoration? decoration,
     EasyDismissCallback? onDismissed,
     EdgeInsets? padding,
@@ -127,12 +127,13 @@ class EasyDialogsController {
         theme: _theme!,
         backgroundColor: backgroundColor,
         onDismissed: onDismissed,
+        decoration: decoration,
         content: content,
-        backgroungAnimationType: backgroungAnimationType,
+        backgroundAnimationType: backgroundAnimationType,
         contentAnimationType: contentAnimationType,
         padding: padding,
         margin: margin,
-        customBackgroungAnimation: customBackgroundAnimation,
+        customBackgroundAnimation: customBackgroundAnimation,
         customContentAnimation: customContentAnimation,
       ),
     );

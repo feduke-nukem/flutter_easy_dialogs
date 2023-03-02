@@ -27,7 +27,7 @@ class EasyBannerFactory implements IEasyDialogFactory {
       position: params.position,
       padding: params.padding,
       margin: params.margin,
-      borderRadius: params.borderRaduius,
+      borderRadius: params.borderRadius,
       backgroundColor: params.backgroundColor,
       child: params.content,
     );

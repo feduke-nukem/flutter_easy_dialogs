@@ -12,9 +12,9 @@ class EasyModalBannerFactory extends IEasyDialogFactory {
     final animation = EasyFullScreenAnimation(
       curve: params.animationSettings?.curve,
       contentAnimationType: params.contentAnimationType,
-      backgroungAnimationType: params.backgroungAnimationType,
+      backgroundAnimationType: params.backgroundAnimationType,
       backgroundColor: params.backgroundColor,
-      customBackgroundAnimation: params.customBackgroungAnimation,
+      customBackgroundAnimation: params.customBackgroundAnimation,
       customContentAnimation: params.customContentAnimation,
     );
 

@@ -1,5 +1,5 @@
 /// Fullscreen dialog background animation types
-enum EasyFullScreenBackgroungAnimationType {
+enum EasyFullScreenBackgroundAnimationType {
   /// Blur
   blur,
 

@@ -1,6 +1,10 @@
+## 1.0.6
+
+* Fixed modal banner decoration and some typos
+
 ## 1.0.5
 
-* Removed pontless assert for dismissible callback
+* Removed pointless assert for dismissible callback
 
 ## 1.0.4
 

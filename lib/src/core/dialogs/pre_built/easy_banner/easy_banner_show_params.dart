@@ -18,7 +18,7 @@ class EasyBannerShowParams extends PositionedDialogShowParams {
   final EdgeInsets? margin;
 
   /// Border raduis
-  final double? borderRaduius;
+  final double? borderRadius;
 
   final Color? backgroundColor;
 
@@ -32,7 +32,7 @@ class EasyBannerShowParams extends PositionedDialogShowParams {
     required super.theme,
     this.padding,
     this.customAnimation,
-    this.borderRaduius,
+    this.borderRadius,
     this.margin,
     this.backgroundColor,
     super.onDismissed,

@@ -8,10 +8,10 @@ class FullScreenShowParams extends AgentShowParams {
   final IEasyAnimator? customContentAnimation;
 
   /// Custom animation of background of the dialog
-  final IEasyAnimator? customBackgroungAnimation;
+  final IEasyAnimator? customBackgroundAnimation;
 
   /// Background color
-  /// Is not used, when [customBackgroungAnimation] is provided
+  /// Is not used, when [customBackgroundAnimation] is provided
   final Color? backgroundColor;
 
   /// Callback for dismissing the dialog
@@ -19,7 +19,7 @@ class FullScreenShowParams extends AgentShowParams {
   final EasyDismissCallback? onDismissed;
 
   /// Type of background pre-built animation
-  final EasyFullScreenBackgroungAnimationType backgroungAnimationType;
+  final EasyFullScreenBackgroundAnimationType backgroundAnimationType;
 
   /// Type of appearence pre-built animation of content inside the dialog
   final EasyFullScreenContentAnimationType contentAnimationType;
@@ -28,11 +28,11 @@ class FullScreenShowParams extends AgentShowParams {
   const FullScreenShowParams({
     required super.theme,
     required super.content,
-    required this.backgroungAnimationType,
+    required this.backgroundAnimationType,
     required this.contentAnimationType,
     this.onDismissed,
     this.backgroundColor,
     this.customContentAnimation,
-    this.customBackgroungAnimation,
+    this.customBackgroundAnimation,
   });
 }

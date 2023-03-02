@@ -16,14 +16,14 @@ class EasyModalBannerShowParams extends FullScreenShowParams {
   const EasyModalBannerShowParams({
     required super.theme,
     required super.content,
-    required super.backgroungAnimationType,
+    required super.backgroundAnimationType,
     required super.contentAnimationType,
     super.onDismissed,
     this.padding,
     this.margin,
     this.decoration,
     super.backgroundColor,
-    super.customBackgroungAnimation,
+    super.customBackgroundAnimation,
     super.customContentAnimation,
   });
 }

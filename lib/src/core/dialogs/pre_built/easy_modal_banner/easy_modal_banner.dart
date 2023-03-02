@@ -36,7 +36,7 @@ class EasyModalBanner extends StatelessWidget {
 
     return Center(
       child: Padding(
-        padding: theme.easyModalBannerTheme.margin,
+        padding: margin ?? theme.easyModalBannerTheme.margin,
         child: DecoratedBox(
           decoration: boxDecoration?.copyWith(
                 color: boxDecoration?.color?.withOpacity(0.3),

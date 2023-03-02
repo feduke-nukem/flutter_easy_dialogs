@@ -10,7 +10,7 @@ class EasyFullScreenAnimation extends EasyAnimation {
   final EasyFullScreenContentAnimationType contentAnimationType;
 
   /// Background pre-built animation type
-  final EasyFullScreenBackgroungAnimationType backgroungAnimationType;
+  final EasyFullScreenBackgroundAnimationType backgroundAnimationType;
 
   /// Custom animation of content appearence
   final IEasyAnimator? customContentAnimation;
@@ -25,7 +25,7 @@ class EasyFullScreenAnimation extends EasyAnimation {
 
   /// Creates an instance of [EasyFullScreenAnimation]
   const EasyFullScreenAnimation({
-    required this.backgroungAnimationType,
+    required this.backgroundAnimationType,
     required this.contentAnimationType,
     this.customBackgroundAnimation,
     this.customContentAnimation,
@@ -51,11 +51,11 @@ class EasyFullScreenAnimation extends EasyAnimation {
     required Animation<double> parent,
     required Widget child,
   }) {
-    switch (backgroungAnimationType) {
-      case EasyFullScreenBackgroungAnimationType.blur:
+    switch (backgroundAnimationType) {
+      case EasyFullScreenBackgroundAnimationType.blur:
         return _animateBlurBackground(content: child, parent: parent);
 
-      case EasyFullScreenBackgroungAnimationType.fade:
+      case EasyFullScreenBackgroundAnimationType.fade:
         return AnimatedBuilder(
           animation: parent,
           builder: (_, child) => FullScreenBlur(
@@ -69,13 +69,13 @@ class EasyFullScreenAnimation extends EasyAnimation {
           ),
           child: child,
         );
-      case EasyFullScreenBackgroungAnimationType.none:
+      case EasyFullScreenBackgroundAnimationType.none:
         return child;
 
       default:
         Error.throwWithStackTrace(
           FlutterEasyDialogsError(
-            message: 'no case for $backgroungAnimationType',
+            message: 'no case for $backgroundAnimationType',
           ),
           StackTrace.current,
         );
