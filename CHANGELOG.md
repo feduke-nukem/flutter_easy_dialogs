@@ -1,3 +1,6 @@
+## 1.0.7
+
+* Fixed case, when overlay entry was not removed
 ## 1.0.6
 
 * Fixed modal banner decoration and some typos
