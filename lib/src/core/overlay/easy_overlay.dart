@@ -175,11 +175,8 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
 
   @override
   void removeFullScreenDialog() {
-    // if (_currentFullScreenEntry!.mounted) {
     _currentFullScreenEntry!.remove();
-    // _currentFullScreenEntry!.markNeedsBuild();
     _currentFullScreenEntry = null;
-    // }
   }
 
   @override
