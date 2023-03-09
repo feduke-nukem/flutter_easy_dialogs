@@ -37,7 +37,7 @@ class FullScreenBlur extends StatelessWidget {
               sigmaY: blur,
             ),
             child: ColoredBox(
-              color: (backgorundColor ?? Colors.grey).withOpacity(0.5),
+              color: backgorundColor ?? Colors.grey.withOpacity(0.5),
               child: const SizedBox(
                 height: double.infinity,
                 width: double.infinity,
