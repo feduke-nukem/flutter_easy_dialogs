@@ -6,7 +6,8 @@ import 'package:flutter_easy_dialogs/src/core/agents/fullscreen_dialog_agent/ful
 
 /// ### Agent for displaying fullscreen dialogs
 /// Only one fullscreen dialog can be presented at the same time
-class FullScreenDialogAgent extends EasyDialogAgentBase {
+class FullScreenDialogAgent
+    extends EasyDialogAgentBase<FullScreenShowParams, FullScreenHideParams> {
   /// factory
   final IEasyDialogFactory _dialogFactory;
 

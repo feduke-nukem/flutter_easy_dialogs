@@ -9,7 +9,8 @@ import 'positioned_dialog_show_params.dart';
 /// same time
 ///
 /// It's developer's responsibility to properly manage positioned dialogs
-class PositionedDialogAgent extends EasyDialogAgentBase {
+class PositionedDialogAgent extends EasyDialogAgentBase<
+    PositionedDialogShowParams, PositionedDialogHideParams> {
   /// [Map] of currently presented dialogs
   /// Contains position of the dialog and associated [AnimationController]
   final _currentDialogs = <EasyDialogPosition, AnimationController>{};

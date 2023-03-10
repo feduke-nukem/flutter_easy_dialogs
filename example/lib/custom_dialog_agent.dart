@@ -3,7 +3,8 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
 int? _customDialogId;
 
-class CustomDialogAgent extends EasyDialogAgentBase {
+class CustomDialogAgent
+    extends EasyDialogAgentBase<CustomAgentShowParams, AgentHideParams?> {
   CustomDialogAgent({required super.overlayController});
 
   @override

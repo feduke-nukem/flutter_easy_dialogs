@@ -142,27 +142,11 @@ class EasyDialogsController {
   /// Hide full screen modal banner
   Future<void> hideModalBanner() => _modalBannerAgent.hide();
 
-  /// Show custom dialog that belongs to a custom agent
-  Future<void> showCustom<T extends EasyDialogAgentBase>({
-    required AgentShowParams params,
-  }) async {
+  T useCustom<T extends EasyDialogAgentBase>() {
     assert(
       _customAgents.containsKey(T),
       'You should register agent named $T before calling it',
     );
-
-    await _customAgents[T]!.show(params: params);
-  }
-
-  /// Hide custom dialog that belongs to a custom agent
-  Future<void> hideCustom<T extends EasyDialogAgentBase>({
-    AgentHideParams? params,
-  }) async {
-    assert(
-      _customAgents.containsKey(T),
-      'You should register agent named $T before calling it',
-    );
-
-    await _customAgents[T]!.hide(params: params);
+    return _customAgents[T]! as T;
   }
 }

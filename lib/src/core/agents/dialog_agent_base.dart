@@ -4,7 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
 /// Base class for all dialog agents
-abstract class EasyDialogAgentBase {
+abstract class EasyDialogAgentBase<S, H> {
   /// [IEasyOverlayController] is used for providing [Ticker]
   /// for creating animations and inserting dialogs into [Overlay]
   @protected
@@ -19,13 +19,13 @@ abstract class EasyDialogAgentBase {
   /// An abstract show method of dialog agent with covariant [params]
   /// This is the core method for displaying dialogs
   Future<void> show({
-    required covariant AgentShowParams params,
+    required S params,
   });
 
   /// An abstract hide method of dialog agent with covariant [params]
   /// This is the core method for removing dialogs from the screen
   Future<void> hide({
-    required covariant AgentHideParams? params,
+    required H params,
   });
 }
 

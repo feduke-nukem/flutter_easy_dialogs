@@ -26,20 +26,23 @@ class _CustomAgentDialogsScreenState extends State<CustomAgentDialogsScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
-              onPressed: () =>
-                  _easyDialogsController.showCustom<CustomDialogAgent>(
-                params: CustomAgentShowParams(
-                  theme: FlutterEasyDialogsTheme.of(context),
-                  content: const Text('Custom'),
-                  color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                      .withOpacity(1.0),
-                ),
-              ),
+              onPressed: () => _easyDialogsController
+                  .useCustom<CustomDialogAgent>()
+                  .show(
+                    params: CustomAgentShowParams(
+                      theme: FlutterEasyDialogsTheme.of(context),
+                      content: const Text('Custom'),
+                      color:
+                          Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                              .withOpacity(1.0),
+                    ),
+                  ),
               child: const Text('Show from custom agent'),
             ),
             ElevatedButton(
-              onPressed: () =>
-                  _easyDialogsController.hideCustom<CustomDialogAgent>(),
+              onPressed: () => _easyDialogsController
+                  .useCustom<CustomDialogAgent>()
+                  .hide(params: null),
               child: const Text('Hide from custom agent'),
             ),
           ],
