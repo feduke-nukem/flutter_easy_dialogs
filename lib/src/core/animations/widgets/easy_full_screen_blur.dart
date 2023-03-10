@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -30,19 +29,19 @@ class EasyFullScreenBlur extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Opacity(
-          opacity: opacity,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(
-              sigmaX: blur,
-              sigmaY: blur,
-            ),
-            child: ColoredBox(
-              color: backgroundColor ?? Colors.grey.withOpacity(0.5),
-              child: const SizedBox(
-                height: double.infinity,
-                width: double.infinity,
+        Positioned.fill(
+          child: Opacity(
+            opacity: opacity,
+            child: BackdropFilter(
+              filter: ImageFilter.blur(
+                sigmaX: blur,
+                sigmaY: blur,
               ),
+              child: backgroundColor != null
+                  ? ColoredBox(
+                      color: backgroundColor!,
+                    )
+                  : null,
             ),
           ),
         ),

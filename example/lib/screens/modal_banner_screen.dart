@@ -81,7 +81,7 @@ class _ModalBannerScreenState extends State<ModalBannerScreen> {
                   contentAnimationType: _selectedContentAnimationType,
                   onDismissed: _easyDialogsController.hideModalBanner,
                   backgroundAnimationType: _selectedBackgroundAnimationType,
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.black.withOpacity(0.5),
                   content: Container(
                     height: 200.0,
                     width: 200.0,
