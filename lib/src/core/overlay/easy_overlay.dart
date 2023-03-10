@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/dialog_agent_base.dart';
@@ -269,7 +268,9 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
 
   @override
   void removeCustomDialog(int id) {
-    final entry = _currentCustomEntries.elementAtOrNull(id);
+    final entry = ((id < _currentCustomEntries.length)
+        ? _currentCustomEntries[id]
+        : null);
 
     if (entry == null) return;
 
