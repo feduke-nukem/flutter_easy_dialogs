@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/helper/multiply_animation.dart';
-import 'package:flutter_easy_dialogs/src/core/animations/widgets/fullscreen_blur.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs_error.dart';
 
 /// Core fullsceen animation
@@ -58,8 +57,8 @@ class EasyFullScreenAnimation extends EasyAnimation {
       case EasyFullScreenBackgroundAnimationType.fade:
         return AnimatedBuilder(
           animation: parent,
-          builder: (_, child) => FullScreenBlur(
-            backgorundColor: backgroundColor ?? Colors.black,
+          builder: (_, child) => EasyFullScreenBlur(
+            backgroundColor: backgroundColor,
             blur: 0.5,
             opacity: CurvedAnimation(
               curve: Curves.easeInOut,
@@ -132,8 +131,8 @@ class EasyFullScreenAnimation extends EasyAnimation {
 
     return AnimatedBuilder(
       animation: parent,
-      builder: (_, child) => FullScreenBlur(
-        backgorundColor: backgroundColor,
+      builder: (_, child) => EasyFullScreenBlur(
+        backgroundColor: backgroundColor,
         opacity: fadeAnimation.value,
         blur: (curve != null
                 ? parent.drive(

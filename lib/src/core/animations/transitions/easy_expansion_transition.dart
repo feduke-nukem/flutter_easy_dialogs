@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 /// Expansion transition
-class ExpansionTransition extends AnimatedWidget {
+class EasyExpansionTransition extends AnimatedWidget {
   /// Child
   final Widget child;
 
-  /// Creates an instance of [ExpansionTransition]
-  const ExpansionTransition({
+  /// Creates an instance of [EasyExpansionTransition]
+  const EasyExpansionTransition({
     required this.child,
     required Animation<double> expansion,
     super.key,

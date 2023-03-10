@@ -1,9 +1,10 @@
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-/// Fullscreen blur widget
-class FullScreenBlur extends StatelessWidget {
+/// Full screen blur widget
+class EasyFullScreenBlur extends StatelessWidget {
   /// Amount of blur applied to the background
   final double blur;
 
@@ -14,14 +15,14 @@ class FullScreenBlur extends StatelessWidget {
   final Widget child;
 
   /// Background color
-  final Color? backgorundColor;
+  final Color? backgroundColor;
 
-  /// Creates an instance of [FullScreenBlur]
-  const FullScreenBlur({
+  /// Creates an instance of [EasyFullScreenBlur]
+  const EasyFullScreenBlur({
     required this.blur,
     required this.opacity,
     required this.child,
-    this.backgorundColor,
+    this.backgroundColor,
     super.key,
   });
 
@@ -37,7 +38,7 @@ class FullScreenBlur extends StatelessWidget {
               sigmaY: blur,
             ),
             child: ColoredBox(
-              color: backgorundColor ?? Colors.grey.withOpacity(0.5),
+              color: backgroundColor ?? Colors.grey.withOpacity(0.5),
               child: const SizedBox(
                 height: double.infinity,
                 width: double.infinity,

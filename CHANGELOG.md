@@ -1,3 +1,10 @@
+## 1.0.8
+
+* Fixed typos
+* Removed auto opacity apply to provided color (FullScreenBlur)
+* FullScreen renamed to EasyFullScreen and is public now
+* Transitions are public now
+
 ## 1.0.7
 
 * Fixed case, when overlay entry was not removed

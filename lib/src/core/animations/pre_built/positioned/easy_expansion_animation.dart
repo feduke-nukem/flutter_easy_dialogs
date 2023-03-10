@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/common/extensions/easy_dialog_position_x.dart';
-import 'package:flutter_easy_dialogs/src/core/animations/transitions/expansion_transition.dart';
+import 'package:flutter_easy_dialogs/src/core/animations/transitions/easy_expansion_transition.dart';
 
 /// Expansion animation
 class EasyExpansionAnimation extends EasyAnimation {
@@ -26,7 +26,7 @@ class EasyExpansionAnimation extends EasyAnimation {
   }) {
     return Align(
       alignment: position.toAlignment(),
-      child: ExpansionTransition(
+      child: EasyExpansionTransition(
         expansion: curve != null
             ? parent.drive(
                 _tween.chain(
