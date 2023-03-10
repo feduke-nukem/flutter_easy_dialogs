@@ -12,16 +12,16 @@ import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_modal_banne
 class EasyDialogsController {
   final PositionedDialogAgent _bannerAgent;
   final FullScreenDialogAgent _modalBannerAgent;
-  final Map<String, EasyDialogAgentBase>? _customAgents;
+  final Map<Type, EasyDialogAgentBase> _customAgents;
 
   /// Data of [FlutterEasyDialogsTheme]
   FlutterEasyDialogsThemeData? _theme;
 
-  /// Craetes an instance of [EasyDialogsController]
+  /// Creates an instance of [EasyDialogsController]
   EasyDialogsController({
     required PositionedDialogAgent bannerAgent,
     required FullScreenDialogAgent modalBannerAgent,
-    Map<String, EasyDialogAgentBase>? customAgents,
+    required Map<Type, EasyDialogAgentBase> customAgents,
   })  : _bannerAgent = bannerAgent,
         _modalBannerAgent = modalBannerAgent,
         _customAgents = customAgents;
@@ -107,7 +107,7 @@ class EasyDialogsController {
     );
   }
 
-  /// Show fullscreen modal banner
+  /// Show full screen modal banner
   Future<void> showModalBanner({
     required Widget content,
     Color? backgroundColor,
@@ -139,35 +139,30 @@ class EasyDialogsController {
     );
   }
 
-  /// Hide fullscreen modal banner
+  /// Hide full screen modal banner
   Future<void> hideModalBanner() => _modalBannerAgent.hide();
 
   /// Show custom dialog that belongs to a custom agent
-  Future<void> showCustom({
-    required String name,
+  Future<void> showCustom<T extends EasyDialogAgentBase>({
     required AgentShowParams params,
   }) async {
-    if (_customAgents == null) return;
-
     assert(
-      _customAgents!.containsKey(name),
-      'You should register agent named $name before calling it',
+      _customAgents.containsKey(T),
+      'You should register agent named $T before calling it',
     );
 
-    await _customAgents![name]!.show(params: params);
+    await _customAgents[T]!.show(params: params);
   }
 
   /// Hide custom dialog that belongs to a custom agent
-  Future<void> hideCustom({
-    required String name,
+  Future<void> hideCustom<T extends EasyDialogAgentBase>({
     AgentHideParams? params,
   }) async {
-    if (_customAgents == null) return;
     assert(
-      _customAgents!.containsKey(name),
-      'You should register agent named $name before calling it',
+      _customAgents.containsKey(T),
+      'You should register agent named $T before calling it',
     );
 
-    await _customAgents![name]!.hide(params: params);
+    await _customAgents[T]!.hide(params: params);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/agents/dialog_agent_base.dart';
@@ -71,7 +72,7 @@ class FlutterEasyDialogs extends StatelessWidget {
 }
 
 /// Function for providing custom agents
-typedef CustomAgentBuilder = Map<String, EasyDialogAgentBase> Function(
+typedef CustomAgentBuilder = List<EasyDialogAgentBase> Function(
   IEasyOverlayController overlayController,
 );
 
@@ -94,7 +95,7 @@ class EasyOverlay extends Overlay {
 
 class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
   final _currentPositionedEntries = <EasyDialogPosition, OverlayEntry>{};
-  final _currentCustomEntries = <String, OverlayEntry>{};
+  final _currentCustomEntries = <OverlayEntry>[];
 
   OverlayEntry? _currentFullScreenEntry;
   OverlayEntry? _appEntry;
@@ -230,33 +231,49 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
       overlayController: this,
       dialogFactory: modalBannerFactory,
     );
-    final customAgents = (widget as EasyOverlay).customAgentBuilder?.call(this);
+    final customAgentsRaw =
+        (widget as EasyOverlay).customAgentBuilder?.call(this);
+
+    final customAgents = <EasyDialogAgentBase>[];
+
+    if (customAgentsRaw != null) {
+      for (var customAgent in customAgentsRaw) {
+        assert(
+          !customAgents.any(
+            (agent) => agent.runtimeType == customAgent.runtimeType,
+          ),
+          'no duplicate type agents should be provided',
+        );
+        customAgents.add(customAgent);
+      }
+    }
 
     _easyDialogsController = EasyDialogsController(
       bannerAgent: bannerAgent,
       modalBannerAgent: modalBannerAgent,
-      customAgents: customAgents,
+      customAgents: Map.fromIterable(
+        customAgents,
+        key: (customAgent) => customAgent.runtimeType,
+      ),
     );
   }
 
   @override
-  void insertCustomDialog({required String name, required Widget dialog}) {
-    assert(
-      !_currentCustomEntries.containsKey(name),
-      'custom dialog with such $name already exists',
-    );
+  int insertCustomDialog(Widget dialog) {
     final entry = OverlayEntry(builder: (_) => dialog);
-    _currentCustomEntries[name] = entry;
-
+    _currentCustomEntries.add(entry);
     insert(entry);
+
+    return _currentCustomEntries.indexOf(entry);
   }
 
   @override
-  void removeCustomDialog({required String name}) {
-    final entry = _currentCustomEntries.remove(name);
+  void removeCustomDialog(int id) {
+    final entry = _currentCustomEntries.elementAtOrNull(id);
 
-    if (entry == null || !entry.mounted) return;
+    if (entry == null) return;
 
+    _currentCustomEntries.removeAt(id);
     entry.remove();
   }
 }
@@ -276,22 +293,19 @@ abstract class IEasyOverlayController extends TickerProvider {
     required EasyDialogPosition position,
   });
 
-  /// Insert fullscreen dialog into overlay
+  /// Insert full screen dialog into overlay
   void insertFullScreenDialog({
     required Widget dialog,
   });
 
-  /// Remove fullscreen dialog into overlay
+  /// Remove full screen dialog into overlay
   void removeFullScreenDialog();
 
-  /// Insert custom dialog using [name]
-  void insertCustomDialog({
-    required String name,
-    required Widget dialog,
-  });
+  /// Insert custom dialog
+  ///
+  /// returns id of inserted [dialog]
+  int insertCustomDialog(Widget dialog);
 
-  /// Remove custom dialog using [name]
-  void removeCustomDialog({
-    required String name,
-  });
+  /// Remove custom dialog using [id]
+  void removeCustomDialog(int id);
 }

@@ -4,6 +4,7 @@
 * Removed auto opacity apply to provided color (FullScreenBlur)
 * FullScreen renamed to EasyFullScreen and is public now
 * Transitions are public now
+* BREAKING: Reworked `CustomAgents` API
 
 ## 1.0.7
 

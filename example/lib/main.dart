@@ -22,10 +22,8 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         final builder = FlutterEasyDialogs.builder(
           /// Provide custom dialog agent
-          customAgentBuilder: (overlayController) => {
-            customAgentName:
-                CustomDialogAgent(overlayController: overlayController)
-          },
+          customAgentBuilder: (overlayController) =>
+              [CustomDialogAgent(overlayController: overlayController)],
         );
 
         return builder(context, child);

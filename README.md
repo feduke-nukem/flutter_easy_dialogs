@@ -73,22 +73,21 @@ Or
 Also you can provide your own custom dialog agent.
 
 ```dart
-const customAgentName = 'customDialogAgent';
-const customDialogName = 'customDialog';
+
+int? _customDialogId;
 
 class CustomDialogAgent extends EasyDialogAgentBase {
   CustomDialogAgent({required super.overlayController});
 
   @override
   Future<void> hide({AgentHideParams? params}) async {
-    super.overlayController.removeCustomDialog(name: customDialogName);
+    super.overlayController.removeCustomDialog(_customDialogId!);
   }
 
   @override
   Future<void> show({required CustomAgentShowParams params}) async {
-    super.overlayController.insertCustomDialog(
-          name: customDialogName,
-          dialog: Align(
+    _customDialogId = super.overlayController.insertCustomDialog(
+          Align(
             alignment: Alignment.bottomCenter,
             child: Container(
               height: 200.0,
@@ -119,11 +118,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(  
       builder: (context, child) {
-        final builder = FlutterEasyDialogs.builder( 
-          customAgentBuilder: (overlayController) => {
-            customAgentName:
-                CustomDialogAgent(overlayController: overlayController)
-          },
+        final builder = FlutterEasyDialogs.builder(
+          /// Provide custom dialog agent
+          customAgentBuilder: (overlayController) =>
+              [CustomDialogAgent(overlayController: overlayController)],
         );
 
         return builder(context, child);
