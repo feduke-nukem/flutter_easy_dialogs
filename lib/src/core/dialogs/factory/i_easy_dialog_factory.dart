@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/dialog_agent_base.dart';
-import 'package:flutter_easy_dialogs/src/core/animations/easy_animation.dart';
-import 'package:flutter_easy_dialogs/src/core/dismissibles/easy_dismissible.dart';
+import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
 /// Interface of Abstract Factory for dialogs
 abstract class IEasyDialogFactory {
-  /// Create dialog using [AgentShowParams]
+  /// Create dialog using [ManagerShowParamsBase]
   Widget createDialog({
-    required covariant AgentShowParams params,
+    required covariant ManagerShowParamsBase params,
   });
 
-  /// Create dismissible using [AgentShowParams]
+  /// Create dismissible using [ManagerShowParamsBase]
   IEasyDismissor createDismissible({
-    required covariant AgentShowParams params,
+    required covariant ManagerShowParamsBase params,
     VoidCallback? handleOnDismissed,
   });
 
-  /// Create animation using [AgentShowParams]
+  /// Create animation using [ManagerShowParamsBase]
   IEasyAnimator createAnimation({
-    required covariant AgentShowParams params,
+    required covariant ManagerShowParamsBase params,
   });
 }

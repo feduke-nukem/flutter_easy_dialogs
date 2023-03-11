@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent/positioned_dialog_hide_params.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/positioned_dialog_manager/positioned_dialog_hide_params.dart';
 
 import 'positioned_dialog_show_params.dart';
 
-/// ### Agent for showing positioned dialog
+/// ### Manager for showing positioned dialog
 /// Only single dialog of concrete [EasyDialogPosition] can be presented at the
 /// same time
 ///
 /// It's developer's responsibility to properly manage positioned dialogs
-class PositionedDialogAgent extends EasyDialogAgentBase<
+class PositionedDialogManager extends EasyDialogManagerBase<
     PositionedDialogShowParams, PositionedDialogHideParams> {
   /// [Map] of currently presented dialogs
   /// Contains position of the dialog and associated [AnimationController]
@@ -18,16 +18,14 @@ class PositionedDialogAgent extends EasyDialogAgentBase<
   /// Factory
   final IEasyDialogFactory _dialogFactory;
 
-  /// Creates an instance of [PositionedDialogAgent]
-  PositionedDialogAgent({
+  /// Creates an instance of [PositionedDialogManager]
+  PositionedDialogManager({
     required super.overlayController,
     required IEasyDialogFactory dialogFactory,
   }) : _dialogFactory = dialogFactory;
 
   @override
-  Future<void> hide({
-    required PositionedDialogHideParams params,
-  }) async {
+  Future<void> hide({required PositionedDialogHideParams params}) async {
     if (params.hideAll && _currentDialogs.isNotEmpty) {
       final tasks = _currentDialogs.entries.map<Future<void>>(
         (e) => _hide(
@@ -56,9 +54,7 @@ class PositionedDialogAgent extends EasyDialogAgentBase<
   }
 
   @override
-  Future<void> show({
-    required PositionedDialogShowParams params,
-  }) async {
+  Future<void> show({required PositionedDialogShowParams params}) async {
     final existingDialogAnimationController = _getAnimationControllerOfPosition(
       params.position,
     );

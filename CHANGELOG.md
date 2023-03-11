@@ -2,6 +2,8 @@
 
 * Fixed typos
 * Refactored project structure
+* `Agents` renamed to `Managers`
+* Added `BlockAndroidBackButtonMixin` and `SingleAutoDisposalControllerMixin`
 
 ## 1.0.8
 

@@ -1,9 +1,10 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/full_screen_dialog_agent/full_screen_dialog_agent.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/easy_dialog_manager_base.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/full_screen_dialog_manager/full_screen_dialog_manager.dart';
 
-/// Show params for [FullScreenDialogAgent]
-class FullScreenShowParams extends AgentShowParams {
+/// Show params for [FullScreenDialogManager]
+class FullScreenShowParams extends ManagerShowParamsBase {
   /// Custom animation of presented content inside the dialog
   final IEasyAnimator? customContentAnimation;
 

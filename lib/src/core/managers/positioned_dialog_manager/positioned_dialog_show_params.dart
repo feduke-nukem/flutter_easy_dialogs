@@ -1,8 +1,9 @@
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent/positioned_dialog_agent.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/easy_dialog_manager_base.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/positioned_dialog_manager/positioned_dialog_manager.dart';
 
-/// Show params of [PositionedDialogAgent]
-class PositionedDialogShowParams extends AgentShowParams {
+/// Show params of [PositionedDialogManager]
+class PositionedDialogShowParams extends ManagerShowParamsBase {
   /// Position where the dialog will be shown
   final EasyDialogPosition position;
 

@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:example/custom_dialog_agent.dart';
+import 'package:example/custom_dialog_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
@@ -27,9 +27,9 @@ class _CustomAgentDialogsScreenState extends State<CustomAgentDialogsScreen> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () => _easyDialogsController
-                  .useCustom<CustomDialogAgent>()
+                  .useCustom<CustomDialogManager>()
                   .show(
-                    params: CustomAgentShowParams(
+                    params: CustomManagerShowParams(
                       theme: FlutterEasyDialogsTheme.of(context),
                       content: const Text('Custom'),
                       color:
@@ -41,8 +41,8 @@ class _CustomAgentDialogsScreenState extends State<CustomAgentDialogsScreen> {
             ),
             ElevatedButton(
               onPressed: () => _easyDialogsController
-                  .useCustom<CustomDialogAgent>()
-                  .hide(params: null),
+                  .useCustom<CustomDialogManager>()
+                  .hide(),
               child: const Text('Hide from custom agent'),
             ),
           ],

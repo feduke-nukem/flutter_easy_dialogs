@@ -1,8 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/dialog_agent_base.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/full_screen_dialog_agent/full_screen_dialog_agent.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent/positioned_dialog_agent.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/positioned/factory/positioned_animation_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/easy_banner/easy_banner_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/easy_dialog_position.dart';
@@ -10,6 +7,9 @@ import 'package:flutter_easy_dialogs/src/core/dialogs/easy_modal_banner/easy_mod
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/positioned_dismissible_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/flutter_easy_dialogs_theme.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/easy_dialog_manager_base.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/full_screen_dialog_manager/full_screen_dialog_manager.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/positioned_dialog_manager/positioned_dialog_manager.dart';
 import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 import 'package:flutter_easy_dialogs/src/util/position_to_animation_converter/position_to_animation_converter.dart';
 
@@ -18,7 +18,7 @@ class FlutterEasyDialogs extends StatelessWidget {
   /// Theme of [FlutterEasyDialogs]
   final FlutterEasyDialogsThemeData? theme;
 
-  final CustomAgentBuilder? customAgentBuilder;
+  final CustomManagerBuilder? customManagerBuilder;
 
   /// Child widget
   final Widget child;
@@ -26,7 +26,7 @@ class FlutterEasyDialogs extends StatelessWidget {
   /// Creates an instance of [FlutterEasyDialogs]
   const FlutterEasyDialogs({
     required this.child,
-    this.customAgentBuilder,
+    this.customManagerBuilder,
     this.theme,
     super.key,
   });
@@ -42,11 +42,11 @@ class FlutterEasyDialogs extends StatelessWidget {
 
   static TransitionBuilder _builder({
     FlutterEasyDialogsThemeData? theme,
-    CustomAgentBuilder? customAgentBuilder,
+    CustomManagerBuilder? customManagerBuilder,
   }) {
     return (context, child) => FlutterEasyDialogs(
           theme: theme,
-          customAgentBuilder: customAgentBuilder,
+          customManagerBuilder: customManagerBuilder,
           child: child ?? const SizedBox.shrink(),
         );
   }
@@ -58,7 +58,7 @@ class FlutterEasyDialogs extends StatelessWidget {
       child: Material(
         child: EasyOverlay(
           key: _key,
-          customAgentBuilder: customAgentBuilder,
+          customManagersBuilder: customManagerBuilder,
           initialEntries: [
             EasyOverlayAppEntry(
               builder: (context) => child,
@@ -71,20 +71,20 @@ class FlutterEasyDialogs extends StatelessWidget {
 }
 
 /// Function for providing custom agents
-typedef CustomAgentBuilder = List<EasyDialogAgentBase> Function(
+typedef CustomManagerBuilder = List<EasyDialogManagerBase> Function(
   IEasyOverlayController overlayController,
 );
 
 /// Overlay for providing dialogs
 class EasyOverlay extends Overlay {
   /// Custom agent builder function
-  final CustomAgentBuilder? customAgentBuilder;
+  final CustomManagerBuilder? customManagersBuilder;
 
   /// Creates an instance of [EasyOverlay]
   const EasyOverlay({
     super.initialEntries = const <OverlayEntry>[],
     super.clipBehavior = Clip.hardEdge,
-    this.customAgentBuilder,
+    this.customManagersBuilder,
     super.key,
   });
 
@@ -218,7 +218,7 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
     final positionedDismissibleFactory = PositionedDismissibleFactory();
     final modalBannerFactory = EasyModalBannerFactory();
 
-    final bannerAgent = PositionedDialogAgent(
+    final bannerAgent = PositionedDialogManager(
       overlayController: this,
       dialogFactory: EasyBannerFactory(
         animationFactory: positionedAnimationFactory,
@@ -226,32 +226,32 @@ class _EasyOverlayState extends OverlayState implements IEasyOverlayController {
       ),
     );
 
-    final modalBannerAgent = FullScreenDialogAgent(
+    final modalBannerAgent = FullScreenDialogManager(
       overlayController: this,
       dialogFactory: modalBannerFactory,
     );
-    final customAgentsRaw =
-        (widget as EasyOverlay).customAgentBuilder?.call(this);
+    final customManagersRaw =
+        (widget as EasyOverlay).customManagersBuilder?.call(this);
 
-    final customAgents = <EasyDialogAgentBase>[];
+    final customManagers = <EasyDialogManagerBase>[];
 
-    if (customAgentsRaw != null) {
-      for (var customAgent in customAgentsRaw) {
+    if (customManagersRaw != null) {
+      for (var customAgent in customManagersRaw) {
         assert(
-          !customAgents.any(
+          !customManagers.any(
             (agent) => agent.runtimeType == customAgent.runtimeType,
           ),
           'no duplicate type agents should be provided',
         );
-        customAgents.add(customAgent);
+        customManagers.add(customAgent);
       }
     }
 
     _easyDialogsController = EasyDialogsController(
-      bannerAgent: bannerAgent,
-      modalBannerAgent: modalBannerAgent,
-      customAgents: Map.fromIterable(
-        customAgents,
+      bannerManager: bannerAgent,
+      modalBannerManager: modalBannerAgent,
+      customManagers: Map.fromIterable(
+        customManagers,
         key: (customAgent) => customAgent.runtimeType,
       ),
     );

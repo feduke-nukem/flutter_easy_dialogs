@@ -2,27 +2,27 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/full_screen_dialog_agent/full_screen_dialog_agent.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent/positioned_dialog_agent.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent/positioned_dialog_hide_params.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/full_screen_dialog_manager/full_screen_dialog_manager.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/positioned_dialog_manager/positioned_dialog_hide_params.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/positioned_dialog_manager/positioned_dialog_manager.dart';
 
 /// Controller for manipulating dialogs via [FlutterEasyDialogs]
 class EasyDialogsController {
-  final PositionedDialogAgent _bannerAgent;
-  final FullScreenDialogAgent _modalBannerAgent;
-  final Map<Type, EasyDialogAgentBase> _customAgents;
+  final PositionedDialogManager _bannerManager;
+  final FullScreenDialogManager _modalBannerManager;
+  final Map<Type, EasyDialogManagerBase> _customManagers;
 
   /// Data of [FlutterEasyDialogsTheme]
   FlutterEasyDialogsThemeData? _theme;
 
   /// Creates an instance of [EasyDialogsController]
   EasyDialogsController({
-    required PositionedDialogAgent bannerAgent,
-    required FullScreenDialogAgent modalBannerAgent,
-    required Map<Type, EasyDialogAgentBase> customAgents,
-  })  : _bannerAgent = bannerAgent,
-        _modalBannerAgent = modalBannerAgent,
-        _customAgents = customAgents;
+    required PositionedDialogManager bannerManager,
+    required FullScreenDialogManager modalBannerManager,
+    required Map<Type, EasyDialogManagerBase> customManagers,
+  })  : _bannerManager = bannerManager,
+        _modalBannerManager = modalBannerManager,
+        _customManagers = customManagers;
 
   @override
   bool operator ==(Object? other) {
@@ -31,14 +31,14 @@ class EasyDialogsController {
     return runtimeType == other.runtimeType &&
         other is EasyDialogsController &&
         _theme == other._theme &&
-        _bannerAgent == other._bannerAgent;
+        _bannerManager == other._bannerManager;
   }
 
   @override
   int get hashCode {
     final values = [
       _theme,
-      _bannerAgent,
+      _bannerManager,
     ];
 
     return Object.hashAll(values);
@@ -67,7 +67,7 @@ class EasyDialogsController {
     EdgeInsets? margin,
     EdgeInsets? padding,
   }) async {
-    await _bannerAgent.show(
+    await _bannerManager.show(
       params: EasyBannerShowParams(
         onDismissed: onDismissed,
         animationType: animationType,
@@ -89,7 +89,7 @@ class EasyDialogsController {
   Future<void> hideBanner({
     required EasyDialogPosition position,
   }) async {
-    await _bannerAgent.hide(
+    await _bannerManager.hide(
       params: PositionedDialogHideParams(
         position: position,
       ),
@@ -98,7 +98,7 @@ class EasyDialogsController {
 
   /// Hide all positioned banners
   Future<void> hideAllBanners() async {
-    await _bannerAgent.hide(
+    await _bannerManager.hide(
       params: const PositionedDialogHideParams(
         hideAll: true,
       ),
@@ -120,7 +120,7 @@ class EasyDialogsController {
     IEasyAnimator? customBackgroundAnimation,
     IEasyAnimator? customContentAnimation,
   }) async {
-    await _modalBannerAgent.show(
+    await _modalBannerManager.show(
       params: EasyModalBannerShowParams(
         theme: _theme!,
         backgroundColor: backgroundColor,
@@ -138,13 +138,13 @@ class EasyDialogsController {
   }
 
   /// Hide full screen modal banner
-  Future<void> hideModalBanner() => _modalBannerAgent.hide();
+  Future<void> hideModalBanner() => _modalBannerManager.hide();
 
-  T useCustom<T extends EasyDialogAgentBase>() {
+  T useCustom<T extends EasyDialogManagerBase>() {
     assert(
-      _customAgents.containsKey(T),
+      _customManagers.containsKey(T),
       'You should register agent named $T before calling it',
     );
-    return _customAgents[T]! as T;
+    return _customManagers[T]! as T;
   }
 }

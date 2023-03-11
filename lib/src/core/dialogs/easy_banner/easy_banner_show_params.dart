@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/positioned_dialog_agent/positioned_dialog_show_params.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/easy_animation.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/types/easy_positioned_animation_type.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/positioned_dialog_manager/positioned_dialog_show_params.dart';
 
 /// Show params for EasyBanner
 class EasyBannerShowParams extends PositionedDialogShowParams {

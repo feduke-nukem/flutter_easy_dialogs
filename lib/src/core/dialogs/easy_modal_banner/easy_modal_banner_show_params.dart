@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/agents/full_screen_dialog_agent/full_screen_dialog_show_params.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/full_screen_dialog_manager/full_screen_dialog_show_params.dart';
 
 /// Show params for EasyModalBanner
 class EasyModalBannerShowParams extends FullScreenShowParams {

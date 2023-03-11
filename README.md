@@ -70,22 +70,22 @@ Or
  );
 ```
 
-Also you can provide your own custom dialog agent.
+Also you can provide your own custom dialog managers.
 
 ```dart
-
 int? _customDialogId;
 
-class CustomDialogAgent extends EasyDialogAgentBase {
-  CustomDialogAgent({required super.overlayController});
+class CustomDialogManager extends EasyDialogManagerBase<CustomManagerShowParams,
+    ManagerHideParamsBase?> {
+  CustomDialogManager({required super.overlayController});
 
   @override
-  Future<void> hide({AgentHideParams? params}) async {
+  Future<void> hide({ManagerHideParamsBase? params}) async {
     super.overlayController.removeCustomDialog(_customDialogId!);
   }
 
   @override
-  Future<void> show({required CustomAgentShowParams params}) async {
+  Future<void> show({required CustomManagerShowParams params}) async {
     _customDialogId = super.overlayController.insertCustomDialog(
           Align(
             alignment: Alignment.bottomCenter,
@@ -100,28 +100,27 @@ class CustomDialogAgent extends EasyDialogAgentBase {
   }
 }
 
-class CustomAgentShowParams extends AgentShowParams {
+class CustomManagerShowParams extends ManagerShowParamsBase {
   final Color color;
 
-  const CustomAgentShowParams({
+  const CustomManagerShowParams({
     required super.theme,
     required super.content,
     required this.color,
   });
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(  
+    return MaterialApp(
       builder: (context, child) {
         final builder = FlutterEasyDialogs.builder(
           /// Provide custom dialog agent
-          customAgentBuilder: (overlayController) =>
-              [CustomDialogAgent(overlayController: overlayController)],
+          customManagerBuilder: (overlayController) =>
+              [CustomDialogManager(overlayController: overlayController)],
         );
 
         return builder(context, child);

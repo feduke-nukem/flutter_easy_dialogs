@@ -8,16 +8,16 @@ import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/flutter_easy_
 import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart'
     show IEasyOverlayController;
 
-/// Base class for all dialog agents
-abstract class EasyDialogAgentBase<S, H> {
+/// Base class for all dialog managers
+abstract class EasyDialogManagerBase<S, H> {
   /// [IEasyOverlayController] is used for providing [Ticker]
   /// for creating animations and inserting dialogs into [Overlay]
   @protected
   @nonVirtual
   final IEasyOverlayController overlayController;
 
-  /// Creates an instance of [EasyDialogAgentBase]
-  const EasyDialogAgentBase({
+  /// Creates an instance of [EasyDialogManagerBase]
+  const EasyDialogManagerBase({
     required this.overlayController,
   });
 
@@ -34,8 +34,8 @@ abstract class EasyDialogAgentBase<S, H> {
   });
 }
 
-/// Core dto class of show params for dialog agents
-abstract class AgentShowParams {
+/// Base data class of show params for dialog managers
+abstract class ManagerShowParamsBase {
   /// Content for showing
   final Widget content;
 
@@ -45,16 +45,16 @@ abstract class AgentShowParams {
   /// Animation settings
   final EasyAnimationSettings? animationSettings;
 
-  /// Creates an instance of [AgentShowParams]
-  const AgentShowParams({
+  /// Creates an instance of [ManagerShowParamsBase]
+  const ManagerShowParamsBase({
     required this.theme,
     required this.content,
     this.animationSettings,
   });
 }
 
-/// Core dto class of hide params for dialog agents
-abstract class AgentHideParams {
-  /// Creates an instance of [AgentHideParams]
-  const AgentHideParams();
+/// Base data class of hide params for dialog managers
+abstract class ManagerHideParamsBase {
+  /// Creates an instance of [ManagerHideParamsBase]
+  const ManagerHideParamsBase();
 }
