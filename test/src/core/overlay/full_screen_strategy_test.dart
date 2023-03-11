@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/full_screen_dialog_manager/full_screen_dialog_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helper.dart';
@@ -10,22 +10,20 @@ void main() {
       await widgetTester.pumpWidget(app);
 
       expect(
-        easyOverlayState
-            .currentEntries[EasyOverlayEntriesAccessKeys.fullScreen],
+        easyOverlayState.currentEntries[FullScreenDialogEntriesAccessor.key],
         isNull,
       );
 
       easyOverlayState.insertDialog(
-        EasyOverlayInsertStrategy.fullScreen(
-          dialog: const SizedBox.shrink(
+        const FullScreenDialogInsertStrategy(
+          dialog: SizedBox.shrink(
             key: dialogKey,
           ),
         ),
       );
 
       expect(
-        easyOverlayState
-            .currentEntries[EasyOverlayEntriesAccessKeys.fullScreen],
+        easyOverlayState.currentEntries[FullScreenDialogEntriesAccessor.key],
         isNotNull,
       );
 
@@ -41,8 +39,8 @@ void main() {
       await widgetTester.pumpWidget(app);
 
       easyOverlayState.insertDialog(
-        EasyOverlayInsertStrategy.fullScreen(
-          dialog: const SizedBox.shrink(
+        const FullScreenDialogInsertStrategy(
+          dialog: SizedBox.shrink(
             key: dialogKey,
           ),
         ),
@@ -50,8 +48,8 @@ void main() {
 
       expect(
         () => easyOverlayState.insertDialog(
-          EasyOverlayInsertStrategy.fullScreen(
-            dialog: const SizedBox.shrink(
+          const FullScreenDialogInsertStrategy(
+            dialog: SizedBox.shrink(
               key: dialogKey,
             ),
           ),
@@ -71,17 +69,16 @@ void main() {
 
       easyOverlayState
         ..insertDialog(
-          EasyOverlayInsertStrategy.fullScreen(
-            dialog: const SizedBox.shrink(
+          const FullScreenDialogInsertStrategy(
+            dialog: SizedBox.shrink(
               key: dialogKey,
             ),
           ),
         )
-        ..removeDialog(EasyOverlayRemoveStrategy.fullScreen());
+        ..removeDialog(const FullScreenDialogRemoveStrategy());
 
       expect(
-        easyOverlayState
-            .currentEntries[EasyOverlayEntriesAccessKeys.fullScreen],
+        easyOverlayState.currentEntries[FullScreenDialogEntriesAccessor.key],
         isNull,
       );
 

@@ -1,15 +1,16 @@
-// ignore_for_file: unnecessary_overrides
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
+import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 
 import 'full_screen_dialog_hide_params.dart';
 import 'full_screen_dialog_show_params.dart';
 
 export 'full_screen_dialog_hide_params.dart';
 export 'full_screen_dialog_show_params.dart';
+
+part 'strategy.dart';
 
 /// ### Manager for displaying full screen dialogs
 ///
@@ -43,35 +44,32 @@ class FullScreenDialogManager
   }
 
   @override
-  void onAnimationInitialized(
-    FullScreenShowParams params,
-    Animation<double> animation,
-  ) {
-    final dialog = createDialog(params, animation);
+  EasyOverlayInsertStrategy createStrategy(FullScreenShowParams params) {
+    final dialog = _createDialog(params, animation);
 
-    super.overlayController.insertDialog(
-          EasyOverlayInsertStrategy.fullScreen(
-            dialog: dialog,
-          ),
-        );
+    return FullScreenDialogInsertStrategy(
+      dialog: dialog,
+    );
   }
 
   @override
   AnimationController createAnimationController(
     TickerProvider vsync,
     FullScreenShowParams params,
-  ) {
-    return AnimationController(
-      vsync: vsync,
-      duration: params.contentAnimationType ==
-              EasyFullScreenContentAnimationType.bounce
-          ? const Duration(milliseconds: 180)
-          : const Duration(milliseconds: 300),
-    );
+  ) =>
+      AnimationController(
+        vsync: vsync,
+        duration: _getAnimationDuration(params),
+      );
+
+  Duration _getAnimationDuration(FullScreenShowParams params) {
+    return params.contentAnimationType ==
+            EasyFullScreenContentAnimationType.bounce
+        ? const Duration(milliseconds: 180)
+        : const Duration(milliseconds: 300);
   }
 
-  @override
-  Widget createDialog(
+  Widget _createDialog(
     FullScreenShowParams params,
     Animation<double> animation,
   ) {
@@ -95,9 +93,9 @@ class FullScreenDialogManager
     try {
       await hideAndDispose();
     } finally {
-      super
-          .overlayController
-          .removeDialog(EasyOverlayRemoveStrategy.fullScreen());
+      super.overlayController.removeDialog(
+            const FullScreenDialogRemoveStrategy(),
+          );
 
       unblockBackButton();
     }

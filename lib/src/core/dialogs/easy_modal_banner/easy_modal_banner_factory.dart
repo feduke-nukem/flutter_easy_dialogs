@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
 /// [EasyModalBanner] factory
-class EasyModalBannerFactory extends IEasyDialogFactory {
+class EasyModalBannerFactory
+    extends IEasyDialogFactory<EasyModalBannerShowParams> {
   @override
   IEasyAnimator createAnimation({required EasyModalBannerShowParams params}) {
     final animation = EasyFullScreenAnimation(

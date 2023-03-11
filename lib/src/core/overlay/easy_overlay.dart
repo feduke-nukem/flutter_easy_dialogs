@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/positioned/factory/positioned_animation_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/easy_banner/easy_banner_factory.dart';
-import 'package:flutter_easy_dialogs/src/core/dialogs/easy_dialog_position.dart';
 import 'package:flutter_easy_dialogs/src/core/dialogs/easy_modal_banner/easy_modal_banner_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/positioned_dismissible_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialogs_controller.dart';
@@ -13,9 +12,7 @@ import 'package:flutter_easy_dialogs/src/core/managers/positioned_dialog_manager
 import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
 import 'package:flutter_easy_dialogs/src/util/position_to_animation_converter/position_to_animation_converter.dart';
 
-part 'easy_overlay_insert_strategy.dart';
-part 'easy_overlay_remove_strategy.dart';
-part 'keys.dart';
+part 'strategy.dart';
 
 /// Function for providing custom agents
 typedef CustomManagerBuilder = List<EasyDialogManagerBase> Function(
@@ -40,8 +37,16 @@ class EasyOverlay extends Overlay {
 }
 
 class EasyOverlayState extends OverlayState implements IEasyOverlayController {
+  /// for applying remove/insert strategies
   @visibleForTesting
-  final currentEntries = <Object?, Object?>{};
+  final currentEntries = <Object, Object?>{};
+
+  Object? operator [](Object? key) => currentEntries[key];
+
+  void operator []=(Object key, Object? value) => currentEntries[key] = value;
+
+  T putIfAbsent<T>(Object key, T Function() ifAbsent) =>
+      currentEntries.putIfAbsent(key, ifAbsent) as T;
 
   OverlayEntry? _appEntry;
 
@@ -151,7 +156,7 @@ class EasyOverlayState extends OverlayState implements IEasyOverlayController {
 }
 
 /// Interface for manipulating overlay with dialogs
-abstract class IEasyOverlayController extends TickerProvider {
+abstract class IEasyOverlayController implements TickerProvider {
   void insertDialog(EasyOverlayInsertStrategy strategy);
 
   void removeDialog(EasyOverlayRemoveStrategy strategy);

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/util/extensions/easy_dialog_position_x.dart';
-import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs_error.dart';
 
 /// Vertical slide animation
 class EasyVerticalSlideAnimation extends EasyAnimation {
@@ -54,11 +53,6 @@ class EasyVerticalSlideAnimation extends EasyAnimation {
         return Tween<Offset>(
           begin: const Offset(0.0, 1.0),
           end: const Offset(0.0, 0.0),
-        );
-      default:
-        Error.throwWithStackTrace(
-          FlutterEasyDialogsError(message: 'no case for $position'),
-          StackTrace.current,
         );
     }
   }

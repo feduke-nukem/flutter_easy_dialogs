@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
+import 'package:flutter_easy_dialogs/src/core/managers/custom_dialog_manager/strategy.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helper.dart';
@@ -9,14 +9,14 @@ void main() {
     testWidgets('insert', (widgetTester) async {
       await widgetTester.pumpWidget(app);
       expect(
-        easyOverlayState.currentEntries[EasyOverlayEntriesAccessKeys.custom],
+        easyOverlayState.currentEntries[CustomEntriesAccessor.key],
         isNull,
       );
 
       late final int id;
 
       easyOverlayState.insertDialog(
-        EasyOverlayInsertStrategy.custom(
+        CustomDialogInsertStrategy(
           dialog: const SizedBox.shrink(key: dialogKey),
           onInserted: (dialogId) => id = dialogId,
         ),
@@ -25,12 +25,12 @@ void main() {
       expect(id, 0);
 
       expect(
-        easyOverlayState.currentEntries[EasyOverlayEntriesAccessKeys.custom],
+        easyOverlayState.currentEntries[CustomEntriesAccessor.key],
         isNotNull,
       );
 
       expect(
-        EasyOverlayEntriesRawAccessor.custom(easyOverlayState).length,
+        CustomEntriesAccessor.get(easyOverlayState).length,
         1,
       );
 
@@ -45,13 +45,13 @@ void main() {
 
     for (var i = 0; i < 10; i++) {
       easyOverlayState.insertDialog(
-        EasyOverlayInsertStrategy.custom(
-          dialog: const SizedBox.shrink(),
+        const CustomDialogInsertStrategy(
+          dialog: SizedBox.shrink(),
         ),
       );
     }
 
-    expect(EasyOverlayEntriesRawAccessor.custom(easyOverlayState).length, 10);
+    expect(CustomEntriesAccessor.get(easyOverlayState).length, 10);
 
     await widgetTester.pump();
     expect(find.byType(SizedBox), findsNWidgets(10));
@@ -63,7 +63,7 @@ void main() {
 
       expect(
         () => easyOverlayState
-            .removeDialog(EasyOverlayRemoveStrategy.custom(dialogId: 0)),
+            .removeDialog(const CustomDialogRemoveStrategy(dialogId: 0)),
         throwsAssertionError,
       );
     });
@@ -74,19 +74,19 @@ void main() {
       late final int id;
       easyOverlayState
         ..insertDialog(
-          EasyOverlayInsertStrategy.custom(
+          CustomDialogInsertStrategy(
             dialog: const SizedBox.shrink(
               key: dialogKey,
             ),
             onInserted: (dialogId) => id = dialogId,
           ),
         )
-        ..removeDialog(EasyOverlayRemoveStrategy.custom(dialogId: id));
+        ..removeDialog(CustomDialogRemoveStrategy(dialogId: id));
 
-      expect(EasyOverlayEntriesRawAccessor.custom(easyOverlayState), isNotNull);
+      expect(CustomEntriesAccessor.get(easyOverlayState), isNotNull);
 
       expect(
-        EasyOverlayEntriesRawAccessor.custom(easyOverlayState).length,
+        CustomEntriesAccessor.get(easyOverlayState).length,
         isZero,
       );
 

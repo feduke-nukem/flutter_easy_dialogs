@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/core/managers/easy_dialog_manager_base.dart';
 
 /// Mixin that creates [AnimationController] on every [show] call and dispose it
@@ -26,13 +27,6 @@ mixin SingleAutoDisposalControllerMixin<S, H> on EasyDialogManagerBase<S, H> {
     return _animationController!.view;
   }
 
-  /// Called when [_animationController] is created and is ready to be used
-  @protected
-  void onAnimationInitialized(
-    S params,
-    Animation<double> animation,
-  ) {}
-
   /// Implementation should start with calling super
   @mustCallSuper
   @protected
@@ -50,14 +44,9 @@ mixin SingleAutoDisposalControllerMixin<S, H> on EasyDialogManagerBase<S, H> {
     S params,
   );
 
-  /// Factory method for providing dialog
-  ///
-  /// Called on start of [initializeAndShow]
-  @protected
-  Widget createDialog(
-    S params,
-    Animation<double> animation,
-  );
+  /// Factory method for providing [EasyOverlayInsertStrategy]
+  /// for inserting into [overlayController]
+  EasyOverlayInsertStrategy createStrategy(S params);
 
   @protected
   @nonVirtual
@@ -67,7 +56,7 @@ mixin SingleAutoDisposalControllerMixin<S, H> on EasyDialogManagerBase<S, H> {
       params,
     );
 
-    onAnimationInitialized(params, animation);
+    super.overlayController.insertDialog(createStrategy(params));
 
     await _animationController!.forward();
   }

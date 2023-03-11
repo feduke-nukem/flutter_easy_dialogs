@@ -5,7 +5,7 @@ import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/i_easy_dismis
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/positioned_dismissible_factory.dart';
 
 /// [EasyBanner] factory
-class EasyBannerFactory implements IEasyDialogFactory {
+class EasyBannerFactory implements IEasyDialogFactory<EasyBannerShowParams> {
   /// Animation factory
   final IEasyAnimationFactory _animationFactory;
 

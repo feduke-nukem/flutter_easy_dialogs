@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/util/multiply_animation.dart';
-import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs_error.dart';
 
 /// Core full screen animation
 class EasyFullScreenAnimation extends EasyAnimation {
@@ -70,14 +69,6 @@ class EasyFullScreenAnimation extends EasyAnimation {
         );
       case EasyFullScreenBackgroundAnimationType.none:
         return child;
-
-      default:
-        Error.throwWithStackTrace(
-          FlutterEasyDialogsError(
-            message: 'no case for $backgroundAnimationType',
-          ),
-          StackTrace.current,
-        );
     }
   }
 
@@ -101,12 +92,6 @@ class EasyFullScreenAnimation extends EasyAnimation {
         return _animateExpansionChild(parent: parent, child: child);
       case EasyFullScreenContentAnimationType.none:
         return child;
-
-      default:
-        Error.throwWithStackTrace(
-          FlutterEasyDialogsError(message: 'no case for $contentAnimationType'),
-          StackTrace.current,
-        );
     }
   }
 

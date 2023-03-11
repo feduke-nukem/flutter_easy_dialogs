@@ -10,7 +10,7 @@ class CustomDialogManager extends EasyDialogManagerBase<CustomManagerShowParams,
   @override
   Future<void> hide({ManagerHideParamsBase? params}) async {
     super.overlayController.removeDialog(
-          EasyOverlayRemoveStrategy.custom(
+          CustomDialogRemoveStrategy(
             dialogId: _customDialogId!,
           ),
         );
@@ -20,13 +20,13 @@ class CustomDialogManager extends EasyDialogManagerBase<CustomManagerShowParams,
   Future<void> show({required CustomManagerShowParams params}) async {
     if (_customDialogId != null) {
       super.overlayController.removeDialog(
-            EasyOverlayRemoveStrategy.custom(
+            CustomDialogRemoveStrategy(
               dialogId: _customDialogId!,
             ),
           );
     }
     super.overlayController.insertDialog(
-          EasyOverlayInsertStrategy.custom(
+          CustomDialogInsertStrategy(
             dialog: Align(
               alignment: Alignment.bottomCenter,
               child: Container(

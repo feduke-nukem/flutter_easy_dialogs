@@ -81,20 +81,34 @@ class CustomDialogManager extends EasyDialogManagerBase<CustomManagerShowParams,
 
   @override
   Future<void> hide({ManagerHideParamsBase? params}) async {
-    super.overlayController.removeCustomDialog(_customDialogId!);
+    super.overlayController.removeDialog(
+          CustomDialogRemoveStrategy(
+            dialogId: _customDialogId!,
+          ),
+        );
   }
 
   @override
   Future<void> show({required CustomManagerShowParams params}) async {
-    _customDialogId = super.overlayController.insertCustomDialog(
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 200.0,
-              width: 200.0,
-              color: params.color,
-              child: Center(child: params.content),
+    if (_customDialogId != null) {
+      super.overlayController.removeDialog(
+            CustomDialogRemoveStrategy(
+              dialogId: _customDialogId!,
             ),
+          );
+    }
+    super.overlayController.insertDialog(
+          CustomDialogInsertStrategy(
+            dialog: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 200.0,
+                width: 200.0,
+                color: params.color,
+                child: Center(child: params.content),
+              ),
+            ),
+            onInserted: (dialogId) => _customDialogId = dialogId,
           ),
         );
   }
@@ -108,25 +122,6 @@ class CustomManagerShowParams extends ManagerShowParamsBase {
     required super.content,
     required this.color,
   });
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      builder: (context, child) {
-        final builder = FlutterEasyDialogs.builder(
-          /// Provide custom dialog agent
-          customManagerBuilder: (overlayController) =>
-              [CustomDialogManager(overlayController: overlayController)],
-        );
-
-        return builder(context, child);
-      },
-    );
-  }
 }
 ```
 
