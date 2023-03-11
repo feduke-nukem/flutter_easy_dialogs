@@ -1,8 +1,5 @@
-import 'package:flutter_easy_dialogs/src/core/dismissibles/easy_dismissible.dart';
+import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/i_easy_dismissible_factory.dart';
-import 'package:flutter_easy_dialogs/src/core/dismissibles/pre_built/easy_swipe_dismissible.dart';
-import 'package:flutter_easy_dialogs/src/core/dismissibles/pre_built/easy_tap_dismissble.dart';
-import 'package:flutter_easy_dialogs/src/core/dismissibles/types/easy_positioned_dismissible_type.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs_error.dart';
 
 /// Positioned dismissible factory

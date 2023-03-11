@@ -1,7 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
+import 'package:flutter_easy_dialogs/src/core/animations/easy_animation_settings.dart'
+    show EasyAnimationSettings;
+import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/flutter_easy_dialogs_theme.dart'
+    show FlutterEasyDialogsThemeData;
+import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart'
+    show IEasyOverlayController;
 
 /// Base class for all dialog agents
 abstract class EasyDialogAgentBase<S, H> {

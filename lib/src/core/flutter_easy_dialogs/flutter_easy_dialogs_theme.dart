@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/dialogs/pre_built/easy_modal_banner/easy_modal_banner.dart';
 
 /// Main theme
 class FlutterEasyDialogsTheme extends StatelessWidget {
@@ -81,11 +80,11 @@ class FlutterEasyDialogsThemeData with Diagnosticable {
         easyModalBannerTheme: EasyModalBannerThemeData.light(),
       );
 
-  /// Copy with methid
+  /// Copy with method
   FlutterEasyDialogsThemeData copyWith({
     EasyBannerThemeData? easyBannerTheme,
     EasyModalBannerThemeData? easyModalBannerTheme,
-    Color? fullscreenDialogBackgroundColor,
+    Color? fullScreenDialogBackgroundColor,
   }) =>
       FlutterEasyDialogsThemeData(
         easyBannerTheme: easyBannerTheme ?? this.easyBannerTheme,

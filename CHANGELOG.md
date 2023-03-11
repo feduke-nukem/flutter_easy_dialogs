@@ -1,3 +1,8 @@
+## 1.0.9
+
+* Fixed typos
+* Refactored project structure
+
 ## 1.0.8
 
 * Fixed typos
