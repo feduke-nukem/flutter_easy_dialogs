@@ -4,6 +4,9 @@ import 'package:flutter_easy_dialogs/src/core/managers/positioned_dialog_manager
 
 import 'positioned_dialog_show_params.dart';
 
+export 'positioned_dialog_hide_params.dart';
+export 'positioned_dialog_show_params.dart';
+
 /// ### Manager for showing positioned dialog
 /// Only single dialog of concrete [EasyDialogPosition] can be presented at the
 /// same time
@@ -73,9 +76,11 @@ class PositionedDialogManager extends EasyDialogManagerBase<
       animationController: newAnimationController,
     );
 
-    super.overlayController.insertPositionedDialog(
-          dialog: dialog,
-          position: params.position,
+    super.overlayController.insertDialog(
+          EasyOverlayInsertStrategy.positioned(
+            position: params.position,
+            dialog: dialog,
+          ),
         );
 
     _addAnimationControllerOfPosition(
@@ -154,8 +159,8 @@ class PositionedDialogManager extends EasyDialogManagerBase<
     await animationController.reverse();
     animationController.dispose();
 
-    super.overlayController.removePositionedDialog(
-          position: position,
+    super.overlayController.removeDialog(
+          EasyOverlayRemoveStrategy.positioned(position: position),
         );
 
     if (removeFromCurrentDialogs) _currentDialogs.remove(position);

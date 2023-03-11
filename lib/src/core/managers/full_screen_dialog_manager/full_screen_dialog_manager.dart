@@ -8,6 +8,9 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'full_screen_dialog_hide_params.dart';
 import 'full_screen_dialog_show_params.dart';
 
+export 'full_screen_dialog_hide_params.dart';
+export 'full_screen_dialog_show_params.dart';
+
 /// ### Manager for displaying full screen dialogs
 ///
 /// Only one full screen dialog can be presented at the same time
@@ -46,7 +49,11 @@ class FullScreenDialogManager
   ) {
     final dialog = createDialog(params, animation);
 
-    super.overlayController.insertFullScreenDialog(dialog: dialog);
+    super.overlayController.insertDialog(
+          EasyOverlayInsertStrategy.fullScreen(
+            dialog: dialog,
+          ),
+        );
   }
 
   @override
@@ -88,7 +95,9 @@ class FullScreenDialogManager
     try {
       await hideAndDispose();
     } finally {
-      super.overlayController.removeFullScreenDialog();
+      super
+          .overlayController
+          .removeDialog(EasyOverlayRemoveStrategy.fullScreen());
 
       unblockBackButton();
     }

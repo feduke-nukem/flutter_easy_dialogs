@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/core/managers/full_screen_dialog_manager/full_screen_dialog_manager.dart';
-import 'package:flutter_easy_dialogs/src/core/managers/positioned_dialog_manager/positioned_dialog_hide_params.dart';
 import 'package:flutter_easy_dialogs/src/core/managers/positioned_dialog_manager/positioned_dialog_manager.dart';
 
 /// Controller for manipulating dialogs via [FlutterEasyDialogs]

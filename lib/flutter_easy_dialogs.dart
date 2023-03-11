@@ -1,5 +1,10 @@
 library flutter_easy_dialogs;
 
+import 'package:flutter/material.dart';
+import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialogs_controller.dart';
+import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/flutter_easy_dialogs_theme.dart';
+import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
+
 export 'src/core/animations/animations.dart' hide EasyAnimationSettings;
 export 'src/core/dialogs/dialogs.dart';
 export 'src/core/dialogs/easy_modal_banner/easy_modal_banner_theme_data.dart';
@@ -13,4 +18,62 @@ export 'src/core/managers/managers.dart'
         ManagerShowParamsBase,
         BlockAndroidBackButtonMixin,
         SingleAutoDisposalControllerMixin;
-export 'src/core/overlay/overlay.dart' hide EasyOverlayAppEntry, EasyOverlay;
+export 'src/core/overlay/easy_overlay.dart'
+    show EasyOverlayInsertStrategy, EasyOverlayRemoveStrategy;
+
+// Service - helper for easy use different custom dialogs
+class FlutterEasyDialogs extends StatelessWidget {
+  /// Theme of [FlutterEasyDialogs]
+  final FlutterEasyDialogsThemeData? theme;
+
+  final CustomManagerBuilder? customManagerBuilder;
+
+  /// Child widget
+  final Widget child;
+
+  /// Creates an instance of [FlutterEasyDialogs]
+  const FlutterEasyDialogs({
+    required this.child,
+    this.customManagerBuilder,
+    this.theme,
+    super.key,
+  });
+
+  static final _key = GlobalKey<EasyOverlayState>();
+
+  /// Gets [EasyDialogsController]
+  static EasyDialogsController get dialogsController =>
+      _key.currentState!.easyDialogsController;
+
+  /// For using in [MaterialApp.builder]
+  static const builder = _builder;
+
+  static TransitionBuilder _builder({
+    FlutterEasyDialogsThemeData? theme,
+    CustomManagerBuilder? customManagerBuilder,
+  }) {
+    return (context, child) => FlutterEasyDialogs(
+          theme: theme,
+          customManagerBuilder: customManagerBuilder,
+          child: child ?? const SizedBox.shrink(),
+        );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FlutterEasyDialogsTheme(
+      data: theme ?? FlutterEasyDialogsThemeData.basic(),
+      child: Material(
+        child: EasyOverlay(
+          key: _key,
+          customManagersBuilder: customManagerBuilder,
+          initialEntries: [
+            EasyOverlayAppEntry(
+              builder: (context) => child,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

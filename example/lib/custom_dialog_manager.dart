@@ -9,20 +9,34 @@ class CustomDialogManager extends EasyDialogManagerBase<CustomManagerShowParams,
 
   @override
   Future<void> hide({ManagerHideParamsBase? params}) async {
-    super.overlayController.removeCustomDialog(_customDialogId!);
+    super.overlayController.removeDialog(
+          EasyOverlayRemoveStrategy.custom(
+            dialogId: _customDialogId!,
+          ),
+        );
   }
 
   @override
   Future<void> show({required CustomManagerShowParams params}) async {
-    _customDialogId = super.overlayController.insertCustomDialog(
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: 200.0,
-              width: 200.0,
-              color: params.color,
-              child: Center(child: params.content),
+    if (_customDialogId != null) {
+      super.overlayController.removeDialog(
+            EasyOverlayRemoveStrategy.custom(
+              dialogId: _customDialogId!,
             ),
+          );
+    }
+    super.overlayController.insertDialog(
+          EasyOverlayInsertStrategy.custom(
+            dialog: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 200.0,
+                width: 200.0,
+                color: params.color,
+                child: Center(child: params.content),
+              ),
+            ),
+            onInserted: (dialogId) => _customDialogId = dialogId,
           ),
         );
   }
