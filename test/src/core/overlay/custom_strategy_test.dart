@@ -17,7 +17,7 @@ void main() {
 
       easyOverlayState.insertDialog(
         EasyOverlayInsertStrategy.custom(
-          dialog: const SizedBox.shrink(),
+          dialog: const SizedBox.shrink(key: dialogKey),
           onInserted: (dialogId) => id = dialogId,
         ),
       );
@@ -33,6 +33,10 @@ void main() {
         EasyOverlayEntriesRawAccessor.custom(easyOverlayState).length,
         1,
       );
+
+      await widgetTester.pump();
+
+      expect(find.byKey(dialogKey), findsOneWidget);
     });
   });
 
@@ -48,6 +52,9 @@ void main() {
     }
 
     expect(EasyOverlayEntriesRawAccessor.custom(easyOverlayState).length, 10);
+
+    await widgetTester.pump();
+    expect(find.byType(SizedBox), findsNWidgets(10));
   });
 
   group('removing', () {
@@ -68,7 +75,9 @@ void main() {
       easyOverlayState
         ..insertDialog(
           EasyOverlayInsertStrategy.custom(
-            dialog: const SizedBox.shrink(),
+            dialog: const SizedBox.shrink(
+              key: dialogKey,
+            ),
             onInserted: (dialogId) => id = dialogId,
           ),
         )
@@ -80,6 +89,9 @@ void main() {
         EasyOverlayEntriesRawAccessor.custom(easyOverlayState).length,
         isZero,
       );
+
+      await widgetTester.pump();
+      expect(find.byKey(dialogKey), findsNothing);
     });
   });
 }

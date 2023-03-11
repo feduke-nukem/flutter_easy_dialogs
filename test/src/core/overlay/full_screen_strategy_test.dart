@@ -17,7 +17,9 @@ void main() {
 
       easyOverlayState.insertDialog(
         EasyOverlayInsertStrategy.fullScreen(
-          dialog: const SizedBox.shrink(),
+          dialog: const SizedBox.shrink(
+            key: dialogKey,
+          ),
         ),
       );
 
@@ -26,6 +28,10 @@ void main() {
             .currentEntries[EasyOverlayEntriesAccessKeys.fullScreen],
         isNotNull,
       );
+
+      await widgetTester.pump();
+
+      expect(find.byKey(dialogKey), findsOneWidget);
     });
   });
 
@@ -36,18 +42,26 @@ void main() {
 
       easyOverlayState.insertDialog(
         EasyOverlayInsertStrategy.fullScreen(
-          dialog: const SizedBox.shrink(),
+          dialog: const SizedBox.shrink(
+            key: dialogKey,
+          ),
         ),
       );
 
       expect(
         () => easyOverlayState.insertDialog(
           EasyOverlayInsertStrategy.fullScreen(
-            dialog: const SizedBox.shrink(),
+            dialog: const SizedBox.shrink(
+              key: dialogKey,
+            ),
           ),
         ),
         throwsAssertionError,
       );
+
+      await widgetTester.pump();
+
+      expect(find.byKey(dialogKey), findsOneWidget);
     },
   );
 
@@ -58,7 +72,9 @@ void main() {
       easyOverlayState
         ..insertDialog(
           EasyOverlayInsertStrategy.fullScreen(
-            dialog: const SizedBox.shrink(),
+            dialog: const SizedBox.shrink(
+              key: dialogKey,
+            ),
           ),
         )
         ..removeDialog(EasyOverlayRemoveStrategy.fullScreen());
@@ -68,6 +84,8 @@ void main() {
             .currentEntries[EasyOverlayEntriesAccessKeys.fullScreen],
         isNull,
       );
+
+      expect(find.byKey(dialogKey), findsNothing);
     });
   });
 }

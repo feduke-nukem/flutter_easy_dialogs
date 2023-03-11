@@ -15,3 +15,5 @@ Widget get app => MaterialApp(
 final _key = GlobalKey<EasyOverlayState>();
 
 EasyOverlayState get easyOverlayState => _key.currentState!;
+
+const dialogKey = ValueKey('dialog');

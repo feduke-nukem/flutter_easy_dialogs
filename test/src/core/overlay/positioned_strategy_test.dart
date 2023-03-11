@@ -13,7 +13,9 @@ void main() {
       const position = EasyDialogPosition.top;
       final strategy = EasyOverlayInsertStrategy.positioned(
         position: position,
-        dialog: const SizedBox.shrink(),
+        dialog: const SizedBox.shrink(
+          key: dialogKey,
+        ),
       );
 
       easyOverlayState.insertDialog(strategy);
@@ -36,6 +38,10 @@ void main() {
       entries = entries as Map<EasyDialogPosition, OverlayEntry>;
 
       expect(entries.length, greaterThan(0));
+
+      await widgetTester.pump();
+
+      expect(find.byKey(dialogKey), findsOneWidget);
     });
 
     testWidgets(
@@ -62,7 +68,9 @@ void main() {
         final strategies = EasyDialogPosition.values.map(
           (e) => EasyOverlayInsertStrategy.positioned(
             position: e,
-            dialog: const SizedBox.shrink(),
+            dialog: SizedBox.shrink(
+              key: ValueKey(e),
+            ),
           ),
         );
 
@@ -74,6 +82,12 @@ void main() {
           EasyOverlayEntriesInsertAccessor.positioned(easyOverlayState).length,
           EasyDialogPosition.values.length,
         );
+
+        await widgetTester.pump();
+
+        for (var position in EasyDialogPosition.values) {
+          expect(find.byKey(ValueKey(position)), findsOneWidget);
+        }
       },
     );
   });
@@ -95,18 +109,24 @@ void main() {
       await widgetTester.pumpWidget(app);
 
       const position = EasyDialogPosition.bottom;
-      easyOverlayState
-        ..insertDialog(
-          EasyOverlayInsertStrategy.positioned(
-            position: position,
-            dialog: const SizedBox.shrink(),
+      easyOverlayState.insertDialog(
+        EasyOverlayInsertStrategy.positioned(
+          position: position,
+          dialog: const SizedBox.shrink(
+            key: dialogKey,
           ),
-        )
-        ..removeDialog(
-          EasyOverlayRemoveStrategy.positioned(
-            position: position,
-          ),
-        );
+        ),
+      );
+
+      await widgetTester.pump();
+
+      expect(find.byKey(dialogKey), findsOneWidget);
+
+      easyOverlayState.removeDialog(
+        EasyOverlayRemoveStrategy.positioned(
+          position: position,
+        ),
+      );
 
       expect(
         easyOverlayState
@@ -118,6 +138,10 @@ void main() {
         (EasyOverlayEntriesRawAccessor.positioned(easyOverlayState)).length,
         isZero,
       );
+
+      await widgetTester.pump();
+
+      expect(find.byKey(dialogKey), findsNothing);
     });
 
     testWidgets(
@@ -142,10 +166,22 @@ void main() {
           easyOverlayState.insertDialog(strategy);
         }
 
+        await widgetTester.pump();
+        expect(
+          find.byType(SizedBox),
+          findsNWidgets(
+            EasyDialogPosition.values.length,
+          ),
+        );
+
         for (var strategy in removeStrategies) {
           easyOverlayState.removeDialog(strategy);
         }
-
+        await widgetTester.pump();
+        expect(
+          find.byType(SizedBox),
+          findsNothing,
+        );
         expect(
           easyOverlayState
               .currentEntries[EasyOverlayEntriesAccessKeys.positioned],
