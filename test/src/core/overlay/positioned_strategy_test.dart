@@ -8,7 +8,7 @@ import '../../../helper.dart';
 void main() {
   group('inserting', () {
     testWidgets('insert', (widgetTester) async {
-      await widgetTester.pumpWidget(app);
+      await widgetTester.pumpWidget(app());
 
       const position = EasyDialogPosition.top;
       const strategy = PositionedDialogInsertStrategy(
@@ -47,7 +47,7 @@ void main() {
     testWidgets(
       'insert the same position',
       (widgetTester) async {
-        await widgetTester.pumpWidget(app);
+        await widgetTester.pumpWidget(app());
         const strategy = PositionedDialogInsertStrategy(
           position: EasyDialogPosition.bottom,
           dialog: SizedBox.shrink(),
@@ -65,7 +65,7 @@ void main() {
     testWidgets(
       'insert all positions',
       (widgetTester) async {
-        await widgetTester.pumpWidget(app);
+        await widgetTester.pumpWidget(app());
 
         final strategies = EasyDialogPosition.values.map(
           (e) => PositionedDialogInsertStrategy(
@@ -96,7 +96,7 @@ void main() {
 
   group('removing', () {
     testWidgets('remove without inserting', (widgetTester) async {
-      await widgetTester.pumpWidget(app);
+      await widgetTester.pumpWidget(app());
 
       expect(
         () => easyOverlayState.removeDialog(
@@ -108,7 +108,7 @@ void main() {
       );
     });
     testWidgets('insert one and remove one', (widgetTester) async {
-      await widgetTester.pumpWidget(app);
+      await widgetTester.pumpWidget(app());
 
       const position = EasyDialogPosition.bottom;
       easyOverlayState.insertDialog(
@@ -148,13 +148,11 @@ void main() {
     testWidgets(
       'insert all positions, and remove them',
       (widgetTester) async {
-        await widgetTester.pumpWidget(app);
+        await widgetTester.pumpWidget(app());
 
         final insertStrategies = EasyDialogPosition.values.map(
-          (e) => PositionedDialogInsertStrategy(
-            position: e,
-            dialog: const SizedBox.shrink(),
-          ),
+          (e) =>
+              PositionedDialogInsertStrategy(position: e, dialog: Container()),
         );
 
         final removeStrategies = EasyDialogPosition.values.map(
@@ -169,7 +167,7 @@ void main() {
 
         await widgetTester.pump();
         expect(
-          find.byType(SizedBox),
+          find.byType(Container),
           findsNWidgets(
             EasyDialogPosition.values.length,
           ),
@@ -180,7 +178,7 @@ void main() {
         }
         await widgetTester.pump();
         expect(
-          find.byType(SizedBox),
+          find.byType(Container),
           findsNothing,
         );
         expect(

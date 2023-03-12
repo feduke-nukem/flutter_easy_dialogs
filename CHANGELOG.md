@@ -3,7 +3,7 @@
 * Fixed typos
 * Refactored project structure
 * `Agents` renamed to `Managers`
-* Added `BlockAndroidBackButtonMixin` and `SingleAutoDisposalControllerMixin`
+* Added `BlockAndroidBackButtonMixin` and `SingleAutoDisposalControllerMixin` with tests
 * Reworked inserting/removing dialogs in overlay
 * Provided tests on insert/remove strategies
 

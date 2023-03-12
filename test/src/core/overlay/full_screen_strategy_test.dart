@@ -7,7 +7,7 @@ import '../../../helper.dart';
 void main() {
   group('inserting', () {
     testWidgets('insert', (widgetTester) async {
-      await widgetTester.pumpWidget(app);
+      await widgetTester.pumpWidget(app());
 
       expect(
         easyOverlayState.currentEntries[FullScreenDialogEntriesAccessor.key],
@@ -36,7 +36,7 @@ void main() {
   testWidgets(
     'inserted twice',
     (widgetTester) async {
-      await widgetTester.pumpWidget(app);
+      await widgetTester.pumpWidget(app());
 
       easyOverlayState.insertDialog(
         const FullScreenDialogInsertStrategy(
@@ -65,7 +65,7 @@ void main() {
 
   group('removing', () {
     testWidgets('insert and remove', (widgetTester) async {
-      await widgetTester.pumpWidget(app);
+      await widgetTester.pumpWidget(app());
 
       easyOverlayState
         ..insertDialog(

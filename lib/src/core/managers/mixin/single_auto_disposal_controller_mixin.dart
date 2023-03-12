@@ -3,36 +3,38 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/managers/easy_dialog_manager_base.dart';
 
 /// Mixin that creates [AnimationController] on every [show] call and dispose it
 /// on every [hide] call
 mixin SingleAutoDisposalControllerMixin<S, H> on EasyDialogManagerBase<S, H> {
   /// [AnimationController] for providing animations to the dialogs,
   /// is null, when the dialog is not presented
-  AnimationController? _animationController;
+  @visibleForTesting
+  AnimationController? animationController;
 
   @nonVirtual
   @protected
-  bool get isPresented => _animationController != null;
+  @visibleForTesting
+  bool get isPresented => animationController != null;
 
   @protected
   @nonVirtual
+  @visibleForTesting
   Animation<double> get animation {
     assert(
-      _animationController != null,
+      animationController != null,
       'animation controller is not initialized',
     );
 
-    return _animationController!.view;
+    return animationController!.view;
   }
 
   /// Implementation should start with calling super
   @mustCallSuper
   @protected
   void dispose() {
-    _animationController!.dispose();
-    _animationController = null;
+    animationController!.dispose();
+    animationController = null;
   }
 
   /// Factory method for providing [AnimationController]
@@ -44,27 +46,30 @@ mixin SingleAutoDisposalControllerMixin<S, H> on EasyDialogManagerBase<S, H> {
     S params,
   );
 
-  /// Factory method for providing [EasyOverlayInsertStrategy]
-  /// for inserting into [overlayController]
-  EasyOverlayInsertStrategy createStrategy(S params);
-
   @protected
   @nonVirtual
-  Future<void> initializeAndShow(S params) async {
-    _animationController = createAnimationController(
+  Future<void> initializeAndShow(
+    S params,
+    EasyOverlayInsertStrategy Function(Animation<double> animation) strategy,
+  ) {
+    animationController = createAnimationController(
       overlayController,
       params,
     );
 
-    super.overlayController.insertDialog(createStrategy(params));
+    super.overlayController.insertDialog(strategy(animation));
 
-    await _animationController!.forward();
+    return animationController!.forward();
   }
 
   @protected
   @nonVirtual
-  Future<void> hideAndDispose() async {
-    await _animationController!.reverse();
+  Future<void> hideAndDispose(
+    EasyOverlayRemoveStrategy strategy,
+  ) async {
+    await animationController!.reverse();
+
+    super.overlayController.removeDialog(strategy);
 
     dispose();
   }

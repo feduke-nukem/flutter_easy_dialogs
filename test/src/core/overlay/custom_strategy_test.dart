@@ -7,7 +7,7 @@ import '../../../helper.dart';
 void main() {
   group('inserting', () {
     testWidgets('insert', (widgetTester) async {
-      await widgetTester.pumpWidget(app);
+      await widgetTester.pumpWidget(app());
       expect(
         easyOverlayState.currentEntries[CustomEntriesAccessor.key],
         isNull,
@@ -41,12 +41,12 @@ void main() {
   });
 
   testWidgets('insert ten', (widgetTester) async {
-    await widgetTester.pumpWidget(app);
+    await widgetTester.pumpWidget(app());
 
     for (var i = 0; i < 10; i++) {
       easyOverlayState.insertDialog(
-        const CustomDialogInsertStrategy(
-          dialog: SizedBox.shrink(),
+        CustomDialogInsertStrategy(
+          dialog: Container(),
         ),
       );
     }
@@ -54,12 +54,12 @@ void main() {
     expect(CustomEntriesAccessor.get(easyOverlayState).length, 10);
 
     await widgetTester.pump();
-    expect(find.byType(SizedBox), findsNWidgets(10));
+    expect(find.byType(Container), findsNWidgets(10));
   });
 
   group('removing', () {
     testWidgets('remove without adding', (widgetTester) async {
-      await widgetTester.pumpWidget(app);
+      await widgetTester.pumpWidget(app());
 
       expect(
         () => easyOverlayState
@@ -69,7 +69,7 @@ void main() {
     });
 
     testWidgets('insert and remove', (widgetTester) async {
-      await widgetTester.pumpWidget(app);
+      await widgetTester.pumpWidget(app());
 
       late final int id;
       easyOverlayState

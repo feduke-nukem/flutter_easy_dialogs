@@ -40,11 +40,16 @@ class FullScreenDialogManager
 
     blockBackButton();
 
-    await initializeAndShow(params);
+    await initializeAndShow(
+      params,
+      (animation) => _createInsertStrategy(params, animation),
+    );
   }
 
-  @override
-  EasyOverlayInsertStrategy createStrategy(FullScreenShowParams params) {
+  EasyOverlayInsertStrategy _createInsertStrategy(
+    FullScreenShowParams params,
+    Animation<double> animation,
+  ) {
     final dialog = _createDialog(params, animation);
 
     return FullScreenDialogInsertStrategy(
@@ -90,14 +95,8 @@ class FullScreenDialogManager
   }
 
   Future<void> _hide() async {
-    try {
-      await hideAndDispose();
-    } finally {
-      super.overlayController.removeDialog(
-            const FullScreenDialogRemoveStrategy(),
-          );
+    await hideAndDispose(const FullScreenDialogRemoveStrategy());
 
-      unblockBackButton();
-    }
+    unblockBackButton();
   }
 }

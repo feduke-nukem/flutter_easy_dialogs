@@ -14,6 +14,54 @@ import 'package:flutter_easy_dialogs/src/util/position_to_animation_converter/po
 
 part 'strategy.dart';
 
+EasyDialogsController _createDialogController({
+  required IEasyOverlayController overlayController,
+  required List<EasyDialogManagerBase> customManagersRaw,
+}) {
+  final positionToAnimationConverter = PositionToAnimationConverter();
+  final positionedAnimationFactory =
+      PositionedAnimationFactory(positionToAnimationConverter);
+
+  final positionedDismissibleFactory = PositionedDismissibleFactory();
+  final modalBannerFactory = EasyModalBannerFactory();
+
+  final bannerManager = PositionedDialogManager(
+    overlayController: overlayController,
+    dialogFactory: EasyBannerFactory(
+      animationFactory: positionedAnimationFactory,
+      dismissibleFactory: positionedDismissibleFactory,
+    ),
+  );
+
+  final modalBannerManager = FullScreenDialogManager(
+    overlayController: overlayController,
+    dialogFactory: modalBannerFactory,
+  );
+
+  final customManagers = <EasyDialogManagerBase>[];
+
+  for (var customAgent in customManagersRaw) {
+    assert(
+      !customManagers.any(
+        (agent) => agent.runtimeType == customAgent.runtimeType,
+      ),
+      'no duplicate type agents should be provided',
+    );
+    customManagers.add(customAgent);
+  }
+
+  final easyDialogsController = EasyDialogsController(
+    bannerManager: bannerManager,
+    modalBannerManager: modalBannerManager,
+    customManagers: Map.fromIterable(
+      customManagers,
+      key: (customAgent) => customAgent.runtimeType,
+    ),
+  );
+
+  return easyDialogsController;
+}
+
 /// Function for providing custom agents
 typedef CustomManagerBuilder = List<EasyDialogManagerBase> Function(
   IEasyOverlayController overlayController,
@@ -103,48 +151,9 @@ class EasyOverlayState extends OverlayState implements IEasyOverlayController {
   }
 
   void _init() {
-    final positionToAnimationConverter = PositionToAnimationConverter();
-    final positionedAnimationFactory =
-        PositionedAnimationFactory(positionToAnimationConverter);
-
-    final positionedDismissibleFactory = PositionedDismissibleFactory();
-    final modalBannerFactory = EasyModalBannerFactory();
-
-    final bannerManager = PositionedDialogManager(
+    easyDialogsController = _createDialogController(
       overlayController: this,
-      dialogFactory: EasyBannerFactory(
-        animationFactory: positionedAnimationFactory,
-        dismissibleFactory: positionedDismissibleFactory,
-      ),
-    );
-
-    final modalBannerManager = FullScreenDialogManager(
-      overlayController: this,
-      dialogFactory: modalBannerFactory,
-    );
-    final customManagersRaw = widget.customManagersBuilder?.call(this);
-
-    final customManagers = <EasyDialogManagerBase>[];
-
-    if (customManagersRaw != null) {
-      for (var customAgent in customManagersRaw) {
-        assert(
-          !customManagers.any(
-            (agent) => agent.runtimeType == customAgent.runtimeType,
-          ),
-          'no duplicate type agents should be provided',
-        );
-        customManagers.add(customAgent);
-      }
-    }
-
-    easyDialogsController = EasyDialogsController(
-      bannerManager: bannerManager,
-      modalBannerManager: modalBannerManager,
-      customManagers: Map.fromIterable(
-        customManagers,
-        key: (customAgent) => customAgent.runtimeType,
-      ),
+      customManagersRaw: widget.customManagersBuilder?.call(this) ?? [],
     );
   }
 
