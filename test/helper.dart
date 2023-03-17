@@ -10,8 +10,10 @@ const dialogKey = ValueKey('dialog');
 
 Widget app({
   CustomManagerBuilder? customManagerBuilder,
+  Widget? child,
 }) =>
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       builder: (context, child) {
         return FlutterEasyDialogsTheme(
           data: FlutterEasyDialogsThemeData.basic(),
@@ -28,4 +30,11 @@ Widget app({
           ),
         );
       },
+      home: child != null
+          ? Builder(
+              builder: (context) {
+                return child;
+              },
+            )
+          : null,
     );

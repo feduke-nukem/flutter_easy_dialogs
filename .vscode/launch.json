@@ -1,6 +1,6 @@
 {
     "version": "0.2.0",
-    "configurations": [ 
+    "configurations": [
         {
             "name": "example",
             "cwd": "example",
@@ -20,6 +20,20 @@
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"
+        },
+        {
+            "name": "Golden",
+            "request": "launch",
+            "type": "dart",
+            "codeLens": {
+                "for": [
+                    "run-test",
+                    "run-test-file"
+                ]
+            },
+            "args": [
+                "--update-goldens"
+            ]
         }
     ]
 }

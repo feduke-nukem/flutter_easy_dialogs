@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
-/// Widget of fullscreen content appearence
+/// Widget of full screen content appearance
 class EasyModalBanner extends StatelessWidget {
   /// Presented content
   final Widget child;

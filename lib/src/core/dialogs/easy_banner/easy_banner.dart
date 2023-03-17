@@ -51,7 +51,7 @@ class EasyBanner extends StatelessWidget {
     return Padding(
       padding: margin ?? theme.margin,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(theme.borderRadius),
+        borderRadius: BorderRadius.circular(borderRadius ?? theme.borderRadius),
         child: ColoredBox(
           color: backgroundColor ??
               FlutterEasyDialogsTheme.of(context)
