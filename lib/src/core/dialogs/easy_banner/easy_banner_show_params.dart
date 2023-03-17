@@ -29,7 +29,6 @@ class EasyBannerShowParams extends PositionedDialogShowParams {
     required super.autoHide,
     required super.dismissibleType,
     required super.content,
-    required super.theme,
     this.padding,
     this.customAnimation,
     this.borderRadius,

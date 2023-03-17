@@ -46,7 +46,6 @@ class CustomManagerShowParams extends ManagerShowParamsBase {
   final Color color;
 
   const CustomManagerShowParams({
-    required super.theme,
     required super.content,
     required this.color,
   });

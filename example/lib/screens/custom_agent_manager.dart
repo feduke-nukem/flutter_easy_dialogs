@@ -30,7 +30,6 @@ class _CustomAgentDialogsScreenState extends State<CustomAgentDialogsScreen> {
                   .useCustom<CustomDialogManager>()
                   .show(
                     params: CustomManagerShowParams(
-                      theme: FlutterEasyDialogsTheme.of(context),
                       content: const Text('Custom'),
                       color:
                           Color((math.Random().nextDouble() * 0xFFFFFF).toInt())

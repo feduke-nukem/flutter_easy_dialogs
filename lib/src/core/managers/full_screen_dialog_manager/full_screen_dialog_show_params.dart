@@ -26,7 +26,6 @@ class FullScreenShowParams extends ManagerShowParamsBase {
 
   /// Creates an instance of [FullScreenShowParams]
   const FullScreenShowParams({
-    required super.theme,
     required super.content,
     required this.backgroundAnimationType,
     required this.contentAnimationType,

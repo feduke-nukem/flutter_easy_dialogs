@@ -101,7 +101,7 @@ void main() {
         'border radius: 20, position top',
         EasyBanner(
           position: EasyDialogPosition.top,
-          borderRadius: 20,
+          borderRadius: BorderRadius.circular(20),
           child: _bannerContent,
         ),
       );

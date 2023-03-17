@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_easy_dialogs/src/core/animations/easy_animation_settings.dart'
     show EasyAnimationSettings;
-import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/flutter_easy_dialogs_theme.dart'
-    show FlutterEasyDialogsThemeData;
 import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart'
     show IEasyOverlayController;
 
@@ -39,15 +37,11 @@ abstract class ManagerShowParamsBase {
   /// Content for showing
   final Widget content;
 
-  /// Theme
-  final FlutterEasyDialogsThemeData theme;
-
   /// Animation settings
   final EasyAnimationSettings? animationSettings;
 
   /// Creates an instance of [ManagerShowParamsBase]
   const ManagerShowParamsBase({
-    required this.theme,
     required this.content,
     this.animationSettings,
   });

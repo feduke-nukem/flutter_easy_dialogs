@@ -4,34 +4,34 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
 /// Dialog banner
 class EasyBanner extends StatelessWidget {
-  /// Backgroung color
+  /// Background color
+  ///
+  /// Use [ThemeData.primaryColor] if null
   final Color? backgroundColor;
 
   /// Presented content
   final Widget child;
 
-  /// Default is ```EdgeInsets.all(10.0)```
-  final EdgeInsets? padding;
+  /// Padding
+  final EdgeInsets padding;
 
   /// Position
   final EasyDialogPosition position;
 
   /// Margin
-  /// Depends on a [FlutterEasyDialogsTheme] if is null
-  final EdgeInsets? margin;
+  final EdgeInsets margin;
 
   /// Border radius
-  /// Depends on a [FlutterEasyDialogsTheme] if is null
-  final double? borderRadius;
+  final BorderRadius borderRadius;
 
   /// Creates an instance of [EasyBanner]
   const EasyBanner({
     required this.child,
     required this.position,
     this.backgroundColor,
-    this.padding,
-    this.margin,
-    this.borderRadius,
+    this.padding = const EdgeInsets.all(10.0),
+    this.margin = EdgeInsets.zero,
+    this.borderRadius = BorderRadius.zero,
     super.key,
   });
 
@@ -46,22 +46,17 @@ class EasyBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = FlutterEasyDialogsTheme.of(context).easyBannerTheme;
-
     return Padding(
-      padding: margin ?? theme.margin,
+      padding: margin,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(borderRadius ?? theme.borderRadius),
+        borderRadius: borderRadius,
         child: ColoredBox(
-          color: backgroundColor ??
-              FlutterEasyDialogsTheme.of(context)
-                  .easyBannerTheme
-                  .backgroundColor,
+          color: backgroundColor ?? Theme.of(context).primaryColor,
           child: SafeArea(
             top: position == EasyDialogPosition.top,
             bottom: position == EasyDialogPosition.bottom,
             child: Padding(
-              padding: padding ?? const EdgeInsets.all(10.0),
+              padding: padding,
               child: SizedBox(
                 width: double.infinity,
                 child: child,

@@ -10,6 +10,10 @@ export 'positioned_dialog_show_params.dart';
 
 part 'strategy.dart';
 
+const _durationUntilAutoHide = Duration(seconds: 3);
+const _duration = Duration(milliseconds: 500);
+const _curve = Curves.fastLinearToSlowEaseIn;
+
 /// ### Manager for showing positioned dialog
 /// Only single dialog of concrete [EasyDialogPosition] can be presented at the
 /// same time
@@ -96,8 +100,7 @@ class PositionedDialogManager extends EasyDialogManagerBase<
     if (!params.autoHide) return;
 
     await Future.delayed(
-      params.durationUntilHide ??
-          params.theme.easyBannerTheme.durationUntilAutoHide,
+      params.durationUntilHide ?? _durationUntilAutoHide,
     );
 
     final animationControllerOfPosition =
@@ -121,10 +124,8 @@ class PositionedDialogManager extends EasyDialogManagerBase<
   }) {
     return AnimationController(
       vsync: super.overlayController,
-      duration: params.animationSettings?.duration ??
-          params.theme.easyBannerTheme.forwardDuration,
-      reverseDuration: params.animationSettings?.reverseDuration ??
-          params.theme.easyBannerTheme.reverseDuration,
+      duration: params.animationSettings?.duration ?? _duration,
+      reverseDuration: params.animationSettings?.reverseDuration ?? _duration,
     );
   }
 

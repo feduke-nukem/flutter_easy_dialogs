@@ -14,7 +14,6 @@ class EasyModalBannerShowParams extends FullScreenShowParams {
 
   /// Creates an instance of [EasyModalBannerShowParams]
   const EasyModalBannerShowParams({
-    required super.theme,
     required super.content,
     required super.backgroundAnimationType,
     required super.contentAnimationType,

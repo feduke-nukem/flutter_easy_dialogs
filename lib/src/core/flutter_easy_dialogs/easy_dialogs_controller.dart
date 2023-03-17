@@ -11,9 +11,6 @@ class EasyDialogsController {
   final FullScreenDialogManager _modalBannerManager;
   final Map<Type, EasyDialogManagerBase> _customManagers;
 
-  /// Data of [FlutterEasyDialogsTheme]
-  FlutterEasyDialogsThemeData? _theme;
-
   /// Creates an instance of [EasyDialogsController]
   EasyDialogsController({
     required PositionedDialogManager bannerManager,
@@ -29,25 +26,20 @@ class EasyDialogsController {
 
     return runtimeType == other.runtimeType &&
         other is EasyDialogsController &&
-        _theme == other._theme &&
-        _bannerManager == other._bannerManager;
+        _bannerManager == other._bannerManager &&
+        _modalBannerManager == other._modalBannerManager &&
+        _customManagers == other._customManagers;
   }
 
   @override
   int get hashCode {
     final values = [
-      _theme,
       _bannerManager,
+      _modalBannerManager,
+      _customManagers,
     ];
 
     return Object.hashAll(values);
-  }
-
-  /// Updates [FlutterEasyDialogsThemeData] of [EasyDialogsController]
-  void updateTheme(FlutterEasyDialogsThemeData theme) {
-    if (theme == _theme) return;
-
-    _theme = theme;
   }
 
   /// Shows material banner
@@ -79,7 +71,6 @@ class EasyDialogsController {
         margin: margin,
         backgroundColor: backgroundColor,
         borderRadius: borderRadius,
-        theme: _theme!,
       ),
     );
   }
@@ -121,7 +112,6 @@ class EasyDialogsController {
   }) async {
     await _modalBannerManager.show(
       params: EasyModalBannerShowParams(
-        theme: _theme!,
         backgroundColor: backgroundColor,
         onDismissed: onDismissed,
         decoration: decoration,

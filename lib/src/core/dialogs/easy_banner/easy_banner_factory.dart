@@ -4,6 +4,8 @@ import 'package:flutter_easy_dialogs/src/core/animations/positioned/factory/posi
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/i_easy_dismissible_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/positioned_dismissible_factory.dart';
 
+const _curve = Curves.fastLinearToSlowEaseIn;
+
 /// [EasyBanner] factory
 class EasyBannerFactory implements IEasyDialogFactory<EasyBannerShowParams> {
   /// Animation factory
@@ -24,9 +26,9 @@ class EasyBannerFactory implements IEasyDialogFactory<EasyBannerShowParams> {
   }) {
     final banner = EasyBanner(
       position: params.position,
-      padding: params.padding,
-      margin: params.margin,
-      borderRadius: params.borderRadius,
+      padding: params.padding ?? EdgeInsets.zero,
+      margin: params.margin ?? EdgeInsets.zero,
+      borderRadius: BorderRadius.zero,
       backgroundColor: params.backgroundColor,
       child: params.content,
     );
@@ -62,8 +64,7 @@ class EasyBannerFactory implements IEasyDialogFactory<EasyBannerShowParams> {
 
     final animation = _animationFactory.createAnimation(
       params: PositionedAnimationCreateParams(
-        curve: params.animationSettings?.curve ??
-            params.theme.easyBannerTheme.animationCurve,
+        curve: params.animationSettings?.curve ?? _curve,
         position: params.position,
         animationType: params.animationType,
       ),

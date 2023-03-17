@@ -5,7 +5,6 @@ import 'package:flutter_easy_dialogs/src/core/dialogs/easy_banner/easy_banner_fa
 import 'package:flutter_easy_dialogs/src/core/dialogs/easy_modal_banner/easy_modal_banner_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/dismissibles/factory/positioned_dismissible_factory.dart';
 import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/easy_dialogs_controller.dart';
-import 'package:flutter_easy_dialogs/src/core/flutter_easy_dialogs/flutter_easy_dialogs_theme.dart';
 import 'package:flutter_easy_dialogs/src/core/managers/easy_dialog_manager_base.dart';
 import 'package:flutter_easy_dialogs/src/core/managers/full_screen_dialog_manager/full_screen_dialog_manager.dart';
 import 'package:flutter_easy_dialogs/src/core/managers/positioned_dialog_manager/positioned_dialog_manager.dart';
@@ -122,14 +121,6 @@ class EasyOverlayState extends OverlayState implements IEasyOverlayController {
   void initState() {
     super.initState();
     _init();
-  }
-
-  @override
-  void didChangeDependencies() {
-    final theme = FlutterEasyDialogsTheme.of(context);
-    easyDialogsController.updateTheme(theme);
-
-    super.didChangeDependencies();
   }
 
   @override

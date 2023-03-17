@@ -22,8 +22,8 @@ class EasyModalBannerFactory
   Widget createDialog({required EasyModalBannerShowParams params}) {
     final modalBanner = EasyModalBanner(
       boxDecoration: params.decoration,
-      margin: params.margin,
-      padding: params.padding,
+      margin: params.margin ?? EdgeInsets.zero,
+      padding: params.padding ?? EdgeInsets.zero,
       child: params.content,
     );
 

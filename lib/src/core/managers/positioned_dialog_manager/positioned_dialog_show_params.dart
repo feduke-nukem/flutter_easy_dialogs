@@ -20,7 +20,6 @@ class PositionedDialogShowParams extends ManagerShowParamsBase {
 
   /// Creates an instance of [PositionedDialogShowParams]
   const PositionedDialogShowParams({
-    required super.theme,
     required super.content,
     required this.position,
     this.dismissibleType = EasyPositionedDismissibleType.none,
