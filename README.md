@@ -327,12 +327,11 @@ The last method will be covered in more detail later. Generally, it provides acc
 
 #### Positioned Examples
 
-<img src="https://user-images.githubusercontent.com/72284940/226207548-b32ca1e5-3896-4d89-9795-1d1868adc850.gif" width="300">
-<img src="https://user-images.githubusercontent.com/72284940/226208001-47b3f169-5235-415a-8fec-f438139c9414.gif" width="300">
+<img src="https://user-images.githubusercontent.com/72284940/226207548-b32ca1e5-3896-4d89-9795-1d1868adc850.gif" width="300"><img src="https://user-images.githubusercontent.com/72284940/226208001-47b3f169-5235-415a-8fec-f438139c9414.gif" width="300">
 
 #### Positioned customization
 
-<img src="https://user-images.githubusercontent.com/72284940/226208034-5c1802bc-bdfd-47b9-bf72-900ad764f670.gif">
+<img src="https://user-images.githubusercontent.com/72284940/226208034-5c1802bc-bdfd-47b9-bf72-900ad764f670.gif" width = "350">
 
 You can observe the example in: `example/lib/screens/positioned_dialog_customization_screen.dart`
 
@@ -355,9 +354,9 @@ Expansion:
  
 #### Full screen examples
 
-<img src="https://user-images.githubusercontent.com/72284940/226208118-5cacd7af-da65-4a3d-a595-fc25c36ac68b.gif
-" width="300"><img src="https://user-images.githubusercontent.com/72284940/226208121-0484be5f-a493-48dc-93f5-9df97c1feb96.gif
-" width="300">
+<img src="https://user-images.githubusercontent.com/72284940/226210980-d3fa1560-1cd5-4694-81e5-990c3cd2a9dc.gif" width="300"><img src="https://user-images.githubusercontent.com/72284940/226211002-f85edaa0-982b-4bbe-89ed-453b1bfedf83.gif" width="300">
+  
+
 
 ## Custom
 #### Custom manager setup
@@ -447,8 +446,9 @@ Simply call with your `Manager` type provided as a generic:
         );
 ```
 #### Custom manager example
-<img src="https://user-images.githubusercontent.com/72284940/226210631-64b8f2b4-9750-4fd1-be8c-046a59a429da.gif
-" width="300">
+<img src="https://user-images.githubusercontent.com/72284940/226210899-89876b31-eb9d-42a6-a351-23fc1f8e896a.gif" width="300">
+ 
+
 
 
 ## Special thanks
