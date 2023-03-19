@@ -1,14 +1,17 @@
-import 'package:example/screens/custom_agent_manager.dart';
+import 'package:example/screens/custom_manager_screen.dart';
 import 'package:example/screens/home_screen.dart';
-import 'package:example/screens/modal_banner_screen.dart';
+import 'package:example/screens/positioned_dialog_customization_screen.dart';
 import 'package:example/screens/positioned_dialogs_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'screens/full_screen_dialog_screen.dart';
 
 class EasyRouter {
   static const initialRoute = '/';
   static const positionedDialogsRoute = '/positioned';
-  static const modalBannerRoute = '/modal-banner';
+  static const modalBannerRoute = '/full-screen';
   static const customAgentRoute = '/custom-agent';
+  static const positionedDialogCustomization = '/positioned-customization';
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -22,12 +25,15 @@ class EasyRouter {
         );
       case modalBannerRoute:
         return _buildRoute(
-          const ModalBannerScreen(),
+          const FullScreenDialogScreen(),
         );
       case customAgentRoute:
         return _buildRoute(
-          const CustomAgentDialogsScreen(),
+          const CustomManagerDialogsScreen(),
         );
+
+      case positionedDialogCustomization:
+        return _buildRoute(const PositionedDialogCustomizationScreen());
       default:
         return null;
     }

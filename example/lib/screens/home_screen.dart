@@ -27,8 +27,13 @@ class HomeScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () =>
                   Navigator.of(context).pushNamed(EasyRouter.customAgentRoute),
-              child: const Text('Custom agent  example'),
-            )
+              child: const Text('Custom agent example'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context)
+                  .pushNamed(EasyRouter.positionedDialogCustomization),
+              child: const Text('Positioned dialog customization example'),
+            ),
           ],
         ),
       ),

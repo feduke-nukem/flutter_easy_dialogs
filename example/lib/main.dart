@@ -19,15 +19,11 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: EasyRouter.initialRoute,
       onGenerateRoute: EasyRouter.onGenerateRoute,
-      builder: (context, child) {
-        final builder = FlutterEasyDialogs.builder(
-          /// Provide custom dialog agent
-          customManagerBuilder: (overlayController) =>
-              [CustomDialogManager(overlayController: overlayController)],
-        );
-
-        return builder(context, child);
-      },
+      builder: FlutterEasyDialogs.builder(
+        /// Provide custom dialog agent
+        customManagerBuilder: (overlayController) =>
+            [MyDialogManager(overlayController: overlayController)],
+      ),
     );
   }
 }

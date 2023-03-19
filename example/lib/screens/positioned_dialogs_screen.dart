@@ -10,7 +10,7 @@ class PositionedDialogsScreen extends StatefulWidget {
 }
 
 class _PositionedDialogsScreenState extends State<PositionedDialogsScreen> {
-  final _easyDialogsController = FlutterEasyDialogs.dialogsController;
+  final _easyDialogsController = FlutterEasyDialogs.controller;
   final _animationTypeDropDownItems = EasyPositionedAnimationType.values
       .map(
         (e) => DropdownMenuItem<EasyPositionedAnimationType>(
@@ -113,11 +113,11 @@ class _PositionedDialogsScreenState extends State<PositionedDialogsScreen> {
               child: const Text('Show'),
             ),
             ElevatedButton(
-              onPressed: _easyDialogsController.hideAllBanners,
+              onPressed: _easyDialogsController.hideAllPositioned,
               child: const Text('Hide all'),
             ),
             ElevatedButton(
-              onPressed: () => _easyDialogsController.hideBanner(
+              onPressed: () => _easyDialogsController.hidePositioned(
                 position: _selectedPosition,
               ),
               child: const Text('Hide by position'),
@@ -129,21 +129,24 @@ class _PositionedDialogsScreenState extends State<PositionedDialogsScreen> {
   }
 
   void _show() {
-    _easyDialogsController.showBanner(
-      onDismissed: () {},
-      content: ElevatedButton(
-        style: ElevatedButton.styleFrom(primary: Colors.red),
-        onPressed: () {},
-        child: const Text(
-          'BANNER',
-          style: TextStyle(fontSize: 30),
+    _easyDialogsController.showPositioned(
+      params: PositionedShowParams(
+        dismissible: EasyPositionedDismissible.fromType(
+          type: _selectedDismissibleType,
         ),
+        animator: EasyPositionedAnimator.fromType(type: _selectedAnimationType),
+        autoHide: _isAutoHide,
+        durationUntilHide: Duration(milliseconds: _autoHideDuration.toInt()),
+        content: ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+          onPressed: () {},
+          child: const Text(
+            'BANNER',
+            style: TextStyle(fontSize: 30),
+          ),
+        ),
+        position: _selectedPosition,
       ),
-      durationUntilHide: Duration(milliseconds: _autoHideDuration.toInt()),
-      autoHide: _isAutoHide,
-      position: _selectedPosition,
-      animationType: _selectedAnimationType,
-      dismissibleType: _selectedDismissibleType,
     );
   }
 }

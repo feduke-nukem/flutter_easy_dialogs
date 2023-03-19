@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/overlay/overlay.dart';
+import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_entry.dart';
+import 'package:flutter_easy_dialogs/src/overlay/easy_overlay.dart';
 
 final _key = GlobalKey<EasyOverlayState>();
 

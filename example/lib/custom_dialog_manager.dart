@@ -3,12 +3,12 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
 int? _customDialogId;
 
-class CustomDialogManager extends EasyDialogManagerBase<CustomManagerShowParams,
-    ManagerHideParamsBase?> {
-  CustomDialogManager({required super.overlayController});
+class MyDialogManager extends CustomManager<CustomManagerShowParams,
+    EasyDialogManagerHideParams?> {
+  MyDialogManager({required super.overlayController});
 
   @override
-  Future<void> hide({ManagerHideParamsBase? params}) async {
+  Future<void> hide({EasyDialogManagerHideParams? params}) async {
     super.overlayController.removeDialog(
           CustomDialogRemoveStrategy(
             dialogId: _customDialogId!,
@@ -42,7 +42,7 @@ class CustomDialogManager extends EasyDialogManagerBase<CustomManagerShowParams,
   }
 }
 
-class CustomManagerShowParams extends ManagerShowParamsBase {
+class CustomManagerShowParams extends EasyDialogManagerShowParams {
   final Color color;
 
   const CustomManagerShowParams({

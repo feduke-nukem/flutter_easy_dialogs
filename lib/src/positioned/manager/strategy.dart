@@ -1,0 +1,59 @@
+part of 'positioned_manager.dart';
+
+/// Insert positioned dialog into [IEasyOverlayBox].
+///
+/// Only single one dialog of concrete position can persists at the same time.
+
+// Just a complex file
+// ignore: prefer-match-file-name
+class PositionedDialogInsertStrategy
+    extends EasyOverlayBoxInsert<PositionedManager> {
+  final EasyDialogPosition position;
+
+  const PositionedDialogInsertStrategy({
+    required this.position,
+    required super.dialog,
+  });
+
+  @override
+  EasyOverlayEntry apply(IEasyOverlayBox box) {
+    final container =
+        box.putIfAbsent<Map<EasyDialogPosition, EasyOverlayEntry>>(
+      key,
+      () => {},
+    );
+    assert(
+      !container.containsKey(position),
+      'only single one $EasyDialogsOverlayEntry with the same $EasyDialogPosition can be presented at the same time',
+    );
+
+    final entry = EasyDialogsOverlayEntry(
+      builder: (_) => dialog,
+    );
+
+    container[position] = entry;
+
+    return entry;
+  }
+}
+
+/// Remove positioned dialog from the [IEasyOverlayBox].
+class PositionedDialogRemoveStrategy
+    extends EasyOverlayBoxRemove<PositionedManager> {
+  final EasyDialogPosition position;
+
+  const PositionedDialogRemoveStrategy({
+    required this.position,
+  });
+
+  @override
+  EasyOverlayEntry? apply(IEasyOverlayBox box) {
+    final container = box.get<Map<EasyDialogPosition, EasyOverlayEntry>>(key);
+
+    assert(container != null, 'entries container is not initialized');
+
+    if (container!.entries.isEmpty) return null;
+
+    return container.remove(position);
+  }
+}

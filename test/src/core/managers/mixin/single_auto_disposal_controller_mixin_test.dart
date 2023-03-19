@@ -4,19 +4,19 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../helper.dart';
 
-class _DummyManager extends EasyDialogManagerBase<ManagerShowParamsBase?,
-    ManagerHideParamsBase?> with SingleAutoDisposalControllerMixin {
+class _DummyManager extends EasyDialogManager<EasyDialogManagerShowParams?,
+    EasyDialogManagerHideParams?> with SingleAutoDisposalControllerMixin {
   _DummyManager({required super.overlayController});
 
   int? _dialogId;
 
   @override
-  Future<void> hide({ManagerHideParamsBase? params}) {
+  Future<void> hide({EasyDialogManagerHideParams? params}) {
     return hideAndDispose(CustomDialogRemoveStrategy(dialogId: _dialogId!));
   }
 
   @override
-  Future<void> show({ManagerShowParamsBase? params}) {
+  Future<void> show({EasyDialogManagerShowParams? params}) {
     return initializeAndShow(
       params,
       (animation) => CustomDialogInsertStrategy(
@@ -31,7 +31,7 @@ class _DummyManager extends EasyDialogManagerBase<ManagerShowParamsBase?,
   @override
   AnimationController createAnimationController(
     TickerProvider vsync,
-    ManagerShowParamsBase? params,
+    EasyDialogManagerShowParams? params,
   ) =>
       AnimationController(
         vsync: const TestVSync(),
@@ -55,7 +55,7 @@ void main() {
           return [
             _DummyManager(
               overlayController: overlayController,
-            )
+            ),
           ];
         },
       ),
@@ -87,7 +87,7 @@ void main() {
           return [
             _DummyManager(
               overlayController: overlayController,
-            )
+            ),
           ];
         },
       ),

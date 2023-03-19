@@ -1,3 +1,13 @@
+## 2.0.0-alpha (Breaking changes)
+* Completely redesigned API and project structure
+* BREAKING: `showModalBanner`, `hideModalBanner`, `hideAllBanners`, `hideBanner`, `showBanner` are deprecated now and will be removed in 2.1.0
+* BREAKING: Removed theming
+* BREAKING: New providing animations approach. Previous will be removed in 2.1.0
+* Covered with tests 
+* `EasyAnimationSettings` renamed to `EasyAnimationConfiguration` and extended. Provided `FullScreenDialogManager` and `PositionedDialogManager` usage of this
+* Increased test coverage
+* BREAKING: Removed unnecessary factories 
+
 ## 1.1.0
 
 * Fixed typos
