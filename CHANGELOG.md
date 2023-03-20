@@ -1,4 +1,9 @@
+## 2.0.1-alpha
+
+* Updated README.md 
+
 ## 2.0.0-alpha (Breaking changes)
+
 * Completely redesigned API and project structure
 * BREAKING: `showModalBanner`, `hideModalBanner`, `hideAllBanners`, `hideBanner`, `showBanner` are deprecated now and will be removed in 2.1.0
 * BREAKING: Removed theming
