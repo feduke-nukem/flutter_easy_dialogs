@@ -92,7 +92,7 @@ Or
 *What is `Manager`, exactly?*
 They are objects that are responsible for showing, hiding, and taking care of all related dialogs (including positioning, playing animations, inserting in overlay etc.)
 
-We have a class that serves as the base for all `Managers` that have exactly two responsibilities: *to show* and *to hide*
+We have a class that serves as the base for all `Managers` that have exactly two responsibilities: *`to show`* and *`to hide`*
 
 ```dart
 abstract class EasyDialogManager<S extends EasyDialogManagerShowParams?,
@@ -133,7 +133,7 @@ abstract class EasyDialogManagerHideParams {
 ```
 The mandatory things are *`Widget`-`content`* and *`EasyAnimationConfiguration`-`animationConfiguration`*. The purpose of the first one is pretty obvious, while the last one is responsible for providing options that the `Manager` may use to configure the `AnimationController`.
 #### Strategies
-The core thing that allows you to inject your beautiful dialogs into the `Overlay` is encapsulated within the `Insert/Remove Strategy`, which will be covered a bit later in the `Overlay` section. Now you are just need to know that they exists and they are similar to theStrategy/Command pattern.
+The core thing that allows you to inject your beautiful dialogs into the `Overlay` is encapsulated within the `Insert/Remove Strategy`, which will be covered a bit later in the `Overlay` section. Now you are just need to know that they exists and they are similar to the `Strategy/Command` pattern.
 
 #### Overlay
 ##### Controller
@@ -180,7 +180,7 @@ abstract class EasyOverlayBoxMutation<M extends EasyDialogManager,
 }
 ```
 The result of applying of the `mutation strategy` must be an any derived class of `EasyOverlayEntry` (specific class derived from [OverlayEntry](https://api.flutter.dev/flutter/widgets/OverlayEntry-class.html)) which can later could be used within `IEasyOverlayController` to insert that `entry` into [EasyOverlay](#easy-overlay).
-For the sake of simplicity, there are two derived classes. 
+For the sake of simplicity, there are two classes. 
 
 One is for `inserting`: 
 
