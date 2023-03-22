@@ -1,9 +1,10 @@
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easy_dialogs/src/core/i_easy_overlay_controller.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_entry.dart';
 
-/// Implementation of [IEasyOverlayBox].
-class EasyOverlayBox implements IEasyOverlayBox {
+/// Implementation of [IEasyDialogsOverlayBox].
+class EasyDialogsOverlayBox implements IEasyDialogsOverlayBox {
   @visibleForTesting
   final currentEntries = <Object, Object?>{};
 

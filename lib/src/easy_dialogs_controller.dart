@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dismissible.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_dismissible.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/manager/full_screen_manager.dart';
 
 import 'positioned/manager/positioned_manager.dart';
@@ -161,8 +161,8 @@ class EasyDialogsController implements IEasyDialogsController {
     OnEasyDismiss? onDismissed,
     EdgeInsets? padding,
     EdgeInsets? margin,
-    IEasyAnimator? customBackgroundAnimation,
-    IEasyAnimator? customContentAnimation,
+    IEasyDialogAnimator? customBackgroundAnimation,
+    IEasyDialogAnimator? customContentAnimation,
   }) async {
     final backgroundAnimator = EasyFullScreenBackgroundAnimator.fromType(
       type: backgroundAnimationType,

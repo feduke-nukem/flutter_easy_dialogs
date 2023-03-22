@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_entry.dart';
-import 'package:flutter_easy_dialogs/src/overlay/easy_overlay.dart';
+import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay.dart';
 
-final _key = GlobalKey<EasyOverlayState>();
+final _key = GlobalKey<EasyDialogsOverlayState>();
 
-EasyOverlayState get easyOverlayState => _key.currentState!;
+EasyDialogsOverlayState get easyOverlayState => _key.currentState!;
 
 const dialogKey = ValueKey('dialog');
 
@@ -16,7 +16,7 @@ Widget app({
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
         return Material(
-          child: EasyOverlay(
+          child: EasyDialogsOverlay(
             key: _key,
             customManagersBuilder: customManagerBuilder,
             initialEntries: [

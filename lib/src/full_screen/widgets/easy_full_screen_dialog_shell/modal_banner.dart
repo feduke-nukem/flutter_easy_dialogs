@@ -1,8 +1,7 @@
 part of 'easy_full_screen_dialog_shell.dart';
 
 /// Widget of full screen content appearance.
-class _ModalBanner extends StatelessWidget
-    implements EasyFullScreenDialogShell {
+class _ModalBanner extends EasyFullScreenDialogShell {
   /// Padding.
   final EdgeInsets padding;
 
@@ -21,9 +20,7 @@ class _ModalBanner extends StatelessWidget
   });
 
   @override
-  Widget build(BuildContext context) {
-    final data = context.readDialog<EasyFullScreenScopeData>();
-
+  Widget build(BuildContext context, EasyFullScreenScopeData data) {
     return Center(
       child: Container(
         padding: padding,
@@ -32,5 +29,11 @@ class _ModalBanner extends StatelessWidget
         child: data.content,
       ),
     );
+  }
+
+  @override
+  Widget configure(Widget child) {
+    // TODO: implement configure
+    throw UnimplementedError();
   }
 }

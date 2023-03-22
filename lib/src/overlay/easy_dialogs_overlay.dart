@@ -5,7 +5,7 @@ import 'package:flutter_easy_dialogs/src/core/i_easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/i_easy_overlay_controller.dart';
 import 'package:flutter_easy_dialogs/src/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_entry.dart';
-import 'package:flutter_easy_dialogs/src/overlay/easy_overlay_box.dart';
+import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_box.dart';
 
 EasyDialogsController _createDialogController({
   required IEasyOverlayController overlayController,
@@ -40,12 +40,12 @@ typedef CustomManagerBuilder = List<EasyDialogManager> Function(
 );
 
 /// Overlay for providing dialogs.
-class EasyOverlay extends Overlay {
+class EasyDialogsOverlay extends Overlay {
   /// Custom agent builder function.
   final CustomManagerBuilder? customManagersBuilder;
 
-  /// Creates an instance of [EasyOverlay].
-  const EasyOverlay({
+  /// Creates an instance of [EasyDialogsOverlay].
+  const EasyDialogsOverlay({
     super.initialEntries = const <OverlayEntry>[],
     super.clipBehavior = Clip.hardEdge,
     this.customManagersBuilder,
@@ -53,17 +53,18 @@ class EasyOverlay extends Overlay {
   });
 
   @override
-  EasyOverlayState createState() => EasyOverlayState();
+  EasyDialogsOverlayState createState() => EasyDialogsOverlayState();
 }
 
-class EasyOverlayState extends OverlayState implements IEasyOverlayController {
+class EasyDialogsOverlayState extends OverlayState
+    implements IEasyOverlayController {
   @visibleForTesting
-  final box = EasyOverlayBox();
+  final box = EasyDialogsOverlayBox();
 
   // Casting super.widget
   // ignore: avoid-returning-widgets
   @override
-  EasyOverlay get widget => super.widget as EasyOverlay;
+  EasyDialogsOverlay get widget => super.widget as EasyDialogsOverlay;
 
   late final IEasyDialogsController easyDialogsController =
       _createDialogController(

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
@@ -15,7 +14,7 @@ class PositionedDialogCustomizationScreen extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () => FlutterEasyDialogs.controller.showPositioned(
             params: PositionedShowParams(
-              animationConfiguration: const EasyAnimationConfiguration(
+              animationConfiguration: const EasyDialogAnimatorConfiguration(
                 duration: Duration(seconds: 1),
                 reverseDuration: Duration(milliseconds: 200),
               ),
@@ -41,16 +40,14 @@ class PositionedDialogCustomizationScreen extends StatelessWidget {
   }
 }
 
-class _CustomPositionedShell extends StatelessWidget
-    implements EasyPositionedDialogShell {
+class _CustomPositionedShell extends EasyPositionedDialogShell {
   const _CustomPositionedShell();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, EasyPositionedScopeData data) {
     return ColoredBox(
       color: Colors.amber,
-      // read provided data from context
-      child: context.readDialog<EasyPositionedScopeData>().content,
+      child: data.content,
     );
   }
 }

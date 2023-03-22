@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_animator.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dismissible.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_dismissible.dart';
 import 'package:flutter_easy_dialogs/src/core/i_easy_overlay_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/widgets/easy_dialog_scope.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/animation/easy_full_screen_foreground_animator/easy_full_screen_foreground_animator.dart'
@@ -88,7 +88,7 @@ class FullScreenManager
     Widget dialog = params.shell;
 
     final animator = params.customAnimator ??
-        EasyAnimator.combine(
+        EasyDialogAnimator.combine(
           animators: [
             params.foregroundAnimator,
             params.backgroundAnimator,
@@ -96,7 +96,7 @@ class FullScreenManager
         );
 
     dialog = EasyDialogScope(
-      data: EasyDismissibleScopeData(),
+      data: EasyDismissibleScopeData(handleDismiss: _hide),
       child: params.dismissible.makeDismissible(dialog),
     );
 

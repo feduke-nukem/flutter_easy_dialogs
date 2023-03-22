@@ -19,8 +19,7 @@ dart_code_metrics:
     - no-equal-then-else
     - prefer-moving-to-variable 
     - prefer-match-file-name
-    - avoid-double-slash-imports
-    # - avoid-non-null-assertion 
+    - avoid-double-slash-imports 
     - no-object-declaration
     - member-ordering:
         order:
@@ -38,6 +37,8 @@ dart_code_metrics:
           - dispose-method
     - format-comment:
         only-doc-comments: true
+        ignored-patterns: 
+            - "@nodoc"
     - no-boolean-literal-compare:
         severity: error
     - double-literal-format:

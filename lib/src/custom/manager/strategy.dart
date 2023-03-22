@@ -16,7 +16,7 @@ class CustomDialogInsertStrategy extends EasyOverlayBoxInsert<CustomManager> {
   }) : _onInserted = onInserted;
 
   @override
-  EasyOverlayEntry apply(IEasyOverlayBox box) {
+  EasyOverlayEntry apply(IEasyDialogsOverlayBox box) {
     final container = box.putIfAbsent<List<EasyOverlayEntry>>(key, () => []);
 
     final entry = EasyDialogsOverlayEntry(builder: (_) => dialog);
@@ -40,7 +40,7 @@ class CustomDialogRemoveStrategy extends EasyOverlayBoxRemove<CustomManager> {
   }) : _dialogId = dialogId;
 
   @override
-  EasyOverlayEntry? apply(IEasyOverlayBox box) {
+  EasyOverlayEntry? apply(IEasyDialogsOverlayBox box) {
     final container = box.get<List<EasyOverlayEntry>>(key);
 
     assert(container != null, 'entries container is not initialized');

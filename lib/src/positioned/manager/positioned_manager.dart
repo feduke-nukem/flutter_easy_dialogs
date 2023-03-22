@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_manager.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dismissible.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_dismissible.dart';
 import 'package:flutter_easy_dialogs/src/core/i_easy_overlay_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/widgets/easy_dialog_scope.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_entry.dart';
@@ -96,9 +96,7 @@ class PositionedManager
 
     if (!params.autoHide) return;
 
-    await Future.delayed(
-      params.durationUntilHide,
-    );
+    await Future.delayed(params.durationUntilHide);
 
     final animationControllerOfPosition =
         _dialogsMap.getController(params.position);

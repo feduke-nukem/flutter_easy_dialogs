@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_animator.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/animation/deprecated/easy_full_screen_background_animation_type.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/widgets/easy_full_screen_blur.dart';
 part 'blur.dart';
@@ -8,7 +8,7 @@ part 'none.dart';
 
 const _defaultOpacity = 0.5;
 
-abstract class EasyFullScreenBackgroundAnimator extends EasyAnimator {
+abstract class EasyFullScreenBackgroundAnimator extends EasyDialogAnimator {
   const EasyFullScreenBackgroundAnimator({
     super.curve,
   });

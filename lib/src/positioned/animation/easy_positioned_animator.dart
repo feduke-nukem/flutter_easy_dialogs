@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_animator.dart';
-import 'package:flutter_easy_dialogs/src/core/widgets/easy_expansion_transition.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator.dart';
+import 'package:flutter_easy_dialogs/src/core/widgets/easy_dialog_expansion_transition.dart';
 import 'package:flutter_easy_dialogs/src/positioned/deprecated/easy_positioned_animation_type.dart';
 import 'package:flutter_easy_dialogs/src/positioned/easy_dialog_position.dart';
 
@@ -11,7 +11,7 @@ part 'slide.dart';
 const _defaultCurve = Curves.fastLinearToSlowEaseIn;
 
 /// Union class of positioned animations.
-abstract class EasyPositionedAnimator extends EasyAnimator {
+abstract class EasyPositionedAnimator extends EasyDialogAnimator {
   const EasyPositionedAnimator({
     super.curve,
   });

@@ -1,6 +1,6 @@
 part of 'positioned_manager.dart';
 
-/// Insert positioned dialog into [IEasyOverlayBox].
+/// Insert positioned dialog into [IEasyDialogsOverlayBox].
 ///
 /// Only single one dialog of concrete position can persists at the same time.
 
@@ -16,7 +16,7 @@ class PositionedDialogInsertStrategy
   });
 
   @override
-  EasyOverlayEntry apply(IEasyOverlayBox box) {
+  EasyOverlayEntry apply(IEasyDialogsOverlayBox box) {
     final container =
         box.putIfAbsent<Map<EasyDialogPosition, EasyOverlayEntry>>(
       key,
@@ -37,7 +37,7 @@ class PositionedDialogInsertStrategy
   }
 }
 
-/// Remove positioned dialog from the [IEasyOverlayBox].
+/// Remove positioned dialog from the [IEasyDialogsOverlayBox].
 class PositionedDialogRemoveStrategy
     extends EasyOverlayBoxRemove<PositionedManager> {
   final EasyDialogPosition position;
@@ -47,7 +47,7 @@ class PositionedDialogRemoveStrategy
   });
 
   @override
-  EasyOverlayEntry? apply(IEasyOverlayBox box) {
+  EasyOverlayEntry? apply(IEasyDialogsOverlayBox box) {
     final container = box.get<Map<EasyDialogPosition, EasyOverlayEntry>>(key);
 
     assert(container != null, 'entries container is not initialized');

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dismissible.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_dismissible.dart';
 import 'package:flutter_easy_dialogs/src/positioned/deprecated/easy_positioned_dismissible_type.dart';
 import 'package:flutter_easy_dialogs/src/util/easy_dialog_scope_x.dart';
 
@@ -7,7 +7,7 @@ part 'tap.dart';
 part 'swipe.dart';
 part 'gesture.dart';
 
-abstract class EasyPositionedDismissible extends EasyDismissible {
+abstract class EasyPositionedDismissible extends EasyDialogDismissible {
   const EasyPositionedDismissible({required super.onDismiss});
 
   const factory EasyPositionedDismissible.gesture({

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_animator.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/animation/deprecated/easy_fullscreen_content_animation_type.dart';
 import 'package:flutter_easy_dialogs/src/util/multiply_animation.dart';
 
@@ -8,7 +8,7 @@ part 'expansion.dart';
 part 'fade.dart';
 part 'none.dart';
 
-abstract class EasyFullScreenForegroundAnimator extends EasyAnimator {
+abstract class EasyFullScreenForegroundAnimator extends EasyDialogAnimator {
   const EasyFullScreenForegroundAnimator({
     super.curve,
   });

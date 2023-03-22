@@ -148,7 +148,7 @@ class _FullScreenDialogScreenState extends State<FullScreenDialogScreen> {
 }
 
 /// You can provide custom animation
-class CustomAnimator implements IEasyAnimator {
+class CustomAnimator implements IEasyDialogAnimator {
   @override
   Widget animate({required Animation<double> parent, required Widget child}) {
     final offset = Tween<Offset>(

@@ -9,7 +9,7 @@ class FullScreenDialogInsertStrategy
   const FullScreenDialogInsertStrategy({required super.dialog});
 
   @override
-  EasyOverlayEntry apply(IEasyOverlayBox box) {
+  EasyOverlayEntry apply(IEasyDialogsOverlayBox box) {
     assert(
       box.get(super.key) == null,
       'only single one full screen $EasyDialogsOverlayEntry can be presented',
@@ -25,13 +25,13 @@ class FullScreenDialogInsertStrategy
   }
 }
 
-/// Remove full screen dialog from the [IEasyOverlayBox].
+/// Remove full screen dialog from the [IEasyDialogsOverlayBox].
 @visibleForTesting
 class FullScreenDialogRemoveStrategy
     extends EasyOverlayBoxRemove<FullScreenManager> {
   const FullScreenDialogRemoveStrategy();
 
   @override
-  EasyOverlayEntry? apply(IEasyOverlayBox box) =>
+  EasyOverlayEntry? apply(IEasyDialogsOverlayBox box) =>
       box.remove<EasyOverlayEntry>(key);
 }

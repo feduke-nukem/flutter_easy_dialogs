@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dismissible.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_dismissible.dart';
 
 /// Controller for manipulating dialogs via [FlutterEasyDialogs].
 abstract class IEasyDialogsController {
@@ -60,8 +60,8 @@ abstract class IEasyDialogsController {
     OnEasyDismiss? onDismissed,
     EdgeInsets? padding,
     EdgeInsets? margin,
-    IEasyAnimator? customBackgroundAnimation,
-    IEasyAnimator? customContentAnimation,
+    IEasyDialogAnimator? customBackgroundAnimation,
+    IEasyDialogAnimator? customContentAnimation,
   });
 
   @Deprecated('Use `hideFullScreen` instead. Will be removed in 2.1.0')

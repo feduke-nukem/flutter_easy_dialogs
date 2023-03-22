@@ -1,7 +1,7 @@
 part of 'easy_positioned_dismissible.dart';
 
 /// Animated tap dismissible.
-class _Tap extends EasyDismissible implements EasyPositionedDismissible {
+class _Tap extends EasyDialogDismissible implements EasyPositionedDismissible {
   const _Tap({
     super.onDismiss,
   });

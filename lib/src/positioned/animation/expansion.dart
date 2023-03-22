@@ -42,7 +42,7 @@ class _EasyExpansionAnimation extends AnimatedWidget {
   Widget build(BuildContext context) {
     final expansion = listenable as Animation<double>;
 
-    return EasyExpansionTransition(
+    return EasyDialogExpansionTransition(
       expansion: expansion,
       child: child,
     );

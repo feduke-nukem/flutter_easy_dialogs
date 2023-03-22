@@ -1,7 +1,7 @@
 part of 'easy_positioned_dialog_shell.dart';
 
 /// Dialog banner.
-class _Banner extends StatelessWidget implements EasyPositionedDialogShell {
+class _Banner extends EasyPositionedDialogShell {
   /// Background color.
   ///
   /// Use [ThemeData.primaryColor] if null.
@@ -34,9 +34,7 @@ class _Banner extends StatelessWidget implements EasyPositionedDialogShell {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final data = context.readDialog<EasyPositionedScopeData>();
-
+  Widget build(BuildContext context, EasyPositionedScopeData data) {
     return Padding(
       padding: margin,
       child: ClipRRect(

@@ -10,7 +10,7 @@ abstract class IEasyOverlayController implements TickerProvider {
 }
 
 /// Box for storing EasyDialogs specific entries.
-abstract class IEasyOverlayBox {
+abstract class IEasyDialogsOverlayBox {
   /// Put [value] with associated [key].
   void put(Object key, Object value);
 
@@ -24,7 +24,7 @@ abstract class IEasyOverlayBox {
   T putIfAbsent<T>(Object key, T Function() ifAbsent);
 }
 
-/// Similar to Command/Strategy class for applying specific mutation within [IEasyOverlayBox].
+/// Similar to Command/Strategy class for applying specific mutation within [IEasyDialogsOverlayBox].
 ///
 /// [M] type is for providing associated derivative from [EasyDialogManager].
 abstract class EasyOverlayBoxMutation<M extends EasyDialogManager,
@@ -36,7 +36,7 @@ abstract class EasyOverlayBoxMutation<M extends EasyDialogManager,
   /// Apply mutation to provided [box].
   ///
   /// The result is [R].
-  R apply(IEasyOverlayBox box);
+  R apply(IEasyDialogsOverlayBox box);
 }
 
 /// Insert mutation.

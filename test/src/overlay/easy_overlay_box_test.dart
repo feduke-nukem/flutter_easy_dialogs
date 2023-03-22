@@ -1,11 +1,11 @@
-import 'package:flutter_easy_dialogs/src/overlay/easy_overlay_box.dart';
+import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_box.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  late EasyOverlayBox sut;
+  late EasyDialogsOverlayBox sut;
 
   setUp(() {
-    sut = EasyOverlayBox();
+    sut = EasyDialogsOverlayBox();
   });
 
   test('insert int with string key', () {

@@ -2,12 +2,14 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/widgets/easy_dialog_scope.dart';
 import 'package:flutter_easy_dialogs/src/positioned/easy_dialog_position.dart';
-import 'package:flutter_easy_dialogs/src/core/widgets/easy_dialog_shell.dart';
-import 'package:flutter_easy_dialogs/src/util/easy_dialog_scope_x.dart';
+import 'package:flutter_easy_dialogs/src/core/widgets/easy_dialog_widget.dart';
 
 part 'banner.dart';
 
-abstract class EasyPositionedDialogShell extends EasyDialogShell {
+abstract class EasyPositionedDialogShell
+    extends EasyDialogShell<EasyPositionedScopeData> {
+  const EasyPositionedDialogShell({super.key});
+
   const factory EasyPositionedDialogShell.banner({
     Color? backgroundColor,
     EdgeInsets padding,

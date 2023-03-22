@@ -1,5 +1,5 @@
-import 'package:flutter_easy_dialogs/src/core/easy_animation_configuration.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_animator.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator_configuration.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/animation/easy_full_screen_background_animator/easy_full_screen_background_animator.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/animation/easy_full_screen_foreground_animator/easy_full_screen_foreground_animator.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/dismissible/easy_full_screen_dismissible.dart';
@@ -24,12 +24,12 @@ class FullScreenShowParams extends EasyDialogManagerShowParams {
   /// Dialog content shell.
   final EasyFullScreenDialogShell shell;
 
-  final IEasyAnimator? customAnimator;
+  final IEasyDialogAnimator? customAnimator;
 
   /// Creates an instance of [FullScreenShowParams].
   const FullScreenShowParams({
     required super.content,
-    super.animationConfiguration = const EasyAnimationConfiguration(
+    super.animationConfiguration = const EasyDialogAnimatorConfiguration(
       duration: _defaultDuration,
       reverseDuration: _defaultReverseDuration,
     ),

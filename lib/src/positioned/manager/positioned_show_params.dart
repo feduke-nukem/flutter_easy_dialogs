@@ -1,4 +1,4 @@
-import 'package:flutter_easy_dialogs/src/core/easy_animation_configuration.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator_configuration.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_manager.dart';
 import 'package:flutter_easy_dialogs/src/positioned/animation/easy_positioned_animator.dart';
 import 'package:flutter_easy_dialogs/src/positioned/dismissible/easy_positioned_dismissible.dart';
@@ -36,7 +36,7 @@ class PositionedShowParams extends EasyDialogManagerShowParams {
     this.animator = const EasyPositionedAnimator.fade(),
     this.shell = const EasyPositionedDialogShell.banner(),
     this.autoHide = false,
-    super.animationConfiguration = const EasyAnimationConfiguration(
+    super.animationConfiguration = const EasyDialogAnimatorConfiguration(
       duration: _defaultDuration,
       reverseDuration: _defaultReverseDuration,
     ),

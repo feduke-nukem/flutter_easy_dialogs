@@ -1,7 +1,8 @@
 part of 'easy_positioned_dismissible.dart';
 
 /// Swipe dismissible.
-class _Swipe extends EasyDismissible implements EasyPositionedDismissible {
+class _Swipe extends EasyDialogDismissible
+    implements EasyPositionedDismissible {
   const _Swipe({
     super.onDismiss,
   });

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/widgets/easy_dialog_shell.dart';
+import 'package:flutter_easy_dialogs/src/core/widgets/easy_dialog_widget.dart';
 import 'package:flutter_easy_dialogs/src/core/widgets/easy_dialog_scope.dart';
-import 'package:flutter_easy_dialogs/src/util/easy_dialog_scope_x.dart';
 
 part 'modal_banner.dart';
 
-abstract class EasyFullScreenDialogShell extends EasyDialogShell {
+abstract class EasyFullScreenDialogShell
+    extends EasyDialogShell<EasyFullScreenScopeData>
+    implements IEasyDialogDecorator {
+  const EasyFullScreenDialogShell({super.key});
+
   const factory EasyFullScreenDialogShell.modalBanner({
     EdgeInsets padding,
     EdgeInsets margin,
@@ -27,4 +30,9 @@ class EasyFullScreenScopeData extends EasyDialogScopeData {
 
   @override
   int get hashCode => Object.hashAll([content]);
+}
+
+// TODO: Rethink about replacing Animators, Dismissibles and Shells with that
+abstract class IEasyDialogDecorator {
+  Widget configure(Widget child);
 }

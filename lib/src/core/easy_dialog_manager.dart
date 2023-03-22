@@ -1,11 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_animation_configuration.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator_configuration.dart';
 import 'package:flutter_easy_dialogs/src/core/i_easy_overlay_controller.dart'
     show IEasyOverlayController;
+import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay.dart';
 
 /// Base class for all dialog managers.
+///
+/// It is responsible for managing specific to its scope dialogs:
+/// * Inserting/removing and showing/hiding
+/// created dialog into [EasyDialogsOverlay]
+/// * Applying provided configurations
 abstract class EasyDialogManager<S extends EasyDialogManagerShowParams?,
     H extends EasyDialogManagerHideParams?> {
   /// [IEasyOverlayController] is used for providing [Ticker]
@@ -40,12 +46,12 @@ abstract class EasyDialogManagerShowParams {
   final Widget content;
 
   /// Animation settings.
-  final EasyAnimationConfiguration animationConfiguration;
+  final EasyDialogAnimatorConfiguration animationConfiguration;
 
   /// Creates an instance of [EasyDialogManagerShowParams].
   const EasyDialogManagerShowParams({
     required this.content,
-    this.animationConfiguration = const EasyAnimationConfiguration(),
+    this.animationConfiguration = const EasyDialogAnimatorConfiguration(),
   });
 }
 

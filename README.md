@@ -266,21 +266,28 @@ Like the `Animator`, the `Dismissible` is provided to the `Manager`, and the `Ma
 This is the wrapper `Widget` that provides some sort of shape to the content of the dialog. It is not mandatory, but it could be very handy to apply some additional components around the provided `content`.
 
 #### Scoping
-Some components such as **Shells** or **Dismissible** depend on `Scoping- specific` data that is providing by some `Manager`.
+Some components such as **Shells** or **Dismissible** depend on `Scoping-specific` data that is providing by some `Manager`.
 This is just a derived class from [InheritedWidget](https://api.flutter.dev/flutter/widgets/InheritedWidget-class.html):
 
 ```dart
-class _EasyScope<T extends EasyDialogScopeData> extends InheritedWidget {
+class EasyDialogScope<T extends EasyDialogScopeData> extends InheritedWidget {
   final T data;
 
-  const _EasyScope({
+  const EasyDialogScope({
     required super.child,
     required this.data,
     super.key,
   });
 
+  static T of<T extends EasyDialogScopeData>(BuildContext context) {
+    return (context
+            .getElementForInheritedWidgetOfExactType<EasyDialogScope<T>>()!
+            .widget as EasyDialogScope<T>)
+        .data;
+  }
+
   @override
-  bool updateShouldNotify(_EasyScope oldWidget) => oldWidget.data != data;
+  bool updateShouldNotify(EasyDialogScope _) => false;
 }
 ```
 
@@ -293,8 +300,7 @@ abstract class EasyDialogScopeData {
 Here is some handy extension-function on `BuildContext`: 
 
 ```dart
-  D readDialog<D extends EasyDialogScopeData>() =>
-      EasyDialogScope.of<D>(this, listen: false);
+D readDialog<D extends EasyDialogScopeData>() => EasyDialogScope.of<D>(this);
 ```
 #### Easy dialog controller
 The highest level **API** of this package is `IEasyDialogController`. This object provides access to methods that allow the *`showing and hiding`* of dialogs of any specific `Manager`.
