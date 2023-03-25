@@ -1,27 +1,29 @@
-part of 'easy_positioned_dismissible.dart';
+part of 'positioned_dismissible.dart';
 
-/// Animated tap dismissible.
-class _Tap extends EasyDialogDismissible implements EasyPositionedDismissible {
+class _Tap extends EasyDialogDismissible implements PositionedDismissible {
   const _Tap({
-    super.onDismiss,
+    super.onDismissed,
   });
 
   @override
-  Widget makeDismissible(Widget child) {
+  Widget decorate(EasyDismissibleData data) {
     return _TapDismissible(
-      onDismissed: onDismiss,
-      child: child,
+      onDismissed: () {
+        data.handleDismiss?.call();
+        onDismissed?.call();
+      },
+      child: data.dialog,
     );
   }
 }
 
 class _TapDismissible extends StatefulWidget {
   final Widget child;
-  final OnEasyDismiss? onDismissed;
+  final OnEasyDismissed onDismissed;
 
   const _TapDismissible({
     required this.child,
-    this.onDismissed,
+    required this.onDismissed,
   });
 
   @override
@@ -93,7 +95,6 @@ class _TapDismissibleState extends State<_TapDismissible>
   }
 
   void _onDismissed() {
-    context.readDialog<EasyDismissibleScopeData>().handleDismiss?.call();
-    widget.onDismissed?.call();
+    widget.onDismissed();
   }
 }

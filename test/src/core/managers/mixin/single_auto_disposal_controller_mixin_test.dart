@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../../../helper.dart';
 
-class _DummyManager extends EasyDialogManager<EasyDialogManagerShowParams?,
+class _DummyManager extends CustomDialogManager<EasyDialogManagerShowParams?,
     EasyDialogManagerHideParams?> with SingleAutoDisposalControllerMixin {
   _DummyManager({required super.overlayController});
 

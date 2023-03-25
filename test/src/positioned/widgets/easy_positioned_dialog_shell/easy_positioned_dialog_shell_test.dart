@@ -19,36 +19,36 @@ void main() {
     final builder = GoldenBuilder.column()
       ..addScenario(
         'padding: all 30, position top',
-        EasyPositionedDialogShell.banner(
+        PositionedDialogShell.banner(
           padding: const EdgeInsets.all(30.0),
-        ),
+        ).decorate(PositionedDialogShellData(
+            position: EasyDialogPosition.top, dialog: _bannerContent)),
       )
       ..addScenario(
         'margin: all 30, position top',
-        EasyPositionedDialogShell.banner(
+        PositionedDialogShell.banner(
           margin: const EdgeInsets.all(30.0),
-        ),
+        ).decorate(PositionedDialogShellData(
+            position: EasyDialogPosition.top, dialog: _bannerContent)),
       )
       ..addScenario(
         'backgroundColor: yellow, position top',
-        EasyPositionedDialogShell.banner(
+        PositionedDialogShell.banner(
           backgroundColor: Colors.yellow,
-        ),
+        ).decorate(PositionedDialogShellData(
+            position: EasyDialogPosition.top, dialog: _bannerContent)),
       )
       ..addScenario(
         'border radius: 20, position top',
-        EasyPositionedDialogShell.banner(
+        PositionedDialogShell.banner(
           borderRadius: BorderRadius.circular(20),
-        ),
+        ).decorate(PositionedDialogShellData(
+            position: EasyDialogPosition.top, dialog: _bannerContent)),
       );
 
     await tester.pumpWidgetBuilder(
       builder.build(),
-      wrapper: (child) => EasyDialogScope(
-        data: EasyPositionedScopeData(
-            content: _bannerContent, position: EasyDialogPosition.top),
-        child: app(child: child),
-      ),
+      wrapper: (child) => app(child: child),
     );
 
     await screenMatchesGolden(tester, 'different_parameters');

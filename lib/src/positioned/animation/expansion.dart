@@ -1,23 +1,16 @@
-part of 'easy_positioned_animator.dart';
+part of 'positioned_animator.dart';
 
-/// Expansion animation.
-class _Expansion extends EasyPositionedAnimator {
-  /// Creates an instance of [_Expansion].
-  const _Expansion({
-    super.curve,
-  });
+class _Expansion extends PositionedAnimator {
+  const _Expansion({super.curve});
 
   @override
-  Widget animate({
-    required Animation<double> parent,
-    required Widget child,
-  }) {
+  Widget decorate(EasyDialogAnimatorData data) {
     final tween = Tween<double>(
       begin: 0.0,
       end: 1.0,
     );
 
-    final expansion = parent.drive(
+    final expansion = data.parent.drive(
       tween.chain(
         CurveTween(curve: curve ?? _defaultCurve),
       ),
@@ -25,7 +18,7 @@ class _Expansion extends EasyPositionedAnimator {
 
     return _EasyExpansionAnimation(
       expansion: expansion,
-      child: child,
+      child: data.dialog,
     );
   }
 }

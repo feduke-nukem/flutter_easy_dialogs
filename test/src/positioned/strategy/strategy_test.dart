@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/positioned/manager/positioned_manager.dart';
+import 'package:flutter_easy_dialogs/src/positioned/manager/positioned_dialog_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helper.dart';
@@ -20,7 +20,8 @@ void main() {
 
       easyOverlayState.insertDialog(strategy);
 
-      var entries = easyOverlayState.box.currentEntries[PositionedManager];
+      var entries =
+          easyOverlayState.box.currentEntries[PositionedDialogManager];
 
       expect(
         entries,
@@ -82,7 +83,7 @@ void main() {
         expect(
           easyOverlayState.box
               .get<Map<EasyDialogPosition, EasyOverlayEntry>>(
-                  PositionedManager)!
+                  PositionedDialogManager)!
               .length,
           EasyDialogPosition.values.length,
         );
@@ -133,13 +134,14 @@ void main() {
       );
 
       expect(
-        easyOverlayState.box.currentEntries[PositionedManager],
+        easyOverlayState.box.currentEntries[PositionedDialogManager],
         isNotNull,
       );
 
       expect(
         easyOverlayState.box
-            .get<Map<EasyDialogPosition, EasyOverlayEntry>>(PositionedManager)!
+            .get<Map<EasyDialogPosition, EasyOverlayEntry>>(
+                PositionedDialogManager)!
             .length,
         isZero,
       );
@@ -186,14 +188,14 @@ void main() {
           findsNothing,
         );
         expect(
-          easyOverlayState.box.currentEntries[PositionedManager],
+          easyOverlayState.box.currentEntries[PositionedDialogManager],
           isNotNull,
         );
 
         expect(
           easyOverlayState.box
               .get<Map<EasyDialogPosition, EasyOverlayEntry>>(
-                  PositionedManager)!
+                  PositionedDialogManager)!
               .length,
           isZero,
         );

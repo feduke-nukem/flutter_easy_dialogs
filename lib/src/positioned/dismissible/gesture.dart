@@ -1,37 +1,16 @@
-part of 'easy_positioned_dismissible.dart';
+part of 'positioned_dismissible.dart';
 
-/// Simple tap gesture dismissible.
-class _Gesture extends EasyPositionedDismissible {
-  const _Gesture({super.onDismiss});
-
-  @override
-  Widget makeDismissible(Widget child) {
-    return _EasyGestureDismissible(
-      onDismiss: super.onDismiss,
-      child: child,
-    );
-  }
-}
-
-class _EasyGestureDismissible extends StatelessWidget {
-  final OnEasyDismiss? onDismiss;
-  final Widget child;
-
-  const _EasyGestureDismissible({
-    this.onDismiss,
-    required this.child,
-  });
+class _Gesture extends PositionedDismissible {
+  const _Gesture({super.onDismissed});
 
   @override
-  Widget build(BuildContext context) {
-    final data = context.readDialog<EasyDismissibleScopeData>();
-
+  Widget decorate(EasyDismissibleData data) {
     return GestureDetector(
       onTap: () {
         data.handleDismiss?.call();
-        onDismiss?.call();
+        onDismissed?.call();
       },
-      child: child,
+      child: data.dialog,
     );
   }
 }

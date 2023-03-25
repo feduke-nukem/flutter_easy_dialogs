@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/full_screen/dismissible/easy_full_screen_dismissible.dart';
-import 'package:flutter_easy_dialogs/src/full_screen/manager/full_screen_manager.dart';
+import 'package:flutter_easy_dialogs/src/full_screen/dismissible/full_screen_dismissible.dart';
+import 'package:flutter_easy_dialogs/src/full_screen/manager/full_screen_dialog_manager.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_entry.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -30,7 +30,7 @@ void main() {
     expect(find.byKey(dialogKey), findsOneWidget);
 
     expect(easyOverlayState.box.currentEntries.isNotEmpty, isTrue);
-    expect(easyOverlayState.box.get(FullScreenManager),
+    expect(easyOverlayState.box.get(FullScreenDialogManager),
         isA<EasyDialogsOverlayEntry>());
 
     easyOverlayState.easyDialogsController.hideFullScreen();
@@ -40,7 +40,7 @@ void main() {
     expect(find.byKey(dialogKey), findsNothing);
 
     expect(easyOverlayState.box.currentEntries.isEmpty, isTrue);
-    expect(easyOverlayState.box.get(FullScreenManager), isNull);
+    expect(easyOverlayState.box.get(FullScreenDialogManager), isNull);
   });
 
   testWidgets('show one, then show another', (widgetTester) async {
@@ -65,52 +65,54 @@ void main() {
     expect(find.byKey(Key('value')), findsOneWidget);
 
     expect(easyOverlayState.box.currentEntries.isNotEmpty, isTrue);
-    expect(easyOverlayState.box.get(FullScreenManager), isNotNull);
+    expect(easyOverlayState.box.get(FullScreenDialogManager), isNotNull);
   });
 
-  testWidgets('show and tap with gesture dismissible', (widgetTester) async {
-    await widgetTester.pumpWidget(app());
+  group('dismissible', () {
+    testWidgets('show and tap with gesture dismissible', (widgetTester) async {
+      await widgetTester.pumpWidget(app());
 
-    easyOverlayState.easyDialogsController.showFullScreen(
+      easyOverlayState.easyDialogsController.showFullScreen(
         params: FullScreenShowParams(
-            content: _content,
-            dismissible: EasyFullScreenDismissible.gesture(
-              onDismiss: easyOverlayState.easyDialogsController.hideFullScreen,
-            )));
+          content: _content,
+          dismissible: FullScreenDismissible.gesture(),
+        ),
+      );
 
-    await widgetTester.pumpAndSettle();
+      await widgetTester.pumpAndSettle();
 
-    expect(find.byKey(dialogKey), findsOneWidget);
+      expect(find.byKey(dialogKey), findsOneWidget);
 
-    final finder = find.byKey(dialogKey);
+      final finder = find.byKey(dialogKey);
 
-    await widgetTester.tap(finder);
+      await widgetTester.tap(finder);
 
-    await widgetTester.pumpAndSettle();
+      await widgetTester.pumpAndSettle();
 
-    expect(find.byKey(dialogKey), findsNothing);
-  });
+      expect(find.byKey(dialogKey), findsNothing);
+    });
 
-  testWidgets('show and tap with none dismissible', (widgetTester) async {
-    await widgetTester.pumpWidget(app());
+    testWidgets('show and tap with none dismissible', (widgetTester) async {
+      await widgetTester.pumpWidget(app());
 
-    easyOverlayState.easyDialogsController.showFullScreen(
-      params: FullScreenShowParams(
-        content: _content,
-        dismissible: EasyFullScreenDismissible.none(),
-      ),
-    );
+      easyOverlayState.easyDialogsController.showFullScreen(
+        params: FullScreenShowParams(
+          content: _content,
+          dismissible: FullScreenDismissible.none(),
+        ),
+      );
 
-    await widgetTester.pumpAndSettle();
+      await widgetTester.pumpAndSettle();
 
-    expect(find.byKey(dialogKey), findsOneWidget);
+      expect(find.byKey(dialogKey), findsOneWidget);
 
-    final finder = find.byKey(dialogKey);
+      final finder = find.byKey(dialogKey);
 
-    await widgetTester.tap(finder);
+      await widgetTester.tap(finder);
 
-    await widgetTester.pumpAndSettle();
+      await widgetTester.pumpAndSettle();
 
-    expect(find.byKey(dialogKey), findsOneWidget);
+      expect(find.byKey(dialogKey), findsOneWidget);
+    });
   });
 }

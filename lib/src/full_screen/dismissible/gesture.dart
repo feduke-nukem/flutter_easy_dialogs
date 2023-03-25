@@ -1,37 +1,22 @@
-part of 'easy_full_screen_dismissible.dart';
+part of 'full_screen_dismissible.dart';
 
-/// Simple tap gesture dismissible.
-class _Gesture extends EasyFullScreenDismissible {
-  const _Gesture({super.onDismiss});
+class _Gesture extends FullScreenDismissible {
+  final HitTestBehavior behavior;
 
-  @override
-  Widget makeDismissible(Widget child) {
-    return _EasyGestureDismissible(
-      onDismiss: super.onDismiss,
-      child: child,
-    );
-  }
-}
-
-class _EasyGestureDismissible extends StatelessWidget {
-  final OnEasyDismiss? onDismiss;
-  final Widget child;
-
-  const _EasyGestureDismissible({
-    this.onDismiss,
-    required this.child,
+  const _Gesture({
+    this.behavior = HitTestBehavior.opaque,
+    super.onDismissed,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final data = EasyDialogScope.of<EasyDismissibleScopeData>(context);
-
+  Widget decorate(EasyDismissibleData data) {
     return GestureDetector(
       onTap: () {
         data.handleDismiss?.call();
-        onDismiss?.call();
+        onDismissed?.call();
       },
-      child: child,
+      behavior: behavior,
+      child: data.dialog,
     );
   }
 }

@@ -1,60 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_decorator.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_manager.dart';
-import 'package:flutter_easy_dialogs/src/full_screen/manager/full_screen_manager.dart';
-import 'package:flutter_easy_dialogs/src/positioned/manager/positioned_manager.dart';
+import 'package:flutter_easy_dialogs/src/custom/manager/custom_dialog_manager.dart';
+import 'package:flutter_easy_dialogs/src/full_screen/manager/full_screen_dialog_manager.dart';
+import 'package:flutter_easy_dialogs/src/positioned/manager/positioned_dialog_manager.dart';
 
-/// Base class of animator for Easy Dialogs.
+/// Base class of animator for dialogs.
 ///
-/// It is a different kind of abstraction than [IEasyDialogAnimator] as it
-/// can possibly be extended with functionality and some properties in future.
-abstract class EasyDialogAnimator implements IEasyDialogAnimator {
+/// Its main purpose is to apply an animation to the provided
+/// [EasyDialogAnimatorData.dialog].
+///
+/// It is often used in the method [EasyDialogManager.show],
+/// which provides the [AnimationController] to the
+/// [EasyDialogAnimatorData.parent] to be used by the decorate method.
+///
+/// See also:
+///
+/// * [FullScreenDialogManager.show].
+/// * [PositionedDialogManager.show].
+///
+/// This may help you understand how it is supposed to work or even
+/// create your own [CustomDialogManager].
+abstract class EasyDialogAnimator<D extends EasyDialogAnimatorData>
+    extends EasyDialogDecorator<D> {
   /// Desired curve to be applied to the animation.
   final Curve? curve;
 
   /// @nodoc
   const EasyDialogAnimator({this.curve});
-
-  /// Combines provided [animators] sequentially.
-  factory EasyDialogAnimator.combine({
-    required Iterable<EasyDialogAnimator> animators,
-  }) = _MultipleEasyDialogAnimator;
 }
 
-/// Its main purpose is to apply an animation to the provided [Widget] child.
+/// This is specific to the [EasyDialogAnimator] data and requires a
+/// mandatory [parent] of type [Animation].
 ///
-/// It is often used in the [EasyDialogManager.show] method,
-/// which provides the [AnimationController] to be used by the [animate] method.
-///
-/// See also:
-///
-/// * [FullScreenManager.show].
-/// * [PositionedManager.show].
-///
-/// This may help you understand how it is supposed to work or even
-/// create your own custom [EasyDialogManager].
-abstract class IEasyDialogAnimator {
-  /// ### Animate [child] driven by [parent].
-  Widget animate({
-    required Animation<double> parent,
-    required Widget child,
-  });
-}
+/// The parent referred to here is actually just an [AnimationController.view]
+/// provided by the [EasyDialogManager.show] method.
+class EasyDialogAnimatorData extends EasyDialogDecoratorData {
+  /// This is what drives the animation created by [EasyDialogAnimator] when it is applied
+  /// in the [EasyDialogAnimator.decorate] method.
+  final Animation<double> parent;
 
-class _MultipleEasyDialogAnimator extends EasyDialogAnimator {
-  final Iterable animators;
-
-  const _MultipleEasyDialogAnimator({
-    required this.animators,
-  }) : assert(animators.length > 0, 'animators should not be empty');
-
-  @override
-  Widget animate({required Animation<double> parent, required Widget child}) {
-    Widget result = child;
-
-    for (final animator in animators) {
-      result = animator.animate(parent: parent, child: result);
-    }
-
-    return result;
-  }
+  /// @nodoc
+  const EasyDialogAnimatorData({required this.parent, required super.dialog});
 }

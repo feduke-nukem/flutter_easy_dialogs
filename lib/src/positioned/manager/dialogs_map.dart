@@ -1,4 +1,4 @@
-part of 'positioned_manager.dart';
+part of 'positioned_dialog_manager.dart';
 
 class _DialogsMap {
   final Map<EasyDialogPosition, AnimationController> _map = {};

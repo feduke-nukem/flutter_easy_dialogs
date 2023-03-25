@@ -7,6 +7,11 @@ import 'package:flutter_easy_dialogs/src/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_entry.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_box.dart';
 
+/// Function for providing custom managers.
+typedef CustomManagerBuilder = List<EasyDialogManager> Function(
+  IEasyOverlayController overlayController,
+);
+
 EasyDialogsController _createDialogController({
   required IEasyOverlayController overlayController,
   required List<EasyDialogManager> customManagersRaw,
@@ -34,14 +39,9 @@ EasyDialogsController _createDialogController({
   return easyDialogsController;
 }
 
-/// Function for providing custom agents.
-typedef CustomManagerBuilder = List<EasyDialogManager> Function(
-  IEasyOverlayController overlayController,
-);
-
-/// Overlay for providing dialogs.
+/// Overlay for storing and displaying dialogs.
 class EasyDialogsOverlay extends Overlay {
-  /// Custom agent builder function.
+  /// Custom manager builder function.
   final CustomManagerBuilder? customManagersBuilder;
 
   /// Creates an instance of [EasyDialogsOverlay].

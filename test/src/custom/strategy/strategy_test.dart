@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/i_easy_overlay_controller.dart';
-import 'package:flutter_easy_dialogs/src/custom/manager/custom_manager.dart';
+import 'package:flutter_easy_dialogs/src/custom/manager/custom_dialog_manager.dart';
 import 'package:flutter_easy_dialogs/src/custom/manager/strategy.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -11,7 +11,7 @@ void main() {
     testWidgets('insert', (widgetTester) async {
       await widgetTester.pumpWidget(app());
       expect(
-        easyOverlayState.box.currentEntries[CustomManager],
+        easyOverlayState.box.currentEntries[CustomDialogManager],
         isNull,
       );
 
@@ -27,12 +27,14 @@ void main() {
       expect(id, 0);
 
       expect(
-        easyOverlayState.box.currentEntries[CustomManager],
+        easyOverlayState.box.currentEntries[CustomDialogManager],
         isNotNull,
       );
 
       expect(
-        easyOverlayState.box.get<List<EasyOverlayEntry>>(CustomManager)!.length,
+        easyOverlayState.box
+            .get<List<EasyOverlayEntry>>(CustomDialogManager)!
+            .length,
         1,
       );
 
@@ -54,7 +56,9 @@ void main() {
     }
 
     expect(
-        easyOverlayState.box.get<List<EasyOverlayEntry>>(CustomManager)!.length,
+        easyOverlayState.box
+            .get<List<EasyOverlayEntry>>(CustomDialogManager)!
+            .length,
         10);
 
     await widgetTester.pump();
@@ -87,11 +91,14 @@ void main() {
         )
         ..removeDialog(CustomDialogRemoveStrategy(dialogId: id));
 
-      expect(easyOverlayState.box.get<List<EasyOverlayEntry>>(CustomManager),
+      expect(
+          easyOverlayState.box.get<List<EasyOverlayEntry>>(CustomDialogManager),
           isNotNull);
 
       expect(
-        easyOverlayState.box.get<List<EasyOverlayEntry>>(CustomManager)!.length,
+        easyOverlayState.box
+            .get<List<EasyOverlayEntry>>(CustomDialogManager)!
+            .length,
         isZero,
       );
 

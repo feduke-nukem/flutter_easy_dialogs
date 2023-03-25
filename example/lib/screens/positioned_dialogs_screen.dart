@@ -131,12 +131,12 @@ class _PositionedDialogsScreenState extends State<PositionedDialogsScreen> {
   void _show() {
     _easyDialogsController.showPositioned(
       params: PositionedShowParams(
-        dismissible: EasyPositionedDismissible.fromType(
+        dismissible: PositionedDismissible.fromType(
           type: _selectedDismissibleType,
         ),
-        animator: EasyPositionedAnimator.fromType(type: _selectedAnimationType),
+        animator: PositionedAnimator.fromType(type: _selectedAnimationType),
         autoHide: _isAutoHide,
-        durationUntilHide: Duration(milliseconds: _autoHideDuration.toInt()),
+        autoHideDuration: Duration(milliseconds: _autoHideDuration.toInt()),
         content: ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
           onPressed: () {},

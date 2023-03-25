@@ -1,4 +1,4 @@
-part of 'positioned_manager.dart';
+part of 'positioned_dialog_manager.dart';
 
 /// Insert positioned dialog into [IEasyDialogsOverlayBox].
 ///
@@ -7,7 +7,7 @@ part of 'positioned_manager.dart';
 // Just a complex file
 // ignore: prefer-match-file-name
 class PositionedDialogInsertStrategy
-    extends EasyOverlayBoxInsert<PositionedManager> {
+    extends EasyOverlayBoxInsert<PositionedDialogManager> {
   final EasyDialogPosition position;
 
   const PositionedDialogInsertStrategy({
@@ -39,7 +39,7 @@ class PositionedDialogInsertStrategy
 
 /// Remove positioned dialog from the [IEasyDialogsOverlayBox].
 class PositionedDialogRemoveStrategy
-    extends EasyOverlayBoxRemove<PositionedManager> {
+    extends EasyOverlayBoxRemove<PositionedDialogManager> {
   final EasyDialogPosition position;
 
   const PositionedDialogRemoveStrategy({

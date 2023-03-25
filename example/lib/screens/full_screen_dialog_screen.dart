@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator.dart';
 
 final _content = Container(
   height: 200.0,
@@ -90,22 +91,20 @@ class _FullScreenDialogScreenState extends State<FullScreenDialogScreen> {
                 await _easyDialogsController.showFullScreen(
                   params: FullScreenShowParams(
                     content: _content,
-                    foregroundAnimator:
-                        EasyFullScreenForegroundAnimator.fromType(
+                    foregroundAnimator: FullScreenForegroundAnimator.fromType(
                       type: _selectedContentAnimationType,
                     ),
-                    backgroundAnimator:
-                        EasyFullScreenBackgroundAnimator.fromType(
+                    backgroundAnimator: FullScreenBackgroundAnimator.fromType(
                       backgroundColor: Colors.black.withOpacity(0.5),
                       type: _selectedBackgroundAnimationType,
                     ),
-                    shell: EasyFullScreenDialogShell.modalBanner(
+                    shell: FullScreenDialogShell.modalBanner(
                       boxDecoration: BoxDecoration(
                         color: Colors.grey.shade200.withOpacity(0.3),
                       ),
                     ),
-                    dismissible: EasyFullScreenDismissible.gesture(
-                      onDismiss: _easyDialogsController.hideFullScreen,
+                    dismissible: FullScreenDismissible.gesture(
+                      onDismissed: _easyDialogsController.hideFullScreen,
                     ),
                   ),
                 );
@@ -118,22 +117,20 @@ class _FullScreenDialogScreenState extends State<FullScreenDialogScreen> {
                   params: FullScreenShowParams(
                     customAnimator: CustomAnimator(),
                     content: _content,
-                    foregroundAnimator:
-                        EasyFullScreenForegroundAnimator.fromType(
+                    foregroundAnimator: FullScreenForegroundAnimator.fromType(
                       type: _selectedContentAnimationType,
                     ),
-                    backgroundAnimator:
-                        EasyFullScreenBackgroundAnimator.fromType(
+                    backgroundAnimator: FullScreenBackgroundAnimator.fromType(
                       backgroundColor: Colors.black.withOpacity(0.5),
                       type: _selectedBackgroundAnimationType,
                     ),
-                    shell: EasyFullScreenDialogShell.modalBanner(
+                    shell: FullScreenDialogShell.modalBanner(
                       boxDecoration: BoxDecoration(
                         color: Colors.grey.shade200.withOpacity(0.3),
                       ),
                     ),
-                    dismissible: EasyFullScreenDismissible.gesture(
-                      onDismiss: _easyDialogsController.hideFullScreen,
+                    dismissible: FullScreenDismissible.gesture(
+                      onDismissed: _easyDialogsController.hideFullScreen,
                     ),
                   ),
                 );
@@ -148,21 +145,21 @@ class _FullScreenDialogScreenState extends State<FullScreenDialogScreen> {
 }
 
 /// You can provide custom animation
-class CustomAnimator implements IEasyDialogAnimator {
+class CustomAnimator extends EasyDialogAnimator {
   @override
-  Widget animate({required Animation<double> parent, required Widget child}) {
+  Widget decorate(EasyDialogAnimatorData data) {
     final offset = Tween<Offset>(
       begin: const Offset(-1.0, 0.0),
       end: const Offset(0.0, 0.0),
     );
 
     return SlideTransition(
-      position: offset.animate(parent),
+      position: offset.animate(data.parent),
       child: Container(
         color: Colors.black.withOpacity(0.3),
         height: double.infinity,
         width: double.infinity,
-        child: child,
+        child: data.dialog,
       ),
     );
   }

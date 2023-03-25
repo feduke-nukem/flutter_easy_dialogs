@@ -1,8 +1,8 @@
-part of 'easy_full_screen_dismissible.dart';
+part of 'full_screen_dismissible.dart';
 
-class _None extends EasyFullScreenDismissible {
-  const _None() : super(onDismiss: null);
+class _None extends FullScreenDismissible {
+  const _None() : super(onDismissed: null);
 
   @override
-  Widget makeDismissible(Widget dialog) => dialog;
+  Widget decorate(EasyDismissibleData data) => data.dialog;
 }

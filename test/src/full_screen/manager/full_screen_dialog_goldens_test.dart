@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/full_screen/manager/full_screen_manager.dart';
+import 'package:flutter_easy_dialogs/src/full_screen/manager/full_screen_dialog_manager.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 import '../../../helper.dart';

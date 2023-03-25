@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/full_screen/manager/full_screen_manager.dart';
+import 'package:flutter_easy_dialogs/src/full_screen/manager/full_screen_dialog_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helper.dart';
@@ -10,7 +10,7 @@ void main() {
       await widgetTester.pumpWidget(app());
 
       expect(
-        easyOverlayState.box.currentEntries[FullScreenManager],
+        easyOverlayState.box.currentEntries[FullScreenDialogManager],
         isNull,
       );
 
@@ -23,7 +23,7 @@ void main() {
       );
 
       expect(
-        easyOverlayState.box.currentEntries[FullScreenManager],
+        easyOverlayState.box.currentEntries[FullScreenDialogManager],
         isNotNull,
       );
 
@@ -78,7 +78,7 @@ void main() {
         ..removeDialog(const FullScreenDialogRemoveStrategy());
 
       expect(
-        easyOverlayState.box.currentEntries[FullScreenManager],
+        easyOverlayState.box.currentEntries[FullScreenDialogManager],
         isNull,
       );
 

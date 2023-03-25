@@ -1,47 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_decorator.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_manager.dart';
-import 'package:flutter_easy_dialogs/src/core/widgets/easy_dialog_scope.dart';
-import 'package:flutter_easy_dialogs/src/full_screen/manager/full_screen_manager.dart';
-import 'package:flutter_easy_dialogs/src/positioned/dismissible/easy_positioned_dismissible.dart';
-import 'package:flutter_easy_dialogs/src/positioned/manager/positioned_manager.dart';
-
-import '../full_screen/dismissible/easy_full_screen_dismissible.dart';
+import 'package:flutter_easy_dialogs/src/custom/manager/custom_dialog_manager.dart';
+import 'package:flutter_easy_dialogs/src/full_screen/manager/full_screen_dialog_manager.dart';
+import 'package:flutter_easy_dialogs/src/positioned/dismissible/positioned_dismissible.dart';
+import 'package:flutter_easy_dialogs/src/positioned/manager/positioned_dialog_manager.dart';
+import 'package:flutter_easy_dialogs/src/full_screen/dismissible/full_screen_dismissible.dart';
 
 /// Dismiss callback.
-typedef OnEasyDismiss = void Function();
+typedef OnEasyDismissed = void Function();
 
-/// Base class of dismissible.
+/// The main purpose is to make provided [EasyDismissibleData.dialog]
+/// dismissible.
 ///
-/// It is a different kind of abstraction than [IEasyDialogDismissible] as it
-/// can possibly be extended with functionality and some properties in future.
-abstract class EasyDialogDismissible implements IEasyDialogDismissible {
-  /// Callback that fires when dialog get dismissed.
-  final OnEasyDismiss? onDismiss;
-
-  /// Creates an instance of [EasyDialogDismissible].
-  const EasyDialogDismissible({this.onDismiss});
-}
-
-/// The main purpose is to make provided dialog dismissible.
 /// It is often used in the [EasyDialogManager.show] method,
-/// which provides the dialog to be used in the [makeDismissible] method.
+/// which provides the dialog to be used in the [decorate] method.
 ///
 /// See also:
-/// * [FullScreenManager.show].
-/// * [PositionedManager.show].
+/// * [FullScreenDialogManager.show].
+/// * [PositionedDialogManager.show].
 ///
 /// This may help you understand how it is supposed to work or even
-/// create your own custom [EasyDialogManager].
-abstract class IEasyDialogDismissible {
-  /// ### Provide dismissible functionality to the [dialog].
-  Widget makeDismissible(Widget dialog);
+/// create your own [CustomDialogManager].
+abstract class EasyDialogDismissible
+    extends EasyDialogDecorator<EasyDismissibleData> {
+  /// Callback that fires when dialog get dismissed.
+  final OnEasyDismissed? onDismissed;
+
+  /// Creates an instance of [EasyDialogDismissible].
+  const EasyDialogDismissible({this.onDismissed});
 }
 
-/// This is specific to the [EasyDialogDismissible] scope data.
-/// Sometimes it is necessary to perform certain actions when the actual
-/// [EasyDialogDismissible.onDismiss] callback is called.
+/// This is specific to the [EasyDialogDismissible] data.
 ///
-/// For example, in [PositionedManager.show], before the dialog is dismissed,
+/// Sometimes it is necessary to perform certain actions when the actual
+/// [EasyDialogDismissible.onDismissed] callback is called.
+///
+/// For example, in [PositionedDialogManager.show], before the dialog is dismissed,
 /// it should trigger the dialog to hide and play an animation back.
 ///
 /// So in this case, it makes sense to provide an optional [handleDismiss]
@@ -49,17 +44,12 @@ abstract class IEasyDialogDismissible {
 ///
 /// See also:
 ///
-/// * [EasyPositionedDismissible].
-/// * [EasyFullScreenDismissible].
-class EasyDismissibleScopeData extends EasyDialogScopeData {
+/// * [PositionedDismissible].
+/// * [FullScreenDismissible].
+class EasyDismissibleData extends EasyDialogDecoratorData {
+  /// Optional callback.
   final VoidCallback? handleDismiss;
 
-  const EasyDismissibleScopeData({this.handleDismiss});
-
-  bool operator ==(Object? other) =>
-      identical(this, other) ||
-      other is EasyDismissibleScopeData && handleDismiss == other.handleDismiss;
-
-  @override
-  int get hashCode => Object.hashAll([handleDismiss]);
+  /// @nodoc
+  const EasyDismissibleData({required super.dialog, this.handleDismiss});
 }

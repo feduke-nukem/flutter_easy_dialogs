@@ -3,7 +3,7 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
 int? _customDialogId;
 
-class MyDialogManager extends CustomManager<CustomManagerShowParams,
+class MyDialogManager extends CustomDialogManager<CustomManagerShowParams,
     EasyDialogManagerHideParams?> {
   MyDialogManager({required super.overlayController});
 

@@ -40,36 +40,36 @@ class PositionedDialogCustomizationScreen extends StatelessWidget {
   }
 }
 
-class _CustomPositionedShell extends EasyPositionedDialogShell {
+class _CustomPositionedShell extends PositionedDialogShell {
   const _CustomPositionedShell();
 
   @override
-  Widget build(BuildContext context, EasyPositionedScopeData data) {
+  Widget decorate(PositionedDialogShellData data) {
     return ColoredBox(
       color: Colors.amber,
-      child: data.content,
+      child: data.dialog,
     );
   }
 }
 
-class _CustomPositionedAnimator extends EasyPositionedAnimator {
+class _CustomPositionedAnimator extends PositionedAnimator {
   @override
-  Widget animate({required Animation<double> parent, required Widget child}) {
+  Widget decorate(PositionedAnimatorData data) {
     return FadeTransition(
-      opacity: parent,
-      child: child,
+      opacity: data.parent,
+      child: data.dialog,
     );
   }
 }
 
-class _CustomPositionedDismissible extends EasyPositionedDismissible {
+class _CustomPositionedDismissible extends PositionedDismissible {
   _CustomPositionedDismissible({required super.onDismiss});
 
   @override
-  Widget makeDismissible(Widget dialog) {
+  Widget decorate(EasyDismissibleData data) {
     return ElevatedButton(
-      onPressed: super.onDismiss,
-      child: dialog,
+      onPressed: super.onDismissed,
+      child: data.dialog,
     );
   }
 }

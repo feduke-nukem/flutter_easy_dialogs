@@ -2,42 +2,43 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator_configuration.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_decorator.dart';
 import 'package:flutter_easy_dialogs/src/core/i_easy_overlay_controller.dart'
     show IEasyOverlayController;
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay.dart';
 
-/// Base class for all dialog managers.
+/// This is the base class for all dialog managers.
 ///
-/// It is responsible for managing specific to its scope dialogs:
-/// * Inserting/removing and showing/hiding
-/// created dialog into [EasyDialogsOverlay]
-/// * Applying provided configurations
+/// The main idea is that any specific [EasyDialogManager]
+/// is responsible for only two things: *`showing`* and *`hiding`* dialogs.
+///
+/// Therefore, there are two methods: [show] and [hide].
+///
+/// In other words, this class is responsible for managing dialogs that
+/// are specific to it, including:
+///
+/// * Inserting and removing dialogs from [EasyDialogsOverlay].
+/// * Applying any provided [EasyDialogDecorator] or multiple decorators.
 abstract class EasyDialogManager<S extends EasyDialogManagerShowParams?,
     H extends EasyDialogManagerHideParams?> {
   /// [IEasyOverlayController] is used for providing [Ticker]
-  /// for creating animations and inserting dialogs into [Overlay].
+  /// for creating animations and inserting dialogs into [EasyDialogsOverlay].
   @protected
   @nonVirtual
   final IEasyOverlayController overlayController;
 
   /// Creates an instance of [EasyDialogManager].
-  const EasyDialogManager({
-    required this.overlayController,
-  });
+  const EasyDialogManager({required this.overlayController});
 
-  /// An abstract show method of dialog agent with covariant [params].
+  /// This is an abstract [show] method with a [params] of type [S].
   ///
-  /// This is the core method for displaying dialogs.
-  Future<void> show({
-    required S params,
-  });
+  /// This is the core method used for displaying dialogs.
+  Future<void> show({required S params});
 
-  /// An abstract hide method of dialog agent with covariant [params].
+  /// This is an abstract [hide] method with a [params] of type [H].
   ///
-  /// This is the core method for removing dialogs from the screen.
-  Future<void> hide({
-    required H params,
-  });
+  /// This is the core method used for hiding dialogs.
+  Future<void> hide({required H params});
 }
 
 /// Base data class of show params for dialog managers.
@@ -45,7 +46,7 @@ abstract class EasyDialogManagerShowParams {
   /// Content for showing.
   final Widget content;
 
-  /// Animation settings.
+  /// Animator settings.
   final EasyDialogAnimatorConfiguration animationConfiguration;
 
   /// Creates an instance of [EasyDialogManagerShowParams].
@@ -55,7 +56,7 @@ abstract class EasyDialogManagerShowParams {
   });
 }
 
-/// Base data class of hide params for dialog managers.
+/// Base class of hide params for dialog managers.
 abstract class EasyDialogManagerHideParams {
   /// Creates an instance of [EasyDialogManagerHideParams].
   const EasyDialogManagerHideParams();

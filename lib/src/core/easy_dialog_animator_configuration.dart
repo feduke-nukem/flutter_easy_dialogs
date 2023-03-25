@@ -8,21 +8,21 @@ const _defaultReverseDuration = Duration(milliseconds: 350);
 /// Configuration of [EasyDialogAnimator].
 
 /// This is typically used to configure the [AnimationController]
-/// that is created by [EasyDialogManager] and provide its
-/// [AnimationController.view] to the [EasyDialogAnimator.animate] method,
-/// which implies the application of any kind of animations driven
-/// by this [AnimationController].
+/// that is created by [EasyDialogManager] and provided to the
+/// [EasyDialogAnimator.decorate] method as [AnimationController.view],
+/// which implies to drive any kind of animations that can be applied to the
+/// dialog.
 ///
-/// * Actually, all of these properties effectively map to the
+/// * Actually, all of these properties perfectly map to the
 /// constructor of [AnimationController].
 class EasyDialogAnimatorConfiguration {
-  /// Duration.
+  /// The duration of the animation.
   final Duration duration;
 
-  /// Reverse duration.
+  /// The duration of the animation in reverse.
   final Duration reverseDuration;
 
-  /// Value from which animation should start.
+  /// The value from which the animation should start.
   final double startValue;
 
   /// The value at which this animation is deemed to be dismissed.
@@ -41,7 +41,20 @@ class EasyDialogAnimatorConfiguration {
   })  : this.startValue = startValue ?? lowerBound,
         assert(upperBound >= lowerBound);
 
-  /// Unbounded.
+  /// Creates an instance of [EasyDialogAnimatorConfiguration]
+  /// for an unbounded animation.
+  ///
+  /// An unbounded animation is one that does not have a fixed [lowerBound]
+  /// or [upperBound].
+  ///
+  /// The [duration] is the duration of the animation,
+  /// and defaults to [_defaultDuration].
+  ///
+  /// The [reverseDuration] is the duration of the animation in reverse,
+  /// and defaults to the [_defaultReverseDuration].
+  ///
+  /// The [startValue] is the value from which the animation should start,
+  /// and defaults to `0.0`.
   const EasyDialogAnimatorConfiguration.unbounded({
     double startValue = 0.0,
     this.duration = _defaultDuration,
@@ -50,29 +63,14 @@ class EasyDialogAnimatorConfiguration {
         upperBound = double.infinity,
         this.startValue = startValue;
 
-  @override
-  bool operator ==(Object? other) {
-    if (identical(this, other)) return true;
-
-    return runtimeType == other.runtimeType &&
-        other is EasyDialogAnimatorConfiguration &&
-        duration == other.duration &&
-        reverseDuration == other.duration &&
-        startValue == other.startValue &&
-        lowerBound == other.lowerBound &&
-        upperBound == other.upperBound;
-  }
-
-  @override
-  int get hashCode {
-    final values = [
-      reverseDuration,
-      duration,
-      startValue,
-      lowerBound,
-      upperBound,
-    ];
-
-    return Object.hashAll(values);
-  }
+  /// Creates an [AnimationController] based on provided values.
+  AnimationController createController(TickerProvider vsync) =>
+      AnimationController(
+        value: startValue,
+        duration: duration,
+        reverseDuration: reverseDuration,
+        lowerBound: lowerBound,
+        upperBound: upperBound,
+        vsync: vsync,
+      );
 }

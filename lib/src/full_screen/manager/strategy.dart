@@ -1,11 +1,12 @@
-part of 'full_screen_manager.dart';
+part of 'full_screen_dialog_manager.dart';
 
 /// Strategy for inserting `full screen dialogs`.
 ///
 // Complex helper file, name independent
 // ignore:prefer-match-file-name
 class FullScreenDialogInsertStrategy
-    extends EasyOverlayBoxInsert<FullScreenManager> {
+    extends EasyOverlayBoxInsert<FullScreenDialogManager> {
+  /// @nodoc
   const FullScreenDialogInsertStrategy({required super.dialog});
 
   @override
@@ -25,10 +26,12 @@ class FullScreenDialogInsertStrategy
   }
 }
 
-/// Remove full screen dialog from the [IEasyDialogsOverlayBox].
+/// This is an implementation of the removing strategy for full-screen dialogs
+/// from the [IEasyDialogsOverlayBox].
 @visibleForTesting
 class FullScreenDialogRemoveStrategy
-    extends EasyOverlayBoxRemove<FullScreenManager> {
+    extends EasyOverlayBoxRemove<FullScreenDialogManager> {
+  /// Creates a new instance of the [FullScreenDialogRemoveStrategy].
   const FullScreenDialogRemoveStrategy();
 
   @override
