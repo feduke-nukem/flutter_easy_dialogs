@@ -353,13 +353,18 @@ The specified **use** method provides access to the instance of a registered `Ma
 
 #### Positioned Examples
 
-<img src="https://user-images.githubusercontent.com/72284940/226207548-b32ca1e5-3896-4d89-9795-1d1868adc850.gif" width="300"><img src="https://user-images.githubusercontent.com/72284940/226208001-47b3f169-5235-415a-8fec-f438139c9414.gif" width="300">
+
+![positioned-1](https://user-images.githubusercontent.com/72284940/227770860-d5885960-2a22-4d3b-bd91-1e0e5488fc7e.gif)
+![positioned-2](https://user-images.githubusercontent.com/72284940/227770870-b2a43e65-01fc-4b90-b518-82fb3539c09b.gif)
+![positioned-3](https://user-images.githubusercontent.com/72284940/227770871-d0b60af3-10f3-4112-b67c-b42763953456.gif)
+![positioned-4](https://user-images.githubusercontent.com/72284940/227770872-8050c2fa-0388-48aa-b121-c4176898e794.gif)
+![positioned-5](https://user-images.githubusercontent.com/72284940/227770876-6b10e8f7-e29c-472e-a926-7beb454cc41e.gif)
+
+
 
 #### Positioned customization
 
-<img src="https://user-images.githubusercontent.com/72284940/226208034-5c1802bc-bdfd-47b9-bf72-900ad764f670.gif" width = "350">
-
-You can observe the example in: `example/lib/screens/positioned_dialog_customization_screen.dart`
+![positioned-customize](https://user-images.githubusercontent.com/72284940/227770921-d9cb0a95-c689-4e68-9242-012f8988370b.gif)
 
 #### 
  
@@ -380,8 +385,16 @@ Expansion:
  
 #### Full screen examples
 
-<img src="https://user-images.githubusercontent.com/72284940/226210980-d3fa1560-1cd5-4694-81e5-990c3cd2a9dc.gif" width="300"><img src="https://user-images.githubusercontent.com/72284940/226211002-f85edaa0-982b-4bbe-89ed-453b1bfedf83.gif" width="300">
-  
+
+![full-screen-1](https://user-images.githubusercontent.com/72284940/227770949-599014fb-45b4-4081-b6e4-2defce0d73a0.gif)
+![full-screen-2](https://user-images.githubusercontent.com/72284940/227770950-13bbaa09-5e2e-4524-aa86-2b1ffe1256d8.gif)
+![full-screen-3](https://user-images.githubusercontent.com/72284940/227770952-1c0b4d15-b987-4fa1-9a1b-bb6f94b0565e.gif)
+
+
+#### Customization
+
+![full-screen-custom](https://user-images.githubusercontent.com/72284940/227770982-cf2e8efd-8395-440f-aeed-a1b6dd83b66a.gif)
+![full-screen-full-custom](https://user-images.githubusercontent.com/72284940/227770993-39ad7bc1-4fa3-4056-b244-192be231d87a.gif)
 
 
 ## Custom
@@ -479,8 +492,9 @@ Simply call with your `Manager` type provided as a generic:
         );
 ```
 #### Custom manager example
-<img src="https://user-images.githubusercontent.com/72284940/226210899-89876b31-eb9d-42a6-a351-23fc1f8e896a.gif" width="300">
- 
+
+![custom-manager](https://user-images.githubusercontent.com/72284940/227771010-cf28c0e1-804e-43bd-ab68-3ade29e6528c.gif)
+
 
 
 
