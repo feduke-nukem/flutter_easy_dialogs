@@ -1,0 +1,29 @@
+name: example
+description: A new Flutter project.
+
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.6 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_easy_dialogs:
+    path: "../"
+  examples: 
+    path: ../../examples/
+  positioned_dialog_manager:
+    path: ../../positioned_dialog_manager/
+  full_screen_dialog_manager:
+    path: ../../full_screen_dialog_manager/
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true

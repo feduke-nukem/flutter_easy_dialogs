@@ -1,0 +1,1 @@
+#### Designed to be used with [FlutterEasyDialogs](https://pub.dev/packages/flutter_easy_dialogs)

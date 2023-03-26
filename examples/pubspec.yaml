@@ -1,0 +1,27 @@
+name: examples
+description: Examples.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: '>=2.19.2 <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  full_screen_dialog_manager:
+    path: ../full_screen_dialog_manager/
+  flutter_easy_dialogs: ^2.0.2
+  positioned_dialog_manager:
+    path: ../positioned_dialog_manager/
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+
+  uses-material-design: true
