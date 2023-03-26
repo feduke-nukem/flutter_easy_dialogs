@@ -10,9 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  full_screen_dialog_manager:
-    path: ../
-  flutter_easy_dialogs: ^2.0.1-alpha-2
+  full_screen_dialog_manager: ^1.0.0
+  flutter_easy_dialogs: ^2.0.3
   examples: 
     path: ../../examples/
 

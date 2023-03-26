@@ -10,14 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_easy_dialogs:
-    path: "../"
+  flutter_easy_dialogs: ^2.0.3
   examples: 
     path: ../../examples/
-  positioned_dialog_manager:
-    path: ../../positioned_dialog_manager/
-  full_screen_dialog_manager:
-    path: ../../full_screen_dialog_manager/
+  positioned_dialog_manager: ^1.0.0
+  full_screen_dialog_manager: ^1.0.0
 
 dev_dependencies:
   flutter_test:
