@@ -66,8 +66,7 @@ void main() {
       ),
     );
 
-    final manager =
-        easyOverlayState.dialogManagerController.use<_DummyManager>();
+    final manager = easyOverlayState.dialogManagerProvider.get<_DummyManager>();
 
     expect(find.byKey(dialogKey), findsNothing);
     expect(manager.animationController, isNull);
@@ -95,8 +94,7 @@ void main() {
       ),
     );
 
-    final manager =
-        easyOverlayState.dialogManagerController.use<_DummyManager>();
+    final manager = easyOverlayState.dialogManagerProvider.get<_DummyManager>();
 
     await manager.show();
 

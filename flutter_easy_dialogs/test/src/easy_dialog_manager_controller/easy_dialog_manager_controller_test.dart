@@ -22,7 +22,7 @@ void main() {
     sut.register(() => BarManager(overlayController: overlayController));
 
     expect(sut.managers.managers.length, 1);
-    expect(() => sut.use<BarManager>(), returnsNormally);
+    expect(() => sut.get<BarManager>(), returnsNormally);
   });
 
   test('register and unregister manager', () {
@@ -31,7 +31,7 @@ void main() {
     sut.register(() => BarManager(overlayController: overlayController));
 
     expect(sut.managers.managers.length, 1);
-    expect(() => sut.use<BarManager>(), returnsNormally);
+    expect(() => sut.get<BarManager>(), returnsNormally);
 
     sut.unregister<BarManager>();
     expect(sut.managers.managers.isEmpty, isTrue);
@@ -42,7 +42,7 @@ void main() {
     sut.register(() => FooManager(overlayController: overlayController));
 
     expect(sut.managers.managers.length, 2);
-    expect(() => sut.use<BarManager>(), returnsNormally);
-    expect(() => sut.use<FooManager>(), returnsNormally);
+    expect(() => sut.get<BarManager>(), returnsNormally);
+    expect(() => sut.get<FooManager>(), returnsNormally);
   });
 }

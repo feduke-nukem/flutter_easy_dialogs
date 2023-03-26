@@ -1,3 +1,13 @@
+## 2.0.4
+
+* Readme updated.
+
+* `IEasyDialogManagerController` replaced with `IEasyDialogsManagerProvider` as it makes more sense now.
+
+* The controller property of FlutterEasyDialogs has been removed, and replaced with a simple use method.
+
+* Renamed `IEasyDialogsManagerRegistrar` to `IEasyDialogsManagerRegistry`.
+
 ## 2.0.3
 
 * Readme update

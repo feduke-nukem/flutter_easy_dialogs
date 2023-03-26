@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-You're done. Now you are able to call show methods from ```IEasyDialogController``` like so:
+You're done. Now you are able to call show methods from ```IEasyDialogManagerController``` like so:
 ```dart
 FlutterEasyDialogs.controller.showPositioned(
   const PositionedShowParams(
@@ -326,24 +326,20 @@ This is the wrapper `Widget` that provides some sort of shape to the content of 
 
 #### Registering and using
 
-Before the `Manager` can be used, it must be registered using `IEasyDialogsManagerRegistrar`, which is a simple *register/unregister* class. An example of this can be observed [there](#setup-and-usage)
+Before the `Manager` can be used, it must be registered using `IEasyDialogsManagerRegistry`, which is a simple *register/unregister* class. An example of this can be observed [there](#setup-and-usage)
 
-Now you are able to **use** registered `Manager` via `IEasyDialogController`:
+Now you are able to **use** registered `Manager` via `FlutterEasyDialogs`:
 
 ```dart
-abstract class IEasyDialogManagerController { 
-  M use<M extends EasyDialogManager>();
-}
-
 // Show
-FlutterEasyDialogs.controller.use<MyDialogManager>().show(
+FlutterEasyDialogs.use<MyDialogManager>().show(
        params: const EasyDialogManagerShowParams(
          content: Text('My custom manager'),
        ),
      );
 
 // Hide
-FlutterEasyDialogs.controller.use<MyDialogManager>().hide();
+FlutterEasyDialogs.use<MyDialogManager>().hide();
 
 ```
 

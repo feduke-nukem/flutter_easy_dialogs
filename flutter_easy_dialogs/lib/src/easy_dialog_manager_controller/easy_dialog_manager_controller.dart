@@ -6,9 +6,10 @@ import 'package:flutter_easy_dialogs/src/easy_dialog_manager_controller/easy_dia
 
 export 'easy_dialog_manager_box.dart' show EasyDialogManagerFactory;
 
-/// Implementation of [IEasyDialogManagerController].
+/// This controller is responsible for accessing and registering
+/// [EasyDialogManager] instances.
 class EasyDialogManagerController
-    implements IEasyDialogManagerController, IEasyDialogsManagerRegistrar {
+    implements IEasyDialogManagerProvider, IEasyDialogManagerRegistry {
   @visibleForTesting
   late final managers = EasyDialogManagerBox();
 
@@ -16,7 +17,7 @@ class EasyDialogManagerController
   EasyDialogManagerController();
 
   @override
-  M use<M extends EasyDialogManager>() => managers.get<M>();
+  M get<M extends EasyDialogManager>() => managers.get<M>();
 
   @override
   void register<M extends EasyDialogManager>(

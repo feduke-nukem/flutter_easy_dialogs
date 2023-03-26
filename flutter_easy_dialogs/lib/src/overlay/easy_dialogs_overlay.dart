@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/i_easy_dialog_manager_controller.dart';
-import 'package:flutter_easy_dialogs/src/core/i_easy_dialogs_manager_registrar.dart';
+import 'package:flutter_easy_dialogs/src/core/i_easy_dialog_manager_provider.dart';
+import 'package:flutter_easy_dialogs/src/core/i_easy_dialog_manager_registry.dart';
 import 'package:flutter_easy_dialogs/src/core/i_easy_overlay_controller.dart';
 import 'package:flutter_easy_dialogs/src/easy_dialog_manager_controller/easy_dialog_manager_controller.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_overlay_app_entry.dart';
@@ -9,7 +9,7 @@ import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay_box.dart';
 
 typedef EasyDialogSetupManagers = void Function(
   IEasyOverlayController overlayController,
-  IEasyDialogsManagerRegistrar managerRegistrar,
+  IEasyDialogManagerRegistry managerRegistry,
 );
 
 /// Overlay for storing and displaying dialogs.
@@ -41,7 +41,7 @@ class EasyDialogsOverlayState extends OverlayState
   final _dialogManagerController = EasyDialogManagerController();
 
   /// @nodoc
-  IEasyDialogManagerController get dialogManagerController =>
+  IEasyDialogManagerProvider get dialogManagerProvider =>
       _dialogManagerController;
 
   @override
