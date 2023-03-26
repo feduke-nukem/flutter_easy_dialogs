@@ -76,8 +76,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       builder: FlutterEasyDialogs.builder(
         /// register managers
-        setupManagers: (overlayController, managerRegistrar) {
-          managerRegistrar
+        setupManagers: (overlayController, managerRegistry) {
+          managerRegistry
             ..registerFullScreen(overlayController)
             ..registerPositioned(overlayController);
         },
@@ -87,9 +87,9 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-You're done. Now you are able to call show methods from ```IEasyDialogManagerController``` like so:
+You're done. Now you are able to call show methods from ```IEasyDialogManagerProvider``` like so:
 ```dart
-FlutterEasyDialogs.controller.showPositioned(
+FlutterEasyDialogs.provider.showPositioned(
   const PositionedShowParams(
     content: Text('dialog'),
   )
@@ -98,7 +98,7 @@ FlutterEasyDialogs.controller.showPositioned(
 Or
 
 ```dart
-FlutterEasyDialogs.controller.showFullScreen(
+FlutterEasyDialogs.provider.showFullScreen(
   const FullScreenShowParams(
     content: Text('dialog'),
   ),

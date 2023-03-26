@@ -10,10 +10,10 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_easy_dialogs: ^2.0.3
+  flutter_easy_dialogs: ^2.0.7
   examples: 
     path: ../../examples/
-  positioned_dialog_manager: ^1.0.0
+  positioned_dialog_manager: ^1.0.3
 
 
 dev_dependencies:

@@ -1,3 +1,10 @@
+## 2.0.7
+
+* Fixed readme typos 
+
+## 2.0.6
+
+* Fixed readme typos 
 ## 2.0.5
 * Provider is now public as there is no opportunity to make static extension methods in Dart.
 

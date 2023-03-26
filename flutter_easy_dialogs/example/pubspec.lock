@@ -73,10 +73,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_easy_dialogs
-      sha256: "975ddd722bb5d61ef14bb1bf1d0582fc546027a62571e1ed0002816a938ef43a"
+      sha256: "4361c85bc03adcf9fc5f91ce77c2632adc4216292e5b0666ab24f6fd4bc302aa"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.5"
+    version: "2.0.7"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -94,10 +94,10 @@ packages:
     dependency: "direct main"
     description:
       name: full_screen_dialog_manager
-      sha256: "90f1b154c2edbe7a6febdf95c59f4624c6b2e7800da71a9d39245b5311f7d9cc"
+      sha256: "7304aba17385e89426045faa37f55d0de23408117863bc8f15cc38961c71cef1"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.3"
   js:
     dependency: transitive
     description:
@@ -150,10 +150,10 @@ packages:
     dependency: "direct main"
     description:
       name: positioned_dialog_manager
-      sha256: "87ff5956ae26f514ee61422fd994e73135079bda00e0ec7a7d75c405a90f6b38"
+      sha256: "6ab8bdf1166858d6dbe1583d1d77a4015bb7f88ca0ebf7049f7e453987423b36"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1"
+    version: "1.0.3"
   sky_engine:
     dependency: transitive
     description: flutter

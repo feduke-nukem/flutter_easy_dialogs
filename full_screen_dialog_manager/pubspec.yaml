@@ -1,6 +1,6 @@
 name: full_screen_dialog_manager
 description: Full screen dialog manager for using via `flutter_easy_dialogs` package.
-version: 1.0.1
+version: 1.0.3
 homepage: https://github.com/feduke-nukem/flutter_easy_dialogs
 repository: https://github.com/feduke-nukem/flutter_easy_dialogs/tree/master/full_screen_dialog_manager
 
@@ -11,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_easy_dialogs: ^2.0.5
+  flutter_easy_dialogs: ^2.0.7
 
 dev_dependencies:
   flutter_test:
