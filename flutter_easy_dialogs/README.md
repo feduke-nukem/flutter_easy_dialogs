@@ -353,7 +353,6 @@ The specified **use** method provides access to the instance of a registered `Ma
 
 #### Positioned Examples
 
-
 ![positioned-1](https://user-images.githubusercontent.com/72284940/227770860-d5885960-2a22-4d3b-bd91-1e0e5488fc7e.gif)
 ![positioned-2](https://user-images.githubusercontent.com/72284940/227770870-b2a43e65-01fc-4b90-b518-82fb3539c09b.gif)
 ![positioned-3](https://user-images.githubusercontent.com/72284940/227770871-d0b60af3-10f3-4112-b67c-b42763953456.gif)
@@ -384,7 +383,6 @@ Expansion:
 ## Full screen 
  
 #### Full screen examples
-
 
 ![full-screen-1](https://user-images.githubusercontent.com/72284940/227770949-599014fb-45b4-4081-b6e4-2defce0d73a0.gif)
 ![full-screen-2](https://user-images.githubusercontent.com/72284940/227770950-13bbaa09-5e2e-4524-aa86-2b1ffe1256d8.gif)

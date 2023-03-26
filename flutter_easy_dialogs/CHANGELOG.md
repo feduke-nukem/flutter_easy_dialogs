@@ -1,5 +1,9 @@
 ## 2.0.2
 
+* Readme update
+
+## 2.0.2
+
 * Readme changes
 
 ## 2.0.0
