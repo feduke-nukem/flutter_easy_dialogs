@@ -36,7 +36,7 @@ class PositionedDialogManagerBasicUsageScreen extends StatefulWidget {
 
 class _PositionedDialogManagerBasicUsageScreenState
     extends State<PositionedDialogManagerBasicUsageScreen> {
-  final _easyDialogsController = FlutterEasyDialogs.controller;
+  final _easyDialogManagersProvider = FlutterEasyDialogs.provider;
   final _animatorsDropDownItems = _animators.entries
       .map(
         (e) => DropdownMenuItem<PositionedAnimator>(
@@ -139,12 +139,12 @@ class _PositionedDialogManagerBasicUsageScreenState
               child: const Text('Show'),
             ),
             ElevatedButton(
-              onPressed: _easyDialogsController.hideAllPositioned,
+              onPressed: _easyDialogManagersProvider.hideAllPositioned,
               child: const Text('Hide all'),
             ),
             ElevatedButton(
               onPressed: () =>
-                  _easyDialogsController.hidePositioned(_selectedPosition),
+                  _easyDialogManagersProvider.hidePositioned(_selectedPosition),
               child: const Text('Hide by position'),
             ),
           ],
@@ -154,7 +154,7 @@ class _PositionedDialogManagerBasicUsageScreenState
   }
 
   void _show() {
-    _easyDialogsController.showPositioned(
+    _easyDialogManagersProvider.showPositioned(
       PositionedShowParams(
         dismissible: _selectedDismissible,
         animator: _selectedAnimator,

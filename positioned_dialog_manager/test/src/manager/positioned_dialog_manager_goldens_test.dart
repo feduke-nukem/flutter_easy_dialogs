@@ -29,7 +29,7 @@ void main() {
     ));
 
     unawaited(
-      easyOverlayState.dialogManagerController.showPositioned(
+      easyOverlayState.dialogManagerProvider.showPositioned(
         PositionedShowParams(content: _bannerContent),
       ),
     );
@@ -49,7 +49,7 @@ void main() {
     ));
 
     unawaited(
-      easyOverlayState.dialogManagerController.showPositioned(
+      easyOverlayState.dialogManagerProvider.showPositioned(
         PositionedShowParams(
           content: _bannerContent,
           position: EasyDialogPosition.bottom,
@@ -75,7 +75,7 @@ void main() {
     ));
 
     unawaited(
-      easyOverlayState.dialogManagerController
+      easyOverlayState.dialogManagerProvider
           .showPositioned(PositionedShowParams(
         content: _bannerContent,
         position: EasyDialogPosition.center,

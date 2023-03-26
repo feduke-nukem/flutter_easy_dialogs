@@ -14,7 +14,7 @@ class CustomDialogManagerScreen extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () =>
-              FlutterEasyDialogs.controller.use<MyDialogManager>().show(
+              FlutterEasyDialogs.provider.use<MyDialogManager>().show(
                     params: EasyDialogManagerShowParams(
                       content: Container(
                         alignment: Alignment.center,

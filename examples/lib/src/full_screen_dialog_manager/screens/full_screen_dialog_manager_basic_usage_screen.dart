@@ -60,7 +60,7 @@ class FullScreenDialogManagerBasicUsageScreen extends StatefulWidget {
 
 class _FullScreenDialogManagerBasicUsageScreenState
     extends State<FullScreenDialogManagerBasicUsageScreen> {
-  final _easyDialogsController = FlutterEasyDialogs.controller;
+  final _easyDialogManagerProvider = FlutterEasyDialogs.provider;
 
   final _contentAnimationTypeDropDownItems = _foregroundAnimators.entries
       .map(
@@ -148,7 +148,7 @@ class _FullScreenDialogManagerBasicUsageScreenState
             ),
             ElevatedButton(
               onPressed: () async {
-                await _easyDialogsController.showFullScreen(
+                await _easyDialogManagerProvider.showFullScreen(
                   FullScreenShowParams(
                     content: _content,
                     foregroundAnimator: _selectedForegroundAnimator,

@@ -17,7 +17,7 @@ class EasyDialogManagerController
   EasyDialogManagerController();
 
   @override
-  M get<M extends EasyDialogManager>() => managers.get<M>();
+  M use<M extends EasyDialogManager>() => managers.get<M>();
 
   @override
   void register<M extends EasyDialogManager>(

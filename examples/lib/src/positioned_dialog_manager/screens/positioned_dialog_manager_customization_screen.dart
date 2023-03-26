@@ -13,7 +13,7 @@ class PositionedDialogManagerCustomizationScreen extends StatelessWidget {
       ),
       body: Center(
         child: ElevatedButton(
-          onPressed: () => FlutterEasyDialogs.controller.showPositioned(
+          onPressed: () => FlutterEasyDialogs.provider.showPositioned(
             PositionedShowParams(
               animationConfiguration: const EasyDialogAnimatorConfiguration(
                 duration: Duration(seconds: 1),

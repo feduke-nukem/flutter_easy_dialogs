@@ -328,18 +328,18 @@ This is the wrapper `Widget` that provides some sort of shape to the content of 
 
 Before the `Manager` can be used, it must be registered using `IEasyDialogsManagerRegistry`, which is a simple *register/unregister* class. An example of this can be observed [there](#setup-and-usage)
 
-Now you are able to **use** registered `Manager` via `FlutterEasyDialogs`:
+Now you are able to **use** registered `Manager` via `FlutterEasyDialogs.provider`:
 
 ```dart
 // Show
-FlutterEasyDialogs.use<MyDialogManager>().show(
+FlutterEasyDialogs.provider.use<MyDialogManager>().show(
        params: const EasyDialogManagerShowParams(
          content: Text('My custom manager'),
        ),
      );
 
 // Hide
-FlutterEasyDialogs.use<MyDialogManager>().hide();
+FlutterEasyDialogs.provider.use<MyDialogManager>().hide();
 
 ```
 

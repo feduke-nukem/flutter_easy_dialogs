@@ -30,7 +30,7 @@ class FullScreenDialogManagerCustomizationScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () async {
-                await FlutterEasyDialogs.controller.showFullScreen(
+                await FlutterEasyDialogs.provider.showFullScreen(
                   const FullScreenShowParams(
                     content: _content,
                     foregroundAnimator: _ForegroundAnimator(),
@@ -43,7 +43,7 @@ class FullScreenDialogManagerCustomizationScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                await FlutterEasyDialogs.controller.showFullScreen(
+                await FlutterEasyDialogs.provider.showFullScreen(
                   FullScreenShowParams(
                     animationConfiguration:
                         const EasyDialogAnimatorConfiguration(

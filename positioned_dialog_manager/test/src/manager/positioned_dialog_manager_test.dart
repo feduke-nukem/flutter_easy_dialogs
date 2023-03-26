@@ -31,7 +31,7 @@ void main() {
       ));
 
       unawaited(
-        easyOverlayState.dialogManagerController
+        easyOverlayState.dialogManagerProvider
             .showPositioned(PositionedShowParams(
           content: _bannerContent,
           position: EasyDialogPosition.top,
@@ -62,7 +62,7 @@ void main() {
       ));
 
       unawaited(
-        easyOverlayState.dialogManagerController
+        easyOverlayState.dialogManagerProvider
             .showPositioned(PositionedShowParams(
           content: _bannerContent,
           position: EasyDialogPosition.top,
@@ -71,7 +71,7 @@ void main() {
       await tester.pumpAndSettle();
 
       unawaited(
-        easyOverlayState.dialogManagerController
+        easyOverlayState.dialogManagerProvider
             .hidePositioned(EasyDialogPosition.top),
       );
       await tester.pumpAndSettle();
@@ -101,7 +101,7 @@ void main() {
 
       for (var position in EasyDialogPosition.values) {
         unawaited(
-          easyOverlayState.dialogManagerController
+          easyOverlayState.dialogManagerProvider
               .showPositioned(PositionedShowParams(
             content: _bannerContent,
             position: position,
@@ -128,7 +128,7 @@ void main() {
       expect(find.byKey(dialogKey), findsNWidgets(3));
 
       unawaited(
-        easyOverlayState.dialogManagerController
+        easyOverlayState.dialogManagerProvider
             .hidePositioned(EasyDialogPosition.center),
       );
 
@@ -148,7 +148,7 @@ void main() {
           isNull);
 
       unawaited(
-        easyOverlayState.dialogManagerController.hideAllPositioned(),
+        easyOverlayState.dialogManagerProvider.hideAllPositioned(),
       );
 
       await tester.pumpAndSettle();
@@ -181,7 +181,7 @@ void main() {
     const position = EasyDialogPosition.top;
 
     unawaited(
-      easyOverlayState.dialogManagerController
+      easyOverlayState.dialogManagerProvider
           .showPositioned(const PositionedShowParams(
         dismissible: PositionedDismissible.none(),
         hideAfterDuration: Duration(seconds: 4),

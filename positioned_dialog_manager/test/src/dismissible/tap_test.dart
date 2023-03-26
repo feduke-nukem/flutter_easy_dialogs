@@ -25,7 +25,7 @@ void main() {
     const position = EasyDialogPosition.top;
 
     unawaited(
-      easyOverlayState.dialogManagerController
+      easyOverlayState.dialogManagerProvider
           .showPositioned(const PositionedShowParams(
         dismissible: PositionedDismissible.tap(),
         content: Text(

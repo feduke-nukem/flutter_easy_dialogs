@@ -27,7 +27,7 @@ void main() {
       },
     ));
 
-    easyOverlayState.dialogManagerController
+    easyOverlayState.dialogManagerProvider
         .showFullScreen(FullScreenShowParams(content: _content));
 
     await widgetTester.pumpAndSettle();
@@ -38,7 +38,7 @@ void main() {
     expect(easyOverlayState.box.get(FullScreenDialogManager),
         isA<EasyDialogsOverlayEntry>());
 
-    easyOverlayState.dialogManagerController.hideFullScreen();
+    easyOverlayState.dialogManagerProvider.hideFullScreen();
 
     await widgetTester.pumpAndSettle();
 
@@ -55,12 +55,12 @@ void main() {
       },
     ));
 
-    easyOverlayState.dialogManagerController
+    easyOverlayState.dialogManagerProvider
         .showFullScreen(FullScreenShowParams(content: _content));
 
     await widgetTester.pumpAndSettle();
 
-    easyOverlayState.dialogManagerController.showFullScreen(
+    easyOverlayState.dialogManagerProvider.showFullScreen(
       FullScreenShowParams(
         content: Container(
           key: const Key('value'),

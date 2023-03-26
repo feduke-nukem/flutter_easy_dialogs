@@ -15,7 +15,7 @@ void main() {
       },
     ));
 
-    easyOverlayState.dialogManagerController.showFullScreen(
+    easyOverlayState.dialogManagerProvider.showFullScreen(
       const FullScreenShowParams(
         content: SizedBox(
           height: 300.0,

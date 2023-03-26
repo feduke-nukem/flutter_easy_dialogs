@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
       home: const HomeScreen(),
       builder: FlutterEasyDialogs.builder(
         /// register managers
-        setupManagers: (overlayController, managerRegistrar) {
-          managerRegistrar
+        setupManagers: (overlayController, managerRegistry) {
+          managerRegistry
             ..registerFullScreen(overlayController)
             ..registerPositioned(overlayController)
             ..register(

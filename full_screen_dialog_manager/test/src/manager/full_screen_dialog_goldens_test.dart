@@ -28,7 +28,7 @@ void main() {
     ));
 
     unawaited(
-      easyOverlayState.dialogManagerController
+      easyOverlayState.dialogManagerProvider
           .showFullScreen(FullScreenShowParams(content: _content)),
     );
 
@@ -45,13 +45,13 @@ void main() {
     ));
 
     unawaited(
-      easyOverlayState.dialogManagerController
+      easyOverlayState.dialogManagerProvider
           .showFullScreen(FullScreenShowParams(content: _content)),
     );
 
     await tester.pumpAndSettle();
 
-    unawaited(easyOverlayState.dialogManagerController.hideFullScreen());
+    unawaited(easyOverlayState.dialogManagerProvider.hideFullScreen());
 
     await tester.pumpAndSettle();
 

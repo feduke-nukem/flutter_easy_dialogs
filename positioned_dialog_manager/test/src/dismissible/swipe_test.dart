@@ -29,7 +29,7 @@ void main() {
     const position = EasyDialogPosition.top;
 
     unawaited(
-      easyOverlayState.dialogManagerController
+      easyOverlayState.dialogManagerProvider
           .showPositioned(const PositionedShowParams(
         dismissible: PositionedDismissible.swipe(),
         content: Text(
@@ -64,7 +64,7 @@ void main() {
     const position = EasyDialogPosition.top;
 
     unawaited(
-      easyOverlayState.dialogManagerController
+      easyOverlayState.dialogManagerProvider
           .showPositioned(const PositionedShowParams(
         dismissible: PositionedDismissible.swipe(
           direction: PositionedDismissibleSwipeDirection.vertical,
