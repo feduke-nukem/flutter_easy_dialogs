@@ -16,9 +16,3 @@ jobs:
     uses: VeryGoodOpenSource/very_good_workflows/.github/workflows/semantic_pull_request.yml@v1
     with: 
       min_coverage: 70
-
-  pana:
-    runs-on: ubuntu-latest
-    steps:
-      - name: noop
-        run: echo 'noop'

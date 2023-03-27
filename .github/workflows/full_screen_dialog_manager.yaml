@@ -45,22 +45,3 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-
-  pana:
-    defaults:
-      run:
-        working-directory: packages/full_screen_dialog_manager
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2.8.0
-
-      - name: Install Dependencies
-        run: |
-          flutter packages get
-          flutter pub global activate pana
-          sudo apt-get install webp
-      - name: Verify Pub Score
-        run: ../../tool/verify_pub_score.sh
