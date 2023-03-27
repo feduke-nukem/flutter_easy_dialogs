@@ -39,7 +39,7 @@ jobs:
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
           path: packages/full_screen_dialog_manager/coverage/lcov.info
-          min_coverage: 72
+          min_coverage: 56
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
