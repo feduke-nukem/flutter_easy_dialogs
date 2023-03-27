@@ -35,7 +35,32 @@ jobs:
       - name: Run tests
         run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
 
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v2
+        with:
+          path: packages/flutter_bloc/coverage/lcov.info
+          min_coverage: 72
+
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  pana:
+    defaults:
+      run:
+        working-directory: packages/flutter_bloc
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2.8.0
+
+      - name: Install Dependencies
+        run: |
+          flutter packages get
+          flutter pub global activate pana
+          sudo apt-get install webp
+      - name: Verify Pub Score
+        run: ../../tool/verify_pub_score.sh
