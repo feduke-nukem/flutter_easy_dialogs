@@ -1,21 +1,21 @@
-name: full_screen_dialog_manager
+name: positioned_dialog_manager
 
 on:
   push:
     paths:
-      - "packages/full_screen_dialog_manager/**"
-      - ".github/workflows/full_screen_dialog_manager.yaml"
+      - "packages/positioned_dialog_manager/**"
+      - ".github/workflows/positioned_dialog_manager.yaml"
 
   pull_request:
     paths:
-      - "packages/full_screen_dialog_manager/**"
-      - ".github/workflows/full_screen_dialog_manager.yaml"
+      - "packages/positioned_dialog_manager/**"
+      - ".github/workflows/positioned_dialog_manager.yaml"
 
 jobs:
   build:
     defaults:
       run:
-        working-directory: packages/full_screen_dialog_manager
+        working-directory: packages/positioned_dialog_manager
 
     runs-on: ubuntu-latest
 
@@ -38,7 +38,7 @@ jobs:
       - name: Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: packages/flutter_bloc/coverage/lcov.info
+          path: packages/positioned_dialog_manager/coverage/lcov.info
           min_coverage: 72
 
       - name: Upload coverage reports to Codecov
@@ -49,7 +49,7 @@ jobs:
   pana:
     defaults:
       run:
-        working-directory: packages/flutter_bloc
+        working-directory: packages/positioned_dialog_manager
 
     runs-on: ubuntu-latest
 

@@ -38,7 +38,7 @@ jobs:
       - name: Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: packages/flutter_bloc/coverage/lcov.info
+          path: packages/flutter_easy_dialogs/coverage/lcov.info
           min_coverage: 72
 
       - name: Upload coverage reports to Codecov
@@ -49,7 +49,7 @@ jobs:
   pana:
     defaults:
       run:
-        working-directory: packages/flutter_bloc
+        working-directory: packages/flutter_easy_dialogs
 
     runs-on: ubuntu-latest
 
