@@ -24,7 +24,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1
 
       - name: Install Dependencies
-        run: dart pub get
+        run: flutter pub get
 
       - name: Format
         run: dart format --set-exit-if-changed .
@@ -35,7 +35,7 @@ jobs:
       - name: Run Tests
         run: |
           dart pub global activate coverage 1.6.3
-          dart test --coverage=coverage && dart pub global run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --packages=.dart_tool/package_config.json --report-on=lib
+          flutter test --coverage=coverage && dart pub global run coverage:format_coverage --lcov --in=coverage --out=coverage/lcov.info --packages=.dart_tool/package_config.json --report-on=lib
 
       - name: Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2
