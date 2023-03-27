@@ -1,0 +1,47 @@
+name: flutter_easy_dialogs
+
+on:
+  push:
+    paths:
+      - "packages/flutter_easy_dialogs/**"
+      - ".github/workflows/flutter_easy_dialogs.yaml"
+
+  pull_request:
+    paths:
+      - "packages/flutter_easy_dialogs/**"
+      - ".github/workflows/flutter_easy_dialogs.yaml"
+
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: packages/flutter_easy_dialogs
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+
+      - name: Install Dependencies
+        run: flutter packages get
+
+      - name: Format
+        run: dart format --set-exit-if-changed .
+
+      - name: Analyze
+        run: dart analyze --fatal-infos --fatal-warnings .
+
+      - name: Run tests
+        run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
+
+      - name: Check Code Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v2
+        with:
+          path: packages/flutter_easy_dialogs/coverage/lcov.info
+          min_coverage: 56
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

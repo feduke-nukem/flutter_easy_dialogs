@@ -52,7 +52,7 @@ packages:
   examples:
     dependency: "direct main"
     description:
-      path: "../../examples"
+      path: "../../../examples"
       relative: true
     source: path
     version: "0.0.1"
@@ -110,10 +110,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: "5e4a9cd06d447758280a8ac2405101e0e2094d2a1dbdd3756aec3fe7775ba593"
+      sha256: "5cfd6509652ff5e7fe149b6df4859e687fca9048437857cb2e65c8d780f396e3"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.0"
   matcher:
     dependency: transitive
     description:
@@ -147,13 +147,13 @@ packages:
     source: hosted
     version: "1.8.2"
   positioned_dialog_manager:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: positioned_dialog_manager
-      sha256: "0d1feb982eb8e699345e2ff6c875b4d01d5460fa5fc9594da587640eb864accf"
+      sha256: "6ab8bdf1166858d6dbe1583d1d77a4015bb7f88ca0ebf7049f7e453987423b36"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   sky_engine:
     dependency: transitive
     description: flutter

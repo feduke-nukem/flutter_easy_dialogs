@@ -1,26 +1,26 @@
 name: example
-description: A new Flutter project.
+description: Full screen dialog manager example. 
+publish_to: 'none'
 
-publish_to: "none"
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
-
+  sdk: '>=2.19.2 <3.0.0'
 dependencies:
   flutter:
     sdk: flutter
+
+  full_screen_dialog_manager: ^1.0.3
   flutter_easy_dialogs: ^2.0.7
   examples: 
-    path: ../../examples/
-  positioned_dialog_manager: ^1.0.3
-  full_screen_dialog_manager: ^1.0.3
+    path: ../../../examples/
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^2.0.0
 
 flutter:
+
   uses-material-design: true
+
