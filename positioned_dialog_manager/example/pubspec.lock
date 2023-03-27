@@ -94,10 +94,10 @@ packages:
     dependency: transitive
     description:
       name: full_screen_dialog_manager
-      sha256: "170f36493814be20c3395b4e8fea5ad50f7b823ebdfc3151b086e01128e3a2ef"
+      sha256: "7304aba17385e89426045faa37f55d0de23408117863bc8f15cc38961c71cef1"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   js:
     dependency: transitive
     description:

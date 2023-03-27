@@ -1,3 +1,7 @@
+## 2.0.7+1
+
+* Fixed readme typos 
+
 ## 2.0.7
 
 * Fixed readme typos 

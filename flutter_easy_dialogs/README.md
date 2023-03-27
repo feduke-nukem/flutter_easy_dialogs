@@ -477,13 +477,22 @@ class CustomDismissible extends EasyDialogDismissible {
 Simply call with your `Manager` type provided as a generic:
 
 ```dart
-    FlutterEasyDialogs.controller.useCustom<MyDialogManager>().show(
-          params: CustomManagerShowParams(
-            content: const Text('Custom'),
-            color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                .withOpacity(1.0),
+FlutterEasyDialogs.provider.use<MyDialogManager>().show(
+      params: EasyDialogManagerShowParams(
+        content: Container(
+          alignment: Alignment.center,
+          color: Colors.amber.withOpacity(0.6),
+          padding: const EdgeInsets.all(30.0),
+          child: const Text(
+            'My custom manager',
+            style: TextStyle(
+              fontSize: 30.0,
+              color: Colors.white,
+            ),
           ),
-        );
+        ),
+      ),
+    );
 ```
 #### Custom manager example
 
