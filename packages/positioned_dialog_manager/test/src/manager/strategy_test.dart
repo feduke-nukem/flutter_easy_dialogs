@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:positioned_dialog_manager/src/easy_dialog_position.dart';
 import 'package:positioned_dialog_manager/src/manager/positioned_dialog_manager.dart';
 
-import '../../../helper.dart';
+import '../../helper.dart';
 
 void main() {
   group('inserting', () {

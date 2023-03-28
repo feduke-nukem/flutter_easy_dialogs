@@ -58,6 +58,32 @@ class BarManager extends EasyDialogManager {
   Future<void> show({required EasyDialogManagerShowParams? params}) async {}
 }
 
+class TestDialogManager extends EasyDialogManager<EasyDialogManagerShowParams,
+    EasyDialogManagerHideParams?> {
+  TestDialogManager({required super.overlayController});
+
+  int? _id;
+
+  @override
+  Future<void> hide({EasyDialogManagerHideParams? params}) async => _hide();
+
+  void _hide() => super
+      .overlayController
+      .removeDialog(BasicDialogRemoveStrategy(dialogId: _id!));
+
+  @override
+  Future<void> show({required EasyDialogManagerShowParams params}) async {
+    if (_id != null) _hide();
+
+    super.overlayController.insertDialog(
+          BasicDialogInsertStrategy(
+            dialog: params.content,
+            onInserted: (dialogId) => _id = dialogId,
+          ),
+        );
+  }
+}
+
 AnimationController createTestController() => AnimationController(
       vsync: const TestVSync(),
     );

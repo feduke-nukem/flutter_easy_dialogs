@@ -34,6 +34,7 @@ mixin SingleAutoDisposalControllerMixin<S extends EasyDialogManagerShowParams?,
   /// Implementation should start with calling super.
   @mustCallSuper
   @protected
+  @visibleForTesting
   void dispose() {
     animationController!.dispose();
     animationController = null;
@@ -50,6 +51,7 @@ mixin SingleAutoDisposalControllerMixin<S extends EasyDialogManagerShowParams?,
 
   @protected
   @nonVirtual
+  @visibleForTesting
   Future<void> initializeAndShow(
     S params,
     EasyOverlayBoxInsert Function(Animation<double> animation) strategy,
@@ -66,6 +68,7 @@ mixin SingleAutoDisposalControllerMixin<S extends EasyDialogManagerShowParams?,
 
   @protected
   @nonVirtual
+  @visibleForTesting
   Future<void> hideAndDispose(
     EasyOverlayBoxRemove strategy, {
     bool animate = true,

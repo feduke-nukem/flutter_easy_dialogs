@@ -5,6 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../helper.dart';
 
 void main() {
+  test('create params', () {
+    expect(
+      () => EasyDialogManagerShowParams(content: Container()),
+      returnsNormally,
+    );
+    expect(() => EasyDialogManagerHideParams(), returnsNormally);
+  });
   group('strategy insert', () {
     testWidgets('insert', (widgetTester) async {
       await widgetTester.pumpWidget(app());

@@ -13,12 +13,13 @@ class _DummyManager extends EasyDialogManager
 
   @override
   Future<void> hide({EasyDialogManagerHideParams? params}) {
-    return hideAndDispose(BasicDialogRemoveStrategy(dialogId: _dialogId!));
+    return super
+        .hideAndDispose(BasicDialogRemoveStrategy(dialogId: _dialogId!));
   }
 
   @override
   Future<void> show({EasyDialogManagerShowParams? params}) {
-    return initializeAndShow(
+    return super.initializeAndShow(
       params,
       (animation) => BasicDialogInsertStrategy(
         dialog: const SizedBox(
@@ -41,14 +42,6 @@ class _DummyManager extends EasyDialogManager
 }
 
 void main() {
-  setUp(() {
-    WidgetsFlutterBinding.ensureInitialized();
-    WidgetsBinding.instance
-      ..resetEpoch()
-      ..platformDispatcher.onBeginFrame = null
-      ..platformDispatcher.onDrawFrame = null;
-  });
-
   test('create', () {
     expect(
       () => _DummyManager(overlayController: MockEasyOverlayController()),
@@ -110,5 +103,70 @@ void main() {
     expect(manager.animationController, isNull);
     expect(() => manager.animation, throwsAssertionError);
     expect(manager.isPresented, isFalse);
+  });
+
+  testWidgets('initialize and show, hide and dispose', (widgetTester) async {
+    await widgetTester.pumpWidget(
+      app(
+        managersSetup: (overlayController, dialogsRegistrar) {
+          dialogsRegistrar.register(
+              () => _DummyManager(overlayController: overlayController));
+        },
+      ),
+    );
+
+    final manager = easyOverlayState.dialogManagerProvider.use<_DummyManager>();
+
+    expect(manager.animationController, isNull);
+    expect(manager.isPresented, isFalse);
+    expect(
+        () => manager.initializeAndShow(
+              EasyDialogManagerShowParams(content: Container()),
+              (animation) => BasicDialogInsertStrategy(
+                dialog: Container(),
+              ),
+            ),
+        returnsNormally);
+
+    expect(manager.animationController, isNotNull);
+    expect(manager.isPresented, isTrue);
+
+    expect(
+      () => manager.hideAndDispose(
+        BasicDialogRemoveStrategy(dialogId: 0),
+        animate: false,
+      ),
+      returnsNormally,
+    );
+
+    expect(manager.animationController, isNull);
+    expect(manager.isPresented, isFalse);
+  });
+
+  testWidgets('initialize and show, dispose', (widgetTester) async {
+    await widgetTester.pumpWidget(
+      app(
+        managersSetup: (overlayController, dialogsRegistrar) {
+          dialogsRegistrar.register(
+              () => _DummyManager(overlayController: overlayController));
+        },
+      ),
+    );
+
+    final manager = easyOverlayState.dialogManagerProvider.use<_DummyManager>();
+
+    expect(manager.animationController, isNull);
+    manager.initializeAndShow(
+      EasyDialogManagerShowParams(content: Container()),
+      (animation) => BasicDialogInsertStrategy(
+        dialog: Container(),
+      ),
+    );
+
+    expect(manager.animationController, isNotNull);
+
+    manager.dispose();
+
+    expect(manager.animationController, isNull);
   });
 }

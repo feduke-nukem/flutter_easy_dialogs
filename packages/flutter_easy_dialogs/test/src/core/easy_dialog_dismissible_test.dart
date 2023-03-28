@@ -15,4 +15,24 @@ void main() {
 
     expect(data.dialog, dialog);
   });
+
+  test('create', () {
+    expect(() => _DummyDismissible(onDismissed: () {}), returnsNormally);
+  });
+
+  test('create payload', () {
+    expect(() => EasyDismissiblePayload(), returnsNormally);
+
+    final payload = EasyDismissiblePayload(instantDismiss: true);
+
+    expect(payload.instantDismiss, isTrue);
+  });
+}
+
+class _DummyDismissible extends EasyDialogDismissible {
+  const _DummyDismissible({super.onDismissed});
+
+  @override
+  Widget decorate(EasyDismissibleData<EasyDismissiblePayload> data) =>
+      data.dialog;
 }

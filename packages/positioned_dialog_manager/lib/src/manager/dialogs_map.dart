@@ -1,6 +1,8 @@
 part of 'positioned_dialog_manager.dart';
 
-class _DialogsMap {
+/// Helper [Map] wrapper for storing positioned dialogs and their
+/// animation controllers.
+class DialogsMap {
   final Map<EasyDialogPosition, AnimationController> _map = {};
 
   AnimationController? getController(EasyDialogPosition position) {
