@@ -59,11 +59,13 @@ class _TapDismissibleState extends State<_TapDismissible>
   void initState() {
     super.initState();
     _controller.addListener(() {
+      // coverage:ignore-start
       if (mounted) {
         // Trigger widget rebuild
         // ignore: no-empty-block
         setState(() {});
       }
+      // coverage:ignore-end
     });
   }
 
