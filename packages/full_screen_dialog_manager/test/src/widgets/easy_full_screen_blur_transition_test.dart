@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:full_screen_dialog_manager/full_screen_dialog_manager.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
-import '../../helper.dart';
 import '../../mock.dart';
 
 void main() {
