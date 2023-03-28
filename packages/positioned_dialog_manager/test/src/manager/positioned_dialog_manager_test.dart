@@ -52,6 +52,38 @@ void main() {
 
       await tester.pumpAndSettle();
     });
+    testWidgets('show at top twice', (tester) async {
+      await tester.pumpWidget(app(
+        setupManagers: (overlayController, managerRegistrar) {
+          managerRegistrar.register(() =>
+              PositionedDialogManager(overlayController: overlayController));
+        },
+      ));
+
+      unawaited(
+        easyOverlayState.dialogManagerProvider
+            .showPositioned(PositionedShowParams(
+          content: _bannerContent,
+          position: EasyDialogPosition.top,
+        )),
+      );
+
+      await tester.pumpAndSettle();
+      expect(find.byKey(dialogKey), findsOneWidget);
+
+      const key = Key('value');
+      unawaited(
+        easyOverlayState.dialogManagerProvider
+            .showPositioned(PositionedShowParams(
+          content: Container(key: key),
+          position: EasyDialogPosition.top,
+        )),
+      );
+
+      await tester.pumpAndSettle();
+      expect(find.byKey(dialogKey), findsNothing);
+      expect(find.byKey(key), findsOneWidget);
+    });
 
     testWidgets('show and hide at top', (tester) async {
       await tester.pumpWidget(app(
@@ -174,8 +206,10 @@ void main() {
   testWidgets('show, auto hide after four second ', (widgetTester) async {
     await widgetTester.pumpWidget(app(
       setupManagers: (overlayController, managerRegistrar) {
-        managerRegistrar.register(() =>
-            PositionedDialogManager(overlayController: overlayController));
+        expect(
+            () => managerRegistrar.register(() =>
+                PositionedDialogManager(overlayController: overlayController)),
+            returnsNormally);
       },
     ));
     const position = EasyDialogPosition.top;

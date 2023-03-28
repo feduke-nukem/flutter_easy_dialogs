@@ -23,7 +23,7 @@ class PositionedDialogManager
   /// [Map] of currently presented dialogs.
   ///
   /// Contains position of the dialog and associated [AnimationController].
-  final _dialogsMap = _DialogsMap();
+  final _dialogsMap = DialogsMap();
 
   /// Creates an instance of [PositionedDialogManager].
   PositionedDialogManager({required super.overlayController});

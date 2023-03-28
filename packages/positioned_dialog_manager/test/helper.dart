@@ -62,4 +62,5 @@ class BarManager extends EasyDialogManager {
 
 AnimationController createTestController() => AnimationController(
       vsync: const TestVSync(),
+      duration: Duration.zero,
     );

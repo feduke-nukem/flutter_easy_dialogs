@@ -42,7 +42,9 @@ void main() {
 
     final banner = find.byKey(dialogKey);
 
-    await widgetTester.tap(banner);
+    final gesture = await widgetTester.press(banner);
+
+    await gesture.up();
 
     await widgetTester.pumpAndSettle();
 
