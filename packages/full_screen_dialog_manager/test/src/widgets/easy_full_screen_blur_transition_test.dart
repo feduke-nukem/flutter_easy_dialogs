@@ -20,7 +20,10 @@ void main() {
     final widget = Scaffold(
       body: Stack(
         children: [
-          Positioned.fill(child: Text('test' * 10000)),
+          Positioned.fill(
+              child: Container(
+            color: Colors.green,
+          )),
           Positioned.fill(
             child: EasyFullScreenBlurTransition(
               blur: const MockAnimation(10),
