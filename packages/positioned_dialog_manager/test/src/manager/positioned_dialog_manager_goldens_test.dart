@@ -6,6 +6,7 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:positioned_dialog_manager/src/easy_dialog_position.dart';
 import 'package:positioned_dialog_manager/src/manager/positioned_dialog_manager.dart';
 import 'package:positioned_dialog_manager/src/util/positioned_dialog_manager_controller_x.dart';
+import 'package:positioned_dialog_manager/src/util/positioned_dialog_manager_registrar_x.dart';
 
 import '../../helper.dart';
 
@@ -23,8 +24,7 @@ void main() {
   testGoldens('show at top', (tester) async {
     await tester.pumpWidget(app(
       setupManagers: (overlayController, managerRegistrar) {
-        managerRegistrar.register(() =>
-            PositionedDialogManager(overlayController: overlayController));
+        managerRegistrar.registerPositioned(overlayController);
       },
     ));
 
@@ -43,8 +43,7 @@ void main() {
   testGoldens('show at bottom', (tester) async {
     await tester.pumpWidget(app(
       setupManagers: (overlayController, managerRegistrar) {
-        managerRegistrar.register(() =>
-            PositionedDialogManager(overlayController: overlayController));
+        managerRegistrar.registerPositioned(overlayController);
       },
     ));
 
@@ -69,8 +68,7 @@ void main() {
   testGoldens('show postponed at center', (tester) async {
     await tester.pumpWidget(app(
       setupManagers: (overlayController, managerRegistrar) {
-        managerRegistrar.register(() =>
-            PositionedDialogManager(overlayController: overlayController));
+        managerRegistrar.registerPositioned(overlayController);
       },
     ));
 

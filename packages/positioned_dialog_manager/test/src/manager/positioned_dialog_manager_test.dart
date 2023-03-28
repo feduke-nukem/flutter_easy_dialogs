@@ -7,6 +7,7 @@ import 'package:positioned_dialog_manager/src/dismissible/positioned_dismissible
 import 'package:positioned_dialog_manager/src/easy_dialog_position.dart';
 import 'package:positioned_dialog_manager/src/manager/positioned_dialog_manager.dart';
 import 'package:positioned_dialog_manager/src/util/positioned_dialog_manager_controller_x.dart';
+import 'package:positioned_dialog_manager/src/util/positioned_dialog_manager_registrar_x.dart';
 
 import '../../helper.dart';
 
@@ -25,8 +26,7 @@ void main() {
     testWidgets('show at top', (tester) async {
       await tester.pumpWidget(app(
         setupManagers: (overlayController, managerRegistrar) {
-          managerRegistrar.register(() =>
-              PositionedDialogManager(overlayController: overlayController));
+          managerRegistrar.registerPositioned(overlayController);
         },
       ));
 
@@ -55,8 +55,7 @@ void main() {
     testWidgets('show at top twice', (tester) async {
       await tester.pumpWidget(app(
         setupManagers: (overlayController, managerRegistrar) {
-          managerRegistrar.register(() =>
-              PositionedDialogManager(overlayController: overlayController));
+          managerRegistrar.registerPositioned(overlayController);
         },
       ));
 
@@ -88,8 +87,7 @@ void main() {
     testWidgets('show and hide at top', (tester) async {
       await tester.pumpWidget(app(
         setupManagers: (overlayController, managerRegistrar) {
-          managerRegistrar.register(() =>
-              PositionedDialogManager(overlayController: overlayController));
+          managerRegistrar.registerPositioned(overlayController);
         },
       ));
 
@@ -126,8 +124,7 @@ void main() {
         (tester) async {
       await tester.pumpWidget(app(
         setupManagers: (overlayController, managerRegistrar) {
-          managerRegistrar.register(() =>
-              PositionedDialogManager(overlayController: overlayController));
+          managerRegistrar.registerPositioned(overlayController);
         },
       ));
 
@@ -207,9 +204,9 @@ void main() {
     await widgetTester.pumpWidget(app(
       setupManagers: (overlayController, managerRegistrar) {
         expect(
-            () => managerRegistrar.register(() =>
-                PositionedDialogManager(overlayController: overlayController)),
-            returnsNormally);
+          () => managerRegistrar.registerPositioned(overlayController),
+          returnsNormally,
+        );
       },
     ));
     const position = EasyDialogPosition.top;
