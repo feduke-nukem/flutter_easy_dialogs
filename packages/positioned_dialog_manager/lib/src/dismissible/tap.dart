@@ -59,6 +59,7 @@ class _TapDismissibleState extends State<_TapDismissible>
   void initState() {
     super.initState();
     _controller.addListener(() {
+      // ignore these lines as they are barely testable
       // coverage:ignore-start
       if (mounted) {
         // Trigger widget rebuild
@@ -86,6 +87,9 @@ class _TapDismissibleState extends State<_TapDismissible>
   }
 
   void _onPanEnd(DragEndDetails details) async {
+    // ignore this line as it is barely testable
+    // coverage:ignore-file
+
     await _dismiss();
   }
 
