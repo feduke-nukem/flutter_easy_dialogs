@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
+import 'package:flutter_easy_dialogs/src/overlay/easy_overlay_app_entry.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helper.dart';
 
 void main() {
+  test('create params', () {
+    expect(
+      () => EasyDialogManagerShowParams(content: Container()),
+      returnsNormally,
+    );
+    expect(() => EasyDialogManagerHideParams(), returnsNormally);
+  });
   group('strategy insert', () {
     testWidgets('insert', (widgetTester) async {
       await widgetTester.pumpWidget(app());

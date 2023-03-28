@@ -5,6 +5,24 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../helper.dart';
 
 void main() {
+  test(
+    'create',
+    () => expect(() => _DummyAnimator(curve: Curves.bounceIn), returnsNormally),
+  );
+
+  test('decorate', () {
+    final parent = createTestController();
+    final dialog = Container();
+    final animator = _DummyAnimator(curve: Curves.bounceIn);
+    expect(
+      () => animator.decorate(EasyDialogAnimatorData(
+        parent: parent,
+        dialog: dialog,
+      )),
+      returnsNormally,
+    );
+  });
+
   test('create data', () {
     final parent = createTestController();
     final dialog = Container();
@@ -22,4 +40,11 @@ void main() {
     expect(data.parent, parent);
     expect(data.dialog, dialog);
   });
+}
+
+class _DummyAnimator extends EasyDialogAnimator {
+  const _DummyAnimator({super.curve});
+
+  @override
+  Widget decorate(EasyDialogAnimatorData data) => data.dialog;
 }

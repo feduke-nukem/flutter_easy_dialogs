@@ -1,3 +1,7 @@
+## 1.0.3+1
+
+* Fixed repository link.
+
 ## 1.0.3
 
 * Increased `FlutterEasyDialogs` dependency version.
