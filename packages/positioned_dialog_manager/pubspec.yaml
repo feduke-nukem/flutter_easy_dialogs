@@ -1,6 +1,6 @@
 name: positioned_dialog_manager
 description: Positioned dialog manager for using via `flutter_easy_dialogs` package.
-version: 1.0.3+1
+version: 1.0.3+2
 homepage: https://github.com/feduke-nukem/flutter_easy_dialogs
 repository: https://github.com/feduke-nukem/flutter_easy_dialogs/tree/master/packages/positioned_dialog_manager
 
