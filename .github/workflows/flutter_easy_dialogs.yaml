@@ -38,8 +38,7 @@ jobs:
       - name: Check Code Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v2
         with:
-          path: packages/flutter_easy_dialogs/coverage/lcov.info
-          min_coverage: 56
+          path: packages/flutter_easy_dialogs/coverage/lcov.info 
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3

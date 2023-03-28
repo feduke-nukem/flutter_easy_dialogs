@@ -15,4 +15,31 @@ void main() {
 
     expect(() => blur.decorate(data), returnsNormally);
   });
+
+  testWidgets('show and hide', (widgetTester) async {
+    const content = SizedBox(key: dialogKey);
+
+    await widgetTester.pumpWidget(app(
+      setupManagers: (overlayController, managerRegistrar) {
+        managerRegistrar.registerFullScreen(overlayController);
+      },
+    ));
+
+    easyOverlayState.dialogManagerProvider.showFullScreen(
+      const FullScreenShowParams(
+        content: content,
+        foregroundAnimator: FullScreenForegroundAnimator.expansion(),
+      ),
+    );
+
+    await widgetTester.pumpAndSettle();
+
+    expect(find.byKey(dialogKey), findsOneWidget);
+
+    easyOverlayState.dialogManagerProvider.hideFullScreen();
+
+    await widgetTester.pumpAndSettle();
+
+    expect(find.byKey(dialogKey), findsNothing);
+  });
 }

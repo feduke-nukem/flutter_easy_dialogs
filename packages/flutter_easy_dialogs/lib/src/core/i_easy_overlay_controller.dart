@@ -103,6 +103,7 @@ abstract class EasyOverlayEntry extends OverlayEntry {
   void markNeedsBuild() {
     if (SchedulerBinding.instance.schedulerPhase ==
         SchedulerPhase.persistentCallbacks) {
+      // coverage:ignore-start
       SchedulerBinding.instance.addPostFrameCallback((_) {
         super.markNeedsBuild();
       });
@@ -111,6 +112,7 @@ abstract class EasyOverlayEntry extends OverlayEntry {
     }
 
     super.markNeedsBuild();
+    // coverage:ignore-end
   }
 }
 

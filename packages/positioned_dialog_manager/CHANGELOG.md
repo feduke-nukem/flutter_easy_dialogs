@@ -1,6 +1,6 @@
-## 1.0.3+1
+## 1.0.3+2
 
-* Fixed repository link
+* Updated README.md
 
 ## 1.0.3
 

@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_manager.dart';
 import 'package:flutter_easy_dialogs/src/core/i_easy_overlay_controller.dart';
 
+// https://github.com/dart-lang/sdk/issues/39779
+// coverage:ignore-file
 /// Mixin that creates [AnimationController] on every [show] call and dispose it
 /// on every [hide] call.
 mixin SingleAutoDisposalControllerMixin<S extends EasyDialogManagerShowParams?,
