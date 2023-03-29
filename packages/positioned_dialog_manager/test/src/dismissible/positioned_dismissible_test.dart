@@ -4,7 +4,7 @@ import 'package:positioned_dialog_manager/src/dismissible/positioned_dismissible
 void main() {
   test('create all', () {
     expect(
-      () => PositionedDismissible.gesture(
+      () => PositionedDismissible.tap(
         onDismissed: () {},
       ),
       returnsNormally,
@@ -16,7 +16,7 @@ void main() {
       returnsNormally,
     );
     expect(
-      () => PositionedDismissible.tap(
+      () => PositionedDismissible.animatedTap(
         onDismissed: () {},
       ),
       returnsNormally,

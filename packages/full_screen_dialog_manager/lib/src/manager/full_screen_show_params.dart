@@ -37,7 +37,7 @@ class FullScreenShowParams extends EasyDialogManagerShowParams {
     ),
     this.customAnimator,
     this.shell = const FullScreenDialogShell.modalBanner(),
-    this.dismissible = const FullScreenDismissible.gesture(),
+    this.dismissible = const FullScreenDismissible.tap(),
     this.foregroundAnimator = const FullScreenForegroundAnimator.bounce(),
     this.backgroundAnimator = const FullScreenBackgroundAnimator.blur(),
   });

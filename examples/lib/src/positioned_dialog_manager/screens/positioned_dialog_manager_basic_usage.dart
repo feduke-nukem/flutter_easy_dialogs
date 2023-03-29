@@ -18,12 +18,12 @@ const _animators = <String, PositionedAnimator>{
 };
 
 const _dismissibles = <String, PositionedDismissible>{
-  _dismissibleGesture: PositionedDismissible.gesture(),
+  _dismissibleGesture: PositionedDismissible.tap(),
   _dismissibleNone: PositionedDismissible.none(),
   _dismissibleHorizontalSwipe: PositionedDismissible.swipe(
     direction: PositionedDismissibleSwipeDirection.horizontal,
   ),
-  _dismissibleTap: PositionedDismissible.tap(),
+  _dismissibleTap: PositionedDismissible.animatedTap(),
 };
 
 class PositionedDialogManagerBasicUsageScreen extends StatefulWidget {

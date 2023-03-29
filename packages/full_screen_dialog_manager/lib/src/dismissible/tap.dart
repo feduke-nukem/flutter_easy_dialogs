@@ -1,9 +1,9 @@
 part of 'full_screen_dismissible.dart';
 
-class _Gesture extends FullScreenDismissible {
+class _Tap extends FullScreenDismissible {
   final HitTestBehavior behavior;
 
-  const _Gesture({
+  const _Tap({
     this.behavior = HitTestBehavior.opaque,
     super.onDismissed,
   });

@@ -9,7 +9,7 @@ part 'positioned_hide_params.dart';
 part 'positioned_show_params.dart';
 
 part 'strategy.dart';
-part 'dialogs_map.dart';
+part 'animation_controller_box.dart';
 
 /// ### Manager for showing positioned dialogs.
 ///
@@ -23,7 +23,7 @@ class PositionedDialogManager
   /// [Map] of currently presented dialogs.
   ///
   /// Contains position of the dialog and associated [AnimationController].
-  final _dialogsMap = DialogsMap();
+  final _dialogsMap = AnimationControllerBox();
 
   /// Creates an instance of [PositionedDialogManager].
   PositionedDialogManager({required super.overlayController});

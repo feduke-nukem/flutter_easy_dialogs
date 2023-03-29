@@ -22,7 +22,7 @@ void main() {
           height: 300.0,
           width: 300.0,
         ),
-        dismissible: FullScreenDismissible.gesture(),
+        dismissible: FullScreenDismissible.tap(),
       ),
     );
 

@@ -46,7 +46,7 @@ final _backgroundAnimators = <String, FullScreenBackgroundAnimator>{
 };
 
 const _dismissibles = <String, FullScreenDismissible>{
-  _dismissibleGesture: FullScreenDismissible.gesture(),
+  _dismissibleGesture: FullScreenDismissible.tap(),
   _dismissibleNone: FullScreenDismissible.none(),
 };
 
