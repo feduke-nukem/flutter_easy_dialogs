@@ -10,29 +10,24 @@ import 'package:positioned_dialog_manager/src/util/positioned_dialog_manager_con
 import '../../helper.dart';
 
 void main() {
-  test('create', () {
-    expect(
-      () => PositionedDismissible.gesture(
-        onDismissed: () {},
-      ),
-      returnsNormally,
-    );
-  });
-  testWidgets('show, tap gesture dismissible', (widgetTester) async {
-    await widgetTester.pumpWidget(
-      app(
-        setupManagers: (overlayController, managerRegistrar) {
-          managerRegistrar.register(() =>
-              PositionedDialogManager(overlayController: overlayController));
-        },
-      ),
-    );
+  test(
+    'create',
+    () => expect(() => PositionedDismissible.animatedTap(onDismissed: () {}),
+        returnsNormally),
+  );
+  testWidgets('show, tap, dismissed, tap dismissible', (widgetTester) async {
+    await widgetTester.pumpWidget(app(
+      setupManagers: (overlayController, managerRegistrar) {
+        managerRegistrar.register(() =>
+            PositionedDialogManager(overlayController: overlayController));
+      },
+    ));
     const position = EasyDialogPosition.top;
 
     unawaited(
       easyOverlayState.dialogManagerProvider
           .showPositioned(const PositionedShowParams(
-        dismissible: PositionedDismissible.gesture(),
+        dismissible: PositionedDismissible.animatedTap(),
         content: Text(
           'BANNER',
           key: dialogKey,
@@ -47,7 +42,9 @@ void main() {
 
     final banner = find.byKey(dialogKey);
 
-    await widgetTester.tap(banner);
+    final gesture = await widgetTester.press(banner);
+
+    await gesture.up();
 
     await widgetTester.pumpAndSettle();
 

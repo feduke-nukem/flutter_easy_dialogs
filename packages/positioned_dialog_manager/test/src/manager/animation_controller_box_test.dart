@@ -6,11 +6,11 @@ import '../../helper.dart';
 
 void main() {
   test('create', () {
-    expect(() => DialogsMap(), returnsNormally);
+    expect(() => AnimationControllerBox(), returnsNormally);
   });
 
   test('insert', () {
-    final map = DialogsMap();
+    final map = AnimationControllerBox();
     const position = EasyDialogPosition.top;
 
     expect(map.isEmpty, isTrue);
@@ -39,7 +39,7 @@ void main() {
   });
 
   test('insert multiple and clear', () {
-    final map = DialogsMap();
+    final map = AnimationControllerBox();
 
     map.addController(EasyDialogPosition.bottom, createTestController());
     map.addController(EasyDialogPosition.top, createTestController());

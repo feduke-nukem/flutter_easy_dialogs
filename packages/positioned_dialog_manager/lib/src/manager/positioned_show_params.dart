@@ -46,7 +46,7 @@ class PositionedShowParams extends EasyDialogManagerShowParams {
   const PositionedShowParams({
     required super.content,
     this.position = EasyDialogPosition.top,
-    this.dismissible = const PositionedDismissible.tap(),
+    this.dismissible = const PositionedDismissible.animatedTap(),
     this.animator = const PositionedAnimator.fade(),
     this.shell = const PositionedDialogShell.banner(),
     this.hideAfterDuration,

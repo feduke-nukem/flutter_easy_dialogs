@@ -4,7 +4,7 @@ import 'package:full_screen_dialog_manager/full_screen_dialog_manager.dart';
 void main() {
   test('create all', () {
     expect(
-      () => FullScreenDismissible.gesture(
+      () => FullScreenDismissible.tap(
         onDismissed: () {},
       ),
       returnsNormally,
