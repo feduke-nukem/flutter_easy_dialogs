@@ -94,10 +94,10 @@ packages:
     dependency: transitive
     description:
       name: full_screen_dialog_manager
-      sha256: "7304aba17385e89426045faa37f55d0de23408117863bc8f15cc38961c71cef1"
+      sha256: a57671867b7d46eefb7f43105c40bb142950bfbfdda7c3b6aab28e3d522cc14d
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   js:
     dependency: transitive
     description:
@@ -150,10 +150,10 @@ packages:
     dependency: "direct main"
     description:
       name: positioned_dialog_manager
-      sha256: "6ab8bdf1166858d6dbe1583d1d77a4015bb7f88ca0ebf7049f7e453987423b36"
+      sha256: "8e139ae3031d70240494d556dd8cf52639d56fa4b92b73f8600c5845deafe231"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   sky_engine:
     dependency: transitive
     description: flutter
