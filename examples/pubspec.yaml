@@ -13,7 +13,7 @@ dependencies:
 
   full_screen_dialog_manager: ^1.0.4
   positioned_dialog_manager: ^1.0.4
-  flutter_easy_dialogs: ^2.0.7
+  flutter_easy_dialogs: ^2.0.8
 
 dev_dependencies:
   flutter_test:

@@ -11,3 +11,4 @@ export 'src/core/easy_dialog_decorator.dart';
 export 'src/core/i_easy_overlay_controller.dart';
 export 'src/util/multiply_animation.dart';
 export 'src/core/i_easy_dialog_manager_registry.dart';
+export 'src/flutter_easy_dialogs.dart';

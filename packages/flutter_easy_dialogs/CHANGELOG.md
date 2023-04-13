@@ -1,3 +1,7 @@
+## 2.0.8
+
+* Fixed FlutterEasyDialogs export
+
 ## 2.0.7+3
 
 * Fixed repository link

@@ -73,10 +73,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_easy_dialogs
-      sha256: "4361c85bc03adcf9fc5f91ce77c2632adc4216292e5b0666ab24f6fd4bc302aa"
+      sha256: "470c8cdafbcad9896c1d01ed3f3ce972b29e314d365bf6db6c76166ec9d57ac7"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.7"
+    version: "2.0.8"
   flutter_lints:
     dependency: "direct dev"
     description:
