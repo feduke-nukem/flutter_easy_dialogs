@@ -11,7 +11,7 @@ const _backgroundFade = 'fade';
 const _backgroundBlur = 'blur';
 const _backgroundNone = 'none';
 
-const _dismissibleGesture = 'gesture';
+const _dismissibleFullScreenTap = 'tap';
 const _dismissibleNone = 'none';
 
 const _content = SizedBox.square(
@@ -46,7 +46,7 @@ final _backgroundAnimators = <String, FullScreenBackgroundAnimator>{
 };
 
 const _dismissibles = <String, FullScreenDismissible>{
-  _dismissibleGesture: FullScreenDismissible.tap(),
+  _dismissibleFullScreenTap: FullScreenDismissible.tap(),
   _dismissibleNone: FullScreenDismissible.none(),
 };
 
