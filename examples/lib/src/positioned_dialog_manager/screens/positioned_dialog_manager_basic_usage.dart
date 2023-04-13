@@ -6,10 +6,10 @@ const _expansionAnimator = 'expansion';
 const _fadeAnimator = 'fade';
 const _verticalSlideAnimator = 'verticalSlide';
 
-const _dismissibleGesture = 'gesture';
+const _dismissibleTap = 'tap';
 const _dismissibleNone = 'none';
 const _dismissibleHorizontalSwipe = 'swipe';
-const _dismissibleTap = 'tap';
+const _dismissibleAnimatedTap = 'animatedTap';
 
 const _animators = <String, PositionedAnimator>{
   _expansionAnimator: PositionedAnimator.expansion(),
@@ -18,12 +18,12 @@ const _animators = <String, PositionedAnimator>{
 };
 
 const _dismissibles = <String, PositionedDismissible>{
-  _dismissibleGesture: PositionedDismissible.tap(),
+  _dismissibleTap: PositionedDismissible.tap(),
   _dismissibleNone: PositionedDismissible.none(),
   _dismissibleHorizontalSwipe: PositionedDismissible.swipe(
     direction: PositionedDismissibleSwipeDirection.horizontal,
   ),
-  _dismissibleTap: PositionedDismissible.animatedTap(),
+  _dismissibleAnimatedTap: PositionedDismissible.animatedTap(),
 };
 
 class PositionedDialogManagerBasicUsageScreen extends StatefulWidget {
