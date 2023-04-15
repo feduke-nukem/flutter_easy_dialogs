@@ -126,6 +126,12 @@ class PositionedDialogManager
       dialog: params.content,
     ));
 
+    dialog = params.animator.decorate(PositionedAnimatorData(
+      position: params.position,
+      parent: animationController.view,
+      dialog: dialog,
+    ));
+
     dialog = params.dismissible.decorate(PositionedDismissibleData(
       position: params.position,
       dialog: dialog,
@@ -134,12 +140,6 @@ class PositionedDialogManager
         animationController: animationController,
         animate: !payload.instantDismiss,
       ),
-    ));
-
-    dialog = params.animator.decorate(PositionedAnimatorData(
-      position: params.position,
-      parent: animationController.view,
-      dialog: dialog,
     ));
 
     return Align(

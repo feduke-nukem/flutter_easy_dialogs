@@ -1,3 +1,7 @@
+## 1.0.5
+
+* Changed decorators apply order. Dismissible is last in sequence now.
+
 ## 1.0.4
 
 * Renamed `PositionedDismissible.tap` to `PositionedDismissible.animatedTap`, added `duration` parameter to specify animation duration

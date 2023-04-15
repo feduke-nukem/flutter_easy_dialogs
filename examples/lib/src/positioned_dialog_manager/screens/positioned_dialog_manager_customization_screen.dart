@@ -12,31 +12,38 @@ class PositionedDialogManagerCustomizationScreen extends StatelessWidget {
         title: const Text('Positioned dialog customization'),
       ),
       body: Center(
-        child: ElevatedButton(
-          onPressed: () => FlutterEasyDialogs.provider.showPositioned(
-            PositionedShowParams(
-              animationConfiguration: const EasyDialogAnimatorConfiguration(
-                duration: Duration(seconds: 1),
-                reverseDuration: Duration(milliseconds: 200),
-              ),
-              shell: const _CustomPositionedShell(),
-              content: const SizedBox.square(
-                dimension: 250,
-                child: Center(
-                  child: Text(
-                    'custom banner',
-                  ),
-                ),
-              ),
-              animator: _CustomPositionedAnimator(),
-              dismissible: const _CustomPositionedDismissible(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: _show,
+              child: const Text('show'),
             ),
-          ),
-          child: const Text('show'),
+          ],
         ),
       ),
     );
   }
+
+  void _show() => FlutterEasyDialogs.provider.showPositioned(
+        PositionedShowParams(
+          animationConfiguration: const EasyDialogAnimatorConfiguration(
+            duration: Duration(milliseconds: 400),
+          ),
+          position: EasyDialogPosition.bottom,
+          shell: const _CustomPositionedShell(),
+          content: const SizedBox.square(
+            dimension: 250,
+            child: Center(
+              child: Text(
+                'custom banner',
+              ),
+            ),
+          ),
+          animator: _CustomPositionedAnimator(),
+          dismissible: const _CustomPositionedDismissible(),
+        ),
+      );
 }
 
 class _CustomPositionedShell extends PositionedDialogShell {
@@ -44,9 +51,13 @@ class _CustomPositionedShell extends PositionedDialogShell {
 
   @override
   Widget decorate(PositionedDialogShellData data) {
-    return ColoredBox(
-      color: Colors.amber,
-      child: data.dialog,
+    return SizedBox(
+      width: double.infinity,
+      height: 200.0,
+      child: ColoredBox(
+        color: Colors.amber,
+        child: data.dialog,
+      ),
     );
   }
 }
@@ -54,9 +65,28 @@ class _CustomPositionedShell extends PositionedDialogShell {
 class _CustomPositionedAnimator extends PositionedAnimator {
   @override
   Widget decorate(PositionedAnimatorData data) {
-    return FadeTransition(
-      opacity: data.parent,
-      child: data.dialog,
+    final offset = Tween<Offset>(
+      begin: const Offset(0.0, 1.0),
+      end: const Offset(0.0, 0.0),
+    ).chain(CurveTween(curve: Curves.fastOutSlowIn)).animate(data.parent);
+
+    return AnimatedBuilder(
+      animation: data.parent,
+      builder: (_, __) => Stack(
+        children: [
+          Positioned.fill(
+            child: ColoredBox(
+              color: Colors.black.withOpacity(
+                data.parent.value.clamp(0.0, 0.6),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SlideTransition(position: offset, child: data.dialog),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -66,8 +96,8 @@ class _CustomPositionedDismissible extends PositionedDismissible {
 
   @override
   Widget decorate(EasyDismissibleData data) {
-    return ElevatedButton(
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         data.dismissHandler?.call(const EasyDismissiblePayload());
         onDismissed?.call();
       },

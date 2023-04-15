@@ -10,17 +10,25 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_easy_dialogs: ^2.0.8
+  flutter_easy_dialogs: any
   examples: 
     path: ../../../examples/
-  positioned_dialog_manager: ^1.0.4
-  full_screen_dialog_manager: ^1.0.4
+  positioned_dialog_manager: any
+  full_screen_dialog_manager: any
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^2.0.0
+
+dependency_overrides:
+  flutter_easy_dialogs:
+    path: ../
+  full_screen_dialog_manager:
+    path: ../../full_screen_dialog_manager
+  positioned_dialog_manager:
+    path: ../../positioned_dialog_manager
+
 
 flutter:
   uses-material-design: true

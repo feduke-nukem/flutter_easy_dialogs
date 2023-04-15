@@ -1,3 +1,7 @@
+## 2.0.8+1
+
+* Updated README.MD
+
 ## 2.0.8
 
 * Fixed FlutterEasyDialogs export

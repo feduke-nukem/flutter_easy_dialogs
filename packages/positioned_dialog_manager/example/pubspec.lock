@@ -72,11 +72,10 @@ packages:
   flutter_easy_dialogs:
     dependency: "direct main"
     description:
-      name: flutter_easy_dialogs
-      sha256: "4361c85bc03adcf9fc5f91ce77c2632adc4216292e5b0666ab24f6fd4bc302aa"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.7"
+      path: "../../flutter_easy_dialogs"
+      relative: true
+    source: path
+    version: "2.0.8+1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -149,11 +148,10 @@ packages:
   positioned_dialog_manager:
     dependency: "direct main"
     description:
-      name: positioned_dialog_manager
-      sha256: "8e139ae3031d70240494d556dd8cf52639d56fa4b92b73f8600c5845deafe231"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
+      path: ".."
+      relative: true
+    source: path
+    version: "1.0.5"
   sky_engine:
     dependency: transitive
     description: flutter
