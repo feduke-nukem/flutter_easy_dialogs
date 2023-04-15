@@ -368,7 +368,8 @@ The specified **use** method provides access to the instance of a registered `Ma
 
 #### Positioned customization
 
-![positioned-customize](https://user-images.githubusercontent.com/72284940/227770921-d9cb0a95-c689-4e68-9242-012f8988370b.gif)
+![ezgif-2-153d179dc9](https://user-images.githubusercontent.com/72284940/232207903-9247b1dc-3786-4147-ab5c-28c8612e0f92.gif)
+
 
 #### 
  
