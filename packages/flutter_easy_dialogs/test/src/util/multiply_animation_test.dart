@@ -6,12 +6,12 @@ import '../../mock.dart';
 void main() {
   test('create', () {
     expect(
-      () => MultiplyAnimation(first: MockAnimation(0), next: MockAnimation(2)),
+      () => MultiplyAnimation(first: FakeAnimation(0), next: FakeAnimation(2)),
       returnsNormally,
     );
 
     final animation =
-        MultiplyAnimation(first: MockAnimation(2), next: MockAnimation(2));
+        MultiplyAnimation(first: FakeAnimation(2), next: FakeAnimation(2));
 
     expect(animation.value, 4);
   });

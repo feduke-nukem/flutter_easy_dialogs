@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_manager.dart';
 import 'package:flutter_easy_dialogs/src/core/i_easy_overlay_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class MockEasyOverlayController extends TestVSync
     implements IEasyOverlayController {
   @override
-  void insertDialog(
-      EasyOverlayBoxInsert<
-              EasyDialogManager<EasyDialogManagerShowParams?,
-                  EasyDialogManagerHideParams?>>
-          strategy) {}
+  void insertDialog(EasyOverlayBoxInsert strategy) {}
 
   @override
-  void removeDialog(
-      EasyOverlayBoxRemove<
-              EasyDialogManager<EasyDialogManagerShowParams?,
-                  EasyDialogManagerHideParams?>>
-          strategy) {}
+  void removeDialog(EasyOverlayBoxRemove strategy) {}
 }
 
-class MockAnimation<T> extends Animation<T> {
+class FakeAnimation<T> extends Animation<T> {
   @override
   final T value;
 
@@ -28,7 +19,7 @@ class MockAnimation<T> extends Animation<T> {
   AnimationStatus get status => AnimationStatus.completed;
 
   @override
-  const MockAnimation(this.value);
+  const FakeAnimation(this.value);
 
   @override
   void addListener(VoidCallback listener) {}
