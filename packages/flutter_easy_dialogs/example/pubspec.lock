@@ -150,7 +150,7 @@ packages:
       path: "../../positioned_dialog_manager"
       relative: true
     source: path
-    version: "1.0.4"
+    version: "1.0.5"
   sky_engine:
     dependency: transitive
     description: flutter
