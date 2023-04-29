@@ -1,0 +1,5 @@
+dependency_overrides:
+  flutter_easy_dialogs:
+    path: ../../flutter_easy_dialogs
+  positioned_dialog_manager:
+    path: ../

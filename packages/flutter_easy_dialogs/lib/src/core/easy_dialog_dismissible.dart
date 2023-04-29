@@ -3,13 +3,19 @@ import 'dart:async';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_decorator.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_manager.dart';
 
+/// {@category Decorators}
+/// {@category Custom}
 /// Dismiss callback.
 typedef OnEasyDismissed = void Function();
 
+/// {@category Decorators}
+/// {@category Custom}
 /// Callback to handle dismiss on a [EasyDialogManager] side.
 typedef DismissHandler<P extends EasyDismissiblePayload> = FutureOr<void>
     Function(P payload);
 
+/// {@category Decorators}
+/// {@category Custom}
 /// The main purpose is to make provided [EasyDismissibleData.dialog]
 /// dismissible.
 ///
@@ -27,6 +33,8 @@ abstract class EasyDialogDismissible<D extends EasyDismissibleData<P>,
   const EasyDialogDismissible({this.onDismissed});
 }
 
+/// {@category Decorators}
+/// {@category Custom}
 /// This is specific to the [EasyDialogDismissible] data.
 ///
 /// Sometimes it is necessary to perform certain actions when the actual
@@ -46,6 +54,8 @@ class EasyDismissibleData<P extends EasyDismissiblePayload>
   const EasyDismissibleData({required super.dialog, this.dismissHandler});
 }
 
+/// {@category Decorators}
+/// {@category Custom}
 /// Sometimes it is necessary to provide some payload to [EasyDialogManager],
 /// which is responsible for dismissing the dialog.
 ///
@@ -59,5 +69,6 @@ class EasyDismissiblePayload {
   /// it is already not visible on the screen.
   final bool instantDismiss;
 
+  /// @nodoc
   const EasyDismissiblePayload({this.instantDismiss = false});
 }

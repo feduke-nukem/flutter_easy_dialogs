@@ -15,13 +15,6 @@ dependencies:
     path: ../../../examples/
   positioned_dialog_manager: any
 
-dependency_overrides:
-  flutter_easy_dialogs:
-    path: ../../flutter_easy_dialogs
-  positioned_dialog_manager:
-    path: ../
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

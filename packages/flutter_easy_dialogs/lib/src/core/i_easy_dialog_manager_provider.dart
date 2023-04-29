@@ -1,5 +1,6 @@
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
+/// {@category Registering and using}
 /// An interface for providing access to [EasyDialogManager] instances.
 ///
 /// Implementations of this interface are responsible for retrieving

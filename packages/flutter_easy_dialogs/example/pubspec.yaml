@@ -21,14 +21,5 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.0
 
-dependency_overrides:
-  flutter_easy_dialogs:
-    path: ../
-  full_screen_dialog_manager:
-    path: ../../full_screen_dialog_manager
-  positioned_dialog_manager:
-    path: ../../positioned_dialog_manager
-
-
 flutter:
   uses-material-design: true

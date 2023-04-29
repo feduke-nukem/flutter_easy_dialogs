@@ -5,8 +5,9 @@ import 'package:flutter_easy_dialogs/src/core/easy_dialog_manager.dart';
 const _defaultDuration = Duration(milliseconds: 350);
 const _defaultReverseDuration = Duration(milliseconds: 350);
 
+/// {@category Dialog manager}
 /// Configuration of [EasyDialogAnimator].
-
+///
 /// This is typically used to configure the [AnimationController]
 /// that is created by [EasyDialogManager] and provided to the
 /// [EasyDialogAnimator.decorate] method as [AnimationController.view],

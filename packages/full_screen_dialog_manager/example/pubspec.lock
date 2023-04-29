@@ -72,9 +72,10 @@ packages:
   flutter_easy_dialogs:
     dependency: "direct main"
     description:
-      path: "../../flutter_easy_dialogs"
-      relative: true
-    source: path
+      name: flutter_easy_dialogs
+      sha256: "7fa2170c47e97b72f87e1d0e398551cb7abb3c602931f4d38c742ee82e95bb64"
+      url: "https://pub.dev"
+    source: hosted
     version: "2.0.8+1"
   flutter_lints:
     dependency: "direct dev"
@@ -92,9 +93,10 @@ packages:
   full_screen_dialog_manager:
     dependency: "direct main"
     description:
-      path: ".."
-      relative: true
-    source: path
+      name: full_screen_dialog_manager
+      sha256: a57671867b7d46eefb7f43105c40bb142950bfbfdda7c3b6aab28e3d522cc14d
+      url: "https://pub.dev"
+    source: hosted
     version: "1.0.4"
   js:
     dependency: transitive

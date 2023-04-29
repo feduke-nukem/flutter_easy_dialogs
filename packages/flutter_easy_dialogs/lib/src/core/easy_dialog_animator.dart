@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_decorator.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_manager.dart';
 
+/// {@category Decorators}
+/// {@category Custom}
 /// Base class of animator for dialogs.
 ///
 /// Its main purpose is to apply an animation to the provided
@@ -22,6 +24,8 @@ abstract class EasyDialogAnimator<D extends EasyDialogAnimatorData>
   const EasyDialogAnimator({this.curve = Curves.linear});
 }
 
+/// {@category Decorators}
+/// {@category Custom}
 /// This is specific to the [EasyDialogAnimator] data and requires a
 /// mandatory [parent] of type [Animation].
 ///

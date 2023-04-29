@@ -4,10 +4,14 @@ import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_dismissible.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_manager.dart';
 
+/// {@category Decorators}
+/// {@category Custom}
 /// `typedef` alias that is used in [EasyDialogDecorator.combine].
 typedef EasyDialogDecoratorDataBuilder<D extends EasyDialogDecoratorData?> = D
     Function(Widget newChild, D previousData);
 
+/// {@category Decorators}
+/// {@category Custom}
 /// This class is intended to be used within the by [EasyDialogManager].
 ///
 /// It provides data of type [D] through the [decorate] method to
@@ -77,6 +81,8 @@ abstract class EasyDialogDecorator<D extends EasyDialogDecoratorData?> {
       );
 }
 
+/// {@category Decorators}
+/// {@category Custom}
 /// Core data class which is used within [EasyDialogDecorator.decorate].
 class EasyDialogDecoratorData {
   /// The dialog to be decorated.

@@ -6,6 +6,9 @@ import 'package:flutter_easy_dialogs/src/core/easy_dialog_decorator.dart';
 import 'package:flutter_easy_dialogs/src/core/i_easy_overlay_controller.dart';
 import 'package:flutter_easy_dialogs/src/overlay/easy_dialogs_overlay.dart';
 
+/// {@category Dialog manager}
+/// {@category Getting started}
+/// {@category Custom}
 /// This is the base class for all dialog managers.
 ///
 /// The main idea is that any specific [EasyDialogManager]
@@ -40,6 +43,9 @@ abstract class EasyDialogManager<S extends EasyDialogManagerShowParams?,
   Future<void> hide({required H params});
 }
 
+/// {@category Dialog manager}
+/// {@category Getting started}
+/// {@category Custom}
 /// Base data class of show params for dialog managers.
 class EasyDialogManagerShowParams {
   /// Content for showing.
@@ -55,12 +61,18 @@ class EasyDialogManagerShowParams {
   });
 }
 
+/// {@category Dialog manager}
+/// {@category Getting started}
+/// {@category Custom}
 /// Base class of hide params for dialog managers.
 class EasyDialogManagerHideParams {
   /// Creates an instance of [EasyDialogManagerHideParams].
   const EasyDialogManagerHideParams();
 }
 
+/// {@category Dialog manager}
+/// {@category Getting started}
+/// {@category Custom}
 /// Simple insert dialog strategy.
 class BasicDialogInsertStrategy
     extends EasyOverlayBoxInsert<EasyDialogManager> {
@@ -92,6 +104,9 @@ class BasicDialogInsertStrategy
   }
 }
 
+/// {@category Dialog manager}
+/// {@category Getting started}
+/// {@category Custom}
 /// Simple implementation of remove strategy.
 class BasicDialogRemoveStrategy
     extends EasyOverlayBoxRemove<EasyDialogManager> {

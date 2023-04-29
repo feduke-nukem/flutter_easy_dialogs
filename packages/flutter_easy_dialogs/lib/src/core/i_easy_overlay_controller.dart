@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_manager.dart';
 
+/// {@category Overlay}
+/// {@category Custom}
 /// Controller for manipulating overlay with the dialogs.
 ///
 /// It defines the methods for inserting and removing dialogs
@@ -20,6 +22,8 @@ abstract class IEasyOverlayController implements TickerProvider {
   void removeDialog(EasyOverlayBoxRemove strategy);
 }
 
+/// {@category Overlay}
+/// {@category Custom}
 /// Box for storing dialog specific entries.
 abstract class IEasyDialogsOverlayBox {
   /// Put [value] with associated [key].
@@ -35,6 +39,8 @@ abstract class IEasyDialogsOverlayBox {
   T putIfAbsent<T>(Object key, T Function() ifAbsent);
 }
 
+/// {@category Overlay}
+/// {@category Custom}
 /// Similar to Command/Strategy class for applying specific
 /// mutation within [IEasyDialogsOverlayBox].
 ///
@@ -65,6 +71,8 @@ abstract class EasyOverlayBoxMutation<M extends EasyDialogManager,
   R apply(IEasyDialogsOverlayBox box);
 }
 
+/// {@category Overlay}
+/// {@category Custom}
 /// Insert mutation.
 abstract class EasyOverlayBoxInsert<M extends EasyDialogManager>
     extends EasyOverlayBoxMutation<M, EasyOverlayEntry> {
@@ -74,12 +82,15 @@ abstract class EasyOverlayBoxInsert<M extends EasyDialogManager>
   const EasyOverlayBoxInsert({required this.dialog});
 }
 
+/// {@category Overlay}
+/// {@category Custom}
 /// Remove mutation.
 abstract class EasyOverlayBoxRemove<M extends EasyDialogManager>
     extends EasyOverlayBoxMutation<M, EasyOverlayEntry?> {
   const EasyOverlayBoxRemove();
 }
 
+/// {@category Overlay}
 /// The EasyOverlayEntry class is an abstract class that
 /// extends [OverlayEntry].
 ///
@@ -116,6 +127,7 @@ abstract class EasyOverlayEntry extends OverlayEntry {
   }
 }
 
+/// {@category Overlay}
 /// Simple overlay entry.
 class EasyDialogsOverlayEntry extends EasyOverlayEntry {
   /// Creates an instance of [EasyDialogsOverlayEntry].

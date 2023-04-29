@@ -15,12 +15,6 @@ dependencies:
   examples: 
     path: ../../../examples/
 
-dependency_overrides:
-  flutter_easy_dialogs:
-    path: ../../flutter_easy_dialogs
-  full_screen_dialog_manager:
-    path: ../
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

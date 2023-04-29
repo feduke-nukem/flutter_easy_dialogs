@@ -1,3 +1,19 @@
+## 2.0.8+6
+
+* Improved documentation
+## 2.0.8+5
+
+* Fixed dart doc topics
+## 2.0.8+4
+
+* Updated dart doc topics and readme
+## 2.0.8+3
+
+* Added dart doc topics
+## 2.0.8+2
+
+* Updated README.MD
+
 ## 2.0.8+1
 
 * Updated README.MD
