@@ -2,7 +2,7 @@
 name: "\U0001F525 Feature request \U0001F525"
 about: Suggest an idea for this project
 title: "\U0001F525 [FEATURE]"
-labels: bug, enhancement, positioned_dialog_manager
+labels: enhancement
 assignees: feduke-nukem
 
 ---
