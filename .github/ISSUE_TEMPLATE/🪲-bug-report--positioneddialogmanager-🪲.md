@@ -2,7 +2,7 @@
 name: "\U0001FAB2 Bug report: PositionedDialogManager \U0001FAB2"
 about: Create a report to help us improve
 title: "\U0001FAB2[BUG: PositionedDialogManager]"
-labels: bug
+labels: bug, positioned_dialog_manager
 assignees: feduke-nukem
 
 ---

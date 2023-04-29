@@ -2,7 +2,7 @@
 name: "\U0001FAB2 Bug report: FullScreenDialogManager \U0001FAB2"
 about: Create a report to help us improve
 title: "\U0001FAB2[BUG: FullScreenDialogManager]"
-labels: bug
+labels: bug, full_screen_dialog_manager
 assignees: feduke-nukem
 
 ---

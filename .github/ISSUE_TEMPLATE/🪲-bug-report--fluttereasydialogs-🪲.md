@@ -2,7 +2,7 @@
 name: "\U0001FAB2 Bug report: FlutterEasyDialogs \U0001FAB2"
 about: Create a report to help us improve
 title: "\U0001FAB2[BUG: FlutterEasyDialogs]"
-labels: bug
+labels: bug, flutter_easy_dialogs
 assignees: feduke-nukem
 
 ---
