@@ -1,12 +1,12 @@
 name: flutter_easy_dialogs
 description: Easy, lightweight and flexible service for showing dialogs inside your Flutter application.
-version: 2.0.8+6
+version: 2.0.8+7
 homepage: https://github.com/feduke-nukem/flutter_easy_dialogs
 repository: https://github.com/feduke-nukem/flutter_easy_dialogs/tree/master/packages/flutter_easy_dialogs
 issue_tracker: https://github.com/feduke-nukem/flutter_easy_dialogs/labels/flutter_easy_dialogs
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
+  sdk: ">=2.17.6 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:

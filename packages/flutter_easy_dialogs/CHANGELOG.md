@@ -1,3 +1,7 @@
+## 2.0.8+7
+
+* Updated README.md
+
 ## 2.0.8+6
 
 * Improved documentation

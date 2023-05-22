@@ -1,3 +1,7 @@
+## 1.0.5+1
+
+* Updated README.md
+
 ## 1.0.5
 
 * Changed decorators apply order. Dismissible is last in sequence now.

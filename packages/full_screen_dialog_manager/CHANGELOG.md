@@ -1,3 +1,7 @@
+## 1.0.4+1
+
+* Updated README.md
+
 ## 1.0.4
 
 * Renamed `FullScreenDismissible.gesture` to `FullScreenDismissible.tap`
