@@ -1,8 +1,8 @@
 ---
-name: "\U0001FAB2 Bug report: FlutterEasyDialogs \U0001FAB2"
+name: "\U0001FAB2 Bug report \U0001FAB2"
 about: Create a report to help us improve
-title: "\U0001FAB2[BUG: FlutterEasyDialogs]"
-labels: bug, flutter_easy_dialogs
+title: "\U0001FAB2[BUG]"
+labels: bug
 assignees: feduke-nukem
 
 ---
