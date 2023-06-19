@@ -99,9 +99,9 @@ abstract base class EasyDialog
   /// Creates an instance of [EasyDialog].
   EasyDialog({
     required Widget child,
-    this.shells = const <EasyDialogDecorator>[],
-    this.animators = const <EasyDialogDecorator>[],
-    this.dismissibles = const <EasyDialogDecorator>[],
+    List<EasyDialogDecorator> shells = const <EasyDialogDecorator>[],
+    List<EasyDialogDecorator> animators = const <EasyDialogDecorator>[],
+    List<EasyDialogDecorator> dismissibles = const <EasyDialogDecorator>[],
     this.animationConfiguration = const EasyDialogAnimationConfiguration(),
   })  : _child = child,
         _decorators =
@@ -114,10 +114,6 @@ abstract base class EasyDialog
   final Widget _child;
   Widget? _decoratedChild;
   Widget get child => _decoratedChild ?? _child;
-
-  final List<EasyDialogDecorator> shells;
-  final List<EasyDialogDecorator> animators;
-  final List<EasyDialogDecorator> dismissibles;
 
   @override
   Object get identity;
@@ -148,8 +144,8 @@ abstract base class EasyDialog
     super.init();
     _decorators.forEach((decorator) => decorator.init());
 
-    for (var i = 0; i < _decorators.length; i++) {
-      _decoratedChild = _decorators[i].call(this);
+    for (var decorator in _decorators) {
+      _decoratedChild = decorator(this);
     }
   }
 
