@@ -4,7 +4,7 @@ final class _VerticalSlide extends PositionedAnimator {
   const _VerticalSlide({super.curve = _defaultCurve});
 
   @override
-  PositionedDialog call(PositionedDialog dialog) {
+  Widget call(PositionedDialog dialog) {
     final tween = _createTweenOfPosition(dialog.position);
     final offset = dialog.animation.drive(
       tween.chain(
@@ -12,11 +12,9 @@ final class _VerticalSlide extends PositionedAnimator {
       ),
     );
 
-    return dialog.copyWith(
-      child: _EasyVerticalSlideAnimation(
-        offset: offset,
-        child: dialog.child,
-      ),
+    return _EasyVerticalSlideAnimation(
+      offset: offset,
+      child: dialog.child,
     );
   }
 

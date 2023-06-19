@@ -4,5 +4,5 @@ final class _None extends PositionedDismissible {
   const _None() : super(onDismissed: null);
 
   @override
-  EasyDialog call(EasyDialog dialog) => dialog;
+  Widget call(EasyDialog dialog) => dialog.child;
 }

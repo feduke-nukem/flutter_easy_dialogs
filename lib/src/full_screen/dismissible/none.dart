@@ -4,5 +4,5 @@ base class _None extends FullScreenDismissible {
   const _None() : super(onDismissed: null);
 
   @override
-  EasyDialog call(EasyDialog dialog) => dialog;
+  Widget call(EasyDialog dialog) => dialog.child;
 }

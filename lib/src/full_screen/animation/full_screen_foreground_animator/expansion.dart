@@ -4,7 +4,7 @@ final class _Expansion extends FullScreenForegroundAnimator {
   const _Expansion({super.curve = Curves.easeInOutCubic});
 
   @override
-  FullScreenDialog call(FullScreenDialog dialog) {
+  Widget call(FullScreenDialog dialog) {
     final animation = dialog.animation;
     final tween = Tween<double>(begin: 0.0, end: 1.0);
     final heightFactor = animation.drive(
@@ -13,19 +13,17 @@ final class _Expansion extends FullScreenForegroundAnimator {
       ),
     );
 
-    return dialog.copyWith(
-      child: AnimatedBuilder(
-        animation: animation,
-        builder: (_, child) => Center(
-          child: ClipRect(
-            child: Align(
-              heightFactor: heightFactor.value,
-              child: child!,
-            ),
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (_, child) => Center(
+        child: ClipRect(
+          child: Align(
+            heightFactor: heightFactor.value,
+            child: child!,
           ),
         ),
-        child: dialog.child,
       ),
+      child: dialog.child,
     );
   }
 }

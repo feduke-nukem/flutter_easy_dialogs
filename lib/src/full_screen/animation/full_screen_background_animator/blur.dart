@@ -16,7 +16,7 @@ final class _Blur extends FullScreenBackgroundAnimator {
   final double end;
 
   @override
-  FullScreenDialog call(FullScreenDialog dialog) {
+  Widget call(FullScreenDialog dialog) {
     final animation = dialog.animation;
     final fadeTween = Tween<double>(
       begin: 0.0,
@@ -39,23 +39,21 @@ final class _Blur extends FullScreenBackgroundAnimator {
       TweenSequenceItem(tween: ConstantTween(end), weight: 0.35),
     ]);
 
-    return dialog.copyWith(
-      child: AnimatedBuilder(
-        animation: animation,
-        builder: (_, child) => EasyFullScreenBlur(
-          blur: animation
-              .drive(
-                blurTweenSequence.chain(
-                  CurveTween(curve: curve),
-                ),
-              )
-              .value,
-          opacity: fadeAnimation.value,
-          backgroundColor: backgroundColor,
-          child: child!,
-        ),
-        child: dialog.child,
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (_, child) => EasyFullScreenBlur(
+        blur: animation
+            .drive(
+              blurTweenSequence.chain(
+                CurveTween(curve: curve),
+              ),
+            )
+            .value,
+        opacity: fadeAnimation.value,
+        backgroundColor: backgroundColor,
+        child: child!,
       ),
+      child: dialog.child,
     );
   }
 }

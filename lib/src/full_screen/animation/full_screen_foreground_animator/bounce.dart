@@ -6,7 +6,7 @@ final class Bounce extends FullScreenForegroundAnimator {
   const Bounce({super.curve = _defaultBounceCurve});
 
   @override
-  FullScreenDialog call(FullScreenDialog dialog) {
+  Widget call(FullScreenDialog dialog) {
     final animation = dialog.animation;
     final scaleUpChildTween = Tween<double>(
       begin: 0.1,
@@ -33,21 +33,19 @@ final class Bounce extends FullScreenForegroundAnimator {
       TweenSequenceItem(tween: ConstantTween(1.0), weight: 0.55),
     ]);
 
-    return dialog.copyWith(
-      child: FadeTransition(
-        opacity: animation.drive(
-          fadeTweenSequence.chain(
+    return FadeTransition(
+      opacity: animation.drive(
+        fadeTweenSequence.chain(
+          CurveTween(curve: curve),
+        ),
+      ),
+      child: ScaleTransition(
+        scale: animation.drive(
+          scaleTweenSequence.chain(
             CurveTween(curve: curve),
           ),
         ),
-        child: ScaleTransition(
-          scale: animation.drive(
-            scaleTweenSequence.chain(
-              CurveTween(curve: curve),
-            ),
-          ),
-          child: dialog.child,
-        ),
+        child: dialog.child,
       ),
     );
   }

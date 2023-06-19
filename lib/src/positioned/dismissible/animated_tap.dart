@@ -4,21 +4,17 @@ final class _AnimatedTap extends PositionedDismissible {
   const _AnimatedTap({
     this.duration = const Duration(milliseconds: 200),
     super.onDismissed,
+    super.hideOnDismiss,
   });
 
   final Duration duration;
 
   @override
-  PositionedDialog call(PositionedDialog dialog) {
-    return dialog.copyWith(
-      child: _AnimatedTapDismissible(
-        onDismissed: () {
-          dialog.dismissHandler.call(const EasyDismissiblePayload());
-          onDismissed?.call();
-        },
-        duration: duration,
-        child: dialog.child,
-      ),
+  Widget call(PositionedDialog dialog) {
+    return _AnimatedTapDismissible(
+      onDismissed: () => handleDismiss(dialog),
+      duration: duration,
+      child: dialog.child,
     );
   }
 }

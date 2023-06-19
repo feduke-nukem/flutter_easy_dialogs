@@ -147,6 +147,7 @@ class _FullScreenDialogManagerBasicUsageScreenState
               onPressed: () async {
                 await FlutterEasyDialogs.show(
                   FullScreenDialog(
+                    willPop: () async => true,
                     child: _content,
                     shells: [
                       FullScreenDialogShell.modalBanner(

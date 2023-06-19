@@ -10,12 +10,16 @@ part 'none.dart';
 /// It is responsible for providing the dismissible behavior to
 /// the provided dialog content using [onDismissed] callback.
 abstract base class FullScreenDismissible extends EasyDialogDismissible {
-  const FullScreenDismissible({super.onDismissed});
+  const FullScreenDismissible({
+    super.onDismissed,
+    super.hideOnDismiss,
+  });
 
   /// Simple gesture tap dismiss.
   const factory FullScreenDismissible.tap({
     HitTestBehavior behavior,
     OnEasyDismissed? onDismissed,
+    bool hideOnDismiss,
   }) = _Tap;
 
   const factory FullScreenDismissible.none() = _None;

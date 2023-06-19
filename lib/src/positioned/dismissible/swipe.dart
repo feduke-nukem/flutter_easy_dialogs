@@ -15,6 +15,7 @@ final class _Swipe extends PositionedDismissible {
     this.onUpdate,
     this.resizeDuration,
     this.secondaryBackground,
+    super.hideOnDismiss,
   });
 
   final PositionedDismissibleSwipeDirection direction;
@@ -113,29 +114,25 @@ final class _Swipe extends PositionedDismissible {
   final DismissUpdateCallback? onUpdate;
 
   @override
-  PositionedDialog call(PositionedDialog dialog) {
-    return dialog.copyWith(
-      child: Dismissible(
-        key: UniqueKey(),
-        background: background,
-        secondaryBackground: secondaryBackground,
-        confirmDismiss: confirmDismiss,
-        onResize: onResize,
-        onUpdate: onUpdate,
-        onDismissed: (_) {
-          dialog.dismissHandler
-              .call(const EasyDismissiblePayload(instantDismiss: true));
-          onDismissed?.call();
-        },
-        direction: _getDirection(dialog.position),
-        resizeDuration: resizeDuration,
-        dismissThresholds: dismissThresholds,
-        movementDuration: movementDuration,
-        crossAxisEndOffset: crossAxisEndOffset,
-        dragStartBehavior: dragStartBehavior,
-        behavior: behavior,
-        child: dialog.child,
-      ),
+  Widget call(PositionedDialog dialog) {
+    return Dismissible(
+      key: UniqueKey(),
+      background: background,
+      secondaryBackground: secondaryBackground,
+      confirmDismiss: confirmDismiss,
+      onResize: onResize,
+      onUpdate: onUpdate,
+      onDismissed: (_) {
+        this.handleDismiss(dialog);
+      },
+      direction: _getDirection(dialog.position),
+      resizeDuration: resizeDuration,
+      dismissThresholds: dismissThresholds,
+      movementDuration: movementDuration,
+      crossAxisEndOffset: crossAxisEndOffset,
+      dragStartBehavior: dragStartBehavior,
+      behavior: behavior,
+      child: dialog.child,
     );
   }
 
@@ -148,6 +145,12 @@ final class _Swipe extends PositionedDismissible {
               ? DismissDirection.up
               : DismissDirection.down,
       };
+
+  @override
+  void handleDismiss(covariant EasyDialog dialog) {
+    onDismissed?.call();
+    if (hideOnDismiss) dialog.requestHide(instantly: true);
+  }
 }
 
 enum PositionedDismissibleSwipeDirection {

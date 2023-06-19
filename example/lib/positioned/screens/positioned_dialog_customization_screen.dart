@@ -49,15 +49,13 @@ final class _CustomPositionedShell extends PositionedDialogShell {
   const _CustomPositionedShell();
 
   @override
-  PositionedDialog call(PositionedDialog dialog) {
-    return dialog.copyWith(
-      child: SizedBox(
-        width: double.infinity,
-        height: 200.0,
-        child: ColoredBox(
-          color: Colors.amber,
-          child: dialog.child,
-        ),
+  Widget call(PositionedDialog dialog) {
+    return SizedBox(
+      width: double.infinity,
+      height: 200.0,
+      child: ColoredBox(
+        color: Colors.amber,
+        child: dialog.child,
       ),
     );
   }
@@ -65,7 +63,7 @@ final class _CustomPositionedShell extends PositionedDialogShell {
 
 final class _CustomPositionedAnimator extends PositionedAnimator {
   @override
-  PositionedDialog call(PositionedDialog dialog) {
+  Widget call(PositionedDialog dialog) {
     final animation = dialog.animation;
 
     final offset = Tween<Offset>(
@@ -73,24 +71,23 @@ final class _CustomPositionedAnimator extends PositionedAnimator {
       end: const Offset(0.0, 0.0),
     ).chain(CurveTween(curve: Curves.fastOutSlowIn)).animate(animation);
 
-    return dialog.copyWith(
-      child: AnimatedBuilder(
-        animation: animation,
-        builder: (_, __) => Stack(
-          children: [
-            Positioned.fill(
-              child: ColoredBox(
-                color: Colors.black.withOpacity(
-                  animation.value.clamp(0.0, 0.6),
-                ),
+    // TODO: Resolve 'package:flutter/src/widgets/framework.dart': Failed assertion: line 4809 pos 16: 'owner!._debugCurrentBuildTarget == this': is not true.
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (_, __) => Stack(
+        children: [
+          Positioned.fill(
+            child: ColoredBox(
+              color: Colors.black.withOpacity(
+                animation.value.clamp(0.0, 0.6),
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SlideTransition(position: offset, child: dialog.child),
-            ),
-          ],
-        ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SlideTransition(position: offset, child: dialog.child),
+          ),
+        ],
       ),
     );
   }
@@ -100,15 +97,13 @@ final class _CustomPositionedDismissible extends PositionedDismissible {
   const _CustomPositionedDismissible() : super(onDismissed: null);
 
   @override
-  PositionedDialog call(PositionedDialog dialog) {
-    return dialog.copyWith(
-      child: GestureDetector(
-        onTap: () {
-          dialog.dismissHandler(const EasyDismissiblePayload());
-          onDismissed?.call();
-        },
-        child: dialog.child,
-      ),
+  Widget call(PositionedDialog dialog) {
+    return GestureDetector(
+      onTap: () {
+        dialog.requestHide();
+        onDismissed?.call();
+      },
+      child: dialog.child,
     );
   }
 }

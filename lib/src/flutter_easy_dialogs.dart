@@ -35,7 +35,9 @@ final class FlutterEasyDialogs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: EasyDialogsOverlay(
-        initialEntries: [EasyOverlayAppEntry(builder: (context) => child)],
+        initialEntries: [
+          EasyOverlayAppEntry(builder: (context) => child),
+        ],
         key: _key,
       ),
     );

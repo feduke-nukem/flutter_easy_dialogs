@@ -4,21 +4,17 @@ final class _Tap extends FullScreenDismissible {
   const _Tap({
     this.behavior = HitTestBehavior.opaque,
     super.onDismissed,
+    super.hideOnDismiss,
   });
 
   final HitTestBehavior behavior;
 
   @override
-  FullScreenDialog call(FullScreenDialog dialog) {
-    return dialog.copyWith(
-      child: GestureDetector(
-        onTap: () {
-          dialog.dismissHandler.call(const EasyDismissiblePayload());
-          onDismissed?.call();
-        },
-        behavior: behavior,
-        child: dialog.child,
-      ),
+  Widget call(FullScreenDialog dialog) {
+    return GestureDetector(
+      onTap: () => super.handleDismiss(dialog),
+      behavior: behavior,
+      child: dialog.child,
     );
   }
 }

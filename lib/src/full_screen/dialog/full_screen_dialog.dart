@@ -1,4 +1,5 @@
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easy_dialogs/src/core/handle_android_back_button_mixin.dart';
 import 'package:flutter_easy_dialogs/src/core/core.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/animation/full_screen_background_animator/full_screen_background_animator.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/animation/full_screen_foreground_animator/full_screen_foreground_animator.dart';
@@ -10,10 +11,12 @@ const _defaultDuration = Duration(milliseconds: 300);
 const _defaultReverseDuration = Duration(milliseconds: 300);
 
 /// Show params for [FullScreenConversation].
-final class FullScreenDialog extends EasyDialog {
+final class FullScreenDialog extends EasyDialog
+    with HandleAndroidBackButtonMixin {
   /// Creates an instance of [FullScreenDialog].
   FullScreenDialog({
     required super.child,
+    this.willPop,
     super.animationConfiguration = const EasyDialogAnimationConfiguration(
       duration: _defaultDuration,
       reverseDuration: _defaultReverseDuration,
@@ -33,31 +36,22 @@ final class FullScreenDialog extends EasyDialog {
       FullScreenDialogConversation();
 
   @override
-  Object get identifier => runtimeType;
+  Object get identity => runtimeType;
 
   @override
-  EasyOverlayBoxInsert<EasyDialog> createInsert(Widget decorated) =>
-      FullScreenDialogInsert(dialog: decorated);
+  EasyOverlayBoxInsert<EasyDialog> createInsert() =>
+      FullScreenDialogInsert(dialog: child);
 
   @override
   EasyOverlayBoxRemove<EasyDialog> createRemove() =>
       const FullScreenDialogRemove();
 
-  FullScreenDialog copyWith({
-    Widget? child,
-    List<EasyDialogDecorator>? baseDecorators,
-    List<EasyDialogAnimator>? animators,
-    List<EasyDialogDismissible>? dismissibles,
-    EasyDialogAnimationConfiguration? animationConfiguration,
-  }) {
-    return FullScreenDialog(
-      animationConfiguration:
-          animationConfiguration ?? this.animationConfiguration,
-      shells: baseDecorators ?? this.shells,
-      animators: animators ?? this.animators,
-      dismissibles: dismissibles ?? this.dismissibles,
-      child: child ?? this.child,
-    );
+  @override
+  final WillPopCallback? willPop;
+
+  @override
+  void onPop() {
+    super.requestHide();
   }
 }
 
@@ -65,5 +59,5 @@ class FullScreenHide extends EasyDialogHide<FullScreenDialog> {
   const FullScreenHide();
 
   @override
-  Object get identifier => FullScreenDialog;
+  Object get identity => FullScreenDialog;
 }

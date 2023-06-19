@@ -30,7 +30,7 @@ void main() {
 }
 
 final class _DummyDismissible extends EasyDialogDismissible {
-  const _DummyDismissible({super.onDismissed});
+  const _DummyDismissible({super.handleDismiss});
 
   @override
   Widget call(EasyDismissibleData<EasyDismissiblePayload> data) => data.dialog;

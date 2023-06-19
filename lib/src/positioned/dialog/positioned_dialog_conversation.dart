@@ -19,11 +19,12 @@ part 'insert.dart';
 /// If a dialog with the same [EasyDialogPosition] is intended to be [show]n,
 /// the current one will be hidden first.
 final class PositionedDialogConversation
-    extends EasyDialogConversation<PositionedDialog, PositionedHide> {
+    extends EasyDialogConversation<PositionedDialog, PositionedHide>
+    with EasyDialogHiderMixin {
   @override
   Future<void> end(PositionedHide hide) async {
-    if (hide.hideAll && super.entries.isNotEmpty) {
-      await super.releaseAll(animate: true);
+    if (hide.hideAll) {
+      await super.hideAll();
 
       return;
     }
@@ -33,40 +34,17 @@ final class PositionedDialogConversation
 
   @override
   Future<void> begin(PositionedDialog dialog) async {
-    await _hideIfExists(dialog);
+    if (super.checkPresented(dialog)) await super.hide(dialog);
 
     await super.begin(dialog);
-    final newController = super.entries[dialog.identifier]!.animationController;
+    final newController = getControllerOf(dialog);
 
-    await _maybeAutoHide(
-      dialog: dialog,
-      newController: newController,
-    );
-  }
-
-  Future<void> _maybeAutoHide({
-    required PositionedDialog dialog,
-    required AnimationController newController,
-  }) async {
     if (dialog.hideAfterDuration == null) return;
 
     await Future.delayed(dialog.hideAfterDuration!);
 
-    final previousController =
-        super.entries[dialog.identifier]!.animationController;
+    if (newController.isDismissed) return;
 
-    final shouldHide = identical(newController, previousController);
-
-    if (!shouldHide) return;
-
-    await releaseEntry(entries[dialog.identifier]!, animate: true);
-  }
-
-  Future<void> _hideIfExists(PositionedDialog dialog) async {
-    final entry = super.entries[dialog.identifier];
-
-    if (entry == null) return;
-
-    await super.releaseEntry(entry, animate: true);
+    await newController.reverse();
   }
 }

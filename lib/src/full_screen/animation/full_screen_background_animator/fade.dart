@@ -13,23 +13,21 @@ final class _Fade extends FullScreenBackgroundAnimator {
   final Color backgroundColor;
 
   @override
-  FullScreenDialog call(FullScreenDialog dialog) {
+  Widget call(FullScreenDialog dialog) {
     final animation = dialog.animation;
 
-    return dialog.copyWith(
-      child: AnimatedBuilder(
-        animation: animation,
-        builder: (_, child) => EasyFullScreenBlur(
-          blur: _defaultBlur,
-          opacity: CurvedAnimation(
-            parent: animation,
-            curve: super.curve,
-          ).value,
-          backgroundColor: backgroundColor,
-          child: child!,
-        ),
-        child: dialog.child,
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (_, child) => EasyFullScreenBlur(
+        blur: _defaultBlur,
+        opacity: CurvedAnimation(
+          parent: animation,
+          curve: super.curve,
+        ).value,
+        backgroundColor: backgroundColor,
+        child: child!,
       ),
+      child: dialog.child,
     );
   }
 }

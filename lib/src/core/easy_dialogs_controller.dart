@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_animation_configuration.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_decorator.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_dismissible.dart';
 import 'package:flutter_easy_dialogs/src/core/i_easy_overlay.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_overlay.dart';
 
@@ -70,45 +69,60 @@ final class EasyDialogsController {
 
 abstract mixin class EasyDialogLifecycle {
   @protected
+  @mustCallSuper
   void init() {}
 
   @protected
+  @mustCallSuper
   void onShow() {}
 
   @protected
+  @mustCallSuper
   void onHide() {}
 
   @protected
+  @mustCallSuper
   void dispose() {}
+}
+
+abstract interface class EasyDialogIdentifier {
+  Object get identity;
 }
 
 /// {@category Dialog manager}
 /// {@category Getting started}
 /// {@category Custom}
 /// Base data class of show params for dialog managers.
-abstract base class EasyDialog with EasyDialogLifecycle {
+abstract base class EasyDialog
+    with EasyDialogLifecycle
+    implements EasyDialogIdentifier {
   /// Creates an instance of [EasyDialog].
   EasyDialog({
-    required this.child,
+    required Widget child,
     this.shells = const <EasyDialogDecorator>[],
     this.animators = const <EasyDialogDecorator>[],
     this.dismissibles = const <EasyDialogDecorator>[],
     this.animationConfiguration = const EasyDialogAnimationConfiguration(),
-  }) : _decorators =
+  })  : _child = child,
+        _decorators =
             shells.followedBy(animators).followedBy(dismissibles).toList();
 
   final List<EasyDialogDecorator> _decorators;
   EasyDialogConversation? _conversation;
 
   /// Content for showing.
-  final Widget child;
+  final Widget _child;
+  Widget? _decoratedChild;
+  Widget get child => _decoratedChild ?? _child;
 
   final List<EasyDialogDecorator> shells;
   final List<EasyDialogDecorator> animators;
   final List<EasyDialogDecorator> dismissibles;
 
-  Object get identifier;
+  @override
+  Object get identity;
 
+  @protected
   EasyConversationContext get context {
     assert(_conversation != null);
 
@@ -116,66 +130,68 @@ abstract base class EasyDialog with EasyDialogLifecycle {
   }
 
   Animation<double> get animation => context.animationOf(this);
-  DismissHandler get dismissHandler => context.dismissHandlerOf(this);
 
   /// Animator settings.
   final EasyDialogAnimationConfiguration animationConfiguration;
 
-  void _takeConversationFrom(EasyDialog other) {
-    assert(_conversation == null && other._conversation != null);
-    assert(this.runtimeType == other.runtimeType);
-    assert(this.identifier == other.identifier);
-
-    other._conversation!._replaceDialog(this);
-  }
-
   @factory
   EasyDialogConversation createConversation();
   @factory
-  EasyOverlayBoxInsert createInsert(Widget decorated);
+  EasyOverlayBoxInsert createInsert();
   EasyOverlayBoxRemove createRemove();
+  Future<void> requestHide({bool instantly = false}) =>
+      _conversation!._hideByIdentifier(this, instantly: instantly);
 
   @override
   @mustCallSuper
   void init() {
+    super.init();
     _decorators.forEach((decorator) => decorator.init());
+
+    for (var i = 0; i < _decorators.length; i++) {
+      _decoratedChild = _decorators[i].call(this);
+    }
   }
 
   @override
   @mustCallSuper
   void onShow() {
+    super.onShow();
     _decorators.forEach((decorator) => decorator.onShow());
   }
 
   @override
   @mustCallSuper
   void onHide() {
+    super.onHide();
     _decorators.forEach((decorator) => decorator.onHide());
   }
 
   @override
   @mustCallSuper
   void dispose() {
+    super.dispose();
     _decorators.forEach((decorator) => decorator.dispose());
+    _decorators.clear();
+    _decoratedChild = null;
   }
-
-  EasyOverlayBoxInsert _createInsert() => createInsert(
-        EasyDialogDecorator.combine(_decorators).call(this).child,
-      );
 }
 
-abstract class EasyDialogHide<Dialog extends EasyDialog> {
+abstract class EasyDialogHide<Dialog extends EasyDialog>
+    implements EasyDialogIdentifier {
   const EasyDialogHide();
 
-  Type get _dialogType => Dialog.runtimeType;
-  Object get identifier;
+  Type get _dialogType => Dialog;
+
+  @override
+  Object get identity;
 }
 
 abstract interface class EasyConversationContext {
   TickerProvider get vsync;
-  Animation<double> animationOf(EasyDialog dialog);
-  bool checkPresented(EasyDialog dialog);
-  DismissHandler dismissHandlerOf(EasyDialog dialog);
+  Animation<double> animationOf(EasyDialogIdentifier identifier);
+  bool checkPresented(EasyDialogIdentifier identifier);
+  BuildContext get overlayContext;
 }
 
 class ConversationEntry {
@@ -195,50 +211,49 @@ abstract base class EasyDialogConversation<Dialog extends EasyDialog,
   EasyDialogConversation();
 
   late final IEasyOverlay _overlay;
-  @protected
+  @visibleForTesting
   final entries = <Object, ConversationEntry>{};
 
   @override
-  Animation<double> animationOf(EasyDialog dialog) {
-    final animation = entries[dialog.identifier]?.animationController;
+  BuildContext get overlayContext => _overlay.context;
+
+  @override
+  Animation<double> animationOf(EasyDialogIdentifier identifier) {
+    final animation = entries[identifier.identity]?.animationController;
     assert(animation != null, 'dialog is not registered in this conversation');
 
     return animation!;
   }
 
   @override
-  bool checkPresented(EasyDialog dialog) =>
-      entries.containsKey(dialog.identifier);
+  bool checkPresented(EasyDialogIdentifier identifier) =>
+      entries.containsKey(identifier.identity);
 
-  @override
-  @nonVirtual
-  DismissHandler dismissHandlerOf(EasyDialog dialog) {
-    final entry = entries[dialog.identifier];
+  Future<void> _hideByIdentifier(
+    EasyDialogIdentifier identifier, {
+    bool instantly = false,
+  }) async {
+    final entry = entries[identifier.identity];
     assert(entry != null, 'dialog is not registered in this conversation');
 
-    return (payload) => handleDismiss(
-          payload,
-          entry!,
-        );
+    if (instantly) {
+      entry!.animationController.value = 0.0;
+
+      return;
+    }
+
+    return entry!.animationController.reverse();
   }
 
   @protected
-  @mustCallSuper
-  Future<void> handleDismiss(
-    EasyDismissiblePayload payload,
-    ConversationEntry entry,
-  ) =>
-      releaseEntry(
-        entry,
-        animate: !payload.instantDismiss,
-      );
+  AnimationController getControllerOf(EasyDialogIdentifier identifier) =>
+      entries[identifier.identity]!.animationController;
 
   @mustCallSuper
   Future<void> begin(Dialog dialog) async {
-    // await _removeDialogIfExists(dialog);
     final animationController = _createAnimationController(dialog);
 
-    _overlay.insertDialog(dialog._createInsert());
+    _overlay.insertDialog(dialog.createInsert());
 
     dialog.onShow();
 
@@ -248,26 +263,12 @@ abstract base class EasyDialogConversation<Dialog extends EasyDialog,
   @override
   TickerProvider get vsync => _overlay;
 
-  void _replaceDialog(EasyDialog dialog) {
-    final entry = entries[dialog.identifier];
-    assert(entry != null, 'dialog is not registered in this conversation');
-
-    dialog._conversation = this;
-    entries[dialog.identifier] = ConversationEntry(
-      dialog,
-      entry!.animationController,
-    );
-  }
-
   @mustCallSuper
   Future<void> end(Hide hide) async {
-    assert(hide._dialogType == Dialog.runtimeType);
+    assert(hide._dialogType == Dialog);
     if (entries.isEmpty) return;
 
-    final entry = entries[hide.identifier];
-    assert(entry != null || entries.length == 1);
-
-    await releaseEntry(entry ?? entries.values.first, animate: true);
+    _hideByIdentifier(hide);
   }
 
   @mustCallSuper
@@ -281,59 +282,52 @@ abstract base class EasyDialogConversation<Dialog extends EasyDialog,
 
   AnimationController _createAnimationController(Dialog dialog) {
     final entry = ConversationEntry(
-      dialog..init(),
+      dialog,
       dialog.animationConfiguration.createController(_overlay),
     );
-    entries[dialog.identifier] = entry;
+    assert(!entries.containsKey(dialog.identity));
+    entries[dialog.identity] = entry;
     dialog._conversation = this;
+    dialog.init();
 
     entry.animationController.addStatusListener(
-      (status) async {
+      (status) {
         if (status != AnimationStatus.dismissed) return;
 
-        final shouldRelease = identical(entries[dialog.identifier], entry);
+        assert(identical(entries[dialog.identity], entry));
 
-        if (!shouldRelease) return;
+        entry.dialog.onHide();
 
-        await releaseEntry(entry, animate: false);
+        _releaseEntry(entry);
       },
     );
 
     return entry.animationController;
   }
 
-  // Future<void> _removeDialogIfExists(Dialog dialog) async {
-  //   final entry = entries[dialog.identifier];
+  void _releaseEntry(ConversationEntry entry) {
+    assert(identical(entries[entry.dialog.identity], entry));
 
-  //   if (entry == null) return;
-
-  //   await releaseEntry(entry, animate: true);
-  // }
-
-  @protected
-  @mustCallSuper
-  Future<void> releaseEntry(
-    ConversationEntry entry, {
-    required bool animate,
-  }) async {
-    entries.remove(entry.dialog.identifier);
-    if (animate) {
-      entry.dialog.onHide();
-      await entry.animationController.reverse();
-    }
+    entries.remove(entry.dialog.identity);
     _overlay.removeDialog(entry.dialog.createRemove());
-    entry.dialog._conversation = null;
     entry.dispose();
+    entry.dialog._conversation = null;
   }
+}
 
-  @protected
-  Future<void> releaseAll({required bool animate}) {
-    final tasks = entries.entries.map<Future<void>>(
-      (e) => releaseEntry(e.value, animate: animate),
-    );
+base mixin EasyDialogHiderMixin<Dialog extends EasyDialog,
+    Hide extends EasyDialogHide> on EasyDialogConversation<Dialog, Hide> {
+  Future<void> hideAll({bool instantly = false}) => Future.wait(
+        entries.values.where((entry) => entry.dialog is Dialog).map(
+              (e) => super._hideByIdentifier(e.dialog),
+            ),
+      );
 
-    return Future.wait(tasks);
-  }
+  Future<void> hide(
+    EasyDialogIdentifier identifier, {
+    bool instantly = false,
+  }) =>
+      super._hideByIdentifier(identifier);
 }
 
 abstract base class SingleDialogConversation<Dialog extends EasyDialog,
@@ -346,10 +340,7 @@ abstract base class SingleDialogConversation<Dialog extends EasyDialog,
   @override
   Future<void> begin(Dialog dialog) async {
     if (entries.isNotEmpty)
-      await super.releaseEntry(
-        entries.values.first,
-        animate: true,
-      );
+      await entries.values.first.animationController.reverse();
 
     return super.begin(dialog);
   }
@@ -359,23 +350,5 @@ abstract base class SingleDialogConversation<Dialog extends EasyDialog,
     assert(entries.length <= 1);
 
     super.dispose();
-  }
-}
-
-final class ManyDecorators extends EasyDialogDecorator {
-  const ManyDecorators(this.decorators)
-      : assert(decorators.length > 0, 'decorators should not be empty');
-
-  final Iterable<EasyDialogDecorator> decorators;
-
-  @override
-  EasyDialog call(EasyDialog dialog) {
-    var result = dialog;
-
-    for (final decorator in decorators) {
-      result = decorator(result);
-    }
-
-    return result.._takeConversationFrom(dialog);
   }
 }

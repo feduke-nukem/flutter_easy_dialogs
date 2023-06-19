@@ -4,5 +4,5 @@ final class _None extends FullScreenBackgroundAnimator {
   const _None();
 
   @override
-  EasyDialog call(EasyDialog dialog) => dialog;
+  Widget call(EasyDialog dialog) => dialog.child;
 }

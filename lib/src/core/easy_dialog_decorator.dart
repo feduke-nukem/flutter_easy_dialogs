@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialog_dismissible.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
@@ -59,10 +60,5 @@ abstract base class EasyDialogDecorator with EasyDialogLifecycle {
   /// @nodoc
   const EasyDialogDecorator();
 
-  EasyDialog call(covariant EasyDialog dialog);
-
-  /// Combines provided [decorators] sequentially.
-  const factory EasyDialogDecorator.combine(
-    Iterable<EasyDialogDecorator> decorators,
-  ) = ManyDecorators;
+  Widget call(covariant EasyDialog dialog);
 }

@@ -4,7 +4,7 @@ final class _Expansion extends PositionedAnimator {
   const _Expansion({super.curve = _defaultCurve});
 
   @override
-  PositionedDialog call(PositionedDialog dialog) {
+  Widget call(PositionedDialog dialog) {
     final tween = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -16,11 +16,9 @@ final class _Expansion extends PositionedAnimator {
       ),
     );
 
-    return dialog.copyWith(
-      child: _EasyExpansionAnimation(
-        expansion: expansion,
-        child: dialog.child,
-      ),
+    return _EasyExpansionAnimation(
+      expansion: expansion,
+      child: dialog.child,
     );
   }
 }

@@ -61,15 +61,15 @@ final class PositionedDialog extends EasyDialog {
   EasyDialogConversation createConversation() => PositionedDialogConversation();
 
   @override
-  Object get identifier => position;
+  Object get identity => position;
 
   @override
-  EasyOverlayBoxInsert<EasyDialog> createInsert(Widget decorated) {
+  EasyOverlayBoxInsert<EasyDialog> createInsert() {
     return PositionedDialogInsert(
       position: position,
       dialog: Align(
         alignment: position.alignment,
-        child: decorated,
+        child: child,
       ),
     );
   }
@@ -77,27 +77,6 @@ final class PositionedDialog extends EasyDialog {
   @override
   EasyOverlayBoxRemove<EasyDialog> createRemove() =>
       PositionedDialogRemove(position: position);
-
-  PositionedDialog copyWith({
-    Widget? child,
-    List<EasyDialogDecorator>? baseDecorators,
-    List<PositionedAnimator>? animators,
-    List<PositionedDismissible>? dismissibles,
-    EasyDialogPosition? position,
-    Duration? hideAfterDuration,
-    EasyDialogAnimationConfiguration? animationConfiguration,
-  }) {
-    return PositionedDialog(
-      shells: baseDecorators ?? this.shells,
-      animators: animators ?? this.animators,
-      dismissibles: dismissibles ?? this.dismissibles,
-      position: position ?? this.position,
-      hideAfterDuration: hideAfterDuration ?? this.hideAfterDuration,
-      animationConfiguration:
-          animationConfiguration ?? this.animationConfiguration,
-      child: child ?? this.child,
-    );
-  }
 }
 
 /// Hide params for [PositionedDialogConversation].
@@ -116,5 +95,5 @@ class PositionedHide extends EasyDialogHide<PositionedDialog> {
   final EasyDialogPosition? position;
 
   @override
-  Object get identifier => position ?? PositionedDialog;
+  Object get identity => position ?? PositionedDialog;
 }

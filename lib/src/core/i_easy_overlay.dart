@@ -20,6 +20,8 @@ abstract interface class IEasyOverlay implements TickerProvider {
 
   /// Remove dialog using provided [removal].
   void removeDialog(EasyOverlayBoxRemove removal);
+
+  BuildContext get context;
 }
 
 /// {@category Overlay}

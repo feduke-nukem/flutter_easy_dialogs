@@ -40,9 +40,7 @@ dart_code_metrics:
             - "@nodoc"
     - no-boolean-literal-compare:
         severity: error
-    - double-literal-format:
-        severity: error
-    - no-equal-arguments:
+    - double-literal-format: 
         severity: error
     - no-equal-then-else:
         severity: error 
@@ -56,9 +54,7 @@ dart_code_metrics:
         acceptable-level: 2
         severity: error
     - avoid-missing-enum-constant-in-map:
-        severity: error
-    - avoid-dynamic:
-        severity: error
+        severity: error 
     - avoid-redundant-async:
         severity: error
     - avoid-unnecessary-type-casts:
