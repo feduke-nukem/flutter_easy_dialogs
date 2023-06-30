@@ -1,16 +1,16 @@
-part of 'positioned_animator.dart';
+part of 'positioned_animation.dart';
 
-final class _Expansion extends PositionedAnimator {
+final class _Expansion extends PositionedAnimation {
   const _Expansion({super.curve = _defaultCurve});
 
   @override
-  Widget call(PositionedDialog dialog) {
+  Widget call(PositionedDialog dialog, Widget content) {
     final tween = Tween<double>(
       begin: 0.0,
       end: 1.0,
     );
 
-    final expansion = dialog.animation.drive(
+    final expansion = dialog.context.animation.drive(
       tween.chain(
         CurveTween(curve: curve),
       ),
@@ -18,7 +18,7 @@ final class _Expansion extends PositionedAnimator {
 
     return _EasyExpansionAnimation(
       expansion: expansion,
-      child: dialog.child,
+      child: content,
     );
   }
 }

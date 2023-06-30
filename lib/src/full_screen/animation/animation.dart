@@ -1,2 +1,2 @@
-export 'full_screen_background_animator/full_screen_background_animator.dart';
-export 'full_screen_foreground_animator/full_screen_foreground_animator.dart';
+export 'full_screen_background_animator/full_screen_background_animation.dart';
+export 'full_screen_foreground_animator/full_screen_foreground_animation.dart';

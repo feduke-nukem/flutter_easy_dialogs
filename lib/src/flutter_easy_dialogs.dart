@@ -16,11 +16,10 @@ final class FlutterEasyDialogs extends StatelessWidget {
   static final _key = GlobalKey<EasyDialogsOverlayState>();
 
   @visibleForTesting
-  static EasyDialogsController get controller =>
-      _key.currentState!.dialogsController;
+  static EasyDialogsController get controller => _key.currentState!.controller;
 
-  static Future<void> show(EasyDialog dialog) => controller.show(dialog);
-  static Future<void> hide(EasyDialogHide hide) => controller.hide(hide);
+  static Future<T?> show<T>(EasyDialog dialog) => controller.show<T>(dialog);
+  static Future<void> hide(EasyDialogHiding hide) => controller.hide(hide);
 
   /// For using in [MaterialApp.builder].
   static const builder = _builder;

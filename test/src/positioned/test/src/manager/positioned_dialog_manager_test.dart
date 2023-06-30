@@ -210,7 +210,7 @@ void main() {
     unawaited(
       easyOverlayState.dialogManagerProvider
           .showPositioned(const PositionedDialog(
-        dismissible: PositionedDismissible.none(),
+        dismissible: PositionedDismiss.none(),
         hideAfterDuration: Duration(seconds: 4),
         content: Text(
           'BANNER',

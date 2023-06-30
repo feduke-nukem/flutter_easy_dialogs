@@ -1,23 +1,19 @@
-part of 'positioned_dismissible.dart';
+part of 'positioned_dismiss.dart';
 
-final class _Tap extends PositionedDismissible {
+final class _Tap<T> extends PositionedDismiss<T> {
+  final HitTestBehavior? behavior;
   const _Tap({
     this.behavior,
     super.onDismissed,
-    super.hideOnDismiss,
+    super.willDismiss,
   });
 
-  final HitTestBehavior? behavior;
-
   @override
-  Widget call(PositionedDialog dialog) {
+  Widget call(PositionedDialog dialog, Widget content) {
     return GestureDetector(
-      onTap: () {
-        dialog.requestHide();
-        onDismissed?.call();
-      },
+      onTap: () => super.handleDismiss(dialog),
       behavior: behavior,
-      child: dialog.child,
+      child: content,
     );
   }
 }

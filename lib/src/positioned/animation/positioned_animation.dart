@@ -7,22 +7,23 @@ part 'vertical_slide.dart';
 
 const _defaultCurve = Curves.fastLinearToSlowEaseIn;
 
-/// This is an implementation of [EasyDialogAnimator] that is specific to
+/// This is an implementation of [EasyDialogAnimation] that is specific to
 /// [PositionedDialogConversation].
 ///
 /// It is responsible for applying an animation to the provided
 /// dialog content using [curve].
-abstract base class PositionedAnimator extends EasyDialogAnimator {
+abstract base class PositionedAnimation
+    extends EasyDialogAnimation<PositionedDialog> {
   /// @nodoc
-  const PositionedAnimator({super.curve});
+  const PositionedAnimation({super.curve});
 
   /// Applies vertical slide animation.
-  const factory PositionedAnimator.verticalSlide({Curve curve}) =
+  const factory PositionedAnimation.verticalSlide({Curve curve}) =
       _VerticalSlide;
 
   /// Expansion from inside to outside.
-  const factory PositionedAnimator.expansion({Curve curve}) = _Expansion;
+  const factory PositionedAnimation.expansion({Curve curve}) = _Expansion;
 
   /// Simple fade transition.
-  const factory PositionedAnimator.fade({Curve curve}) = _Fade;
+  const factory PositionedAnimation.fade({Curve curve}) = _Fade;
 }

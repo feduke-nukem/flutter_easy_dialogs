@@ -21,12 +21,7 @@ final class EasyDialogsOverlayState extends OverlayState
   @visibleForTesting
   final box = EasyDialogsOverlayBox();
 
-  // Casting super.widget
-  // ignore: avoid-returning-widgets
-  @override
-  EasyDialogsOverlay get widget => super.widget as EasyDialogsOverlay;
-
-  late final dialogsController = EasyDialogsController(this);
+  late final controller = EasyDialogsController(this);
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {

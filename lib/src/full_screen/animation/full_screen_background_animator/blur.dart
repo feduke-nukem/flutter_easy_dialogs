@@ -1,9 +1,13 @@
-part of 'full_screen_background_animator.dart';
+part of 'full_screen_background_animation.dart';
 
 const _defaultBackgroundColor = Color.fromARGB(44, 117, 116, 116);
 const _defaultBlurCurve = Curves.easeInOut;
 
-final class _Blur extends FullScreenBackgroundAnimator {
+final class _Blur extends FullScreenBackgroundAnimation {
+  final Color backgroundColor;
+  final double start;
+  final double end;
+
   const _Blur({
     this.backgroundColor = _defaultBackgroundColor,
     this.start = 0.0,
@@ -11,13 +15,9 @@ final class _Blur extends FullScreenBackgroundAnimator {
     super.curve = _defaultBlurCurve,
   });
 
-  final Color backgroundColor;
-  final double start;
-  final double end;
-
   @override
-  Widget call(FullScreenDialog dialog) {
-    final animation = dialog.animation;
+  Widget call(FullScreenDialog dialog, Widget content) {
+    final animation = dialog.context.animation;
     final fadeTween = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -53,7 +53,7 @@ final class _Blur extends FullScreenBackgroundAnimator {
         backgroundColor: backgroundColor,
         child: child!,
       ),
-      child: dialog.child,
+      child: content,
     );
   }
 }

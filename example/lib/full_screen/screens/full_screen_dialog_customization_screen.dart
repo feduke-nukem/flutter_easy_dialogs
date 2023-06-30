@@ -31,12 +31,19 @@ class FullScreenDialogCustomizationScreen extends StatelessWidget {
               onPressed: () async {
                 await FlutterEasyDialogs.show(
                   FullScreenDialog(
-                    child: _content,
-                    shells: [const _Shell()],
-                    animators: const [
-                      _ForegroundAnimator(),
-                      _BackgroundAnimator(),
-                    ],
+                    content: _content,
+                    decoration: const _Shell()
+                        .then(const _ForegroundAnimation())
+                        .then(const _BackgroundAnimation())
+                        .then(
+                          EasyDialogDecoration.builder(
+                            (context, dialog, content) => FadeTransition(
+                              opacity: dialog.context.animation,
+                              child: content,
+                            ),
+                          ),
+                        )
+                        .then(FullScreenDialog.defaultDismissible),
                   ),
                 );
               },
@@ -50,13 +57,14 @@ class FullScreenDialogCustomizationScreen extends StatelessWidget {
                         const EasyDialogAnimationConfiguration(
                       reverseDuration: Duration(milliseconds: 50),
                     ),
-                    child: _content,
-                    animators: const [CustomAnimator()],
-                    dismissibles: [
-                      _Dismissible(
-                        onDismissed: () {},
-                      )
-                    ],
+                    content: _content,
+                    decoration: FullScreenDialog.defaultShell
+                        .then(const CustomAnimator())
+                        .then(
+                          _Dismissible(
+                            onDismissed: () {},
+                          ),
+                        ),
                   ),
                 );
               },
@@ -69,16 +77,16 @@ class FullScreenDialogCustomizationScreen extends StatelessWidget {
   }
 }
 
-final class _Dismissible extends FullScreenDismissible {
+final class _Dismissible extends FullScreenDismiss {
   const _Dismissible({super.onDismissed});
 
   @override
-  Widget call(FullScreenDialog dialog) {
+  Widget call(FullScreenDialog dialog, Widget content) {
     return Dismissible(
       key: UniqueKey(),
       resizeDuration: null,
       confirmDismiss: (direction) async {
-        await dialog.requestHide();
+        await dialog.context.hide();
 
         return true;
       },
@@ -86,44 +94,41 @@ final class _Dismissible extends FullScreenDismissible {
       onDismissed: (_) {
         onDismissed?.call();
       },
-      child: dialog.child,
+      child: content,
     );
   }
 }
 
-final class _ForegroundAnimator extends FullScreenForegroundAnimator {
-  const _ForegroundAnimator();
+final class _ForegroundAnimation extends FullScreenForegroundAnimation {
+  const _ForegroundAnimation();
 
   @override
-  Widget call(FullScreenDialog dialog) {
-    final animation = dialog.animation;
+  Widget call(FullScreenDialog dialog, Widget content) {
+    final animation = dialog.context.animation;
     final rotate = Tween<double>(begin: math.pi, end: math.pi / 360);
 
     return AnimatedBuilder(
       animation: animation,
       builder: (context, child) => Transform.scale(
         scale: animation.value,
-        child: Opacity(
-          opacity: animation.value,
-          child: Transform.rotate(
-            angle: animation
-                .drive(rotate.chain(CurveTween(curve: Curves.fastOutSlowIn)))
-                .value,
-            child: child,
-          ),
+        child: Transform.rotate(
+          angle: animation
+              .drive(rotate.chain(CurveTween(curve: Curves.fastOutSlowIn)))
+              .value,
+          child: child,
         ),
       ),
-      child: dialog.child,
+      child: content,
     );
   }
 }
 
-final class _BackgroundAnimator extends FullScreenBackgroundAnimator {
-  const _BackgroundAnimator();
+final class _BackgroundAnimation extends FullScreenBackgroundAnimation {
+  const _BackgroundAnimation();
 
   @override
-  Widget call(FullScreenDialog dialog) {
-    final animation = dialog.animation;
+  Widget call(FullScreenDialog dialog, Widget content) {
+    final animation = dialog.context.animation;
 
     return AnimatedBuilder(
       animation: animation,
@@ -139,18 +144,18 @@ final class _BackgroundAnimator extends FullScreenBackgroundAnimator {
         alignment: Alignment.center,
         child: child,
       ),
-      child: dialog.child,
+      child: content,
     );
   }
 }
 
 /// You can provide custom animation
-final class CustomAnimator extends EasyDialogAnimator {
+final class CustomAnimator extends EasyDialogAnimation<FullScreenDialog> {
   const CustomAnimator();
 
   @override
-  Widget call(FullScreenDialog dialog) {
-    final animation = dialog.animation;
+  Widget call(FullScreenDialog dialog, Widget content) {
+    final animation = dialog.context.animation;
 
     final offset = Tween<Offset>(
       begin: const Offset(-1.0, 0.0),
@@ -185,7 +190,7 @@ final class CustomAnimator extends EasyDialogAnimator {
             color: Colors.black.withOpacity(0.3),
             height: double.infinity,
             width: double.infinity,
-            child: dialog.child,
+            child: content,
           ),
         ),
       ],
@@ -197,13 +202,13 @@ final class _Shell extends FullScreenDialogShell {
   const _Shell();
 
   @override
-  Widget call(FullScreenDialog dialog) {
+  Widget call(FullScreenDialog dialog, Widget content) {
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
           color: Colors.cyanAccent.withOpacity(0.5),
           borderRadius: BorderRadius.circular(20.0)),
-      child: dialog.child,
+      child: content,
     );
   }
 }

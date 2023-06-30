@@ -25,27 +25,30 @@ final class _Banner extends PositionedDialogShell {
   final BorderRadius borderRadius;
 
   @override
-  Widget call(PositionedDialog dialog) {
-    return Padding(
-      padding: margin,
-      child: ClipRRect(
-        borderRadius: borderRadius,
-        child: ColoredBox(
-          color: backgroundColor ??
-              Theme.of(dialog.context.overlayContext).primaryColor,
-          child: SafeArea(
-            top: dialog.position == EasyDialogPosition.top,
-            bottom: dialog.position == EasyDialogPosition.bottom,
-            child: Padding(
-              padding: padding,
-              child: SizedBox(
-                width: double.infinity,
-                child: dialog.child,
+  Widget call(PositionedDialog dialog, Widget content) {
+    return Builder(
+      builder: (context) {
+        return Padding(
+          padding: margin,
+          child: ClipRRect(
+            borderRadius: borderRadius,
+            child: ColoredBox(
+              color: backgroundColor ?? Theme.of(context).primaryColor,
+              child: SafeArea(
+                top: dialog.position == EasyDialogPosition.top,
+                bottom: dialog.position == EasyDialogPosition.bottom,
+                child: Padding(
+                  padding: padding,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: content,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

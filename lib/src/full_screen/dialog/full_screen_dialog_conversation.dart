@@ -11,4 +11,4 @@ part 'insert.dart';
 /// If a dialog is already presented and a new one is intended to be shown,
 /// the previous one will be hidden before the next one is shown.
 final class FullScreenDialogConversation
-    extends SingleDialogConversation<FullScreenDialog, FullScreenHide> {}
+    extends SingleDialogConversation<FullScreenDialog, FullScreenHiding> {}

@@ -120,7 +120,7 @@ void main() {
     expect(manager.isPresented, isFalse);
     expect(
         () => manager.initializeAndShow(
-              EasyDialog(child: Container()),
+              EasyDialog(content: Container()),
               (animation) => BasicDialogInsert(
                 dialog: Container(),
               ),
@@ -156,7 +156,7 @@ void main() {
 
     expect(manager.animationController, isNull);
     manager.initializeAndShow(
-      EasyDialog(child: Container()),
+      EasyDialog(content: Container()),
       (animation) => BasicDialogInsert(
         dialog: Container(),
       ),

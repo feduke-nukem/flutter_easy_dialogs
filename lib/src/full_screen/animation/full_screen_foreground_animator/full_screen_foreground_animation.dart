@@ -7,7 +7,7 @@ part 'expansion.dart';
 part 'fade.dart';
 part 'none.dart';
 
-/// This is an implementation of [EasyDialogAnimator] that is specific to
+/// This is an implementation of [EasyDialogAnimation] that is specific to
 /// [FullScreenDialogConversation].
 ///
 /// It is responsible for applying an animation to the foreground
@@ -15,21 +15,22 @@ part 'none.dart';
 ///
 /// See also:
 ///
-/// * [FullScreenBackgroundAnimator].
-abstract base class FullScreenForegroundAnimator extends EasyDialogAnimator {
+/// * [FullScreenBackgroundAnimation].
+abstract base class FullScreenForegroundAnimation
+    extends EasyDialogAnimation<FullScreenDialog> {
   /// @nodoc
-  const FullScreenForegroundAnimator({super.curve});
+  const FullScreenForegroundAnimation({super.curve});
 
   /// Applies a bouncing effect.
-  const factory FullScreenForegroundAnimator.bounce() = Bounce;
+  const factory FullScreenForegroundAnimation.bounce() = Bounce;
 
   /// Simple fade transition.
-  const factory FullScreenForegroundAnimator.fade({Curve curve}) = _Fade;
+  const factory FullScreenForegroundAnimation.fade({Curve curve}) = _Fade;
 
   /// Applies expansion from the inside to the outside.
-  const factory FullScreenForegroundAnimator.expansion({Curve curve}) =
+  const factory FullScreenForegroundAnimation.expansion({Curve curve}) =
       _Expansion;
 
   /// No animation will be applied.
-  const factory FullScreenForegroundAnimator.none() = _None;
+  const factory FullScreenForegroundAnimation.none() = _None;
 }

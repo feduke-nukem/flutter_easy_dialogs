@@ -1,22 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_animation.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 
 const _defaultDuration = Duration(milliseconds: 350);
 const _defaultReverseDuration = Duration(milliseconds: 350);
 
 /// {@category Dialog manager}
-/// Configuration of [EasyDialogAnimator].
+/// Configuration of [EasyDialogAnimation].
 ///
 /// This is typically used to configure the [AnimationController]
 /// that is created by [EasyDialogsController] and provided to the
-/// [EasyDialogAnimator.call] method as [AnimationController.view],
+/// [EasyDialogAnimation.call] method as [AnimationController.view],
 /// which implies to drive any kind of animations that can be applied to the
 /// dialog.
 ///
 /// * Actually, all of these properties perfectly map to the
 /// constructor of [AnimationController].
 final class EasyDialogAnimationConfiguration {
+  /// The duration of the animation.
+  final Duration duration;
+
+  /// The duration of the animation in reverse.
+  final Duration reverseDuration;
+
+  /// The value from which the animation should start.
+  final double startValue;
+
+  /// The value at which this animation is deemed to be dismissed.
+  final double lowerBound;
+
+  /// The value at which this animation is deemed to be completed.
+  final double upperBound;
+
   /// Creates an instance of [EasyDialogAnimationConfiguration].
   const EasyDialogAnimationConfiguration({
     double? startValue,
@@ -48,21 +63,6 @@ final class EasyDialogAnimationConfiguration {
   })  : lowerBound = double.negativeInfinity,
         upperBound = double.infinity,
         this.startValue = startValue;
-
-  /// The duration of the animation.
-  final Duration duration;
-
-  /// The duration of the animation in reverse.
-  final Duration reverseDuration;
-
-  /// The value from which the animation should start.
-  final double startValue;
-
-  /// The value at which this animation is deemed to be dismissed.
-  final double lowerBound;
-
-  /// The value at which this animation is deemed to be completed.
-  final double upperBound;
 
   /// Creates an [AnimationController] based on provided values.
   AnimationController createController(TickerProvider vsync) =>

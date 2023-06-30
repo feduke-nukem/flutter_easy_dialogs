@@ -30,8 +30,10 @@ class PositionedDialogManagerCustomizationScreen extends StatelessWidget {
             duration: Duration(milliseconds: 400),
           ),
           position: EasyDialogPosition.bottom,
-          shells: const [_CustomPositionedShell()],
-          child: const SizedBox.square(
+          decoration: const _CustomPositionedShell()
+              .then(_CustomPositionedAnimator())
+              .then(const _CustomPositionedDismissible()),
+          content: const SizedBox.square(
             dimension: 250,
             child: Center(
               child: Text(
@@ -39,8 +41,6 @@ class PositionedDialogManagerCustomizationScreen extends StatelessWidget {
               ),
             ),
           ),
-          animators: [_CustomPositionedAnimator()],
-          dismissibles: const [_CustomPositionedDismissible()],
         ),
       );
 }
@@ -49,29 +49,28 @@ final class _CustomPositionedShell extends PositionedDialogShell {
   const _CustomPositionedShell();
 
   @override
-  Widget call(PositionedDialog dialog) {
+  Widget call(PositionedDialog dialog, Widget content) {
     return SizedBox(
       width: double.infinity,
       height: 200.0,
       child: ColoredBox(
         color: Colors.amber,
-        child: dialog.child,
+        child: content,
       ),
     );
   }
 }
 
-final class _CustomPositionedAnimator extends PositionedAnimator {
+final class _CustomPositionedAnimator extends PositionedAnimation {
   @override
-  Widget call(PositionedDialog dialog) {
-    final animation = dialog.animation;
+  Widget call(PositionedDialog dialog, Widget content) {
+    final animation = dialog.context.animation;
 
     final offset = Tween<Offset>(
       begin: const Offset(0.0, 1.0),
       end: const Offset(0.0, 0.0),
     ).chain(CurveTween(curve: Curves.fastOutSlowIn)).animate(animation);
 
-    // TODO: Resolve 'package:flutter/src/widgets/framework.dart': Failed assertion: line 4809 pos 16: 'owner!._debugCurrentBuildTarget == this': is not true.
     return AnimatedBuilder(
       animation: animation,
       builder: (_, __) => Stack(
@@ -85,7 +84,7 @@ final class _CustomPositionedAnimator extends PositionedAnimator {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: SlideTransition(position: offset, child: dialog.child),
+            child: SlideTransition(position: offset, child: content),
           ),
         ],
       ),
@@ -93,17 +92,17 @@ final class _CustomPositionedAnimator extends PositionedAnimator {
   }
 }
 
-final class _CustomPositionedDismissible extends PositionedDismissible {
+final class _CustomPositionedDismissible extends PositionedDismiss {
   const _CustomPositionedDismissible() : super(onDismissed: null);
 
   @override
-  Widget call(PositionedDialog dialog) {
+  Widget call(PositionedDialog dialog, Widget content) {
     return GestureDetector(
       onTap: () {
-        dialog.requestHide();
+        dialog.context.hide();
         onDismissed?.call();
       },
-      child: dialog.child,
+      child: content,
     );
   }
 }

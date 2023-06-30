@@ -25,28 +25,27 @@ const _content = SizedBox.square(
   ),
 );
 
-const _foregroundAnimators = <String, FullScreenForegroundAnimator>{
-  _foregroundBounce: FullScreenForegroundAnimator.bounce(),
-  _foregroundFade: FullScreenForegroundAnimator.fade(),
-  _foregroundExpansion: FullScreenForegroundAnimator.expansion(),
-  _foregroundNone: FullScreenForegroundAnimator.none(),
+const _foregroundAnimators = <String, FullScreenForegroundAnimation>{
+  _foregroundBounce: FullScreenForegroundAnimation.bounce(),
+  _foregroundFade: FullScreenForegroundAnimation.fade(),
+  _foregroundExpansion: FullScreenForegroundAnimation.expansion(),
+  _foregroundNone: FullScreenForegroundAnimation.none(),
 };
 
-final _backgroundAnimators = <String, FullScreenBackgroundAnimator>{
-  _backgroundBlur: FullScreenBackgroundAnimator.blur(
+final _backgroundAnimators = <String, FullScreenBackgroundAnimation>{
+  _backgroundBlur: FullScreenBackgroundAnimation.blur(
     start: 0.0,
     end: 10.0,
     backgroundColor: Colors.black.withOpacity(0.5),
   ),
-  _backgroundFade: FullScreenBackgroundAnimator.fade(
+  _backgroundFade: FullScreenBackgroundAnimation.fade(
     backgroundColor: Colors.black.withOpacity(0.5),
   ),
-  _backgroundNone: const FullScreenBackgroundAnimator.none(),
+  _backgroundNone: const FullScreenBackgroundAnimation.none(),
 };
 
-const _dismissibles = <String, FullScreenDismissible>{
-  _dismissibleFullScreenTap: FullScreenDismissible.tap(),
-  _dismissibleNone: FullScreenDismissible.none(),
+const _dismissibles = <String, FullScreenDismiss>{
+  _dismissibleFullScreenTap: FullScreenDismiss.tap(),
 };
 
 class FullScreenDialogManagerBasicUsageScreen extends StatefulWidget {
@@ -61,7 +60,7 @@ class _FullScreenDialogManagerBasicUsageScreenState
     extends State<FullScreenDialogManagerBasicUsageScreen> {
   final _contentAnimationTypeDropDownItems = _foregroundAnimators.entries
       .map(
-        (e) => DropdownMenuItem<FullScreenForegroundAnimator>(
+        (e) => DropdownMenuItem<FullScreenForegroundAnimation>(
           value: e.value,
           child: Text(e.key),
         ),
@@ -69,7 +68,7 @@ class _FullScreenDialogManagerBasicUsageScreenState
       .toList();
   final _backgroundAnimationTypeDropDownItems = _backgroundAnimators.entries
       .map(
-        (e) => DropdownMenuItem<FullScreenBackgroundAnimator>(
+        (e) => DropdownMenuItem<FullScreenBackgroundAnimation>(
           value: e.value,
           child: Text(e.key),
         ),
@@ -78,15 +77,15 @@ class _FullScreenDialogManagerBasicUsageScreenState
 
   final _dismissibleDropDownItems = _dismissibles.entries
       .map(
-        (e) => DropdownMenuItem<FullScreenDismissible>(
+        (e) => DropdownMenuItem<FullScreenDismiss>(
           value: e.value,
           child: Text(e.key),
         ),
       )
       .toList();
 
-  var _selectedForegroundAnimator = _foregroundAnimators.entries.first.value;
-  var _selectedBackgroundAnimator = _backgroundAnimators.entries.first.value;
+  var _selectedForegroundAnimation = _foregroundAnimators.entries.first.value;
+  var _selectedBackgroundAnimation = _backgroundAnimators.entries.first.value;
   var _selectedDismissible = _dismissibles.entries.first.value;
 
   @override
@@ -106,12 +105,12 @@ class _FullScreenDialogManagerBasicUsageScreenState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text('Content animation type'),
-                    DropdownButton<FullScreenForegroundAnimator>(
+                    DropdownButton<FullScreenForegroundAnimation>(
                       items: _contentAnimationTypeDropDownItems,
                       onChanged: (type) => setState(
-                        () => _selectedForegroundAnimator = type!,
+                        () => _selectedForegroundAnimation = type!,
                       ),
-                      value: _selectedForegroundAnimator,
+                      value: _selectedForegroundAnimation,
                     ),
                   ],
                 ),
@@ -119,12 +118,12 @@ class _FullScreenDialogManagerBasicUsageScreenState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text('Background animation type'),
-                    DropdownButton<FullScreenBackgroundAnimator>(
+                    DropdownButton<FullScreenBackgroundAnimation>(
                       items: _backgroundAnimationTypeDropDownItems,
                       onChanged: (type) => setState(
-                        () => _selectedBackgroundAnimator = type!,
+                        () => _selectedBackgroundAnimation = type!,
                       ),
-                      value: _selectedBackgroundAnimator,
+                      value: _selectedBackgroundAnimation,
                     ),
                   ],
                 ),
@@ -134,7 +133,7 @@ class _FullScreenDialogManagerBasicUsageScreenState
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text('Dismissible type'),
-                DropdownButton<FullScreenDismissible>(
+                DropdownButton<FullScreenDismiss>(
                   items: _dismissibleDropDownItems,
                   onChanged: (type) => setState(
                     () => _selectedDismissible = type!,
@@ -148,19 +147,15 @@ class _FullScreenDialogManagerBasicUsageScreenState
                 await FlutterEasyDialogs.show(
                   FullScreenDialog(
                     willPop: () async => true,
-                    child: _content,
-                    shells: [
-                      FullScreenDialogShell.modalBanner(
-                        boxDecoration: BoxDecoration(
-                          color: Colors.grey.shade200.withOpacity(0.3),
-                        ),
-                      )
-                    ],
-                    animators: [
-                      _selectedForegroundAnimator,
-                      _selectedBackgroundAnimator,
-                    ],
-                    dismissibles: [_selectedDismissible],
+                    content: _content,
+                    decoration: FullScreenDialogShell.modalBanner(
+                      boxDecoration: BoxDecoration(
+                        color: Colors.grey.shade200.withOpacity(0.3),
+                      ),
+                    )
+                        .then(_selectedForegroundAnimation)
+                        .then(_selectedBackgroundAnimation)
+                        .then(_selectedDismissible),
                   ),
                 );
               },

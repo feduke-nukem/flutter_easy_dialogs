@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_decorator.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_decoration.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 
 /// {@category Decorators}
@@ -15,10 +15,11 @@ import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 ///
 /// This may help you understand how it is supposed to work or even
 /// create your own [EasyDialogsController].
-abstract base class EasyDialogAnimator extends EasyDialogDecorator {
-  /// @nodoc
-  const EasyDialogAnimator({this.curve = Curves.linear});
-
+abstract base class EasyDialogAnimation<Dialog extends EasyDialog>
+    extends EasyDialogDecoration<Dialog> {
   /// Desired curve to be applied to the animation.
   final Curve curve;
+
+  /// @nodoc
+  const EasyDialogAnimation({this.curve = Curves.linear});
 }

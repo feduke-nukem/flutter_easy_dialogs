@@ -7,7 +7,7 @@ import '../../../helper.dart';
 
 void main() {
   test('decorate', () {
-    const blur = FullScreenForegroundAnimator.bounce();
+    const blur = FullScreenForegroundAnimation.bounce();
     final data = EasyDialogAnimation(
       parent: createTestController(),
       dialog: Container(),

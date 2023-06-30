@@ -10,7 +10,7 @@ import '../../../helper.dart';
 
 void main() {
   test('decorate', () {
-    const blur = FullScreenBackgroundAnimator.fade(curve: testCurve);
+    const blur = FullScreenBackgroundAnimation.fade(curve: testCurve);
     final data = EasyDialogAnimation(
       parent: createTestController(),
       dialog: Container(),
@@ -31,7 +31,7 @@ void main() {
     easyOverlayState.dialogManagerProvider.showFullScreen(
       const FullScreenDialog(
         content: content,
-        backgroundAnimator: FullScreenBackgroundAnimator.fade(),
+        backgroundAnimator: FullScreenBackgroundAnimation.fade(),
       ),
     );
 

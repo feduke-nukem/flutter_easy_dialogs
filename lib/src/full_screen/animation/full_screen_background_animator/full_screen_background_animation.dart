@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/full_screen/dialog/full_screen_dialog_conversation.dart';
-import 'package:flutter_easy_dialogs/src/full_screen/widgets/easy_full_screen_blur.dart';
 part 'blur.dart';
 part 'fade.dart';
 part 'none.dart';
 
-/// This is an implementation of [EasyDialogAnimator] that is specific to
+/// This is an implementation of [EasyDialogAnimation] that is specific to
 /// [FullScreenDialogConversation].
 ///
 /// It is responsible for applying an animation to the background
@@ -14,13 +12,14 @@ part 'none.dart';
 ///
 /// See also:
 ///
-/// * [FullScreenForegroundAnimator].
-abstract base class FullScreenBackgroundAnimator extends EasyDialogAnimator {
+/// * [FullScreenForegroundAnimation].
+abstract base class FullScreenBackgroundAnimation
+    extends EasyDialogAnimation<FullScreenDialog> {
   /// @nodoc
-  const FullScreenBackgroundAnimator({super.curve});
+  const FullScreenBackgroundAnimation({super.curve});
 
   /// Softly applies blur animation.
-  const factory FullScreenBackgroundAnimator.blur({
+  const factory FullScreenBackgroundAnimation.blur({
     Color backgroundColor,
     Curve curve,
     double start,
@@ -28,12 +27,12 @@ abstract base class FullScreenBackgroundAnimator extends EasyDialogAnimator {
   }) = _Blur;
 
   /// Applies fade type animation with a specific amount of [blur].
-  const factory FullScreenBackgroundAnimator.fade({
+  const factory FullScreenBackgroundAnimation.fade({
     Color backgroundColor,
     double blur,
     Curve curve,
   }) = _Fade;
 
   /// No animation will be applied.
-  const factory FullScreenBackgroundAnimator.none() = _None;
+  const factory FullScreenBackgroundAnimation.none() = _None;
 }

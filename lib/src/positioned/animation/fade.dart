@@ -1,19 +1,19 @@
-part of 'positioned_animator.dart';
+part of 'positioned_animation.dart';
 
-final class _Fade extends PositionedAnimator {
+final class _Fade extends PositionedAnimation {
   const _Fade({super.curve = _defaultCurve});
 
   @override
-  Widget call(PositionedDialog dialog) {
+  Widget call(PositionedDialog dialog, Widget content) {
     final tween = Tween<double>(begin: 0.0, end: 1.0);
 
     return _EasyPositionedFadeAnimation(
-      opacity: dialog.animation.drive(
+      opacity: dialog.context.animation.drive(
         tween.chain(
           CurveTween(curve: curve),
         ),
       ),
-      child: dialog.child,
+      child: content,
     );
   }
 }

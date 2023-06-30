@@ -1,20 +1,20 @@
-part of 'full_screen_background_animator.dart';
+part of 'full_screen_background_animation.dart';
 
 const _defaultBlur = 0.5;
 
-final class _Fade extends FullScreenBackgroundAnimator {
+final class _Fade extends FullScreenBackgroundAnimation {
+  final double blur;
+  final Color backgroundColor;
+
   const _Fade({
     this.backgroundColor = _defaultBackgroundColor,
     this.blur = _defaultBlur,
     super.curve = Curves.easeInOut,
   });
 
-  final double blur;
-  final Color backgroundColor;
-
   @override
-  Widget call(FullScreenDialog dialog) {
-    final animation = dialog.animation;
+  Widget call(FullScreenDialog dialog, Widget content) {
+    final animation = dialog.context.animation;
 
     return AnimatedBuilder(
       animation: animation,
@@ -27,7 +27,7 @@ final class _Fade extends FullScreenBackgroundAnimator {
         backgroundColor: backgroundColor,
         child: child!,
       ),
-      child: dialog.child,
+      child: content,
     );
   }
 }

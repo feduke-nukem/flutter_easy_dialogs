@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_animator.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_animation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../helper.dart';
@@ -42,7 +42,7 @@ void main() {
   });
 }
 
-final class _DummyAnimator extends EasyDialogAnimator {
+final class _DummyAnimator extends EasyDialogAnimation {
   const _DummyAnimator({super.curve});
 
   @override

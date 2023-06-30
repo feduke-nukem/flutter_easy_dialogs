@@ -11,55 +11,66 @@ mixin HandleAndroidBackButtonMixin on EasyDialogLifecycle {
   WillPopCallback? get willPop;
 
   @override
+  void init() {
+    super.init();
+    _AndroidBackButtonHandler.addCallback(onPop);
+  }
+
+  @override
   void onShow() {
     super.onShow();
 
-    _AndroidBackButtonHandler.blockBackButton(_onPop);
+    _AndroidBackButtonHandler.blockBackButton();
   }
 
   @override
   void onHide() {
     super.onHide();
 
-    _AndroidBackButtonHandler.unblockBackButton(_onPop);
+    _AndroidBackButtonHandler.unblockBackButton();
+  }
+
+  @override
+  void dispose() {
+    _AndroidBackButtonHandler.removeCallback(onPop);
+    super.dispose();
   }
 
   @protected
   void onPop() {}
-
-  Future<void> _onPop() async {
-    if (willPop == null) return;
-
-    final canPop = await willPop!();
-
-    if (!canPop) return;
-
-    onPop();
-  }
 }
 
 abstract class _AndroidBackButtonHandler implements WidgetsBinding {
   static bool _isBlocked = false;
+  static bool _isMethodCallHandlerSet = false;
 
-  static final _callBacks = <AsyncCallback>[];
+  static final _callBacks = <VoidCallback>[];
+
+  static void addCallback(VoidCallback callback) {
+    _callBacks.add(callback);
+  }
+
+  static void removeCallback(VoidCallback callback) {
+    _callBacks.remove(callback);
+  }
 
   /// Starts blocking Android back button events.
-  static void blockBackButton(AsyncCallback? onPop) {
-    if (onPop != null) _callBacks.add(onPop);
-    SystemChannels.navigation.setMethodCallHandler(_handleNavigationInvocation);
+  static void blockBackButton() {
+    if (!_isMethodCallHandlerSet) {
+      SystemChannels.navigation
+          .setMethodCallHandler(_handleNavigationInvocation);
+      _isMethodCallHandlerSet = true;
+    }
     _isBlocked = true;
   }
 
-  static void unblockBackButton(AsyncCallback? onPop) {
-    if (onPop != null) _callBacks.remove(onPop);
+  static void unblockBackButton() {
     _isBlocked = false;
   }
 
   static Future _handleNavigationInvocation(MethodCall methodCall) {
     if (methodCall.method == 'popRoute') {
-      for (final callBack in _callBacks) {
-        callBack();
-      }
+      _callBacks.forEach((callback) => callback());
 
       return _isBlocked
           ? Future.value()

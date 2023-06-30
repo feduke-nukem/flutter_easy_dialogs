@@ -1,23 +1,6 @@
-part of 'positioned_dismissible.dart';
+part of 'positioned_dismiss.dart';
 
-final class _Swipe extends PositionedDismissible {
-  const _Swipe({
-    this.direction = PositionedDismissibleSwipeDirection.horizontal,
-    super.onDismissed,
-    this.background,
-    this.behavior = HitTestBehavior.deferToChild,
-    this.confirmDismiss,
-    this.crossAxisEndOffset = 0.0,
-    this.dismissThresholds = const {},
-    this.dragStartBehavior = DragStartBehavior.start,
-    this.movementDuration = const Duration(milliseconds: 200),
-    this.onResize,
-    this.onUpdate,
-    this.resizeDuration,
-    this.secondaryBackground,
-    super.hideOnDismiss,
-  });
-
+final class _Swipe<T> extends PositionedDismiss<T> {
   final PositionedDismissibleSwipeDirection direction;
 
   /// A widget that is stacked behind the child. If secondaryBackground is also
@@ -29,17 +12,6 @@ final class _Swipe extends PositionedDismissible {
   /// has been dragged up or to the left. It may only be specified when background
   /// has also been specified.
   final Widget? secondaryBackground;
-
-  /// Gives the app an opportunity to confirm or veto a pending dismissal.
-  ///
-  /// The widget cannot be dragged again until the returned future resolves.
-  ///
-  /// If the returned Future<bool> completes true, then this widget will be
-  /// dismissed, otherwise it will be moved back to its original location.
-  ///
-  /// If the returned Future<bool?> completes to false or null the [onResize]
-  /// and [onDismissed] callbacks will not run.
-  final ConfirmDismissCallback? confirmDismiss;
 
   /// Called when the widget changes size (i.e., when contracting before being dismissed).
   final VoidCallback? onResize;
@@ -53,7 +25,7 @@ final class _Swipe extends PositionedDismissible {
   /// The offset threshold the item has to be dragged in order to be considered
   /// dismissed.
   ///
-  /// Represented as a fraction, e.g. if it is 0.4 (the default), then the item
+  /// Represented as a fraction, (e.g.) if it is 0.4 (the default), then the item
   /// has to be dragged at least 40% towards one direction to be considered
   /// dismissed.
   ///
@@ -113,13 +85,29 @@ final class _Swipe extends PositionedDismissible {
   /// depending on whether the dismiss threshold is currently reached.
   final DismissUpdateCallback? onUpdate;
 
+  const _Swipe({
+    this.direction = PositionedDismissibleSwipeDirection.horizontal,
+    super.onDismissed,
+    this.background,
+    this.behavior = HitTestBehavior.deferToChild,
+    this.crossAxisEndOffset = 0.0,
+    this.dismissThresholds = const {},
+    this.dragStartBehavior = DragStartBehavior.start,
+    this.movementDuration = const Duration(milliseconds: 200),
+    this.onResize,
+    this.onUpdate,
+    this.resizeDuration,
+    this.secondaryBackground,
+    super.willDismiss,
+  });
+
   @override
-  Widget call(PositionedDialog dialog) {
+  Widget call(PositionedDialog dialog, Widget content) {
     return Dismissible(
       key: UniqueKey(),
       background: background,
       secondaryBackground: secondaryBackground,
-      confirmDismiss: confirmDismiss,
+      confirmDismiss: willDismiss != null ? (_) => super.willDismiss!() : null,
       onResize: onResize,
       onUpdate: onUpdate,
       onDismissed: (_) {
@@ -132,7 +120,7 @@ final class _Swipe extends PositionedDismissible {
       crossAxisEndOffset: crossAxisEndOffset,
       dragStartBehavior: dragStartBehavior,
       behavior: behavior,
-      child: dialog.child,
+      child: content,
     );
   }
 
@@ -147,9 +135,12 @@ final class _Swipe extends PositionedDismissible {
       };
 
   @override
-  void handleDismiss(covariant EasyDialog dialog) {
-    onDismissed?.call();
-    if (hideOnDismiss) dialog.requestHide(instantly: true);
+  Future<void> handleDismiss(PositionedDialog dialog) async {
+    if (await willDismiss?.call() ?? true)
+      dialog.context.hide(
+        instantly: true,
+        result: onDismissed?.call(),
+      );
   }
 }
 

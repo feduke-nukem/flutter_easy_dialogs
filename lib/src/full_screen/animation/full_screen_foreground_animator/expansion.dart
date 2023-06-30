@@ -1,11 +1,11 @@
-part of 'full_screen_foreground_animator.dart';
+part of 'full_screen_foreground_animation.dart';
 
-final class _Expansion extends FullScreenForegroundAnimator {
+final class _Expansion extends FullScreenForegroundAnimation {
   const _Expansion({super.curve = Curves.easeInOutCubic});
 
   @override
-  Widget call(FullScreenDialog dialog) {
-    final animation = dialog.animation;
+  Widget call(FullScreenDialog dialog, Widget content) {
+    final animation = dialog.context.animation;
     final tween = Tween<double>(begin: 0.0, end: 1.0);
     final heightFactor = animation.drive(
       tween.chain(
@@ -23,7 +23,7 @@ final class _Expansion extends FullScreenForegroundAnimator {
           ),
         ),
       ),
-      child: dialog.child,
+      child: content,
     );
   }
 }

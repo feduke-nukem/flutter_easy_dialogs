@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_decorator.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_decoration.dart';
 import 'package:full_screen_dialog_manager/src/shell/full_screen_dialog_shell.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 

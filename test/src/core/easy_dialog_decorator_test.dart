@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_decorator.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_dialog_decoration.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -37,7 +37,7 @@ void main() {
 
   test('combine with empty decorators', () {
     expect(
-      () => EasyDialogDecorator.combine<EasyDialogDecoration>(
+      () => EasyDialogDecoration.combine<EasyDialogDecoration>(
         decorators: [],
         nextDataBuilder: (_, __) => EasyDialogDecoration(
           dialog: Container(),
@@ -49,7 +49,7 @@ void main() {
 
   test('combine', () {
     expect(
-      () => EasyDialogDecorator.combine<EasyDialogDecoration>(
+      () => EasyDialogDecoration.combine<EasyDialogDecoration>(
         decorators: [
           _DummyDecorator(),
           _DummyDecorator(),
@@ -63,7 +63,7 @@ void main() {
   });
 
   test('decorate combined', () {
-    final decorator = EasyDialogDecorator.combine<EasyDialogDecoration>(
+    final decorator = EasyDialogDecoration.combine<EasyDialogDecoration>(
       decorators: [
         _DummyDecorator(),
         _DummyDecorator(),
@@ -82,7 +82,7 @@ void main() {
   });
 }
 
-final class _DummyDecorator extends EasyDialogDecorator<EasyDialogDecoration> {
+final class _DummyDecorator extends EasyDialogDecoration<EasyDialogDecoration> {
   const _DummyDecorator();
 
   @override

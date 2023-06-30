@@ -7,7 +7,7 @@ import '../../helper.dart';
 void main() {
   test('create params', () {
     expect(
-      () => EasyDialog(child: Container()),
+      () => EasyDialog(content: Container()),
       returnsNormally,
     );
     expect(() => EasyDialogManagerHideParams(), returnsNormally);

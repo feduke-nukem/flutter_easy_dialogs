@@ -28,7 +28,7 @@ void main() {
 
     final manager = FlutterEasyDialogs.controller.use<TestDialogManager>();
 
-    manager.show(dialog: EasyDialog(child: _content));
+    manager.show(dialog: EasyDialog(content: _content));
 
     await widgetTester.pump();
 

@@ -3,8 +3,9 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
 part 'banner.dart';
 
-/// An [EasyDialogDecorator] specific to the [PositionedConversation].
-abstract base class PositionedDialogShell extends EasyDialogDecorator {
+/// An [EasyDialogDecoration] specific to the [PositionedConversation].
+abstract base class PositionedDialogShell
+    extends EasyDialogDecoration<PositionedDialog> {
   /// @nodoc
   const PositionedDialogShell();
 

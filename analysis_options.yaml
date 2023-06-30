@@ -22,9 +22,9 @@ dart_code_metrics:
     - no-object-declaration
     - member-ordering:
         order:
-          - constructors
           - private-fields
           - public-fields
+          - constructors
           - close-method
           - dispose-method
         widgets-order:
@@ -65,9 +65,7 @@ dart_code_metrics:
         child-last: true
         severity: error
     - newline-before-return: 
-        severity: error
-    - prefer-async-await:
-        severity: error
+        severity: error 
     - prefer-commenting-analyzer-ignores:
         severity: error
     - prefer-conditional-expressions:

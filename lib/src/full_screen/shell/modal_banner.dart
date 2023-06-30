@@ -14,13 +14,13 @@ final class _ModalBanner extends FullScreenDialogShell {
   final BoxDecoration? boxDecoration;
 
   @override
-  Widget call(FullScreenDialog dialog) {
+  Widget call(FullScreenDialog dialog, Widget content) {
     return Center(
       child: Container(
         padding: padding,
         decoration: boxDecoration,
         margin: margin,
-        child: dialog.child,
+        child: content,
       ),
     );
   }

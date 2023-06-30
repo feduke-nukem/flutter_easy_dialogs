@@ -5,38 +5,37 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 part 'animated_tap.dart';
 part 'swipe.dart';
 part 'tap.dart';
-part 'none.dart';
 
 /// Dismissible that is used by [PositionedConversation].
-abstract base class PositionedDismissible extends EasyDialogDismissible {
-  const PositionedDismissible({
+abstract base class PositionedDismiss<T>
+    extends EasyDialogDismiss<PositionedDialog, T> {
+  const PositionedDismiss({
     super.onDismissed,
-    super.hideOnDismiss = true,
+    super.willDismiss,
   });
 
   /// Simple tap gesture dismissible.
-  const factory PositionedDismissible.tap({
+  const factory PositionedDismiss.tap({
     HitTestBehavior? behavior,
-    OnEasyDismissed? onDismissed,
-    bool hideOnDismiss,
-  }) = _Tap;
+    OnEasyDismissed<T>? onDismissed,
+    EasyWillDismiss? willDismiss,
+  }) = _Tap<T>;
 
   /// Tap gesture but with extra `scale in` on tap down animation.
-  const factory PositionedDismissible.animatedTap({
+  const factory PositionedDismiss.animatedTap({
     Duration duration,
-    OnEasyDismissed? onDismissed,
-    bool hideOnDismiss,
-  }) = _AnimatedTap;
+    OnEasyDismissed<T>? onDismissed,
+    EasyWillDismiss? willDismiss,
+  }) = _AnimatedTap<T>;
 
   /// Horizontal swipe dismissible.
   ///
   /// Simply uses [Dismissible] under the hood.
-  const factory PositionedDismissible.swipe({
+  const factory PositionedDismiss.swipe({
     PositionedDismissibleSwipeDirection direction,
-    OnEasyDismissed? onDismissed,
+    OnEasyDismissed<T>? onDismissed,
     Widget? background,
     Widget? secondaryBackground,
-    ConfirmDismissCallback? confirmDismiss,
     VoidCallback? onResize,
     Duration? resizeDuration,
     Map<DismissDirection, double> dismissThresholds,
@@ -45,9 +44,6 @@ abstract base class PositionedDismissible extends EasyDialogDismissible {
     DragStartBehavior dragStartBehavior,
     HitTestBehavior behavior,
     DismissUpdateCallback? onUpdate,
-    bool hideOnDismiss,
-  }) = _Swipe;
-
-  /// No dismissible behavior will be added.
-  const factory PositionedDismissible.none() = _None;
+    EasyWillDismiss? willDismiss,
+  }) = _Swipe<T>;
 }
