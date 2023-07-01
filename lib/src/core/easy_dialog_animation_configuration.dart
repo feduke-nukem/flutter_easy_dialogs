@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_animation.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 
 const _defaultDuration = Duration(milliseconds: 350);

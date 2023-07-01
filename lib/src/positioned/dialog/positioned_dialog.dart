@@ -17,11 +17,6 @@ final class PositionedDialog extends EasyDialog {
   /// The position where the dialog will be shown.
   final EasyDialogShowPosition position;
 
-  /// The duration until the dialog will be hidden automatically.
-  ///
-  /// If this is `null`, the dialog will not be automatically hidden.
-  final Duration? hideAfterDuration;
-
   /// Creates an instance of [PositionedDialog].
   ///
   /// The [child] parameter is required and specifies the content
@@ -38,7 +33,7 @@ final class PositionedDialog extends EasyDialog {
   PositionedDialog({
     required super.content,
     this.position = EasyDialogPosition.top,
-    super.decoration = const EasyDialogDecoration.combine([
+    super.decoration = const EasyDialogDecoration<PositionedDialog>.combine([
       defaultShell,
       defaultAnimation,
       defaultDismissible,
@@ -47,7 +42,7 @@ final class PositionedDialog extends EasyDialog {
       duration: Duration(milliseconds: 500),
       reverseDuration: Duration(milliseconds: 500),
     ),
-    this.hideAfterDuration = const Duration(seconds: 3),
+    super.hideAfterDuration = const Duration(seconds: 3),
   });
 
   @factory
@@ -64,12 +59,12 @@ final class PositionedDialog extends EasyDialog {
   EasyDialogShowPosition get identity => position;
 
   @override
-  EasyOverlayBoxInsert<EasyDialog> createInsert(Widget decorated) {
+  EasyOverlayBoxInsert<EasyDialog> createInsert() {
     return PositionedDialogInsert(
       position: position,
       dialog: Align(
         alignment: position.alignment,
-        child: decorated,
+        child: context.content,
       ),
     );
   }

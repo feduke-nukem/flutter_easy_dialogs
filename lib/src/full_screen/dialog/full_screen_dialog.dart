@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/handle_android_back_button_mixin.dart';
+import 'package:flutter_easy_dialogs/src/core/android_back_button_interceptor_mixin.dart';
 import 'package:flutter_easy_dialogs/src/core/core.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/animation/full_screen_background_animator/full_screen_background_animation.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/animation/full_screen_foreground_animator/full_screen_foreground_animation.dart';
@@ -13,26 +13,24 @@ const _identity = '\$fullScreenDialog';
 
 /// Show params for [FullScreenConversation].
 final class FullScreenDialog extends EasyDialog
-    with HandleAndroidBackButtonMixin {
+    with AndroidBackButtonInterceptorMixin {
   static const defaultShell = FullScreenDialogShell.modalBanner();
-  static const defaultAnimation = EasyDialogDecoration.chain(
+  static const defaultAnimation = EasyDialogDecoration<FullScreenDialog>.chain(
     FullScreenForegroundAnimation.bounce(),
     FullScreenBackgroundAnimation.blur(),
   );
   static const defaultDismissible = FullScreenDismiss.tap();
-
-  @override
-  final WillPopCallback? willPop;
+  final WillPopCallback? androidWillPop;
 
   /// Creates an instance of [FullScreenDialog].
   FullScreenDialog({
     required super.content,
-    this.willPop,
+    this.androidWillPop,
     super.animationConfiguration = const EasyDialogAnimationConfiguration(
       duration: _defaultDuration,
       reverseDuration: _defaultReverseDuration,
     ),
-    super.decoration = const EasyDialogDecoration.combine([
+    super.decoration = const EasyDialogDecoration<FullScreenDialog>.combine([
       defaultShell,
       defaultAnimation,
       defaultDismissible,
@@ -50,22 +48,22 @@ final class FullScreenDialog extends EasyDialog
   String get identity => _identity;
 
   @override
-  EasyOverlayBoxInsert<EasyDialog> createInsert(Widget content) =>
-      FullScreenDialogInsert(dialog: content);
+  EasyOverlayBoxInsert<EasyDialog> createInsert() =>
+      FullScreenDialogInsert(dialog: context.content);
 
   @override
   EasyOverlayBoxRemove<EasyDialog> createRemove() =>
       const FullScreenDialogRemove();
 
   @override
-  Future<void> onPop() async {
-    if (willPop == null) return;
+  Future<void> onAndroidPop() async {
+    if (androidWillPop == null) return;
 
-    final canPop = await willPop!();
+    final canPop = await androidWillPop!();
 
     if (!canPop) return;
 
-    context.hide();
+    this.context.hideDialog();
   }
 }
 

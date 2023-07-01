@@ -7,8 +7,8 @@ part 'tap.dart';
 ///
 /// It is responsible for providing the dismissible behavior to
 /// the provided dialog content using [onDismissed] callback.
-abstract base class FullScreenDismiss<T>
-    extends EasyDialogDismiss<FullScreenDialog, T> {
+abstract base class FullScreenDismiss
+    extends EasyDialogDismiss<FullScreenDialog> {
   const FullScreenDismiss({
     super.onDismissed,
     super.willDismiss,
@@ -17,6 +17,6 @@ abstract base class FullScreenDismiss<T>
   /// Simple gesture tap dismiss.
   const factory FullScreenDismiss.tap({
     HitTestBehavior behavior,
-    OnEasyDismissed<T>? onDismissed,
+    OnEasyDismissed? onDismissed,
   }) = _Tap;
 }

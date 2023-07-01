@@ -41,6 +41,12 @@ final class EasyDialogsOverlayState extends OverlayState
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   void insert(
     OverlayEntry entry, {
     OverlayEntry? below,

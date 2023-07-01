@@ -4,14 +4,11 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 const _foregroundBounce = 'bounce';
 const _foregroundFade = 'fade';
 const _foregroundExpansion = 'expansion';
-const _foregroundNone = 'none';
 
 const _backgroundFade = 'fade';
 const _backgroundBlur = 'blur';
-const _backgroundNone = 'none';
 
 const _dismissibleFullScreenTap = 'tap';
-const _dismissibleNone = 'none';
 
 const _content = SizedBox.square(
   dimension: 200.0,
@@ -29,7 +26,6 @@ const _foregroundAnimators = <String, FullScreenForegroundAnimation>{
   _foregroundBounce: FullScreenForegroundAnimation.bounce(),
   _foregroundFade: FullScreenForegroundAnimation.fade(),
   _foregroundExpansion: FullScreenForegroundAnimation.expansion(),
-  _foregroundNone: FullScreenForegroundAnimation.none(),
 };
 
 final _backgroundAnimators = <String, FullScreenBackgroundAnimation>{
@@ -41,7 +37,6 @@ final _backgroundAnimators = <String, FullScreenBackgroundAnimation>{
   _backgroundFade: FullScreenBackgroundAnimation.fade(
     backgroundColor: Colors.black.withOpacity(0.5),
   ),
-  _backgroundNone: const FullScreenBackgroundAnimation.none(),
 };
 
 const _dismissibles = <String, FullScreenDismiss>{
@@ -146,7 +141,7 @@ class _FullScreenDialogManagerBasicUsageScreenState
               onPressed: () async {
                 await FlutterEasyDialogs.show(
                   FullScreenDialog(
-                    willPop: () async => true,
+                    androidWillPop: () async => true,
                     content: _content,
                     decoration: FullScreenDialogShell.modalBanner(
                       boxDecoration: BoxDecoration(

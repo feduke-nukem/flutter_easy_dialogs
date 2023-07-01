@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/full_screen/dialog/full_screen_dialog_conversation.dart';
 
 part 'bounce.dart';
 part 'expansion.dart';
 part 'fade.dart';
-part 'none.dart';
 
 /// This is an implementation of [EasyDialogAnimation] that is specific to
 /// [FullScreenDialogConversation].
@@ -30,7 +28,4 @@ abstract base class FullScreenForegroundAnimation
   /// Applies expansion from the inside to the outside.
   const factory FullScreenForegroundAnimation.expansion({Curve curve}) =
       _Expansion;
-
-  /// No animation will be applied.
-  const factory FullScreenForegroundAnimation.none() = _None;
 }

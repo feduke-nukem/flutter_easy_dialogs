@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_decoration.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
+part of 'easy_dialogs_controller.dart';
 
 /// {@category Decorators}
 /// {@category Custom}

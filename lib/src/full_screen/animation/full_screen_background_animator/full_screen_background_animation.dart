@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 part 'blur.dart';
 part 'fade.dart';
-part 'none.dart';
 
 /// This is an implementation of [EasyDialogAnimation] that is specific to
 /// [FullScreenDialogConversation].
@@ -32,7 +31,4 @@ abstract base class FullScreenBackgroundAnimation
     double blur,
     Curve curve,
   }) = _Fade;
-
-  /// No animation will be applied.
-  const factory FullScreenBackgroundAnimation.none() = _None;
 }

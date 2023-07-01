@@ -6,8 +6,10 @@ final class Bounce extends FullScreenForegroundAnimation {
   const Bounce({super.curve = _defaultBounceCurve});
 
   @override
-  Widget call(FullScreenDialog dialog, Widget content) {
-    final animation = dialog.context.animation;
+  Widget call(
+    EasyDialogContext<FullScreenDialog> context,
+  ) {
+    final animation = context.animation;
     final scaleUpChildTween = Tween<double>(
       begin: 0.1,
       end: 1.2,
@@ -45,7 +47,7 @@ final class Bounce extends FullScreenForegroundAnimation {
             CurveTween(curve: curve),
           ),
         ),
-        child: content,
+        child: context.content,
       ),
     );
   }

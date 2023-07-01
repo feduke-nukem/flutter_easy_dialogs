@@ -1,6 +1,6 @@
 part of 'full_screen_dismiss.dart';
 
-final class _Tap<T> extends FullScreenDismiss<T> {
+final class _Tap extends FullScreenDismiss {
   final HitTestBehavior behavior;
 
   const _Tap({
@@ -9,22 +9,27 @@ final class _Tap<T> extends FullScreenDismiss<T> {
   });
 
   @override
-  Widget call(FullScreenDialog dialog, Widget content) {
+  Widget call(
+    EasyDialogContext<FullScreenDialog> context,
+  ) {
     return GestureDetector(
-      onTap: () => super.handleDismiss(dialog),
+      onTap: () => handleDismiss(context),
       behavior: behavior,
-      child: content,
+      child: context.content,
     );
   }
 
   @override
-  Future<void> handleDismiss(FullScreenDialog dialog) async {
-    final canPop = await dialog.willPop?.call() ?? false;
+  Future<void> handleDismiss(
+    EasyDialogContext<FullScreenDialog> context,
+  ) async {
+    if (context.dialog.androidWillPop == null)
+      return super.handleDismiss(context);
+
+    final canPop = await context.dialog.androidWillPop?.call() ?? false;
 
     if (!canPop) return;
 
-    onDismissed?.call();
-
-    return dialog.context.hide();
+    return context.hideDialog(result: onDismissed?.call());
   }
 }

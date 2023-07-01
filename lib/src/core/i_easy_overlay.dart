@@ -76,10 +76,10 @@ abstract interface class EasyOverlayBoxMutation<Dialog extends EasyDialog,
 /// Insert mutation.
 abstract base class EasyOverlayBoxInsert<Dialog extends EasyDialog>
     extends EasyOverlayBoxMutation<Dialog, EasyOverlayEntry> {
+  final Widget dialog;
+
   /// @nodoc
   const EasyOverlayBoxInsert({required this.dialog});
-
-  final Widget dialog;
 }
 
 /// {@category Overlay}

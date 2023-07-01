@@ -24,38 +24,36 @@ class PositionedDialogManagerCustomizationScreen extends StatelessWidget {
     );
   }
 
-  void _show() => FlutterEasyDialogs.show(
-        PositionedDialog(
-          animationConfiguration: const EasyDialogAnimationConfiguration(
-            duration: Duration(milliseconds: 400),
-          ),
-          position: EasyDialogPosition.bottom,
-          decoration: const _CustomPositionedShell()
-              .then(_CustomPositionedAnimator())
-              .then(const _CustomPositionedDismissible()),
-          content: const SizedBox.square(
-            dimension: 250,
-            child: Center(
-              child: Text(
-                'custom banner',
-              ),
+  void _show() => PositionedDialog(
+        animationConfiguration: const EasyDialogAnimationConfiguration(
+          duration: Duration(milliseconds: 400),
+        ),
+        position: EasyDialogPosition.bottom,
+        decoration: const _CustomPositionedShell()
+            .then(_CustomPositionedAnimator())
+            .then(const _CustomPositionedDismissible()),
+        content: const SizedBox.square(
+          dimension: 250,
+          child: Center(
+            child: Text(
+              'custom banner',
             ),
           ),
         ),
-      );
+      ).show();
 }
 
 final class _CustomPositionedShell extends PositionedDialogShell {
   const _CustomPositionedShell();
 
   @override
-  Widget call(PositionedDialog dialog, Widget content) {
+  Widget call(EasyDialogContext<PositionedDialog> context) {
     return SizedBox(
       width: double.infinity,
       height: 200.0,
       child: ColoredBox(
         color: Colors.amber,
-        child: content,
+        child: context.content,
       ),
     );
   }
@@ -63,8 +61,8 @@ final class _CustomPositionedShell extends PositionedDialogShell {
 
 final class _CustomPositionedAnimator extends PositionedAnimation {
   @override
-  Widget call(PositionedDialog dialog, Widget content) {
-    final animation = dialog.context.animation;
+  Widget call(EasyDialogContext<PositionedDialog> context) {
+    final animation = context.animation;
 
     final offset = Tween<Offset>(
       begin: const Offset(0.0, 1.0),
@@ -84,7 +82,7 @@ final class _CustomPositionedAnimator extends PositionedAnimation {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: SlideTransition(position: offset, child: content),
+            child: SlideTransition(position: offset, child: context.content),
           ),
         ],
       ),
@@ -96,13 +94,13 @@ final class _CustomPositionedDismissible extends PositionedDismiss {
   const _CustomPositionedDismissible() : super(onDismissed: null);
 
   @override
-  Widget call(PositionedDialog dialog, Widget content) {
+  Widget call(EasyDialogContext<PositionedDialog> context) {
     return GestureDetector(
       onTap: () {
-        dialog.context.hide();
+        context.hideDialog();
         onDismissed?.call();
       },
-      child: content,
+      child: context.content,
     );
   }
 }

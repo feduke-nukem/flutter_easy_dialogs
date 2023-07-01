@@ -4,13 +4,13 @@ final class _Expansion extends PositionedAnimation {
   const _Expansion({super.curve = _defaultCurve});
 
   @override
-  Widget call(PositionedDialog dialog, Widget content) {
+  Widget call(EasyDialogContext<PositionedDialog> context) {
     final tween = Tween<double>(
       begin: 0.0,
       end: 1.0,
     );
 
-    final expansion = dialog.context.animation.drive(
+    final expansion = context.animation.drive(
       tween.chain(
         CurveTween(curve: curve),
       ),
@@ -18,7 +18,7 @@ final class _Expansion extends PositionedAnimation {
 
     return _EasyExpansionAnimation(
       expansion: expansion,
-      child: content,
+      child: context.content,
     );
   }
 }

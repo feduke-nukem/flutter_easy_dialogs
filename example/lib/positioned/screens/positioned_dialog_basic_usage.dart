@@ -8,7 +8,6 @@ const _fadeAnimator = 'fade';
 const _verticalSlideAnimator = 'verticalSlide';
 
 const _dismissibleTap = 'tap';
-const _dismissibleNone = 'none';
 const _dismissibleHorizontalSwipe = 'swipe';
 const _dismissibleVerticalSwipe = 'swipeVertical';
 const _dismissibleAnimatedTap = 'animatedTap';
@@ -19,21 +18,21 @@ const _animators = <String, PositionedAnimation>{
   _verticalSlideAnimator: PositionedAnimation.verticalSlide(),
 };
 
-final _dismissibles = <String, PositionedDismiss<String>>{
+final _dismissibles = <String, PositionedDismiss>{
   _dismissibleTap: PositionedDismiss.tap(
     onDismissed: () => _result,
     willDismiss: () async => true,
   ),
-  _dismissibleHorizontalSwipe: PositionedDismiss<String>.swipe(
+  _dismissibleHorizontalSwipe: PositionedDismiss.swipe(
     onDismissed: () => _result,
     willDismiss: () async => false,
   ),
-  _dismissibleVerticalSwipe: PositionedDismiss<String>.swipe(
+  _dismissibleVerticalSwipe: PositionedDismiss.swipe(
     onDismissed: () => _result,
     willDismiss: () async => false,
     direction: PositionedDismissibleSwipeDirection.vertical,
   ),
-  _dismissibleAnimatedTap: PositionedDismiss<String>.animatedTap(
+  _dismissibleAnimatedTap: PositionedDismiss.animatedTap(
     onDismissed: () => _result,
     willDismiss: () async => true,
   ),
@@ -71,7 +70,7 @@ class _PositionedDialogManagerBasicUsageScreenState
       .toList();
   final _dismissibleDropDownItems = _dismissibles.entries
       .map(
-        (e) => DropdownMenuItem<PositionedDismiss<String>>(
+        (e) => DropdownMenuItem<PositionedDismiss>(
           value: e.value,
           child: Text(e.key),
         ),
@@ -125,7 +124,7 @@ class _PositionedDialogManagerBasicUsageScreenState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text('Dismissible type'),
-                    DropdownButton<PositionedDismiss<String>>(
+                    DropdownButton<PositionedDismiss>(
                       items: _dismissibleDropDownItems,
                       onChanged: (type) =>
                           setState(() => _selectedDismissible = type!),

@@ -8,19 +8,19 @@ part of 'positioned_dialog_conversation.dart';
 // ignore: prefer-match-file-name
 final class PositionedDialogInsert
     extends EasyOverlayBoxInsert<PositionedDialog> {
+  final EasyDialogPosition position;
+
   const PositionedDialogInsert({
     required this.position,
     required super.dialog,
   });
-
-  final EasyDialogPosition position;
 
   @override
   EasyOverlayEntry call(IEasyDialogsOverlayBox box) {
     final container =
         box.putIfAbsent<Map<EasyDialogPosition, EasyOverlayEntry>>(
       key,
-      () => {},
+      () => <EasyDialogPosition, EasyOverlayEntry>{},
     );
     assert(
       !container.containsKey(position),

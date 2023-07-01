@@ -1,6 +1,6 @@
 part of 'positioned_dismiss.dart';
 
-final class _Swipe<T> extends PositionedDismiss<T> {
+final class _Swipe extends PositionedDismiss {
   final PositionedDismissibleSwipeDirection direction;
 
   /// A widget that is stacked behind the child. If secondaryBackground is also
@@ -102,7 +102,10 @@ final class _Swipe<T> extends PositionedDismiss<T> {
   });
 
   @override
-  Widget call(PositionedDialog dialog, Widget content) {
+  bool get instantly => true;
+
+  @override
+  Widget call(EasyDialogContext<PositionedDialog> context) {
     return Dismissible(
       key: UniqueKey(),
       background: background,
@@ -110,17 +113,15 @@ final class _Swipe<T> extends PositionedDismiss<T> {
       confirmDismiss: willDismiss != null ? (_) => super.willDismiss!() : null,
       onResize: onResize,
       onUpdate: onUpdate,
-      onDismissed: (_) {
-        this.handleDismiss(dialog);
-      },
-      direction: _getDirection(dialog.position),
+      onDismissed: (_) => this.handleDismiss(context),
+      direction: _getDirection(context.dialog.position),
       resizeDuration: resizeDuration,
       dismissThresholds: dismissThresholds,
       movementDuration: movementDuration,
       crossAxisEndOffset: crossAxisEndOffset,
       dragStartBehavior: dragStartBehavior,
       behavior: behavior,
-      child: content,
+      child: context.content,
     );
   }
 
@@ -133,15 +134,6 @@ final class _Swipe<T> extends PositionedDismiss<T> {
               ? DismissDirection.up
               : DismissDirection.down,
       };
-
-  @override
-  Future<void> handleDismiss(PositionedDialog dialog) async {
-    if (await willDismiss?.call() ?? true)
-      dialog.context.hide(
-        instantly: true,
-        result: onDismissed?.call(),
-      );
-  }
 }
 
 enum PositionedDismissibleSwipeDirection {

@@ -2,14 +2,6 @@ part of 'positioned_dialog_shell.dart';
 
 /// Dialog banner.
 final class _Banner extends PositionedDialogShell {
-  /// Creates an instance of [_Banner].
-  const _Banner({
-    this.backgroundColor,
-    this.padding = const EdgeInsets.all(10.0),
-    this.margin = EdgeInsets.zero,
-    this.borderRadius = BorderRadius.zero,
-  });
-
   /// Background color.
   ///
   /// Use [ThemeData.primaryColor] if null.
@@ -24,8 +16,18 @@ final class _Banner extends PositionedDialogShell {
   /// Border radius.
   final BorderRadius borderRadius;
 
+  /// Creates an instance of [_Banner].
+  const _Banner({
+    this.backgroundColor,
+    this.padding = const EdgeInsets.all(10.0),
+    this.margin = EdgeInsets.zero,
+    this.borderRadius = BorderRadius.zero,
+  });
+
   @override
-  Widget call(PositionedDialog dialog, Widget content) {
+  Widget call(
+    EasyDialogContext<PositionedDialog> dialogContext,
+  ) {
     return Builder(
       builder: (context) {
         return Padding(
@@ -35,13 +37,14 @@ final class _Banner extends PositionedDialogShell {
             child: ColoredBox(
               color: backgroundColor ?? Theme.of(context).primaryColor,
               child: SafeArea(
-                top: dialog.position == EasyDialogPosition.top,
-                bottom: dialog.position == EasyDialogPosition.bottom,
+                top: dialogContext.dialog.position == EasyDialogPosition.top,
+                bottom:
+                    dialogContext.dialog.position == EasyDialogPosition.bottom,
                 child: Padding(
                   padding: padding,
                   child: SizedBox(
                     width: double.infinity,
-                    child: content,
+                    child: dialogContext.content,
                   ),
                 ),
               ),

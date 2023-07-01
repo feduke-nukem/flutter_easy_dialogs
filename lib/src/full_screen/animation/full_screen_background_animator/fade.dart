@@ -13,8 +13,8 @@ final class _Fade extends FullScreenBackgroundAnimation {
   });
 
   @override
-  Widget call(FullScreenDialog dialog, Widget content) {
-    final animation = dialog.context.animation;
+  Widget call(EasyDialogContext<FullScreenDialog> context) {
+    final animation = context.animation;
 
     return AnimatedBuilder(
       animation: animation,
@@ -27,7 +27,7 @@ final class _Fade extends FullScreenBackgroundAnimation {
         backgroundColor: backgroundColor,
         child: child!,
       ),
-      child: content,
+      child: context.content,
     );
   }
 }

@@ -40,9 +40,7 @@ class EasyFullScreenBlur extends StatelessWidget {
                 sigmaY: sigmaY,
               ),
               child: backgroundColor != null
-                  ? ColoredBox(
-                      color: backgroundColor!,
-                    )
+                  ? ColoredBox(color: backgroundColor!)
                   : null,
             ),
           ),

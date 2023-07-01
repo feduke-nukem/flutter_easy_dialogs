@@ -1,6 +1,6 @@
 part of 'positioned_dismiss.dart';
 
-final class _AnimatedTap<T> extends PositionedDismiss<T> {
+final class _AnimatedTap extends PositionedDismiss {
   final Duration duration;
 
   const _AnimatedTap({
@@ -10,11 +10,11 @@ final class _AnimatedTap<T> extends PositionedDismiss<T> {
   });
 
   @override
-  Widget call(PositionedDialog dialog, Widget content) {
+  Widget call(EasyDialogContext<PositionedDialog> context) {
     return _AnimatedTapDismissible(
-      onDismissed: () => handleDismiss(dialog),
+      onDismissed: () => handleDismiss(context),
       duration: duration,
-      child: content,
+      child: context.content,
     );
   }
 }

@@ -1,6 +1,6 @@
 part of 'positioned_dismiss.dart';
 
-final class _Tap<T> extends PositionedDismiss<T> {
+final class _Tap extends PositionedDismiss {
   final HitTestBehavior? behavior;
   const _Tap({
     this.behavior,
@@ -9,11 +9,13 @@ final class _Tap<T> extends PositionedDismiss<T> {
   });
 
   @override
-  Widget call(PositionedDialog dialog, Widget content) {
+  Widget call(
+    EasyDialogContext<PositionedDialog> context,
+  ) {
     return GestureDetector(
-      onTap: () => super.handleDismiss(dialog),
+      onTap: () => super.handleDismiss(context),
       behavior: behavior,
-      child: content,
+      child: context.content,
     );
   }
 }

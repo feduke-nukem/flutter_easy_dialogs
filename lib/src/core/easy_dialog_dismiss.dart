@@ -1,13 +1,9 @@
-import 'dart:async';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialog_decoration.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
+part of 'easy_dialogs_controller.dart';
 
 /// {@category Decorators}
 /// {@category Custom}
 /// Dismiss callback.
-typedef OnEasyDismissed<T> = FutureOr<T?> Function();
+typedef OnEasyDismissed = FutureOr<Object?> Function();
 typedef EasyWillDismiss = Future<bool> Function();
 
 /// {@category Decorators}
@@ -20,10 +16,10 @@ typedef EasyWillDismiss = Future<bool> Function();
 ///
 /// This may help you understand how it is supposed to work or even
 /// create your own [EasyDialogsController].
-abstract base class EasyDialogDismiss<Dialog extends EasyDialog, T>
+abstract base class EasyDialogDismiss<Dialog extends EasyDialog>
     extends EasyDialogDecoration<Dialog> {
   /// Callback that fires when dialog get dismissed.
-  final OnEasyDismissed<T?>? onDismissed;
+  final OnEasyDismissed? onDismissed;
   final EasyWillDismiss? willDismiss;
 
   /// Creates an instance of [EasyDialogDismiss].
@@ -33,8 +29,19 @@ abstract base class EasyDialogDismiss<Dialog extends EasyDialog, T>
   });
 
   @protected
-  Future<void> handleDismiss(Dialog dialog) async {
-    final needHide = await willDismiss?.call() ?? true;
-    if (needHide) dialog.context.hide(result: onDismissed?.call());
+  bool get instantly => false;
+
+  @protected
+  Future<void> handleDismiss(EasyDialogContext<Dialog> dialogContext) async {
+    final parentDismiss = dialogContext
+        .getParentDecorationOfType<EasyDialogDismiss<Dialog>>(this);
+    final effectiveWillDismiss = willDismiss ?? parentDismiss?.willDismiss;
+    final effectiveOnDismissed = onDismissed ?? parentDismiss?.onDismissed;
+
+    if (await effectiveWillDismiss?.call() ?? true)
+      dialogContext.hideDialog(
+        result: effectiveOnDismissed?.call(),
+        instantly: instantly,
+      );
   }
 }

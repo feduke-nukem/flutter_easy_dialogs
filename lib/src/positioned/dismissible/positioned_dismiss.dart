@@ -7,8 +7,8 @@ part 'swipe.dart';
 part 'tap.dart';
 
 /// Dismissible that is used by [PositionedConversation].
-abstract base class PositionedDismiss<T>
-    extends EasyDialogDismiss<PositionedDialog, T> {
+abstract base class PositionedDismiss
+    extends EasyDialogDismiss<PositionedDialog> {
   const PositionedDismiss({
     super.onDismissed,
     super.willDismiss,
@@ -17,23 +17,23 @@ abstract base class PositionedDismiss<T>
   /// Simple tap gesture dismissible.
   const factory PositionedDismiss.tap({
     HitTestBehavior? behavior,
-    OnEasyDismissed<T>? onDismissed,
+    OnEasyDismissed? onDismissed,
     EasyWillDismiss? willDismiss,
-  }) = _Tap<T>;
+  }) = _Tap;
 
   /// Tap gesture but with extra `scale in` on tap down animation.
   const factory PositionedDismiss.animatedTap({
     Duration duration,
-    OnEasyDismissed<T>? onDismissed,
+    OnEasyDismissed? onDismissed,
     EasyWillDismiss? willDismiss,
-  }) = _AnimatedTap<T>;
+  }) = _AnimatedTap;
 
   /// Horizontal swipe dismissible.
   ///
   /// Simply uses [Dismissible] under the hood.
   const factory PositionedDismiss.swipe({
     PositionedDismissibleSwipeDirection direction,
-    OnEasyDismissed<T>? onDismissed,
+    OnEasyDismissed? onDismissed,
     Widget? background,
     Widget? secondaryBackground,
     VoidCallback? onResize,
@@ -45,5 +45,5 @@ abstract base class PositionedDismiss<T>
     HitTestBehavior behavior,
     DismissUpdateCallback? onUpdate,
     EasyWillDismiss? willDismiss,
-  }) = _Swipe<T>;
+  }) = _Swipe;
 }

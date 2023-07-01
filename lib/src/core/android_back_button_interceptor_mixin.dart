@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
@@ -7,40 +6,40 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 // coverage:ignore-file
 /// For handling back button on Android.
 
-mixin HandleAndroidBackButtonMixin on EasyDialogLifecycle {
-  WillPopCallback? get willPop;
+mixin AndroidBackButtonInterceptorMixin on EasyDialogLifecycle {
+  WillPopCallback? get androidWillPop;
 
   @override
   void init() {
     super.init();
-    _AndroidBackButtonHandler.addCallback(onPop);
+    _AndroidBackButtonInterceptor.addCallback(onAndroidPop);
   }
 
   @override
   void onShow() {
     super.onShow();
 
-    _AndroidBackButtonHandler.blockBackButton();
+    _AndroidBackButtonInterceptor.blockBackButton();
   }
 
   @override
-  void onHide() {
-    super.onHide();
+  void onHidden() {
+    super.onHidden();
 
-    _AndroidBackButtonHandler.unblockBackButton();
+    _AndroidBackButtonInterceptor.unblockBackButton();
   }
 
   @override
   void dispose() {
-    _AndroidBackButtonHandler.removeCallback(onPop);
+    _AndroidBackButtonInterceptor.removeCallback(onAndroidPop);
     super.dispose();
   }
 
   @protected
-  void onPop() {}
+  void onAndroidPop() {}
 }
 
-abstract class _AndroidBackButtonHandler implements WidgetsBinding {
+abstract class _AndroidBackButtonInterceptor implements WidgetsBinding {
   static bool _isBlocked = false;
   static bool _isMethodCallHandlerSet = false;
 

@@ -20,29 +20,19 @@ part 'insert.dart';
 final class PositionedDialogConversation
     extends EasyDialogConversation<PositionedDialog, PositionedHiding> {
   @override
-  Future<void> end(PositionedHiding hide) => switch (hide.position) {
-        EasyDialogPosition.all => super.hideAll(),
-        _ => super.end(hide),
+  Future<void> end(
+    PositionedHiding hide, {
+    bool instantly = false,
+  }) =>
+      switch (hide.position) {
+        EasyDialogPosition.all => super.hideAll(instantly: instantly),
+        _ => super.end(hide, instantly: instantly),
       };
 
   @override
-  Future<T?> begin<T>(PositionedDialog dialog) async {
+  Future<T?> begin<T extends Object?>(PositionedDialog dialog) async {
     if (super.checkPresented(dialog)) await super.hide(dialog);
 
-    final completer = Completer<T?>();
-
-    super.begin<T>(dialog).then((value) => completer.complete(value));
-
-    final newController = getAnimationController(dialog);
-
-    if (dialog.hideAfterDuration == null) return completer.future;
-
-    await Future.delayed(dialog.hideAfterDuration!);
-
-    if (newController.isDismissed) return completer.future;
-
-    await newController.reverse();
-
-    return completer.future;
+    return super.begin(dialog);
   }
 }

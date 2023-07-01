@@ -13,6 +13,6 @@ void main() {
       dialog: Container(),
     );
 
-    expect(() => blur.call(data), returnsNormally);
+    expect(() => blur.apply(data), returnsNormally);
   });
 }

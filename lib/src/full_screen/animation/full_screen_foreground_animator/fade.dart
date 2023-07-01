@@ -4,15 +4,17 @@ final class _Fade extends FullScreenForegroundAnimation {
   const _Fade({super.curve = Curves.easeInOutCubic});
 
   @override
-  Widget call(FullScreenDialog dialog, Widget content) {
-    final animation = dialog.context.animation;
+  Widget call(
+    EasyDialogContext<FullScreenDialog> context,
+  ) {
+    final animation = context.animation;
 
     return FadeTransition(
       opacity: CurvedAnimation(
         parent: animation,
         curve: curve,
       ),
-      child: content,
+      child: context.content,
     );
   }
 }

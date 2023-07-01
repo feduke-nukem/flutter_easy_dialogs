@@ -37,9 +37,9 @@ class FullScreenDialogCustomizationScreen extends StatelessWidget {
                         .then(const _BackgroundAnimation())
                         .then(
                           EasyDialogDecoration.builder(
-                            (context, dialog, content) => FadeTransition(
-                              opacity: dialog.context.animation,
-                              child: content,
+                            (_, context) => FadeTransition(
+                              opacity: context.animation,
+                              child: context.content,
                             ),
                           ),
                         )
@@ -77,16 +77,16 @@ class FullScreenDialogCustomizationScreen extends StatelessWidget {
   }
 }
 
-final class _Dismissible extends FullScreenDismiss {
+final class _Dismissible extends EasyDialogDismiss<FullScreenDialog> {
   const _Dismissible({super.onDismissed});
 
   @override
-  Widget call(FullScreenDialog dialog, Widget content) {
+  Widget call(EasyDialogContext<FullScreenDialog> context) {
     return Dismissible(
       key: UniqueKey(),
       resizeDuration: null,
       confirmDismiss: (direction) async {
-        await dialog.context.hide();
+        await context.hideDialog();
 
         return true;
       },
@@ -94,41 +94,41 @@ final class _Dismissible extends FullScreenDismiss {
       onDismissed: (_) {
         onDismissed?.call();
       },
-      child: content,
+      child: context.content,
     );
   }
 }
 
-final class _ForegroundAnimation extends FullScreenForegroundAnimation {
+final class _ForegroundAnimation extends EasyDialogAnimation<FullScreenDialog> {
   const _ForegroundAnimation();
 
   @override
-  Widget call(FullScreenDialog dialog, Widget content) {
-    final animation = dialog.context.animation;
+  Widget call(EasyDialogContext<FullScreenDialog> context) {
+    final animation = context.animation;
     final rotate = Tween<double>(begin: math.pi, end: math.pi / 360);
 
     return AnimatedBuilder(
       animation: animation,
-      builder: (context, child) => Transform.scale(
+      child: context.content,
+      builder: (_, child) => Transform.scale(
         scale: animation.value,
         child: Transform.rotate(
           angle: animation
               .drive(rotate.chain(CurveTween(curve: Curves.fastOutSlowIn)))
               .value,
-          child: child,
+          child: context.content,
         ),
       ),
-      child: content,
     );
   }
 }
 
-final class _BackgroundAnimation extends FullScreenBackgroundAnimation {
+final class _BackgroundAnimation extends EasyDialogAnimation<FullScreenDialog> {
   const _BackgroundAnimation();
 
   @override
-  Widget call(FullScreenDialog dialog, Widget content) {
-    final animation = dialog.context.animation;
+  Widget call(EasyDialogContext<FullScreenDialog> context) {
+    final animation = context.animation;
 
     return AnimatedBuilder(
       animation: animation,
@@ -144,7 +144,7 @@ final class _BackgroundAnimation extends FullScreenBackgroundAnimation {
         alignment: Alignment.center,
         child: child,
       ),
-      child: content,
+      child: context.content,
     );
   }
 }
@@ -154,8 +154,8 @@ final class CustomAnimator extends EasyDialogAnimation<FullScreenDialog> {
   const CustomAnimator();
 
   @override
-  Widget call(FullScreenDialog dialog, Widget content) {
-    final animation = dialog.context.animation;
+  Widget call(EasyDialogContext<FullScreenDialog> context) {
+    final animation = context.animation;
 
     final offset = Tween<Offset>(
       begin: const Offset(-1.0, 0.0),
@@ -190,7 +190,7 @@ final class CustomAnimator extends EasyDialogAnimation<FullScreenDialog> {
             color: Colors.black.withOpacity(0.3),
             height: double.infinity,
             width: double.infinity,
-            child: content,
+            child: context.content,
           ),
         ),
       ],
@@ -198,17 +198,17 @@ final class CustomAnimator extends EasyDialogAnimation<FullScreenDialog> {
   }
 }
 
-final class _Shell extends FullScreenDialogShell {
+final class _Shell extends EasyDialogDecoration<FullScreenDialog> {
   const _Shell();
 
   @override
-  Widget call(FullScreenDialog dialog, Widget content) {
+  Widget call(EasyDialogContext<FullScreenDialog> context) {
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
           color: Colors.cyanAccent.withOpacity(0.5),
           borderRadius: BorderRadius.circular(20.0)),
-      child: content,
+      child: context.content,
     );
   }
 }
