@@ -25,9 +25,7 @@ final class _Banner extends PositionedDialogShell {
   });
 
   @override
-  Widget call(
-    EasyDialogContext<PositionedDialog> dialogContext,
-  ) {
+  Widget call(PositionedDialog dialog) {
     return Builder(
       builder: (context) {
         return Padding(
@@ -37,14 +35,13 @@ final class _Banner extends PositionedDialogShell {
             child: ColoredBox(
               color: backgroundColor ?? Theme.of(context).primaryColor,
               child: SafeArea(
-                top: dialogContext.dialog.position == EasyDialogPosition.top,
-                bottom:
-                    dialogContext.dialog.position == EasyDialogPosition.bottom,
+                top: dialog.position == EasyDialogPosition.top,
+                bottom: dialog.position == EasyDialogPosition.bottom,
                 child: Padding(
                   padding: padding,
                   child: SizedBox(
                     width: double.infinity,
-                    child: dialogContext.content,
+                    child: dialog.content,
                   ),
                 ),
               ),

@@ -67,34 +67,12 @@ final class EasyDialogsOverlayState extends OverlayState
   }
 
   @override
-  void insertDialog(EasyOverlayBoxInsert<EasyDialog> insertion) =>
+  void insertDialog(EasyOverlayBoxInsertion<EasyDialog> insertion) =>
       insert(insertion(box));
 
   @override
-  void removeDialog(EasyOverlayBoxRemove<EasyDialog> removal) =>
+  void removeDialog(EasyOverlayBoxRemoval<EasyDialog> removal) =>
       removal(box)?.remove();
-}
-
-/// Implementation of [IEasyDialogsOverlayBox].
-final class EasyDialogsOverlayBox implements IEasyDialogsOverlayBox {
-  @visibleForTesting
-  final currentEntries = <Object, Object?>{};
-
-  /// Indicator for understanding if app entry is already inserted.
-  EasyOverlayAppEntry? appEntry;
-
-  @override
-  T putIfAbsent<T>(Object key, T Function() ifAbsent) =>
-      currentEntries.putIfAbsent(key, ifAbsent) as T;
-
-  @override
-  T? get<T>(Object key) => currentEntries[key] as T?;
-
-  @override
-  void put(Object key, Object value) => currentEntries[key] = value;
-
-  @override
-  T? remove<T>(Object key) => currentEntries.remove(key) as T?;
 }
 
 /// App overlay entry.

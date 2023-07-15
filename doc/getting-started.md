@@ -7,60 +7,106 @@ dependencies:
   flutter_easy_dialogs: <latest_version>
 ```
 
-You can optionally connect pre-built [EasyDialogManager](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogManager-class.html) implementations from separate packages:
-
-```yaml
-dependencies:
-  full_screen_dialog_manager: <latest_version>
-  positioned_dialog_manager: <latest_version>
-```
-
 In your library add the following import:
 
 ```dart
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:full_screen_dialog_manager/full_screen_dialog_manager.dart';
-import 'package:positioned_dialog_manager/positioned_dialog_manager.dart';
 ```
 
 ## Setup and usage
  
-Wrap your MaterialApp with [FlutterEasyDialogs.builder()](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/FlutterEasyDialogs/builder-constant.html) and register desired `Managers`.
+Wrap your MaterialApp with [FlutterEasyDialogs.builder()](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/FlutterEasyDialogs/builder-constant.html) and you are ready to go.
 
 ```dart
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      builder: FlutterEasyDialogs.builder(
-        /// register managers
-        setupManagers: (overlayController, managerRegistry) {
-          managerRegistry
-            ..registerFullScreen(overlayController)
-            ..registerPositioned(overlayController);
-        },
-      ),
+      builder: FlutterEasyDialogs.builder(),
     );
   }
 }
 ```
 
-You're done. Now you are able to call show methods from [IEasyDialogManagerProvider](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/IEasyDialogManagerProvider-class.html) like so:
+Now you are able to call show methods from [FlutterEasyDialogs](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/FlutterEasyDialogs-class.html) like so:
 ```dart
-FlutterEasyDialogs.provider.showPositioned(
-  const PositionedShowParams(
-    content: Text('dialog'),
-  )
-);
-```
-Or
-
-```dart
-FlutterEasyDialogs.provider.showFullScreen(
-  const FullScreenShowParams(
-    content: Text('dialog'),
+FlutterEasyDialogs.show(
+  EasyDialog.positioned(
+    content: Container(
+      height: 150.0,
+      color: Colors.amber[900],
+      alignment: Alignment.center,
+      child: const Text('Content'),
+    ),
   ),
 );
+```
+Or to hide with the help of specific dialog identifier:
+
+```dart
+FlutterEasyDialogs.hide(
+  PositionedDialog.identifier(
+    position: EasyDialogPosition.top,
+  ),
+);
+```
+
+You can await and and finish dialog showing with some result:
+
+```dart
+final result = await FlutterEasyDialogs.show<int>(
+  EasyDialog.positioned(
+    content: Container(
+      height: 150.0,
+      color: Colors.amber[900],
+      alignment: Alignment.center,
+      child: Text('$_selectedPosition'),
+    ),
+    position: EasyDialogPosition.bottom,
+  ),
+);
+
+await FlutterEasyDialogs.hide(
+  PositionedDialog.identifier(
+    position: EasyDialogPosition.bottom,
+  ),
+  result: 5,
+);
+```
+
+If needed, there is an option to hide multiple dialogs at once.
+
+```dart
+FlutterEasyDialogs.hideWhere<PositionedDialog>(
+  (dialog) =>
+      dialog.position == EasyDialogPosition.bottom &&
+      dialog.position == EasyDialogPosition.top,
+);
+```
+
+Or using the type alone:
+
+```dart
+FlutterEasyDialogs.hideWhereType<PositionedDialog>();
+```
+
+#### Extension
+
+There is an extension that provides alternative ways to show and hide dialogs.
+
+```dart
+final dialog = EasyDialog.positioned(
+  content: Container(
+    height: 150.0,
+    color: Colors.amber[900],
+    alignment: Alignment.center,
+    child: Text('$_selectedPosition'),
+  ),
+  position: _selectedPosition,
+);
+
+await dialog.show();
+await dialog.hide();
 ```

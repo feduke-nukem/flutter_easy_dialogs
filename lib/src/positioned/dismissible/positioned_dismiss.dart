@@ -2,31 +2,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
-part 'animated_tap.dart';
 part 'swipe.dart';
-part 'tap.dart';
 
-/// Dismissible that is used by [PositionedConversation].
+/// Dismissible that is used by [PositionedDialog].
 abstract base class PositionedDismiss
     extends EasyDialogDismiss<PositionedDialog> {
   const PositionedDismiss({
     super.onDismissed,
     super.willDismiss,
   });
-
-  /// Simple tap gesture dismissible.
-  const factory PositionedDismiss.tap({
-    HitTestBehavior? behavior,
-    OnEasyDismissed? onDismissed,
-    EasyWillDismiss? willDismiss,
-  }) = _Tap;
-
-  /// Tap gesture but with extra `scale in` on tap down animation.
-  const factory PositionedDismiss.animatedTap({
-    Duration duration,
-    OnEasyDismissed? onDismissed,
-    EasyWillDismiss? willDismiss,
-  }) = _AnimatedTap;
 
   /// Horizontal swipe dismissible.
   ///

@@ -1,14 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/i_easy_overlay.dart';
-import 'package:flutter_test/flutter_test.dart';
-
-class MockEasyOverlayController extends TestVSync implements IEasyOverlay {
-  @override
-  void insertDialog(EasyOverlayBoxInsert strategy) {}
-
-  @override
-  void removeDialog(EasyOverlayBoxRemove strategy) {}
-}
 
 class FakeAnimation<T> extends Animation<T> {
   @override

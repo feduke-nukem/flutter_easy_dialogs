@@ -1,41 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
-const _result = 'dialog result';
-
-const _expansionAnimator = 'expansion';
-const _fadeAnimator = 'fade';
-const _verticalSlideAnimator = 'verticalSlide';
+const _expansionAnimation = 'expansion';
+const _fadeAnimation = 'fade';
+const _verticalSlideAnimation = 'verticalSlide';
 
 const _dismissibleTap = 'tap';
 const _dismissibleHorizontalSwipe = 'swipe';
 const _dismissibleVerticalSwipe = 'swipeVertical';
 const _dismissibleAnimatedTap = 'animatedTap';
 
-const _animators = <String, PositionedAnimation>{
-  _expansionAnimator: PositionedAnimation.expansion(),
-  _fadeAnimator: PositionedAnimation.fade(),
-  _verticalSlideAnimator: PositionedAnimation.verticalSlide(),
-};
-
-final _dismissibles = <String, PositionedDismiss>{
-  _dismissibleTap: PositionedDismiss.tap(
-    onDismissed: () => _result,
-    willDismiss: () async => true,
-  ),
-  _dismissibleHorizontalSwipe: PositionedDismiss.swipe(
-    onDismissed: () => _result,
-    willDismiss: () async => false,
-  ),
-  _dismissibleVerticalSwipe: PositionedDismiss.swipe(
-    onDismissed: () => _result,
-    willDismiss: () async => false,
-    direction: PositionedDismissibleSwipeDirection.vertical,
-  ),
-  _dismissibleAnimatedTap: PositionedDismiss.animatedTap(
-    onDismissed: () => _result,
-    willDismiss: () async => true,
-  ),
+const _animations = <String, EasyDialogAnimation<PositionedDialog>>{
+  _expansionAnimation: EasyDialogAnimation.expansion(),
+  _fadeAnimation: EasyDialogAnimation.fade(),
+  _verticalSlideAnimation: PositionedAnimation.verticalSlide(),
 };
 
 class PositionedDialogManagerBasicUsageScreen extends StatefulWidget {
@@ -48,38 +26,58 @@ class PositionedDialogManagerBasicUsageScreen extends StatefulWidget {
 
 class _PositionedDialogManagerBasicUsageScreenState
     extends State<PositionedDialogManagerBasicUsageScreen> {
-  final _animatorsDropDownItems = _animators.entries
+  var _count = 0;
+  late final _dismissibles = <String, EasyDialogDismiss<PositionedDialog>>{
+    _dismissibleTap: EasyDialogDismiss.tap(
+      onDismissed: () => _count++,
+      willDismiss: () => true,
+    ),
+    _dismissibleHorizontalSwipe: PositionedDismiss.swipe(
+      onDismissed: () => _count++,
+      willDismiss: () => false,
+    ),
+    _dismissibleVerticalSwipe: PositionedDismiss.swipe(
+      onDismissed: () => _count++,
+      willDismiss: () => false,
+      direction: PositionedDismissibleSwipeDirection.vertical,
+    ),
+    _dismissibleAnimatedTap: EasyDialogDismiss.animatedTap(
+      onDismissed: () => _count++,
+      willDismiss: () => true,
+    ),
+  };
+  final _animatorsDropDownItems = _animations.entries
       .map(
-        (e) => DropdownMenuItem<PositionedAnimation>(
+        (e) => DropdownMenuItem<EasyDialogAnimation<PositionedDialog>>(
           value: e.value,
           child: Text(e.key),
         ),
       )
       .toList();
-  final _positionDropDownItems = <EasyDialogShowPosition>[
+  final _positionDropDownItems = <EasyDialogPosition>[
     EasyDialogPosition.top,
     EasyDialogPosition.bottom,
     EasyDialogPosition.center,
   ]
       .map(
-        (e) => DropdownMenuItem<EasyDialogShowPosition>(
+        (e) => DropdownMenuItem<EasyDialogPosition>(
           value: e,
           child: Text(e.name),
         ),
       )
       .toList();
-  final _dismissibleDropDownItems = _dismissibles.entries
+  late final _dismissibleDropDownItems = _dismissibles.entries
       .map(
-        (e) => DropdownMenuItem<PositionedDismiss>(
+        (e) => DropdownMenuItem<EasyDialogDismiss<PositionedDialog>>(
           value: e.value,
           child: Text(e.key),
         ),
       )
       .toList();
 
-  var _selectedAnimator = _animators.values.first;
-  EasyDialogShowPosition _selectedPosition = EasyDialogPosition.top;
-  var _selectedDismissible = _dismissibles.values.first;
+  var _selectedAnimation = _animations.values.first;
+  EasyDialogPosition _selectedPosition = EasyDialogPosition.top;
+  late var _selectedDismissible = _dismissibles.values.first;
   var _isAutoHide = false;
   var _autoHideDuration = 300.0;
 
@@ -100,11 +98,11 @@ class _PositionedDialogManagerBasicUsageScreenState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text('Animation type'),
-                    DropdownButton<PositionedAnimation>(
+                    DropdownButton<EasyDialogAnimation<PositionedDialog>>(
                       items: _animatorsDropDownItems,
                       onChanged: (type) =>
-                          setState(() => _selectedAnimator = type!),
-                      value: _selectedAnimator,
+                          setState(() => _selectedAnimation = type!),
+                      value: _selectedAnimation,
                     ),
                   ],
                 ),
@@ -112,7 +110,7 @@ class _PositionedDialogManagerBasicUsageScreenState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text('Position'),
-                    DropdownButton<EasyDialogShowPosition>(
+                    DropdownButton<EasyDialogPosition>(
                       items: _positionDropDownItems,
                       onChanged: (position) =>
                           setState(() => _selectedPosition = position!),
@@ -124,7 +122,7 @@ class _PositionedDialogManagerBasicUsageScreenState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text('Dismissible type'),
-                    DropdownButton<PositionedDismiss>(
+                    DropdownButton<EasyDialogDismiss<PositionedDialog>>(
                       items: _dismissibleDropDownItems,
                       onChanged: (type) =>
                           setState(() => _selectedDismissible = type!),
@@ -153,18 +151,18 @@ class _PositionedDialogManagerBasicUsageScreenState
               onPressed: _show,
               child: const Text('Show'),
             ),
-            ElevatedButton(
-              onPressed: () => FlutterEasyDialogs.hide(
-                PositionedDialog.createHiding(
-                  position: EasyDialogPosition.all,
-                ),
-              ),
-              child: const Text('Hide all'),
+            const ElevatedButton(
+              onPressed: FlutterEasyDialogs.hideWhereType<PositionedDialog>,
+              child: Text('Hide all'),
             ),
             ElevatedButton(
-              onPressed: () => FlutterEasyDialogs.hide(
-                PositionedDialog.createHiding(position: _selectedPosition),
-              ),
+              onPressed: () {
+                FlutterEasyDialogs.hide(
+                  PositionedDialog.identifier(
+                    position: EasyDialogPosition.top,
+                  ),
+                );
+              },
               child: const Text('Hide by position'),
             ),
           ],
@@ -174,12 +172,14 @@ class _PositionedDialogManagerBasicUsageScreenState
   }
 
   Future<void> _show() async {
-    final result = await FlutterEasyDialogs.show<String>(
-      PositionedDialog(
+    final messenger = ScaffoldMessenger.of(context);
+
+    final result = await FlutterEasyDialogs.show<int>(
+      EasyDialog.positioned(
         decoration: PositionedDialog.defaultShell
-            .then(_selectedAnimator)
-            .then(_selectedDismissible),
-        hideAfterDuration: _isAutoHide
+            .chained(_selectedAnimation)
+            .chained(_selectedDismissible),
+        autoHideDuration: _isAutoHide
             ? Duration(milliseconds: _autoHideDuration.toInt())
             : null,
         content: Container(
@@ -193,7 +193,12 @@ class _PositionedDialogManagerBasicUsageScreenState
     );
 
     if (result == null) return;
-
-    print('reslut: $result');
+    messenger
+      ..clearSnackBars()
+      ..showSnackBar(
+        SnackBar(
+          content: Text('Result: $result'),
+        ),
+      );
   }
 }

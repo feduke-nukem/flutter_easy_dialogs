@@ -3,27 +3,16 @@ dartdoc:
     "Getting started":
       markdown: doc/getting-started.md
       name: Getting started
-    "Dialog manager":
-      markdown: doc/dialog-manager.md
-      name: Dialog manager
-    "Overlay":
-      markdown: doc/overlay.md
-      name: Overlay 
-    "Decorators":
-      markdown: doc/decorators.md
-      name: Decorators 
-    "Registering and using":
-      markdown: doc/registering-and-using.md
-      name: Registering and using 
-    "Custom":
-      markdown: doc/custom.md
-      name: Custom
+    "Dialogs":
+      markdown: doc/dialogs.md
+      name: Dialogs
+    "Decorations":
+      markdown: doc/decorations.md
+      name: Decorations
   categoryOrder:
     - "Getting started"
-    - "Dialog manager"
-    - "Overlay"
-    - "Decorators"
-    - "Registering and using"
+    - "Dialogs"
+    - "Decorations" 
   showUndocumentedCategories: true
   ignore:
     - broken-link

@@ -4,10 +4,8 @@ final class _Expansion extends FullScreenForegroundAnimation {
   const _Expansion({super.curve = Curves.easeInOutCubic});
 
   @override
-  Widget call(
-    EasyDialogContext<FullScreenDialog> context,
-  ) {
-    final animation = context.animation;
+  Widget call(FullScreenDialog dialog) {
+    final animation = dialog.context.animation;
     final tween = Tween<double>(begin: 0.0, end: 1.0);
     final heightFactor = animation.drive(
       tween.chain(
@@ -25,7 +23,7 @@ final class _Expansion extends FullScreenForegroundAnimation {
           ),
         ),
       ),
-      child: context.content,
+      child: dialog.content,
     );
   }
 }

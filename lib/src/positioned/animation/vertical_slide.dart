@@ -4,11 +4,9 @@ final class _VerticalSlide extends PositionedAnimation {
   const _VerticalSlide({super.curve = _defaultCurve});
 
   @override
-  Widget call(
-    EasyDialogContext<PositionedDialog> context,
-  ) {
-    final tween = _createTweenOfPosition(context.dialog.position);
-    final offset = context.animation.drive(
+  Widget call(PositionedDialog dialog) {
+    final tween = _createTweenOfPosition(dialog.position);
+    final offset = dialog.context.animation.drive(
       tween.chain(
         CurveTween(curve: curve),
       ),
@@ -16,21 +14,21 @@ final class _VerticalSlide extends PositionedAnimation {
 
     return _EasyVerticalSlideAnimation(
       offset: offset,
-      child: context.content,
+      child: dialog.content,
     );
   }
 
-  Tween<Offset> _createTweenOfPosition(EasyDialogShowPosition position) {
+  Tween<Offset> _createTweenOfPosition(EasyDialogPosition position) {
     return switch (position) {
-      EasyDialogTopPosition _ => Tween<Offset>(
+      EasyDialogPosition.top => Tween<Offset>(
           begin: const Offset(0.0, -1.0),
           end: const Offset(0.0, 0.0),
         ),
-      EasyDialogBottomPosition _ => Tween<Offset>(
+      EasyDialogPosition.bottom => Tween<Offset>(
           begin: const Offset(0.0, 1.0),
           end: const Offset(0.0, 0.0),
         ),
-      EasyDialogCenterPosition _ => Tween<Offset>(
+      EasyDialogPosition.center => Tween<Offset>(
           begin: const Offset(0.0, 1.0),
           end: const Offset(0.0, 0.0),
         ),

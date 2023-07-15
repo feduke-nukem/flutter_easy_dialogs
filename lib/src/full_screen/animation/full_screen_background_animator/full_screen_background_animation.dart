@@ -4,7 +4,7 @@ part 'blur.dart';
 part 'fade.dart';
 
 /// This is an implementation of [EasyDialogAnimation] that is specific to
-/// [FullScreenDialogConversation].
+/// [FullScreenDialog].
 ///
 /// It is responsible for applying an animation to the background
 /// of the provided dialog content using [curve].

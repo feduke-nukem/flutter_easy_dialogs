@@ -7,8 +7,6 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 /// For handling back button on Android.
 
 mixin AndroidBackButtonInterceptorMixin on EasyDialogLifecycle {
-  WillPopCallback? get androidWillPop;
-
   @override
   void init() {
     super.init();
@@ -35,11 +33,13 @@ mixin AndroidBackButtonInterceptorMixin on EasyDialogLifecycle {
     super.dispose();
   }
 
+  /// Will be called when Android back button is pressed.
   @protected
   void onAndroidPop() {}
 }
 
-abstract class _AndroidBackButtonInterceptor implements WidgetsBinding {
+abstract interface class _AndroidBackButtonInterceptor
+    implements WidgetsBinding {
   static bool _isBlocked = false;
   static bool _isMethodCallHandlerSet = false;
 

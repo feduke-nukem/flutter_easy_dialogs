@@ -2,14 +2,12 @@ part of 'full_screen_foreground_animation.dart';
 
 const _defaultBounceCurve = Curves.linear;
 
-final class Bounce extends FullScreenForegroundAnimation {
-  const Bounce({super.curve = _defaultBounceCurve});
+final class _Bounce extends FullScreenForegroundAnimation {
+  const _Bounce({super.curve = _defaultBounceCurve});
 
   @override
-  Widget call(
-    EasyDialogContext<FullScreenDialog> context,
-  ) {
-    final animation = context.animation;
+  Widget call(FullScreenDialog dialog) {
+    final animation = dialog.context.animation;
     final scaleUpChildTween = Tween<double>(
       begin: 0.1,
       end: 1.2,
@@ -47,7 +45,7 @@ final class Bounce extends FullScreenForegroundAnimation {
             CurveTween(curve: curve),
           ),
         ),
-        child: context.content,
+        child: dialog.content,
       ),
     );
   }

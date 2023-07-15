@@ -3,135 +3,125 @@ part of 'easy_dialogs_controller.dart';
 typedef EasyDialogDecorationBuilder<Dialog extends EasyDialog> = Widget
     Function(
   BuildContext context,
-  EasyDialogContext<Dialog> dialogContext,
+  Dialog dialog,
 );
 
-/// {@category Decorators}
-/// {@category Custom}
-/// This class is intended to be used within the by [EasyDialogsController].
-///
-/// It provides data of type [D] through the [call] method to
-/// simplify the usage of dialogs.
+/// {@category Decorations}
+/// {@template easy_dialog_decoration}
+/// This class is intended to be used by [D] dialog to apply some decorations.
 ///
 /// This can be useful if you want to customize the appearance or behavior
-/// of your `dialog's content`, and provide specific data passed through
-/// the *`show/hide`* methods of an [EasyDialogsController], such as the `content`
-/// itself or any other data.
+/// of your `dialog's content`.
 ///
 /// Example:
 ///
-/// Define some sort of `dialog decorator` data:
+/// Define some sort of `dialog decoration`:
 ///
 /// ```dart
-/// class SomeDialogDecoratorData extends EasyDialogDecoratorData {
-///   final Color color;
-///   final double height;
-///   final double width;
+/// final class CustomPositionedAnimation
+///   extends EasyDialogDecoration<PositionedDialog> {
+/// @override
+/// Widget call(EasyDialog dialog) {
+///   final animation = dialog.context.animation;
 ///
-///   SomeDialogDecoratorData({
-///     required this.color,
-///     required this.height,
-///     required this.width,
-///     required super.dialog,
-///   });
+///   final offset = Tween<Offset>(
+///     begin: const Offset(0.0, 1.0),
+///     end: const Offset(0.0, 0.0),
+///   ).chain(CurveTween(curve: Curves.fastOutSlowIn)).animate(animation);
+///   return AnimatedBuilder(
+///     animation: animation,
+///     builder: (_, __) => Stack(
+///       children: [
+///         Positioned.fill(
+///           child: ColoredBox(
+///             color: Colors.black.withOpacity(
+///               animation.value.clamp(0.0, 0.6),
+///             ),
+///           ),
+///         ),
+///         Align(
+///           alignment: Alignment.bottomCenter,
+///           child: SlideTransition(position: offset, child: dialog.content),
+///         ),
+///       ],
+///     ),
+///   );
+/// }
 /// }
 /// ```
-/// Then define any kind of `dialog decorator`:
-/// ```dart
-/// class SomeDialogDecorator extends EasyDialogDecorator<SomeDialogDecoratorData> {
-///   @override
-///   Widget decorate(SomeDialogDecoratorData data) {
-///     return Container(
-///       color: data.color,
-///       width: data.width,
-///       height: data.height,
-///       child: data.dialog,
-///     );
-///   }
-/// }
-/// ```
-///
-/// Now you are able to use this data within [call] method and customize
-/// your dialog as desired.
 ///
 /// See also:
 ///
 /// * [EasyDialogDismiss] for providing the dismissible behavior to the
 /// dialog.
 /// * [EasyDialogAnimation] for providing animations to the dialog.
-abstract base class EasyDialogDecoration<Dialog extends EasyDialog>
+/// {@endtemplate}
+abstract base class EasyDialogDecoration<D extends EasyDialog>
     with EasyDialogLifecycle {
   /// @nodoc
   const EasyDialogDecoration();
 
-  const factory EasyDialogDecoration.none() = _None<Dialog>;
+  /// No decoration at all.
+  const factory EasyDialogDecoration.none() = _None<D>;
 
+  /// {@template easy_dialog_decoration.combine}
+  /// Combine multiple decorations.
+  /// {@endtemplate}
   const factory EasyDialogDecoration.combine(
-    List<EasyDialogDecoration<Dialog>> decorations,
-  ) = _MultiDecoration<Dialog>;
+    List<EasyDialogDecoration<D>> decorations,
+  ) = _MultiDecoration<D>;
 
+  /// {@template easy_dialog_decoration.chain}
+  /// Chain two decorations.
+  /// {@endtemplate}
   const factory EasyDialogDecoration.chain(
-    EasyDialogDecoration<Dialog> first,
-    EasyDialogDecoration<Dialog> second,
-  ) = _ChainedDecoration<Dialog>;
+    EasyDialogDecoration<D> first,
+    EasyDialogDecoration<D> second,
+  ) = _ChainedDecoration<D>;
 
-  static EasyDialogDecoration<Dialog> builder<Dialog extends EasyDialog>(
-    EasyDialogDecorationBuilder<Dialog> builder, {
+  /// Use a builder function to create a decoration.
+  const factory EasyDialogDecoration.builder(
+    EasyDialogDecorationBuilder<D> builder, {
     VoidCallback? onInit,
     VoidCallback? onShow,
     VoidCallback? onShown,
     VoidCallback? onHide,
     VoidCallback? onHidden,
     VoidCallback? onDispose,
-  }) =>
-      _BuilderDecoration<Dialog>(
-        builder,
-        onInitCallback: onInit,
-        onShowCallback: onShow,
-        onShownCallback: onShown,
-        onHideCallback: onHide,
-        onHiddenCallback: onHidden,
-        onDisposeCallback: onDispose,
-      );
+  }) = _BuilderDecoration<D>;
 
-  static T of<D extends EasyDialog, T extends EasyDialogDecoration<D>>(
-    EasyDialogContext<D> dialogContext,
-  ) =>
-      dialogContext.getDecorationOfExactType<T>()!;
+  /// Get the decoration of type [T] from the [context].
+  static T of<T extends EasyDialogDecoration>(EasyDialogContext context) =>
+      maybeOf<T>(context)!;
 
-  static T? maybeOf<D extends EasyDialog, T extends EasyDialogDecoration<D>>(
-    EasyDialogContext<D> dialogContext,
+  /// Get the optional decoration of type [T] from the [context].
+  static T? maybeOf<T extends EasyDialogDecoration>(
+    EasyDialogContext context,
   ) =>
-      dialogContext.getDecorationOfExactType<T>();
+      context.getDecorationOfExactType<T>();
 
   @mustCallSuper
   @protected
-  EasyDialogContext<Dialog> _decorate(EasyDialogContext<Dialog> dialogContext) {
-    dialogContext._registerDecoration(this);
+  D _decorate(D dialog) {
+    dialog.context._registerDecoration(this);
 
-    return dialogContext._updateWithContent(
-      call(dialogContext),
-    );
+    final newDialog = dialog.clone()
+      .._content = this.call(dialog)
+      .._context = dialog._context
+      .._completer = dialog._completer
+      .._pendingResult = dialog._pendingResult;
+
+    return newDialog as D;
   }
 
+  /// Implement this method to decorate the [dialog] content appearance.
   @protected
-  Widget call(EasyDialogContext<Dialog> dialogContext);
-
-  EasyDialogDecoration<Dialog> operator +(EasyDialogDecoration<Dialog> other) =>
-      this.then(other);
-
-  EasyDialogDecoration<Dialog> then(EasyDialogDecoration<Dialog> other) =>
-      EasyDialogDecoration<Dialog>.chain(this, other);
-
-  EasyDialogDecoration<Dialog> combineWith(
-    List<EasyDialogDecoration<Dialog>> others,
-  ) =>
-      EasyDialogDecoration<Dialog>.combine([this, ...others]);
+  Widget call(D dialog);
 }
 
-final class _MultiDecoration<Dialog extends EasyDialog>
-    extends EasyDialogDecoration<Dialog> {
-  final List<EasyDialogDecoration<Dialog>> _decorations;
+final class _MultiDecoration<D extends EasyDialog>
+    extends EasyDialogDecoration<D> {
+  final List<EasyDialogDecoration<D>> _decorations;
   const _MultiDecoration(this._decorations);
 
   @override
@@ -189,26 +179,25 @@ final class _MultiDecoration<Dialog extends EasyDialog>
   }
 
   @override
-  Widget call(EasyDialogContext<Dialog> dialogContext) => _decorations
+  Widget call(D dialog) => _decorations
       .fold(
-        dialogContext,
-        (context, decoration) => decoration._decorate(context),
+        dialog,
+        (dialog, decoration) => decoration._decorate(dialog),
       )
       .content;
 }
 
-final class _None<Dialog extends EasyDialog>
-    extends EasyDialogDecoration<Dialog> {
+final class _None<D extends EasyDialog> extends EasyDialogDecoration<D> {
   const _None();
 
   @override
-  Widget call(EasyDialogContext<Dialog> dialogContext) => dialogContext.content;
+  Widget call(D dialog) => dialog.content;
 }
 
-final class _ChainedDecoration<Dialog extends EasyDialog>
-    extends EasyDialogDecoration<Dialog> {
-  final EasyDialogDecoration<Dialog> _first;
-  final EasyDialogDecoration<Dialog> _second;
+final class _ChainedDecoration<D extends EasyDialog>
+    extends EasyDialogDecoration<D> {
+  final EasyDialogDecoration<D> _first;
+  final EasyDialogDecoration<D> _second;
 
   const _ChainedDecoration(this._first, this._second);
 
@@ -261,74 +250,92 @@ final class _ChainedDecoration<Dialog extends EasyDialog>
   }
 
   @override
-  Widget call(EasyDialogContext<Dialog> dialogContext) {
-    return _second._decorate(_first._decorate(dialogContext)).content;
+  Widget call(D dialog) {
+    return _second._decorate(_first._decorate(dialog)).content;
   }
 }
 
-final class _BuilderDecoration<Dialog extends EasyDialog>
-    extends EasyDialogDecoration<Dialog> {
-  final EasyDialogDecorationBuilder<Dialog> builder;
-  final VoidCallback? onInitCallback;
-  final VoidCallback? onShownCallback;
-  final VoidCallback? onShowCallback;
-  final VoidCallback? onHideCallback;
-  final VoidCallback? onHiddenCallback;
-  final VoidCallback? onDisposeCallback;
+final class _BuilderDecoration<D extends EasyDialog>
+    extends EasyDialogDecoration<D> {
+  final VoidCallback? _onInit;
+  final VoidCallback? _onShown;
+  final VoidCallback? _onShow;
+  final VoidCallback? _onHide;
+  final VoidCallback? _onHidden;
+  final VoidCallback? _onDispose;
+  final EasyDialogDecorationBuilder<D> builder;
 
   const _BuilderDecoration(
     this.builder, {
-    this.onInitCallback,
-    this.onShowCallback,
-    this.onShownCallback,
-    this.onHideCallback,
-    this.onHiddenCallback,
-    this.onDisposeCallback,
-  });
+    VoidCallback? onInit,
+    VoidCallback? onShow,
+    VoidCallback? onShown,
+    VoidCallback? onHide,
+    VoidCallback? onHidden,
+    VoidCallback? onDispose,
+  })  : _onDispose = onDispose,
+        _onHidden = onHidden,
+        _onHide = onHide,
+        _onShow = onShow,
+        _onShown = onShown,
+        _onInit = onInit;
 
   @override
   void init() {
     super.init();
-    onInitCallback?.call();
+    _onInit?.call();
   }
 
   @override
   void onShow() {
     super.onShow();
-    onShownCallback?.call();
+    _onShow?.call();
   }
 
   @override
   void onShown() {
     super.onShown();
-    onShownCallback?.call();
+    _onShown?.call();
   }
 
   @override
   void onHide() {
     super.onHide();
-    onHideCallback?.call();
+    _onHide?.call();
   }
 
   @override
   void onHidden() {
     super.onHidden();
-    onHiddenCallback?.call();
+    _onHidden?.call();
   }
 
   @override
   void dispose() {
     super.dispose();
-    onDisposeCallback?.call();
+    _onDispose?.call();
   }
 
   @override
-  Widget call(EasyDialogContext<Dialog> dialogContext) {
+  Widget call(D dialog) {
     return Builder(
       builder: (context) => builder(
         context,
-        dialogContext,
+        dialog,
       ),
     );
   }
+}
+
+extension EasyDialogDecorationX<D extends EasyDialog>
+    on EasyDialogDecoration<D> {
+  /// {@macro easy_dialog_decoration.chain}
+  EasyDialogDecoration<D> chained(EasyDialogDecoration<D> other) =>
+      EasyDialogDecoration<D>.chain(this, other);
+
+  /// {@macro easy_dialog_decoration.combine}
+  EasyDialogDecoration<D> combined(
+    List<EasyDialogDecoration<D>> others,
+  ) =>
+      EasyDialogDecoration<D>.combine([this, ...others]);
 }

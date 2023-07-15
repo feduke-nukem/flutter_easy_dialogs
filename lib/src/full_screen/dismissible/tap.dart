@@ -9,27 +9,25 @@ final class _Tap extends FullScreenDismiss {
   });
 
   @override
-  Widget call(
-    EasyDialogContext<FullScreenDialog> context,
-  ) {
+  Widget call(FullScreenDialog dialog) {
     return GestureDetector(
-      onTap: () => handleDismiss(context),
+      onTap: () => handleDismiss(dialog),
       behavior: behavior,
-      child: context.content,
+      child: dialog.content,
     );
   }
 
   @override
-  Future<void> handleDismiss(
-    EasyDialogContext<FullScreenDialog> context,
-  ) async {
-    if (context.dialog.androidWillPop == null)
-      return super.handleDismiss(context);
+  Future<void> handleDismiss(FullScreenDialog dialog) async {
+    if (dialog.androidWillPop == null) return super.handleDismiss(dialog);
 
-    final canPop = await context.dialog.androidWillPop?.call() ?? false;
+    // this is not testable as it requires a real Android device back button.
+    // coverage:ignore-start
+    final canPop = await dialog.androidWillPop?.call() ?? false;
 
     if (!canPop) return;
 
-    return context.hideDialog(result: onDismissed?.call());
+    return dialog.context.hideDialog(result: onDismissed?.call());
+    // coverage:ignore-end
   }
 }

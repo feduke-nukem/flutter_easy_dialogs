@@ -1,35 +1,19 @@
-part of 'positioned_dialog_conversation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_easy_dialogs/src/positioned/positioned.dart';
 
-/// Parameters used to show a dialog using the [PositionedDialogConversation].
-///
-/// The [PositionedDialogConversation] is a specific implementation
-/// of the [EasyDialogsController]
-/// that allows for positioning and animating the dialog based on the specified
-/// [EasyDialogPosition] and [PositionedAnimation].
-///
-/// To show a dialog with the [PositionedDialogConversation], create an instance of this
-/// class and pass it to the [PositionedDialogConversation.show] method.
+import '../../core/core.dart';
+
+/// [EasyDialog] that is shown at a specific [EasyDialogPosition].
 final class PositionedDialog extends EasyDialog {
   static const defaultShell = PositionedDialogShell.banner();
-  static const defaultAnimation = PositionedAnimation.fade();
-  static const defaultDismissible = PositionedDismiss.animatedTap();
+  static const defaultAnimation = EasyDialogAnimation<PositionedDialog>.fade();
+  static const defaultDismissible =
+      EasyDialogDismiss<PositionedDialog>.animatedTap();
 
   /// The position where the dialog will be shown.
-  final EasyDialogShowPosition position;
+  final EasyDialogPosition position;
 
   /// Creates an instance of [PositionedDialog].
-  ///
-  /// The [child] parameter is required and specifies the content
-  /// of the dialog.
-  ///
-  /// The other parameters are optional and have default values,
-  /// as specified below:
-  ///
-  /// * [position]: The default position is [EasyDialogPosition.top].
-  /// * [dismissible]: The default behavior is to dismiss the dialog on tap.
-  /// * [autoHideDuration]: The default duration is 3 seconds.
-  /// * [animator]: The default animator is [PositionedAnimator.fade].
-  /// * [shell]: The default shell is [PositionedDialogShell.banner].
   PositionedDialog({
     required super.content,
     this.position = EasyDialogPosition.top,
@@ -38,103 +22,124 @@ final class PositionedDialog extends EasyDialog {
       defaultAnimation,
       defaultDismissible,
     ]),
-    super.animationConfiguration = const EasyDialogAnimationConfiguration(
+    super.animationConfiguration =
+        const EasyDialogAnimationConfiguration.bounded(
       duration: Duration(milliseconds: 500),
       reverseDuration: Duration(milliseconds: 500),
     ),
-    super.hideAfterDuration = const Duration(seconds: 3),
+    super.autoHideDuration = const Duration(seconds: 3),
   });
 
   @factory
-  static PositionedHiding createHiding({
+  static PositionedIdentifier identifier({
     required EasyDialogPosition position,
   }) {
-    return PositionedHiding(position: position);
+    return PositionedIdentifier(position: position);
   }
 
   @override
-  EasyDialogConversation createConversation() => PositionedDialogConversation();
+  EasyDialogPosition get identity => position;
 
   @override
-  EasyDialogShowPosition get identity => position;
-
-  @override
-  EasyOverlayBoxInsert<EasyDialog> createInsert() {
+  EasyOverlayBoxInsertion<EasyDialog> createInsert(Widget decorated) {
     return PositionedDialogInsert(
       position: position,
       dialog: Align(
         alignment: position.alignment,
-        child: context.content,
+        child: decorated,
       ),
     );
   }
 
   @override
-  EasyOverlayBoxRemove<EasyDialog> createRemove() =>
+  EasyOverlayBoxRemoval<EasyDialog> createRemove() =>
       PositionedDialogRemove(position: position);
+
+  @override
+  EasyDialog clone() {
+    return PositionedDialog(
+      content: content,
+      position: position,
+      decoration: decoration,
+      animationConfiguration: animationConfiguration,
+      autoHideDuration: autoHideDuration,
+    );
+  }
 }
 
-/// Hide params for [PositionedDialogConversation].
-class PositionedHiding extends EasyDialogHiding<PositionedDialog> {
-  /// Creates an instance of [PositionedHiding].
-  const PositionedHiding({
-    required this.position,
-  });
-
+/// @nodoc
+final class PositionedIdentifier extends EasyDialogIdentifier {
   /// Position of the dialog for removing.
   final EasyDialogPosition position;
+
+  /// Creates an instance of [PositionedIdentifier].
+  const PositionedIdentifier({required this.position});
 
   @override
   EasyDialogPosition get identity => position;
 }
 
-sealed class EasyDialogPosition {
-  const EasyDialogPosition._();
+/// @nodoc
+enum EasyDialogPosition {
+  top(Alignment.topCenter),
+  bottom(Alignment.bottomCenter),
+  center(Alignment.center);
 
-  static const top = EasyDialogTopPosition();
-  static const bottom = EasyDialogBottomPosition();
-  static const center = EasyDialogCenterPosition();
-  static const all = EasyDialogAllPositions();
+  final AlignmentGeometry alignment;
 
-  String get name => switch (this) {
-        EasyDialogTopPosition _ => 'top',
-        EasyDialogBottomPosition _ => 'bottom',
-        EasyDialogCenterPosition _ => 'center',
-        EasyDialogAllPositions _ => 'all',
-      };
+  const EasyDialogPosition(this.alignment);
 }
 
-sealed class EasyDialogShowPosition extends EasyDialogPosition {
-  const EasyDialogShowPosition._() : super._();
+@visibleForTesting
+final class PositionedDialogInsert
+    extends EasyOverlayBoxInsertion<PositionedDialog> {
+  final EasyDialogPosition position;
 
-  Alignment get alignment;
-}
-
-final class EasyDialogTopPosition extends EasyDialogShowPosition {
-  const EasyDialogTopPosition() : super._();
+  const PositionedDialogInsert({
+    required this.position,
+    required super.dialog,
+  });
 
   @override
-  Alignment get alignment => Alignment.topCenter;
+  EasyOverlayEntry call(EasyDialogsOverlayBox box) {
+    final container =
+        box.putIfAbsent<Map<EasyDialogPosition, EasyOverlayEntry>>(
+      dialogType,
+      () => <EasyDialogPosition, EasyOverlayEntry>{},
+    );
+    assert(
+      !container.containsKey(position),
+      'only single one $EasyDialogsOverlayEntry with the same $EasyDialogPosition can be presented at the same time',
+    );
+
+    final entry = EasyDialogsOverlayEntry(
+      builder: (_) => dialog,
+    );
+
+    container[position] = entry;
+
+    return entry;
+  }
 }
 
-final class EasyDialogBottomPosition extends EasyDialogShowPosition {
-  const EasyDialogBottomPosition() : super._();
+@visibleForTesting
+final class PositionedDialogRemove
+    extends EasyOverlayBoxRemoval<PositionedDialog> {
+  final EasyDialogPosition position;
+
+  const PositionedDialogRemove({
+    required this.position,
+  });
 
   @override
-  Alignment get alignment => Alignment.bottomCenter;
-}
+  EasyOverlayEntry? call(EasyDialogsOverlayBox box) {
+    final container =
+        box.get<Map<EasyDialogPosition, EasyOverlayEntry>>(dialogType);
 
-final class EasyDialogCenterPosition extends EasyDialogShowPosition {
-  const EasyDialogCenterPosition() : super._();
+    assert(container != null, 'entries container is not initialized');
 
-  @override
-  Alignment get alignment => Alignment.center;
-}
+    if (container!.entries.isEmpty) return null;
 
-sealed class EasyDialogHidePosition extends EasyDialogPosition {
-  const EasyDialogHidePosition._() : super._();
-}
-
-final class EasyDialogAllPositions extends EasyDialogHidePosition {
-  const EasyDialogAllPositions() : super._();
+    return container.remove(position);
+  }
 }

@@ -24,14 +24,18 @@ class PositionedDialogManagerCustomizationScreen extends StatelessWidget {
     );
   }
 
-  void _show() => PositionedDialog(
-        animationConfiguration: const EasyDialogAnimationConfiguration(
+  void _show() => EasyDialog.positioned(
+        animationConfiguration: const EasyDialogAnimationConfiguration.bounded(
           duration: Duration(milliseconds: 400),
         ),
         position: EasyDialogPosition.bottom,
         decoration: const _CustomPositionedShell()
-            .then(_CustomPositionedAnimator())
-            .then(const _CustomPositionedDismissible()),
+            .chained(_CustomPositionedAnimation())
+            .chained(
+              _CustomPositionedDismiss(
+                onDismissed: () => 6,
+              ),
+            ),
         content: const SizedBox.square(
           dimension: 250,
           child: Center(
@@ -40,35 +44,35 @@ class PositionedDialogManagerCustomizationScreen extends StatelessWidget {
             ),
           ),
         ),
-      ).show();
+      ).show().then((value) => print('dismissed with $value'));
 }
 
 final class _CustomPositionedShell extends PositionedDialogShell {
   const _CustomPositionedShell();
 
   @override
-  Widget call(EasyDialogContext<PositionedDialog> context) {
+  Widget call(PositionedDialog dialog) {
     return SizedBox(
       width: double.infinity,
       height: 200.0,
       child: ColoredBox(
         color: Colors.amber,
-        child: context.content,
+        child: dialog.content,
       ),
     );
   }
 }
 
-final class _CustomPositionedAnimator extends PositionedAnimation {
+final class _CustomPositionedAnimation
+    extends EasyDialogDecoration<PositionedDialog> {
   @override
-  Widget call(EasyDialogContext<PositionedDialog> context) {
-    final animation = context.animation;
+  Widget call(EasyDialog dialog) {
+    final animation = dialog.context.animation;
 
     final offset = Tween<Offset>(
       begin: const Offset(0.0, 1.0),
       end: const Offset(0.0, 0.0),
     ).chain(CurveTween(curve: Curves.fastOutSlowIn)).animate(animation);
-
     return AnimatedBuilder(
       animation: animation,
       builder: (_, __) => Stack(
@@ -82,7 +86,7 @@ final class _CustomPositionedAnimator extends PositionedAnimation {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: SlideTransition(position: offset, child: context.content),
+            child: SlideTransition(position: offset, child: dialog.content),
           ),
         ],
       ),
@@ -90,17 +94,16 @@ final class _CustomPositionedAnimator extends PositionedAnimation {
   }
 }
 
-final class _CustomPositionedDismissible extends PositionedDismiss {
-  const _CustomPositionedDismissible() : super(onDismissed: null);
+final class _CustomPositionedDismiss extends PositionedDismiss {
+  const _CustomPositionedDismiss({
+    required super.onDismissed,
+  });
 
   @override
-  Widget call(EasyDialogContext<PositionedDialog> context) {
+  Widget call(PositionedDialog dialog) {
     return GestureDetector(
-      onTap: () {
-        context.hideDialog();
-        onDismissed?.call();
-      },
-      child: context.content,
+      onTap: () => super.handleDismiss(dialog),
+      child: dialog.content,
     );
   }
 }

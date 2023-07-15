@@ -18,8 +18,7 @@ dart_code_metrics:
     - no-equal-then-else
     - prefer-moving-to-variable 
     - prefer-match-file-name
-    - avoid-double-slash-imports 
-    - no-object-declaration
+    - avoid-double-slash-imports
     - member-ordering:
         order:
           - private-fields

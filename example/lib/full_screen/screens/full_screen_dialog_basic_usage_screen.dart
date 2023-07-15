@@ -30,17 +30,12 @@ const _foregroundAnimators = <String, FullScreenForegroundAnimation>{
 
 final _backgroundAnimators = <String, FullScreenBackgroundAnimation>{
   _backgroundBlur: FullScreenBackgroundAnimation.blur(
-    start: 0.0,
     end: 10.0,
     backgroundColor: Colors.black.withOpacity(0.5),
   ),
   _backgroundFade: FullScreenBackgroundAnimation.fade(
     backgroundColor: Colors.black.withOpacity(0.5),
   ),
-};
-
-const _dismissibles = <String, FullScreenDismiss>{
-  _dismissibleFullScreenTap: FullScreenDismiss.tap(),
 };
 
 class FullScreenDialogManagerBasicUsageScreen extends StatefulWidget {
@@ -53,6 +48,7 @@ class FullScreenDialogManagerBasicUsageScreen extends StatefulWidget {
 
 class _FullScreenDialogManagerBasicUsageScreenState
     extends State<FullScreenDialogManagerBasicUsageScreen> {
+  var _count = 0;
   final _contentAnimationTypeDropDownItems = _foregroundAnimators.entries
       .map(
         (e) => DropdownMenuItem<FullScreenForegroundAnimation>(
@@ -69,8 +65,12 @@ class _FullScreenDialogManagerBasicUsageScreenState
         ),
       )
       .toList();
-
-  final _dismissibleDropDownItems = _dismissibles.entries
+  late final _dismissibles = <String, FullScreenDismiss>{
+    _dismissibleFullScreenTap: FullScreenDismiss.tap(
+      onDismissed: () => _count++,
+    ),
+  };
+  late final _dismissibleDropDownItems = _dismissibles.entries
       .map(
         (e) => DropdownMenuItem<FullScreenDismiss>(
           value: e.value,
@@ -81,7 +81,7 @@ class _FullScreenDialogManagerBasicUsageScreenState
 
   var _selectedForegroundAnimation = _foregroundAnimators.entries.first.value;
   var _selectedBackgroundAnimation = _backgroundAnimators.entries.first.value;
-  var _selectedDismissible = _dismissibles.entries.first.value;
+  late var _selectedDismissible = _dismissibles.entries.first.value;
 
   @override
   Widget build(BuildContext context) {
@@ -139,8 +139,9 @@ class _FullScreenDialogManagerBasicUsageScreenState
             ),
             ElevatedButton(
               onPressed: () async {
-                await FlutterEasyDialogs.show(
-                  FullScreenDialog(
+                final messenger = ScaffoldMessenger.of(context);
+                final res = await FlutterEasyDialogs.show<int>(
+                  EasyDialog.fullScreen(
                     androidWillPop: () async => true,
                     content: _content,
                     decoration: FullScreenDialogShell.modalBanner(
@@ -148,11 +149,20 @@ class _FullScreenDialogManagerBasicUsageScreenState
                         color: Colors.grey.shade200.withOpacity(0.3),
                       ),
                     )
-                        .then(_selectedForegroundAnimation)
-                        .then(_selectedBackgroundAnimation)
-                        .then(_selectedDismissible),
+                        .chained(_selectedForegroundAnimation)
+                        .chained(_selectedBackgroundAnimation)
+                        .chained(_selectedDismissible),
                   ),
                 );
+
+                if (res == null) return;
+                messenger
+                  ..clearSnackBars()
+                  ..showSnackBar(
+                    SnackBar(
+                      content: Text('Result: $res'),
+                    ),
+                  );
               },
               child: const Text('Show'),
             ),

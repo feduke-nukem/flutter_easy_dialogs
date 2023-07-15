@@ -69,7 +69,8 @@ final class _Swipe extends PositionedDismiss {
   ///
   /// See also:
   ///
-  ///  * [DragGestureRecognizer.dragStartBehavior], which gives an example for the different behaviors.
+  /// * [DragGestureRecognizer.dragStartBehavior],
+  /// which gives an example for the different behaviors.
   final DragStartBehavior dragStartBehavior;
 
   /// How to behave during hit tests.
@@ -105,23 +106,24 @@ final class _Swipe extends PositionedDismiss {
   bool get instantly => true;
 
   @override
-  Widget call(EasyDialogContext<PositionedDialog> context) {
+  Widget call(PositionedDialog dialog) {
     return Dismissible(
       key: UniqueKey(),
       background: background,
       secondaryBackground: secondaryBackground,
-      confirmDismiss: willDismiss != null ? (_) => super.willDismiss!() : null,
+      confirmDismiss:
+          willDismiss != null ? (_) async => super.willDismiss!() : null,
       onResize: onResize,
       onUpdate: onUpdate,
-      onDismissed: (_) => this.handleDismiss(context),
-      direction: _getDirection(context.dialog.position),
+      onDismissed: (_) => this.handleDismiss(dialog),
+      direction: _getDirection(dialog.position),
       resizeDuration: resizeDuration,
       dismissThresholds: dismissThresholds,
       movementDuration: movementDuration,
       crossAxisEndOffset: crossAxisEndOffset,
       dragStartBehavior: dragStartBehavior,
       behavior: behavior,
-      child: context.content,
+      child: dialog.content,
     );
   }
 

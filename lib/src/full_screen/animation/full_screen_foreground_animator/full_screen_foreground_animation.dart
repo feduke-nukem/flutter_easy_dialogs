@@ -6,7 +6,7 @@ part 'expansion.dart';
 part 'fade.dart';
 
 /// This is an implementation of [EasyDialogAnimation] that is specific to
-/// [FullScreenDialogConversation].
+/// [FullScreenDialog].
 ///
 /// It is responsible for applying an animation to the foreground
 /// of the provided dialog content using [curve].
@@ -20,7 +20,7 @@ abstract base class FullScreenForegroundAnimation
   const FullScreenForegroundAnimation({super.curve});
 
   /// Applies a bouncing effect.
-  const factory FullScreenForegroundAnimation.bounce() = Bounce;
+  const factory FullScreenForegroundAnimation.bounce({Curve curve}) = _Bounce;
 
   /// Simple fade transition.
   const factory FullScreenForegroundAnimation.fade({Curve curve}) = _Fade;

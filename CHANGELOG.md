@@ -1,3 +1,12 @@
+## 3.0.0-dev.1
+
+* **BREAKING:** 
+The package conception has been completely redesigned, focusing solely on dialogs (eliminating any managers). 
+There are no longer `Decorators`, but rather `Decoration`, providing a more efficient and flexible way to describe dialog behavior. 
+Separation of packages is no longer necessary as everything is now contained within this single package. 
+The minimum required Dart version has been increased to `3.0.0`.
+* **DOC:** The documentation and examples have been completely reworked.
+* **FEAT:** Dialogs can now return result values.showing
 ## 2.0.8+6
 
 * Improved documentation

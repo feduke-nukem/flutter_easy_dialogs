@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
+
+import 'core.dart';
 
 /// {@category Overlay}
 /// {@category Custom}
 /// Controller for manipulating overlay with the dialogs.
 ///
 /// It defines the methods for inserting and removing dialogs
-/// from an [IEasyDialogsOverlayBox].
+/// from an [EasyDialogsOverlayBox].
 ///
 /// It extends the [TickerProvider] interface,
 /// which is used for providing animation tickers.
@@ -16,78 +17,75 @@ import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 /// by [EasyDialogsController].
 abstract interface class IEasyOverlay implements TickerProvider {
   /// Insert dialog using provided [insertion].
-  void insertDialog(EasyOverlayBoxInsert insertion);
+  void insertDialog(EasyOverlayBoxInsertion insertion);
 
   /// Remove dialog using provided [removal].
-  void removeDialog(EasyOverlayBoxRemove removal);
+  void removeDialog(EasyOverlayBoxRemoval removal);
 }
 
 /// {@category Overlay}
 /// {@category Custom}
 /// Box for storing dialog specific entries.
-abstract interface class IEasyDialogsOverlayBox {
-  /// Put [value] with associated [key].
-  void put(Object key, Object value);
+final class EasyDialogsOverlayBox {
+  @visibleForTesting
+  final currentEntries = <Object, Object?>{};
 
-  /// Remove value of [T] with associated [key].
-  T? remove<T>(Object key);
+  /// Indicator for understanding if app entry is already inserted.
+  EasyOverlayAppEntry? appEntry;
 
-  /// Get [value] with associated [key].
-  T? get<T>(Object key);
+  T putIfAbsent<T>(Object key, T Function() ifAbsent) =>
+      currentEntries.putIfAbsent(key, ifAbsent) as T;
 
-  /// Put [ifAbsent] with associated [key] if [key] value is `null`.
-  T putIfAbsent<T>(Object key, T Function() ifAbsent);
+  T? get<T>(Object key) => currentEntries[key] as T?;
+
+  void put(Object key, Object value) => currentEntries[key] = value;
+
+  T? remove<T>(Object key) => currentEntries.remove(key) as T?;
 }
 
 /// {@category Overlay}
 /// {@category Custom}
-/// Similar to Command/Strategy class for applying specific
-/// mutation within [IEasyDialogsOverlayBox].
-///
-/// [M] type is for providing associated derivative from [EasyDialogsController].
-///
-/// The [EasyOverlayBoxMutation] is similar to Command/Strategy class
-/// that defines a mutation operation for an [IEasyDialogsOverlayBox].
+/// Class for applying specific mutation within [EasyDialogsOverlayBox].
 ///
 /// It is intended to be used as a base class for
 /// creating custom mutation operations.
 ///
 /// This class has two generic type parameters:
 ///
-/// [M] represents the type of [EasyDialogsController] that this mutation
-/// associates to with the [key] getter.
+/// [D] represents the type of [EasyDialog] that this mutation
+/// associates to with the [dialogType] getter.
 ///
 /// [R] represents the type of the return value for the [call] method,
 /// it should extends [EasyOverlayEntry] which can bu nullable.
-abstract interface class EasyOverlayBoxMutation<Dialog extends EasyDialog,
+abstract interface class EasyOverlayBoxMutation<D extends EasyDialog,
     R extends EasyOverlayEntry?> {
   const EasyOverlayBoxMutation();
 
-  Type get key => Dialog;
+  Type get dialogType => D;
 
   /// Apply mutation to provided [box].
   ///
   /// The result is [R].
-  R call(IEasyDialogsOverlayBox box);
+  R call(EasyDialogsOverlayBox box);
 }
 
 /// {@category Overlay}
 /// {@category Custom}
-/// Insert mutation.
-abstract base class EasyOverlayBoxInsert<Dialog extends EasyDialog>
-    extends EasyOverlayBoxMutation<Dialog, EasyOverlayEntry> {
+/// Insertion mutation.
+abstract base class EasyOverlayBoxInsertion<D extends EasyDialog>
+    extends EasyOverlayBoxMutation<D, EasyOverlayEntry> {
   final Widget dialog;
 
   /// @nodoc
-  const EasyOverlayBoxInsert({required this.dialog});
+  const EasyOverlayBoxInsertion({required this.dialog});
 }
 
 /// {@category Overlay}
 /// {@category Custom}
-/// Remove mutation.
-abstract base class EasyOverlayBoxRemove<Dialog extends EasyDialog>
-    extends EasyOverlayBoxMutation<Dialog, EasyOverlayEntry?> {
-  const EasyOverlayBoxRemove();
+/// Removal mutation.
+abstract base class EasyOverlayBoxRemoval<D extends EasyDialog>
+    extends EasyOverlayBoxMutation<D, EasyOverlayEntry?> {
+  const EasyOverlayBoxRemoval();
 }
 
 /// {@category Overlay}

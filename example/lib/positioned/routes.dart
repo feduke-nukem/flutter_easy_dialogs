@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 
 import 'screens/positioned_dialog_basic_usage.dart';
 import 'screens/positioned_dialog_customization_screen.dart';
+import 'screens/positioned_dialog_flutter_animate.dart';
 
 enum PositionedDialogRoutes {
   basicUsage(name: 'basic usage'),
   home(name: 'positioned dialog manager home'),
+  flutterAnimmate(name: 'flutter animate'),
   customization(name: 'customization');
 
   final String name;
@@ -32,6 +34,9 @@ enum PositionedDialogRoutes {
 
       case PositionedDialogRoutes.customization:
         return const PositionedDialogManagerCustomizationScreen();
+
+      case PositionedDialogRoutes.flutterAnimmate:
+        return const PositionedDialogFlutterAnimate();
     }
   }
 
