@@ -1,5 +1,0 @@
-dependency_overrides:
-  flutter_easy_dialogs:
-    path: ../../flutter_easy_dialogs
-  full_screen_dialog_manager:
-    path: ../
