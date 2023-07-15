@@ -138,6 +138,8 @@ final class _Swipe extends PositionedDismiss {
       };
 }
 
+// no need to name file like this
+// ignore: prefer-match-file-name
 enum PositionedDismissibleSwipeDirection {
   vertical,
   horizontal,
