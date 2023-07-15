@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math' as math;
-import 'package:collection/collection.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -14,11 +13,10 @@ part 'easy_dialog_dismiss.dart';
 
 /// {@category Dialogs}
 /// {@category Getting started}
-
 /// Core class for manipulating dialogs.
 final class EasyDialogsController {
   @visibleForTesting
-  final entries = <Object, DialogEntry>{};
+  final entries = <Object, _DialogEntry>{};
 
   /// [IEasyOverlay] is used for providing [Ticker]
   /// for creating animations and inserting dialogs into [EasyDialogsOverlay].
@@ -132,8 +130,8 @@ final class EasyDialogsController {
     return entries[identifier.identity]!.animationController;
   }
 
-  DialogEntry _createEntry<T extends Object?>(EasyDialog dialog) {
-    final entry = DialogEntry(
+  _DialogEntry _createEntry<T extends Object?>(EasyDialog dialog) {
+    final entry = _DialogEntry(
       dialog: dialog.._completer = Completer<T?>(),
       animationController: switch (dialog.animationConfiguration) {
         AnimationConfigurationWithController c => c.controller,
@@ -184,7 +182,7 @@ final class EasyDialogsController {
     await entry.dialog._completer.future;
   }
 
-  void _releaseEntry(DialogEntry entry) {
+  void _releaseEntry(_DialogEntry entry) {
     assert(
       identical(
         entries[entry.dialog.identity]?.animationController,
@@ -201,7 +199,7 @@ final class EasyDialogsController {
 
 class _AnimationStatusListener {
   final EasyDialogsController controller;
-  final DialogEntry entry;
+  final _DialogEntry entry;
 
   const _AnimationStatusListener({
     required this.controller,
@@ -440,6 +438,8 @@ enum EasyDialogLifecycleState {
   disposed,
 }
 
+/// {@category Dialogs}
+/// {@category Getting started}
 /// Context that provides some useful methods and properties that are
 /// associated with specific [EasyDialog].
 class EasyDialogContext {
@@ -476,8 +476,13 @@ class EasyDialogContext {
   ///
   /// If could be useful when you need to get a decoration of a specific type to
   /// retrieve some values.
-  T? getDecorationOfExactType<T extends EasyDialogDecoration>() =>
-      _decorations.firstWhereOrNull((e) => e is T) as T?;
+  T? getDecorationOfExactType<T extends EasyDialogDecoration>() {
+    for (final d in _decorations) {
+      if (d is T) return d;
+    }
+
+    return null;
+  }
 
   T? getParentDecorationOfType<T extends EasyDialogDecoration>(
     EasyDialogDecoration child,
@@ -502,20 +507,16 @@ class EasyDialogContext {
       _decorations.add(decoration);
 }
 
-/// @nodoc
-@visibleForTesting
-class DialogEntry {
+class _DialogEntry {
   final EasyDialog dialog;
   final AnimationController animationController;
 
-  /// @nodoc
-  DialogEntry({
+  _DialogEntry({
     required EasyDialog dialog,
     required AnimationController animationController,
   })  : dialog = dialog,
         animationController = animationController;
 
-  /// @nodoc
   void dispose() {
     dialog._context.dispose();
     dialog.dispose();
@@ -529,6 +530,8 @@ class DialogEntry {
   }
 }
 
+/// {@category Dialogs}
+/// {@category Getting started}
 /// @nodoc
 extension EasyDialogsX on EasyDialog {
   /// @nodoc

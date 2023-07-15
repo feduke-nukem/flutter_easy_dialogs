@@ -1,3 +1,7 @@
+## 3.0.0-dev.2
+* **DOC:** Improved documentation
+* **FIX:** Removed collection dependency
+
 ## 3.0.0-dev.1
 
 * **BREAKING:** 

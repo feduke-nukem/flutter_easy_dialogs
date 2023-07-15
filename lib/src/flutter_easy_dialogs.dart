@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_overlay.dart';
 
+/// {@category Dialogs}
+/// {@category Getting started}
 /// Wrapper for providing an easy use of different custom dialogs.
 final class FlutterEasyDialogs extends StatelessWidget {
   /// Child widget.

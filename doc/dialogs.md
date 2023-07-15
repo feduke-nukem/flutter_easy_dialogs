@@ -59,3 +59,6 @@ FlutterEasyDialogs.show(
 - [animation configuration](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogAnimationConfiguration-class.html) - responsible for configuring animation duration, start value, etc. It also provides an opportunity to create a configuration with an external [AnimationController](https://api.flutter.dev/flutter/animation/AnimationController-class.html) that will drive the dialog animation.
 - auto hide duration: duration after which the dialog will be automatically hidden.
 - [decoration](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogDecoration-class.html): a provided decoration that will be applied to the content.
+
+#### Context
+Each dialog has its own context, which is a class that contains helpful methods and properties, such as the animation associated with the dialog. 
