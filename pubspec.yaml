@@ -10,6 +10,7 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies: 
+  collection: any
   flutter:
     sdk: flutter
 
