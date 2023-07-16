@@ -39,7 +39,7 @@ The library is designed to be lightweight, efficient, and easy to use, making it
 
 ## Documentation
 
-- [Getting started]()
-- [Dialogs]()
-- [Decorations]()
-- [Migration guide from 2.x to 3.x]()
+- [Getting started](https://pub.dev/documentation/flutter_easy_dialogs/latest/topics/Getting%20started-topic.html)
+- [Dialogs](https://pub.dev/documentation/flutter_easy_dialogs/latest/topics/Dialogs-topic.html)
+- [Decorations](https://pub.dev/documentation/flutter_easy_dialogs/latest/topics/Decorations-topic.html)
+- [Migration guide from 2.x to 3.x](https://pub.dev/documentation/flutter_easy_dialogs/latest/topics/Migration%20guide%20from%202.x%20to%203.x-topic.html)

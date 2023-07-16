@@ -521,12 +521,12 @@ class _DialogEntry {
 
 /// {@category Dialogs}
 /// {@category Getting started}
-/// @nodoc
+/// Shortcuts for [EasyDialog].
 extension EasyDialogsX on EasyDialog {
-  /// @nodoc
+  /// {@macro easy_dialogs_controller.show}
   Future<T?> show<T extends Object?>() => FlutterEasyDialogs.show<T>(this);
 
-  /// @nodoc
+  /// {@macro easy_dialogs_controller.hide}
   Future<void> hide({
     bool instantly = false,
     Object? result,

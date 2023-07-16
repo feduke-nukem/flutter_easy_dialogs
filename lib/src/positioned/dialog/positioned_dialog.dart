@@ -79,7 +79,7 @@ final class PositionedIdentifier extends EasyDialogIdentifier {
   EasyDialogPosition get identity => position;
 }
 
-/// @nodoc
+/// Enum that represents the position of the dialog.
 enum EasyDialogPosition {
   top(Alignment.topCenter),
   bottom(Alignment.bottomCenter),

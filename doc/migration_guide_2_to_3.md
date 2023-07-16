@@ -2,8 +2,8 @@
 
 Each manager has been transformed into a dialog itself:
 
-* [PositionedDialogManager](https://pub.dev/packages/positioned_dialog_manager) -> EasyDialog.positioned
-* [FullScreenDialogManager](https://pub.dev/packages/full_screen_dialog_manager) -> EasyDialog.fullScreen
+* [PositionedDialogManager](https://pub.dev/packages/positioned_dialog_manager) -> [EasyDialog.positioned](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialog/EasyDialog.positioned.html)
+* [FullScreenDialogManager](https://pub.dev/packages/full_screen_dialog_manager) -> [EasyDialog.fullScreen](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialog/EasyDialog.fullScreen.html)
 
 There are no more "Show/Hide" parameters; the dialog contains all the required information internally.
 
@@ -41,7 +41,7 @@ FlutterEasyDialogs.show(
 );
 ```
 
-To hide a dialog, you can now create an identifier for a specific dialog type.
+To hide a dialog, you can now create an [identifier](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogIdentifier-class.html) for a specific dialog type.
 
 From:
 
@@ -63,10 +63,10 @@ FlutterEasyDialogs.hide(
 
 Decorators and all related objects have changed too:
 
-* Decorator -> [Decoration](https://pub.dev/documentation/flutter_easy_dialogs/3.0.0-dev.3/flutter_easy_dialogs/EasyDialogDecoration-class.html)
-* Animator -> [Animation](https://pub.dev/documentation/flutter_easy_dialogs/3.0.0-dev.3/flutter_easy_dialogs/EasyDialogAnimation-class.html)
-* Dismissible -> [Dismiss](https://pub.dev/documentation/flutter_easy_dialogs/3.0.0-dev.3/flutter_easy_dialogs/EasyDialogDismiss-class.html)
+* Decorator -> [Decoration](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogDecoration-class.html)
+* Animator -> [Animation](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogAnimation-class.html)
+* Dismissible -> [Dismiss](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogDismiss-class.html)
 
 They all have become more flexible and universal.
 
-Better watch this [topic](https://pub.dev/documentation/flutter_easy_dialogs/3.0.0-dev.3/topics/Decorations-topic.html) for better a understanding.
+Better watch this [topic](https://pub.dev/documentation/flutter_easy_dialogs/latest/topics/Decorations-topic.html) for better a understanding.

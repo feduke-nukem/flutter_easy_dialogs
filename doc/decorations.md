@@ -4,9 +4,9 @@ This class is intended to add specific look or behavior to the dialog content.
 
 There are several approaches to applying decoration to the dialog:
 
-- **Combine**
-- **Chain**
-- **Builder**
+- **[Combine](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogDecoration/EasyDialogDecoration.combine.html)**
+- **[Chain](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogDecoration/EasyDialogDecoration.chain.html)**
+- **[Builder](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogDecoration/EasyDialogDecoration.builder.html)**
 - **Single**
 
 There is no limit to the quantity of decorations.
@@ -363,8 +363,8 @@ FlutterEasyDialogs.show(
 Generally, it is the way to dismiss dialogs with provided callback which returns some result.
 
 There are a few important things you need to know:
-- OnEasyDismissed: a callback that fires when the dialog is dismissed. You can provide some data to be returned as a result of showing the dialog.
-- EasyWillDismiss: a callback that fires when the dialog is about to be dismissed. You can decide whether it should be dismissed or not. It is quite similar to [WillPopCallback](https://api.flutter.dev/flutter/widgets/WillPopCallback.html).
+- [OnEasyDismissed](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/OnEasyDismissed.html): a callback that fires when the dialog is dismissed. You can provide some data to be returned as a result of showing the dialog.
+- [EasyWillDismiss](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyWillDismiss.html): a callback that fires when the dialog is about to be dismissed. You can decide whether it should be dismissed or not. It is quite similar to [WillPopCallback](https://api.flutter.dev/flutter/widgets/WillPopCallback.html).
 
 ```dart 
 final res = await FlutterEasyDialogs.show<int>(
