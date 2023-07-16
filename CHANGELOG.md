@@ -1,3 +1,6 @@
+## 3.0.0
+* Major release
+
 ## 3.0.0-dev.4+1
 * **DOC:** Improved documentation
 
