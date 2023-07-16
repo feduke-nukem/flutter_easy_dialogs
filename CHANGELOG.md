@@ -1,3 +1,6 @@
+## 3.0.0-dev.4+1
+* **DOC:** Improved documentation
+
 ## 3.0.0-dev.4
 * **DOC:** Improved documentation
 * **FEAT:** More flexible animations
