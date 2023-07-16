@@ -1,4 +1,4 @@
-## [Decorations](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogDecoration-class.html)
+## Decorations
 
 This class is intended to add specific look or behavior to the dialog content.
 
@@ -187,27 +187,179 @@ FlutterEasyDialogs.show(
 
 ![ezgif-2-6ee2f2df2f](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/d3b96e2a-c86e-41ed-b1c8-c5a6ece7cd8c)
 
+Here is a more complex example:
+
+```dart
+FlutterEasyDialogs.show(
+  EasyDialog.fullScreen(
+    autoHideDuration: const Duration(seconds: 1),
+    animationConfiguration:
+        EasyDialogAnimationConfiguration.withController(
+      _controller,
+      willReverse: true,
+    ),
+    decoration: EasyDialogDecoration.builder(
+      (context, dialog) => AnimatedBuilder(
+        animation: dialog.context.animation,
+        builder: (context, child) => ColoredBox(
+          color: Colors.yellow.withOpacity(
+            dialog.context.animation.value.clamp(0.0, 0.5),
+          ),
+          child: child,
+        ),
+        child: Center(
+          child: dialog.content
+              .animate(controller: _controller)
+              .fade()
+              .rotate()
+              .scale()
+              .blur(
+                begin: const Offset(20.0, 20.0),
+                end: const Offset(0.0, 0.0),
+              ),
+        ),
+      ),
+    ),
+    content: Container(
+      height: 150.0,
+      width: 150.0,
+      color: Colors.blue[900],
+      alignment: Alignment.center,
+      child: const Text(
+        'Dialog',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
+        ),
+      ),
+    ),
+  ),
+);
+```
+
+![ezgif-4-6b864d08f9](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/2d4cc2a9-8b4b-46de-b77f-ffa810e38452)
+
 #### Single decoration
 That's it, you can provide only a single decoration.
 
 ```dart
 FlutterEasyDialogs.show(
   EasyDialog.positioned(
-    decoration: const EasyDialogAnimation.fade(),
+    position: EasyDialogPosition.bottom,
+    decoration: const EasyDialogAnimation.bounce(),
     content: Container(
       height: 150.0,
-      color: Colors.amber[900],
+      color: Colors.blue[900],
       alignment: Alignment.center,
-      child: Text('$_selectedPosition'),
+      child: const Text(
+        'Dialog',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
+        ),
+      ),
     ),
   ),
 );
 ```
 
+![ezgif-4-afefdbe946](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/661b90ca-61a4-4bd7-adb5-d546347909cf)
+
 #### Animation
 Just need to mention that there is specific type of decoration that is used to provide animation to dialog.
 
-#### [Dismiss][dismiss]
+Blur background and slide from top:
+
+```dart
+FlutterEasyDialogs.show(
+  EasyDialog.positioned(
+    autoHideDuration: const Duration(milliseconds: 500),
+    decoration: EasyDialogDecoration.combine([
+      const PositionedAnimation.verticalSlide(),
+      const EasyDialogAnimation.fade(),
+      EasyDialogAnimation.blurBackground(
+        backgroundColor: Colors.black.withOpacity(0.2),
+      )
+    ]),
+    content: Container(
+      height: 150.0,
+      color: Colors.blue[900],
+      alignment: Alignment.center,
+      child: const Text(
+        'Dialog',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
+        ),
+      ),
+    ),
+  ),
+);
+```
+
+![ezgif-4-6738b05ec0](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/2efdf13d-3ab8-48fe-83a3-b71ba9e4d2a1)
+
+Fullscreen fade background and bounce:
+
+```dart
+FlutterEasyDialogs.show(
+  EasyDialog.fullScreen(
+    autoHideDuration: const Duration(milliseconds: 500),
+    decoration: EasyDialogDecoration.combine([
+      const EasyDialogAnimation.bounce(),
+      EasyDialogAnimation.fadeBackground(
+        backgroundColor: Colors.black.withOpacity(0.2),
+      ),
+    ]),
+    content: Center(
+      child: Container(
+        height: 150.0,
+        color: Colors.blue[900],
+        alignment: Alignment.center,
+        child: const Text(
+          'Dialog',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 30.0,
+          ),
+        ),
+      ),
+    ),
+  ),
+);
+```
+
+![ezgif-4-18231c2ada](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/92778c4d-9f42-4a61-8102-f0ffb01a662b)
+
+There are some helpful extension methods:
+
+* `reversed` - will reverse the decided animation.
+* `interval` - will play the animation within the provided interval.
+* `tween sequence` - will apply the provided `TweenSequence` to the animation.
+
+A bit of fun:
+
+```dart
+FlutterEasyDialogs.show(
+  EasyDialog.positioned(
+    autoHideDuration: const Duration(milliseconds: 500),
+    decoration: EasyDialogDecoration.combine([
+      const EasyDialogAnimation.fade().interval(0.0, 0.5),
+      const EasyDialogAnimation.expansion().reversed(),
+      EasyDialogAnimation.fadeBackground(
+        backgroundColor: Colors.black.withOpacity(0.6),
+      ).tweenSequence(
+        TweenSequence([
+          TweenSequenceItem(
+              tween: Tween(begin: 0.0, end: 0.5), weight: 100),
+        ]),
+      ),
+    ]),
+```
+
+![ezgif-4-2a9bea6cda](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/29ddebc3-cee8-4c60-9c7f-9332a2ba0ccd)
+
+#### Dismiss
 Generally, it is the way to dismiss dialogs with provided callback which returns some result.
 
 There are a few important things you need to know:
@@ -215,21 +367,64 @@ There are a few important things you need to know:
 - EasyWillDismiss: a callback that fires when the dialog is about to be dismissed. You can decide whether it should be dismissed or not. It is quite similar to [WillPopCallback](https://api.flutter.dev/flutter/widgets/WillPopCallback.html).
 
 ```dart 
-final result = FlutterEasyDialogs.show<String>(
+final res = await FlutterEasyDialogs.show<int>(
   EasyDialog.positioned(
-    decoration: EasyDialogDismiss.tap(
-      onDismissed: () => 'result',
-      willDismiss: () => Future.delayed(Duration(seconds: 2), () => true),
+    decoration: const EasyDialogAnimation.fade().chained(
+      PositionedDismiss.swipe(
+        onDismissed: () => 5,
+        direction: PositionedDismissibleSwipeDirection.vertical,
+      ),
     ),
     content: Container(
       height: 150.0,
-      color: Colors.amber[900],
+      color: Colors.blue[900],
       alignment: Alignment.center,
-      child: Text('$_selectedPosition'),
+      child: const Text(
+        'Dialog',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
+        ),
+      ),
     ),
   ),
 );
 ```
 
-<!-- Links -->
-[dismiss]: https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogDismiss-class.html
+![ezgif-4-2c10546796](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/06c272be-ae67-40c9-ae95-f57533effe33)
+
+#### Imagination
+
+You can achieve fascinating results; you are only limited by your imagination!
+
+```dart
+FlutterEasyDialogs.show(
+  EasyDialog.positioned(
+    decoration: EasyDialogDecoration.combine([
+      const EasyDialogAnimation.fade(),
+      const EasyDialogAnimation.expansion(),
+      const EasyDialogDismiss.animatedTap(),
+      const PositionedDismiss.swipe(instantly: false),
+      EasyDialogAnimation.fadeBackground(
+        backgroundColor: Colors.black.withOpacity(0.6),
+      ),
+    ]),
+    content: Container(
+      height: 150.0,
+      color: Colors.blue[900],
+      alignment: Alignment.center,
+      child: const Text(
+        'Dialog',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
+        ),
+      ),
+    ),
+  ),
+);
+```
+
+![ezgif-4-5450049742](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/b0912391-9a62-4eb3-aa75-3da8bc3d85ff)
+
+
