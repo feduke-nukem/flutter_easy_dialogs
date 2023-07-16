@@ -177,13 +177,9 @@ class _PositionedDialogManagerBasicUsageScreenState
 
     final result = await FlutterEasyDialogs.show<int>(
       EasyDialog.positioned(
-        decoration: const EasyDialogAnimation.expansion()
-            .chained(PositionedDismiss.swipe(instantly: false))
-            .chained(
-              EasyDialogAnimation.fadeBackground(
-                backgroundColor: Colors.black.withOpacity(0.5),
-              ),
-            ),
+        decoration: PositionedDialog.defaultShell
+            .chained(_selectedAnimation)
+            .chained(_selectedDismissible),
         autoHideDuration: _isAutoHide
             ? Duration(milliseconds: _autoHideDuration.toInt())
             : null,
