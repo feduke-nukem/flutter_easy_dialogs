@@ -16,16 +16,18 @@ FlutterEasyDialogs.show(
   ),
 );
 ```
-
-<a>
-    <img src="https://user-images.githubusercontent.com/72284940/227770860-d5885960-2a22-4d3b-bd91-1e0e5488fc7e.gif" width="160"/>
-</a>
-<a>
-    <img src="https://user-images.githubusercontent.com/72284940/227770870-b2a43e65-01fc-4b90-b518-82fb3539c09b.gif" width="160"/>
-</a> 
-<a>
-    <img src="https://user-images.githubusercontent.com/72284940/227770871-d0b60af3-10f3-4112-b67c-b42763953456.gif" width="160"/>
-</a> 
+<div style="display:flex; flex-wrap:wrap;">
+    <a style="flex:1;">
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/aecc16a6-ddb7-4668-b9fc-57b07b9a742c" width="170"/>
+    </a>
+    <a style="flex:1;">
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/58d9c6b8-236e-492d-92ff-5a4588ffa1e0" width="170"/>
+    </a>
+    <a style="flex:1;">
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/a241b14a-764c-4c4d-b863-e146a0496f1b" width="170"/>
+    </a>
+</div>
+ 
 
 #### FullScreen dialogs
 
@@ -44,15 +46,17 @@ FlutterEasyDialogs.show(
 );
 ```
 
-<a>
-    <img src="https://user-images.githubusercontent.com/72284940/227770952-1c0b4d15-b987-4fa1-9a1b-bb6f94b0565e.gif" width="160"/>
-</a>
-<a>
-    <img src="https://user-images.githubusercontent.com/72284940/227770982-cf2e8efd-8395-440f-aeed-a1b6dd83b66a.gif" width="160"/>
-</a>
-<a>
-    <img src="https://user-images.githubusercontent.com/72284940/227770993-39ad7bc1-4fa3-4056-b244-192be231d87a.gif" width="160"/>
-</a>
+<div style="display:flex; flex-wrap:wrap;">
+    <a style="flex:1;">
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/f619a488-1226-47df-b49a-7ac3da36a4f7" width="170"/>
+    </a>
+    <a style="flex:1;">
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/42eee846-6507-47a4-9967-650095798702" width="170"/>
+    </a>
+    <a style="flex:1;">
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/8c2d2d76-aae9-4297-9c82-debac236af7d" width="170"/>
+    </a>
+</div>
 
 #### Basic parameters
 - content - [widget](https://api.flutter.dev/flutter/widgets/Widget-class.html) that is desired to be shown.
