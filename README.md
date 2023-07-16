@@ -4,36 +4,30 @@
  <img src="https://codecov.io/gh/feduke-nukem/flutter_easy_dialogs/branch/main/graph/badge.svg?token=3CVX3JGPT4"/> 
 </a>
 </p>
+
 <div style="display:flex; flex-wrap:wrap;">
     <a style="flex:1;">
-        <img src="https://user-images.githubusercontent.com/72284940/227770860-d5885960-2a22-4d3b-bd91-1e0e5488fc7e.gif" width="150"/>
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/aecc16a6-ddb7-4668-b9fc-57b07b9a742c" width="170"/>
     </a>
     <a style="flex:1;">
-        <img src="https://user-images.githubusercontent.com/72284940/227770870-b2a43e65-01fc-4b90-b518-82fb3539c09b.gif" width="150"/>
-    </a> 
-    <a style="flex:1;">
-        <img src="https://user-images.githubusercontent.com/72284940/227770871-d0b60af3-10f3-4112-b67c-b42763953456.gif" width="150"/>
-    </a> 
-    <a style="flex:1;">
-        <img src="https://user-images.githubusercontent.com/72284940/227770876-6b10e8f7-e29c-472e-a926-7beb454cc41e.gif" width="150"/>
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/58d9c6b8-236e-492d-92ff-5a4588ffa1e0" width="170"/>
     </a>
     <a style="flex:1;">
-        <img src="https://user-images.githubusercontent.com/72284940/232207903-9247b1dc-3786-4147-ab5c-28c8612e0f92.gif" width="150"/>
-    </a> 
-    <a style="flex:1;">
-        <img src="https://user-images.githubusercontent.com/72284940/227770950-13bbaa09-5e2e-4524-aa86-2b1ffe1256d8.gif" width="150"/>
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/a241b14a-764c-4c4d-b863-e146a0496f1b" width="170"/>
     </a>
     <a style="flex:1;">
-        <img src="https://user-images.githubusercontent.com/72284940/227770952-1c0b4d15-b987-4fa1-9a1b-bb6f94b0565e.gif" width="150"/>
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/f619a488-1226-47df-b49a-7ac3da36a4f7" width="170"/>
     </a>
     <a style="flex:1;">
-        <img src="https://user-images.githubusercontent.com/72284940/227770982-cf2e8efd-8395-440f-aeed-a1b6dd83b66a.gif" width="150"/>
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/42eee846-6507-47a4-9967-650095798702" width="170"/>
     </a>
     <a style="flex:1;">
-        <img src="https://user-images.githubusercontent.com/72284940/227770993-39ad7bc1-4fa3-4056-b244-192be231d87a.gif" width="150"/>
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/8c2d2d76-aae9-4297-9c82-debac236af7d" width="170"/>
+    </a>
+     <a style="flex:1;">
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/b0912391-9a62-4eb3-aa75-3da8bc3d85ff" width="170"/>
     </a>
 </div>
-
 
 #### What is `FlutterEasyDialogs` ?
 It is an open-source package for the Flutter framework that provides easy-to-use and customizable dialogs based on [Overlay](https://api.flutter.dev/flutter/widgets/Overlay-class.html) for use in your application. With this library, you can quickly create and display dialogs such as alerts, confirmation dialogs, info dialogs, and etc.
