@@ -5,7 +5,7 @@ import '../../core/core.dart';
 
 /// [EasyDialog] that is shown at a specific [EasyDialogPosition].
 final class PositionedDialog extends EasyDialog {
-  static const defaultShell = PositionedDialogShell.banner();
+  static const defaultShell = PositionedShell.banner();
   static const defaultAnimation = EasyDialogAnimation<PositionedDialog>.fade();
   static const defaultDismissible =
       EasyDialogDismiss<PositionedDialog>.animatedTap();

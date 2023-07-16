@@ -1,6 +1,6 @@
-part of 'full_screen_dialog_shell.dart';
+part of 'full_screen_shell.dart';
 
-final class _ModalBanner extends FullScreenDialogShell {
+final class _ModalBanner extends FullScreenShell {
   final EdgeInsets padding;
 
   final EdgeInsets margin;

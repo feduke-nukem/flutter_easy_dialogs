@@ -4,12 +4,12 @@ import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 part 'modal_banner.dart';
 
 /// The [EasyDialogDecoration] that is specific to the [FullScreenDialog].
-abstract base class FullScreenDialogShell
+abstract base class FullScreenShell
     extends EasyDialogDecoration<FullScreenDialog> {
-  const FullScreenDialogShell();
+  const FullScreenShell();
 
   /// Applies some [Container] related content modifications.
-  const factory FullScreenDialogShell.modalBanner({
+  const factory FullScreenShell.modalBanner({
     EdgeInsets padding,
     EdgeInsets margin,
     BoxDecoration? boxDecoration,

@@ -1,7 +1,7 @@
-part of 'positioned_dialog_shell.dart';
+part of 'positioned_shell.dart';
 
 /// Dialog banner.
-final class _Banner extends PositionedDialogShell {
+final class _Banner extends PositionedShell {
   /// Background color.
   ///
   /// Use [ThemeData.primaryColor] if null.

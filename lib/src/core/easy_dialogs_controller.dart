@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
@@ -431,7 +432,7 @@ enum EasyDialogLifecycleState {
 /// {@category Getting started}
 /// Context that provides some useful methods and properties that are
 /// associated with specific [EasyDialog].
-class EasyDialogContext {
+final class EasyDialogContext {
   final _decorations = <EasyDialogDecoration>[];
   final EasyDialogsController _controller;
   final EasyDialog _dialog;
@@ -536,4 +537,51 @@ extension EasyDialogsX on EasyDialog {
         instantly: instantly,
         result: result,
       );
+}
+
+final class _EasyDialogContextDecorator implements EasyDialogContext {
+  final EasyDialogContext _target;
+
+  _EasyDialogContextDecorator({required EasyDialogContext target})
+      : _target = target;
+
+  @override
+  Animation<double> get animation => _target.animation;
+
+  // coverage:ignore-start
+  @override
+  EasyDialogsController get _controller => _target._controller;
+
+  @override
+  List<EasyDialogDecoration<EasyDialog>> get _decorations =>
+      _target._decorations;
+
+  @override
+  EasyDialog get _dialog => _target._dialog;
+
+  @override
+  void _registerDecoration<T extends EasyDialogDecoration<EasyDialog>>(
+    T decoration,
+  ) =>
+      _target._registerDecoration(decoration);
+
+  @override
+  void dispose() => _target.dispose();
+
+  @override
+  T? getDecorationOfExactType<T extends EasyDialogDecoration<EasyDialog>>() =>
+      _target.getDecorationOfExactType<T>();
+  @override
+  T? getParentDecorationOfType<T extends EasyDialogDecoration<EasyDialog>>(
+    EasyDialogDecoration<EasyDialog> child,
+  ) =>
+      _target.getParentDecorationOfType(child);
+
+  @override
+  Future<void> hideDialog({bool instantly = false, Object? result}) =>
+      _target.hideDialog(instantly: instantly, result: result);
+
+  @override
+  TickerProvider get vsync => _target.vsync;
+  // coverage:ignore-end
 }

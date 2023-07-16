@@ -22,18 +22,25 @@ const _content = SizedBox.square(
   ),
 );
 
-const _foregroundAnimators = <String, FullScreenForegroundAnimation>{
-  _foregroundBounce: FullScreenForegroundAnimation.bounce(),
-  _foregroundFade: FullScreenForegroundAnimation.fade(),
-  _foregroundExpansion: FullScreenForegroundAnimation.expansion(),
+final _foregroundAnimations = <String, EasyDialogDecoration<FullScreenDialog>>{
+  _foregroundBounce: const EasyDialogAnimation.bounce(),
+  _foregroundFade: const EasyDialogAnimation.fade(),
+  _foregroundExpansion:
+      const EasyDialogAnimation<FullScreenDialog>.expansion().chained(
+    EasyDialogDecoration.builder(
+      (context, dialog) => Center(
+        child: dialog.content,
+      ),
+    ),
+  ),
 };
 
-final _backgroundAnimators = <String, FullScreenBackgroundAnimation>{
-  _backgroundBlur: FullScreenBackgroundAnimation.blur(
-    end: 10.0,
+final _backgroundAnimations = <String, EasyDialogAnimation<FullScreenDialog>>{
+  _backgroundBlur: EasyDialogAnimation.blurBackground(
+    amount: 10.0,
     backgroundColor: Colors.black.withOpacity(0.5),
   ),
-  _backgroundFade: FullScreenBackgroundAnimation.fade(
+  _backgroundFade: EasyDialogAnimation.fadeBackground(
     backgroundColor: Colors.black.withOpacity(0.5),
   ),
 };
@@ -49,17 +56,17 @@ class FullScreenDialogManagerBasicUsageScreen extends StatefulWidget {
 class _FullScreenDialogManagerBasicUsageScreenState
     extends State<FullScreenDialogManagerBasicUsageScreen> {
   var _count = 0;
-  final _contentAnimationTypeDropDownItems = _foregroundAnimators.entries
+  final _contentAnimationTypeDropDownItems = _foregroundAnimations.entries
       .map(
-        (e) => DropdownMenuItem<FullScreenForegroundAnimation>(
+        (e) => DropdownMenuItem<EasyDialogDecoration<FullScreenDialog>>(
           value: e.value,
           child: Text(e.key),
         ),
       )
       .toList();
-  final _backgroundAnimationTypeDropDownItems = _backgroundAnimators.entries
+  final _backgroundAnimationTypeDropDownItems = _backgroundAnimations.entries
       .map(
-        (e) => DropdownMenuItem<FullScreenBackgroundAnimation>(
+        (e) => DropdownMenuItem<EasyDialogAnimation<FullScreenDialog>>(
           value: e.value,
           child: Text(e.key),
         ),
@@ -79,8 +86,8 @@ class _FullScreenDialogManagerBasicUsageScreenState
       )
       .toList();
 
-  var _selectedForegroundAnimation = _foregroundAnimators.entries.first.value;
-  var _selectedBackgroundAnimation = _backgroundAnimators.entries.first.value;
+  var _selectedForegroundAnimation = _foregroundAnimations.entries.first.value;
+  var _selectedBackgroundAnimation = _backgroundAnimations.entries.first.value;
   late var _selectedDismissible = _dismissibles.entries.first.value;
 
   @override
@@ -100,7 +107,7 @@ class _FullScreenDialogManagerBasicUsageScreenState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text('Content animation type'),
-                    DropdownButton<FullScreenForegroundAnimation>(
+                    DropdownButton<EasyDialogDecoration<FullScreenDialog>>(
                       items: _contentAnimationTypeDropDownItems,
                       onChanged: (type) => setState(
                         () => _selectedForegroundAnimation = type!,
@@ -113,7 +120,7 @@ class _FullScreenDialogManagerBasicUsageScreenState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Text('Background animation type'),
-                    DropdownButton<FullScreenBackgroundAnimation>(
+                    DropdownButton<EasyDialogAnimation<FullScreenDialog>>(
                       items: _backgroundAnimationTypeDropDownItems,
                       onChanged: (type) => setState(
                         () => _selectedBackgroundAnimation = type!,
@@ -144,7 +151,7 @@ class _FullScreenDialogManagerBasicUsageScreenState
                   EasyDialog.fullScreen(
                     androidWillPop: () async => true,
                     content: _content,
-                    decoration: FullScreenDialogShell.modalBanner(
+                    decoration: FullScreenShell.modalBanner(
                       boxDecoration: BoxDecoration(
                         color: Colors.grey.shade200.withOpacity(0.3),
                       ),

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
 
-const _defaultDuration = Duration(milliseconds: 350);
-const _defaultReverseDuration = Duration(milliseconds: 350);
-
 /// {@category Dialogs}
 /// {@category Migration guide from 2.x to 3.x}
 /// {@template easy_dialog_animation_configuration}
@@ -83,11 +80,13 @@ final class AnimationConfigurationBounded
 
   const AnimationConfigurationBounded({
     double? startValue,
-    this.duration = _defaultDuration,
-    this.reverseDuration = _defaultReverseDuration,
+    Duration duration = const Duration(milliseconds: 350),
+    Duration? reverseDuration,
     this.lowerBound = 0.0,
     this.upperBound = 1.0,
   })  : this.startValue = startValue ?? lowerBound,
+        this.duration = duration,
+        this.reverseDuration = reverseDuration ?? duration,
         assert(upperBound >= lowerBound);
 
   @override
@@ -110,9 +109,10 @@ final class AnimationConfigurationUnbounded
 
   const AnimationConfigurationUnbounded({
     this.startValue = 0.0,
-    this.duration = _defaultDuration,
-    this.reverseDuration = _defaultReverseDuration,
-  });
+    Duration duration = const Duration(milliseconds: 350),
+    Duration? reverseDuration,
+  })  : this.duration = duration,
+        this.reverseDuration = reverseDuration ?? duration;
 
   @override
   AnimationController createController(TickerProvider vsync) =>

@@ -10,6 +10,7 @@ abstract base class PositionedDismiss
   const PositionedDismiss({
     super.onDismissed,
     super.willDismiss,
+    super.instantly,
   });
 
   /// Horizontal swipe dismissible.
@@ -29,5 +30,6 @@ abstract base class PositionedDismiss
     HitTestBehavior behavior,
     DismissUpdateCallback? onUpdate,
     EasyWillDismiss? willDismiss,
+    bool instantly,
   }) = _Swipe;
 }

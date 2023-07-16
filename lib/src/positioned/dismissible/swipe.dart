@@ -100,10 +100,8 @@ final class _Swipe extends PositionedDismiss {
     this.resizeDuration,
     this.secondaryBackground,
     super.willDismiss,
+    super.instantly = true,
   });
-
-  @override
-  bool get instantly => true;
 
   @override
   Widget call(PositionedDialog dialog) {

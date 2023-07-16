@@ -49,7 +49,7 @@ class PositionedDialogManagerCustomizationScreen extends StatelessWidget {
       ).show().then((value) => print('dismissed with $value'));
 }
 
-final class _CustomPositionedShell extends PositionedDialogShell {
+final class _CustomPositionedShell extends PositionedShell {
   const _CustomPositionedShell();
 
   @override

@@ -32,10 +32,14 @@ abstract base class EasyDialogDismiss<D extends EasyDialog>
   /// {@macro easy_dialog_dismiss.easy_will_dismiss}
   final EasyWillDismiss? willDismiss;
 
+  /// If `true`, the dialog will be dismissed instantly without any animation.
+  final bool instantly;
+
   /// Creates an instance of [EasyDialogDismiss].
   const EasyDialogDismiss({
     this.onDismissed,
     this.willDismiss,
+    this.instantly = false,
   });
 
   /// Tap gesture but with extra `scale in` on tap down animation.
@@ -45,6 +49,7 @@ abstract base class EasyDialogDismiss<D extends EasyDialog>
     Curve curve,
     OnEasyDismissed? onDismissed,
     EasyWillDismiss? willDismiss,
+    HitTestBehavior? behavior,
   }) = _AnimatedTap<D>;
 
   /// Simple gesture tap dismiss.
@@ -53,10 +58,6 @@ abstract base class EasyDialogDismiss<D extends EasyDialog>
     OnEasyDismissed? onDismissed,
     EasyWillDismiss? willDismiss,
   }) = _Tap<D>;
-
-  /// If `true`, the dialog will be dismissed instantly without any animation.
-  @protected
-  bool get instantly => false;
 
   /// ### Handler for dismissing the dialog.
   ///
@@ -90,6 +91,7 @@ final class _AnimatedTap<D extends EasyDialog> extends EasyDialogDismiss<D> {
   final Duration duration;
   final Curve curve;
   final double pressedScale;
+  final HitTestBehavior? behavior;
 
   const _AnimatedTap({
     this.duration = const Duration(milliseconds: 200),
@@ -97,6 +99,7 @@ final class _AnimatedTap<D extends EasyDialog> extends EasyDialogDismiss<D> {
     super.willDismiss,
     this.pressedScale = 0.95,
     this.curve = Curves.easeOutCubic,
+    this.behavior,
   });
 
   @override
@@ -106,41 +109,11 @@ final class _AnimatedTap<D extends EasyDialog> extends EasyDialogDismiss<D> {
       pressedScale: pressedScale,
       curve: curve,
       onTap: () => handleDismiss(dialog),
+      behavior: behavior,
       child: dialog.content,
     );
   }
 }
-
-class _TapDetector extends StatefulWidget {
-  final VoidCallback? onTap;
-
-  final _AnimatedTapBuilder builder;
-
-  const _TapDetector({
-    required this.builder,
-    this.onTap,
-  });
-
-  @override
-  _TapDetectorState createState() => _TapDetectorState();
-}
-
-class _TapDetectorState extends State<_TapDetector> {
-  bool _isPressed = false;
-
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTapDown: (_) => setState(() => _isPressed = true),
-        onTapUp: (_) => setState(() => _isPressed = false),
-        onTap: widget.onTap,
-        // coverage:ignore-start
-        onTapCancel: () => setState(() => _isPressed = false),
-        // coverage:ignore-end
-        child: widget.builder(_isPressed),
-      );
-}
-
-const _kReferenceScaleIndent = 200;
 
 class _AnimatedTapAnimation extends StatefulWidget {
   final double pressedScale;
@@ -148,6 +121,7 @@ class _AnimatedTapAnimation extends StatefulWidget {
   final Widget child;
   final Duration duration;
   final Curve curve;
+  final HitTestBehavior? behavior;
 
   const _AnimatedTapAnimation({
     required this.child,
@@ -155,6 +129,7 @@ class _AnimatedTapAnimation extends StatefulWidget {
     required this.pressedScale,
     required this.curve,
     this.onTap,
+    this.behavior,
   });
 
   @override
@@ -176,6 +151,7 @@ class _AnimatedTapAnimationState extends State<_AnimatedTapAnimation> {
         child: widget.child,
       ),
       onTap: widget.onTap?.call,
+      behavior: widget.behavior,
     );
   }
 
@@ -184,7 +160,7 @@ class _AnimatedTapAnimationState extends State<_AnimatedTapAnimation> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        setState(calculateResultScale);
+        setState(_calculateScale);
       }
     });
   }
@@ -195,12 +171,12 @@ class _AnimatedTapAnimationState extends State<_AnimatedTapAnimation> {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.pressedScale != widget.pressedScale) {
-      calculateResultScale();
+      _calculateScale();
     }
   }
   // coverage:ignore-end
 
-  void calculateResultScale() {
+  void _calculateScale() {
     final size = (context.findRenderObject() as RenderBox?)!.size;
 
     final maxSide = math.max(size.height, size.width);
@@ -211,6 +187,40 @@ class _AnimatedTapAnimationState extends State<_AnimatedTapAnimation> {
             .clamp(0.0, 1.0);
   }
 }
+
+class _TapDetector extends StatefulWidget {
+  final VoidCallback? onTap;
+  final HitTestBehavior? behavior;
+
+  final _AnimatedTapBuilder builder;
+
+  const _TapDetector({
+    required this.builder,
+    this.onTap,
+    this.behavior,
+  });
+
+  @override
+  _TapDetectorState createState() => _TapDetectorState();
+}
+
+class _TapDetectorState extends State<_TapDetector> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+        onTapDown: (_) => setState(() => _isPressed = true),
+        onTapUp: (_) => setState(() => _isPressed = false),
+        onTap: widget.onTap,
+        // coverage:ignore-start
+        onTapCancel: () => setState(() => _isPressed = false),
+        // coverage:ignore-end
+        behavior: widget.behavior,
+        child: widget.builder(_isPressed),
+      );
+}
+
+const _kReferenceScaleIndent = 200;
 
 final class _Tap<D extends EasyDialog> extends EasyDialogDismiss<D> {
   final HitTestBehavior behavior;

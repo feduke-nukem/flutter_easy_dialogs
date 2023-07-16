@@ -4,9 +4,23 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../helper.dart';
 
-const _animations = [
+final _animations = [
   EasyDialogAnimation.expansion(),
   EasyDialogAnimation.fade(),
+  EasyDialogAnimation.blurBackground(),
+  EasyDialogAnimation.fadeBackground(),
+  EasyDialogAnimation.bounce(),
+  EasyDialogAnimation.expansion().interval(0.0, 1.0),
+  EasyDialogAnimation.expansion().reversed(),
+  EasyDialogAnimation.expansion().tweenSequence(TweenSequence([
+    TweenSequenceItem(
+      tween: Tween(
+        begin: 0.0,
+        end: 0.9,
+      ),
+      weight: 0.3,
+    )
+  ])),
 ];
 
 void main() {
