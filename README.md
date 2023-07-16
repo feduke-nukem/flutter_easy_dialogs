@@ -15,6 +15,9 @@
     <a style="flex:1;">
         <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/a241b14a-764c-4c4d-b863-e146a0496f1b" width="170"/>
     </a>
+     <a style="flex:1;">
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/a4854d7b-472f-4aeb-8a82-740f35b07679" width="170"/>
+    </a>
     <a style="flex:1;">
         <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/f619a488-1226-47df-b49a-7ac3da36a4f7" width="170"/>
     </a>
@@ -29,8 +32,9 @@
     </a>
 </div>
 
+
 #### What is `FlutterEasyDialogs` ?
-It is an open-source package for the Flutter framework that provides easy-to-use and customizable dialogs based on [Overlay](https://api.flutter.dev/flutter/widgets/Overlay-class.html) for use in your application. With this library, you can quickly create and display dialogs such as alerts, confirmation dialogs, info dialogs, and etc.
+It is an open-source package for the Flutter framework that provides easy-to-use and customizable dialogs based on [Overlay](https://api.flutter.dev/flutter/widgets/Overlay-class.html) for use in your application without `BuildContext`. With this library, you can quickly create and display dialogs such as alerts, confirmation dialogs, info dialogs, and etc.
 The library is designed to be lightweight, efficient, and easy to use, making it ideal for developers who want to add dialog functionality to their apps without having to write complex code.
 
 ## Documentation
