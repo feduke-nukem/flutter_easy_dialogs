@@ -87,12 +87,14 @@ enum EasyDialogPosition {
 
   final AlignmentGeometry alignment;
 
+  // coverage:ignore-start
   @override
   String toString() => switch (this) {
         EasyDialogPosition.top => 'top',
         EasyDialogPosition.bottom => 'bottom',
         EasyDialogPosition.center => 'center',
       };
+  // coverage:ignore-end
 
   const EasyDialogPosition(this.alignment);
 }
