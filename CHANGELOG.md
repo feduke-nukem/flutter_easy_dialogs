@@ -1,3 +1,6 @@
+## 3.0.0+2
+* **DOC:** Improved documentation
+
 ## 3.0.0+1
 * **DOC:** Improved documentation
 

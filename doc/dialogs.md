@@ -1,7 +1,7 @@
 ## Dialogs
 
 #### Positioned dialogs
-This type of dialogs is used to show at a specific place on the screen using [EasyDialogPosition]().
+This type of dialogs is used to show at a specific place on the screen using [EasyDialogPosition](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogPosition.html).
 
 ```dart
 FlutterEasyDialogs.show(
@@ -31,7 +31,7 @@ FlutterEasyDialogs.show(
 
 #### FullScreen dialogs
 
-These dialogs are intended to cover all available space on the screen and be presented one at a time. There is a special behavior available to detect the Android software back button and handle it:
+These dialogs are intended to cover all available space on the screen and be presented one at a time. There is a special [behavior](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/FullScreenDialog/onAndroidPop.html) available to detect the Android software back button and handle it:
 
 ```dart
 FlutterEasyDialogs.show(

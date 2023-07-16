@@ -53,7 +53,7 @@ FlutterEasyDialogs.show(
 
 ![ezgif-1-c274042f92](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/2d632324-cb62-40b2-a757-bd9e96b8af4e)
 
-Or to hide with the help of specific dialog identifier:
+Or to hide with the help of specific dialog [identifier](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogIdentifier-class.html):
 
 ```dart
 FlutterEasyDialogs.hide(
@@ -98,7 +98,7 @@ FlutterEasyDialogs.hideWhere<PositionedDialog>(
 
 #### Extension
 
-There is an extension that provides alternative ways to show and hide dialogs.
+There is an [extension](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogsX.html) that provides alternative ways to show and hide dialogs.
 
 ```dart
 final dialog = EasyDialog.positioned(
