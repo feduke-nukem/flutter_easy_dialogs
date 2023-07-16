@@ -34,11 +34,11 @@ class _PositionedDialogManagerBasicUsageScreenState
     ),
     _dismissibleHorizontalSwipe: PositionedDismiss.swipe(
       onDismissed: () => _count++,
-      willDismiss: () => false,
+      willDismiss: () => true,
     ),
     _dismissibleVerticalSwipe: PositionedDismiss.swipe(
       onDismissed: () => _count++,
-      willDismiss: () => false,
+      willDismiss: () => true,
       direction: PositionedDismissibleSwipeDirection.vertical,
     ),
     _dismissibleAnimatedTap: EasyDialogDismiss.animatedTap(
@@ -177,6 +177,7 @@ class _PositionedDialogManagerBasicUsageScreenState
 
     final result = await FlutterEasyDialogs.show<int>(
       EasyDialog.positioned(
+        position: _selectedPosition,
         decoration: PositionedDialog.defaultShell
             .chained(_selectedAnimation)
             .chained(_selectedDismissible),
