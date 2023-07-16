@@ -24,9 +24,15 @@ FlutterEasyDialogs.show(
     ]),
     content: Container(
       height: 150.0,
-      color: Colors.amber[900],
+      color: Colors.blue[900],
       alignment: Alignment.center,
-      child: Text('$_selectedPosition'),
+      child: const Text(
+        'Dialog',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
+        ),
+      ),
     ),
   ),
 );
@@ -41,14 +47,22 @@ FlutterEasyDialogs.show(
     ]),
     content: Container(
       height: 150.0,
-      color: Colors.amber[900],
+      color: Colors.blue[900],
       alignment: Alignment.center,
-      child: Text('$_selectedPosition'),
+      child: const Text(
+        'Dialog',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
+        ),
+      ),
     ),
   ),
 );
 ```
 The result will be the same:
+
+![ezgif-2-89b886cfea](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/7b019125-64b1-4a7d-909a-2040d467a585)
 
 #### Chain
 You can chain two decorations one after another:
@@ -58,17 +72,27 @@ FlutterEasyDialogs.show(
   EasyDialog.positioned(
     decoration: const EasyDialogDecoration.chain(
       EasyDialogAnimation.fade(),
-      EasyDialogDismiss.animatedTap(),
+      PositionedDismiss.swipe(),
     ),
     content: Container(
       height: 150.0,
-      color: Colors.amber[900],
+      color: Colors.blue[900],
       alignment: Alignment.center,
-      child: Text('$_selectedPosition'),
+      child: const Text(
+        'Dialog',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
+        ),
+      ),
     ),
   ),
 );
 ```
+
+![ezgif-2-bcdedfeb8f](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/ff70ba46-0339-4062-a938-8473f9f05562)
+
+
 Or chain multiple. In fact, this will provide the same output as `combine` but using a different syntax:
 
 ```dart
@@ -79,13 +103,21 @@ FlutterEasyDialogs.show(
         .chained(const EasyDialogDismiss.animatedTap()),
     content: Container(
       height: 150.0,
-      color: Colors.amber[900],
+      color: Colors.blue[900],
       alignment: Alignment.center,
-      child: Text('$_selectedPosition'),
+      child: const Text(
+        'Dialog',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
+        ),
+      ),
     ),
   ),
 );
 ```
+
+![ezgif-2-89b886cfea](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/7b019125-64b1-4a7d-909a-2040d467a585)
 
 #### Builder
 You are able to define your custom decoration using `builder` constructor:
@@ -94,20 +126,29 @@ You are able to define your custom decoration using `builder` constructor:
 FlutterEasyDialogs.show(
   EasyDialog.positioned(
     decoration: EasyDialogDecoration.builder(
-      (_, dialog) => FadeTransition(
-        opacity: dialog.context.animation,
+      (context, dialog) => ScaleTransition(
+        scale: dialog.context.animation,
         child: dialog.content,
       ),
     ),
     content: Container(
       height: 150.0,
-      color: Colors.amber[900],
+      color: Colors.blue[900],
       alignment: Alignment.center,
-      child: Text('$_selectedPosition'),
+      child: const Text(
+        'Dialog',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
+        ),
+      ),
     ),
   ),
 );
 ```
+
+![ezgif-4-622106eb6e](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/7a816a8e-6b8c-4227-b331-1d58a5ed0d9c)
+
 
 You can achieve cool behaviors with this one. For example, you can use other packages such as [flutter_animate](https://pub.dev/packages/flutter_animate) to create impressive effects.
 
@@ -129,30 +170,22 @@ FlutterEasyDialogs.show(
           .fadeIn(),
     ),
     content: Container(
-      color: Colors.white,
-      width: double.infinity,
-      height: 200.0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text('Hello World'),
-          ElevatedButton(
-            onPressed: () {
-              FlutterEasyDialogs.hide(
-                PositionedDialog.identifier(
-                  position: EasyDialogPosition.top,
-                ),
-              );
-            },
-            child: const Text('Close'),
-          ),
-        ],
+      height: 150.0,
+      color: Colors.blue[900],
+      alignment: Alignment.center,
+      child: const Text(
+        'Dialog',
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
+        ),
       ),
     ),
   ),
 );
 ```
+
+![ezgif-2-6ee2f2df2f](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/d3b96e2a-c86e-41ed-b1c8-c5a6ece7cd8c)
 
 #### Single decoration
 That's it, you can provide only a single decoration.
