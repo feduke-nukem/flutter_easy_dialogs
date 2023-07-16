@@ -1,3 +1,5 @@
+## 3.0.0-dev.3+1
+* **DOC:** Improved documentation
 ## 3.0.0-dev.3
 * **DOC:** Improved documentation
 
