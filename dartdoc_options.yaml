@@ -9,10 +9,14 @@ dartdoc:
     "Decorations":
       markdown: doc/decorations.md
       name: Decorations
+    "Migration guide from 2.x to 3.x":
+      markdown: doc/migration_guide_2_to_3.md
+      name: Migration guide from 2.x to 3.x
   categoryOrder:
     - "Getting started"
     - "Dialogs"
-    - "Decorations" 
+    - "Decorations"
+    - "Migration guide from 2.x to 3.x"
   showUndocumentedCategories: true
   ignore:
     - broken-link

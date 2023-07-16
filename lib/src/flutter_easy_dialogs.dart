@@ -4,6 +4,7 @@ import 'package:flutter_easy_dialogs/src/core/easy_dialogs_overlay.dart';
 
 /// {@category Dialogs}
 /// {@category Getting started}
+/// {@category Migration guide from 2.x to 3.x}
 /// Wrapper for providing an easy use of different custom dialogs.
 final class FlutterEasyDialogs extends StatelessWidget {
   /// Child widget.
@@ -35,10 +36,6 @@ final class FlutterEasyDialogs extends StatelessWidget {
         instantly: instantly,
         result: result,
       );
-
-  /// {@macro easy_dialogs_controller.hideWhereType}
-  static hideWhereType<T extends EasyDialog>({bool instantly = false}) =>
-      controller.hideWhereType<T>(instantly: instantly);
 
   /// {@macro easy_dialogs_controller.hideWhere}
   static Future<void> hideWhere<T extends EasyDialog>(

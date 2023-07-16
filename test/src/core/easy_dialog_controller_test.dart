@@ -74,7 +74,7 @@ void main() {
 
       await widgetTester.pumpAndSettle(const Duration(seconds: 3));
 
-      controller.hideWhereType<PositionedDialog>();
+      controller.hideWhere<PositionedDialog>((_) => true);
 
       await widgetTester.pumpAndSettle(const Duration(seconds: 3));
 
@@ -124,6 +124,46 @@ void main() {
           (controller.entries.values.first.dialog as PositionedDialog).position,
           EasyDialogPosition.top);
       expect(controller.entries.values.last.dialog, isA<FullScreenDialog>());
+    });
+
+    testWidgets('show three positions and hide two of them',
+        (widgetTester) async {
+      await widgetTester.pumpWidget(
+        app(),
+      );
+
+      final controller = easyOverlayState.controller;
+      final topDialog = EasyDialog.positioned(
+        content: Container(),
+        autoHideDuration: null,
+      );
+      controller.show(topDialog);
+      final bottomDialog = EasyDialog.positioned(
+        content: Container(),
+        position: EasyDialogPosition.bottom,
+        autoHideDuration: null,
+      );
+      controller.show(bottomDialog);
+
+      final centerDialog = EasyDialog.positioned(
+        content: Container(),
+        position: EasyDialogPosition.center,
+        autoHideDuration: null,
+      );
+      controller.show(centerDialog);
+      await widgetTester.pumpAndSettle(const Duration(seconds: 3));
+
+      controller.hideWhere<PositionedDialog>(
+        (element) =>
+            element.position == EasyDialogPosition.bottom ||
+            element.position == EasyDialogPosition.center,
+      );
+
+      await widgetTester.pumpAndSettle(const Duration(seconds: 3));
+
+      expect(topDialog.state, EasyDialogLifecycleState.shown);
+      expect(bottomDialog.state, EasyDialogLifecycleState.disposed);
+      expect(centerDialog.state, EasyDialogLifecycleState.disposed);
     });
 
     testWidgets('show dialog with decoration and get decoration of exact type ',
@@ -188,6 +228,31 @@ void main() {
 
       expect(result, isNotNull);
       expect(result, equals(0));
+    });
+
+    testWidgets('show dialog that was shown => assertion error',
+        (widgetTester) async {
+      await widgetTester.pumpWidget(
+        app(),
+      );
+
+      final controller = easyOverlayState.controller;
+      final dialog = EasyDialog.positioned(
+        content: Container(),
+      );
+
+      controller.show(dialog);
+
+      await widgetTester.pumpAndSettle(const Duration(seconds: 3));
+
+      controller.hide(dialog);
+
+      await widgetTester.pumpAndSettle(const Duration(seconds: 3));
+
+      expect(
+        () => controller.show(dialog),
+        throwsA(isA<AssertionError>()),
+      );
     });
 
     testWidgets('show multiple dismiss and find parent for child',

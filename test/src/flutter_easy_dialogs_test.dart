@@ -113,7 +113,7 @@ void main() {
 
     await widgetTester.pumpAndSettle(const Duration(seconds: 3));
 
-    FlutterEasyDialogs.hideWhereType<PositionedDialog>();
+    FlutterEasyDialogs.hideWhere<PositionedDialog>((_) => true);
 
     await widgetTester.pumpAndSettle(const Duration(seconds: 3));
 

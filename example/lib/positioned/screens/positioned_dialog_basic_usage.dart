@@ -151,9 +151,10 @@ class _PositionedDialogManagerBasicUsageScreenState
               onPressed: _show,
               child: const Text('Show'),
             ),
-            const ElevatedButton(
-              onPressed: FlutterEasyDialogs.hideWhereType<PositionedDialog>,
-              child: Text('Hide all'),
+            ElevatedButton(
+              onPressed: () =>
+                  FlutterEasyDialogs.hideWhere<PositionedDialog>((_) => true),
+              child: const Text('Hide all'),
             ),
             ElevatedButton(
               onPressed: () {

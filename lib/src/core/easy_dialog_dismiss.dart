@@ -19,6 +19,7 @@ typedef OnEasyDismissed = FutureOr<Object?> Function();
 typedef EasyWillDismiss = FutureOr<bool> Function();
 
 /// {@category Decorations}
+/// {@category Migration guide from 2.x to 3.x}
 /// The main purpose is to make [EasyDialog] dismissible.
 ///
 /// See also:

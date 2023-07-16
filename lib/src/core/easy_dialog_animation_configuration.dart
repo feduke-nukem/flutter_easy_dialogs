@@ -5,6 +5,7 @@ const _defaultDuration = Duration(milliseconds: 350);
 const _defaultReverseDuration = Duration(milliseconds: 350);
 
 /// {@category Dialogs}
+/// {@category Migration guide from 2.x to 3.x}
 /// {@template easy_dialog_animation_configuration}
 /// Configuration of [EasyDialogAnimation].
 ///

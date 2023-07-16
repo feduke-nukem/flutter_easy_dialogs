@@ -3,6 +3,7 @@ part of 'easy_dialogs_controller.dart';
 const _defaultCurve = Curves.fastLinearToSlowEaseIn;
 
 /// {@category Decorations}
+/// {@category Migration guide from 2.x to 3.x}
 /// Base class of animator for dialogs.
 ///
 /// Its main purpose is to apply an animation effect to the provided

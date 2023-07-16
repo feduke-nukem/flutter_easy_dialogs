@@ -7,6 +7,7 @@ typedef EasyDialogDecorationBuilder<Dialog extends EasyDialog> = Widget
 );
 
 /// {@category Decorations}
+/// {@category Migration guide from 2.x to 3.x}
 /// {@template easy_dialog_decoration}
 /// This class is intended to be used by [D] dialog to apply some decorations.
 ///

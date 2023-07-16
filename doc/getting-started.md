@@ -38,7 +38,7 @@ FlutterEasyDialogs.show(
       height: 150.0,
       color: Colors.amber[900],
       alignment: Alignment.center,
-      child: const Text('Content'),
+      child: const Text('Dialog'),
     ),
   ),
 );
@@ -81,15 +81,9 @@ If needed, there is an option to hide multiple dialogs at once.
 ```dart
 FlutterEasyDialogs.hideWhere<PositionedDialog>(
   (dialog) =>
-      dialog.position == EasyDialogPosition.bottom &&
+      dialog.position == EasyDialogPosition.bottom ||
       dialog.position == EasyDialogPosition.top,
 );
-```
-
-Or using the type alone:
-
-```dart
-FlutterEasyDialogs.hideWhereType<PositionedDialog>();
 ```
 
 #### Extension
@@ -102,7 +96,7 @@ final dialog = EasyDialog.positioned(
     height: 150.0,
     color: Colors.amber[900],
     alignment: Alignment.center,
-    child: Text('$_selectedPosition'),
+    child: Text('Dialog'),
   ),
   position: _selectedPosition,
 );

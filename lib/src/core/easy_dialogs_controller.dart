@@ -13,6 +13,7 @@ part 'easy_dialog_dismiss.dart';
 
 /// {@category Dialogs}
 /// {@category Getting started}
+/// {@category Migration guide from 2.x to 3.x}
 /// Core class for manipulating dialogs.
 final class EasyDialogsController {
   @visibleForTesting
@@ -75,19 +76,6 @@ final class EasyDialogsController {
         identifier,
         instantly: instantly,
         result: result,
-      );
-
-  /// {@template easy_dialogs_controller.hideWhereType}
-  /// This method is used to hide all dialogs of a specific type [D].
-  /// {@endtemplate}
-  Future<void> hideWhereType<D extends EasyDialog>({bool instantly = false}) =>
-      Future.wait(
-        entries.values.where((entry) => entry.dialog is D).map(
-              (e) => _hide(
-                e.dialog,
-                instantly: instantly,
-              ),
-            ),
       );
 
   /// {@template easy_dialogs_controller.hideWhere}
@@ -322,7 +310,7 @@ abstract base class EasyDialog
         const EasyDialogAnimationConfiguration.bounded(),
   }) : _content = content;
 
-  /// @nodoc
+  /// Shortcut for [FullScreenDialog].
   factory EasyDialog.fullScreen({
     required Widget content,
     WillPopCallback? androidWillPop,
@@ -331,7 +319,7 @@ abstract base class EasyDialog
     Duration? autoHideDuration,
   }) = FullScreenDialog;
 
-  /// @nodoc
+  /// Shortcut for [PositionedDialog].
   factory EasyDialog.positioned({
     required Widget content,
     EasyDialogPosition position,
@@ -367,6 +355,7 @@ abstract base class EasyDialog
   @mustCallSuper
   @protected
   void onShow() {
+    assert(_state == EasyDialogLifecycleState.initialized);
     decoration.onShow();
     _state = EasyDialogLifecycleState.showing;
   }
