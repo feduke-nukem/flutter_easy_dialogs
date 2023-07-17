@@ -155,9 +155,8 @@ final dialog = Container(
     .slideHorizontal()
     .slideVertical()
     .blurBackground(backgroundColor: Colors.red.withOpacity(0.5));
-
-await dialog.show<void>();
-await dialog.hide();
+final result = await dialog.show<int>();
+await dialog.hide(result: 5);
 ```
 
 ![ezgif-5-c6586e94c5](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/5969da40-0d3f-4cb0-8aa3-e166bbe11b6d)
