@@ -41,6 +41,22 @@ FlutterEasyDialogs.show(
 );
 ```
 
+Or:
+
+```dart
+Container(
+  height: 150.0,
+  color: Colors.amber[900],
+  alignment: Alignment.center,
+  child: Text('Dialog'),
+)
+    .positioned(
+      position: EasyDialogPosition.top,
+      autoHideDuration: Duration(milliseconds: 500),
+    )
+    .show();
+```
+
 To hide a dialog, you can now create an [identifier](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogIdentifier-class.html) for a specific dialog type.
 
 From:
