@@ -51,6 +51,23 @@ FlutterEasyDialogs.show(
 );
 ```
 
+Or:
+
+```dart
+Container(
+  height: 150.0,
+  color: Colors.blue[900],
+  alignment: Alignment.center,
+  child: const Text(
+    'Dialog',
+    style: TextStyle(
+      color: Colors.white,
+      fontSize: 30.0,
+    ),
+  ),
+).positioned().show();
+```
+
 ![ezgif-1-c274042f92](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/2d632324-cb62-40b2-a757-bd9e96b8af4e)
 
 Or to hide with the help of specific dialog [identifier](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogIdentifier-class.html):
@@ -72,11 +89,29 @@ final result = await FlutterEasyDialogs.show<int>(
       height: 150.0,
       color: Colors.amber[900],
       alignment: Alignment.center,
-      child: Text('$_selectedPosition'),
+      child: const Text('Dialog'),
     ),
     position: EasyDialogPosition.bottom,
   ),
 );
+
+await FlutterEasyDialogs.hide(
+  PositionedDialog.identifier(
+    position: EasyDialogPosition.bottom,
+  ),
+  result: 5,
+);
+```
+
+Or:
+
+```dart
+final result = await Container(
+  height: 150.0,
+  color: Colors.amber[900],
+  alignment: Alignment.center,
+  child: const Text('Dialog'),
+).positioned(position: EasyDialogPosition.bottom).show<int>();
 
 await FlutterEasyDialogs.hide(
   PositionedDialog.identifier(
