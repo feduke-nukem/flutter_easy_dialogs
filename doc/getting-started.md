@@ -101,16 +101,29 @@ FlutterEasyDialogs.hideWhere<PositionedDialog>(
 There is an [extension](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogsX.html) that provides alternative ways to show and hide dialogs.
 
 ```dart
-final dialog = EasyDialog.positioned(
-  content: Container(
-    height: 150.0,
-    color: Colors.amber[900],
-    alignment: Alignment.center,
-    child: Text('Dialog'),
+final dialog = Container(
+  height: 150.0,
+  color: Colors.blue[900],
+  alignment: Alignment.center,
+  child: Text(
+    'bottom',
+    style: const TextStyle(
+      color: Colors.white,
+      fontSize: 30.0,
+    ),
   ),
-  position: _selectedPosition,
-);
+)
+    .positioned(position: EasyDialogPosition.bottom)
+    .fade()
+    .swipe(instantly: false)
+    .animatedTap()
+    .slideHorizontal()
+    .slideVertical()
+    .blurBackground(backgroundColor: Colors.red.withOpacity(0.5));
 
-await dialog.show();
+await dialog.show<void>();
 await dialog.hide();
 ```
+
+![ezgif-5-c6586e94c5](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/5969da40-0d3f-4cb0-8aa3-e166bbe11b6d)
+
