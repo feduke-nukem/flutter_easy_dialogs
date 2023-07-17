@@ -507,8 +507,7 @@ void main() {
       'show the positioned dialog with all extensions',
       (widgetTester) async {
         await showAndHideWithAllExtensions(
-          (content) => EasyDialog.positioned(
-            content: content,
+          (content) => content.positioned(
             autoHideDuration: null,
           ),
           widgetTester,
@@ -519,7 +518,7 @@ void main() {
       'show the positioned dialog with all extensions',
       (widgetTester) async {
         await showAndHideWithAllExtensions(
-          (content) => EasyDialog.fullScreen(content: content),
+          (content) => content.fullScreen(),
           widgetTester,
         );
       },
