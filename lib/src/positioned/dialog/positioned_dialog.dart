@@ -9,6 +9,19 @@ final class PositionedDialog extends EasyDialog {
   static const defaultAnimation = EasyDialogAnimation<PositionedDialog>.fade();
   static const defaultDismissible =
       EasyDialogDismiss<PositionedDialog>.animatedTap();
+  static const defaultDecoration =
+      EasyDialogDecoration<PositionedDialog>.combine([
+    defaultShell,
+    defaultAnimation,
+    defaultDismissible,
+  ]);
+  static const defaultPosition = EasyDialogPosition.top;
+  static const defaultAnimationConfiguration =
+      const EasyDialogAnimationConfiguration.bounded(
+    duration: Duration(milliseconds: 500),
+    reverseDuration: Duration(milliseconds: 500),
+  );
+  static const defaultAutoHideDuration = Duration(seconds: 3);
 
   /// The position where the dialog will be shown.
   final EasyDialogPosition position;
@@ -16,18 +29,10 @@ final class PositionedDialog extends EasyDialog {
   /// Creates an instance of [PositionedDialog].
   PositionedDialog({
     required super.content,
-    this.position = EasyDialogPosition.top,
-    super.decoration = const EasyDialogDecoration<PositionedDialog>.combine([
-      defaultShell,
-      defaultAnimation,
-      defaultDismissible,
-    ]),
-    super.animationConfiguration =
-        const EasyDialogAnimationConfiguration.bounded(
-      duration: Duration(milliseconds: 500),
-      reverseDuration: Duration(milliseconds: 500),
-    ),
-    super.autoHideDuration = const Duration(seconds: 3),
+    this.position = defaultPosition,
+    super.decoration = defaultDecoration,
+    super.animationConfiguration = defaultAnimationConfiguration,
+    super.autoHideDuration = defaultAutoHideDuration,
   });
 
   @factory

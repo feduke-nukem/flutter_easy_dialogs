@@ -338,6 +338,16 @@ abstract base class EasyDialog
   @protected
   EasyOverlayBoxRemoval createRemove();
 
+  EasyDialog _clone() {
+    final cloned = clone();
+    cloned._context = _context;
+    cloned._pendingResult = _pendingResult;
+    cloned._completer = _completer;
+    cloned._state = _state;
+
+    return cloned;
+  }
+
   /// @nodoc
   @protected
   EasyDialog clone();
@@ -535,6 +545,38 @@ extension EasyDialogsX on EasyDialog {
         this,
         instantly: instantly,
         result: result,
+      );
+}
+
+extension EasyDialogWidgetX on Widget {
+  PositionedDialog positioned({
+    EasyDialogPosition position = PositionedDialog.defaultPosition,
+    EasyDialogAnimationConfiguration animationConfiguration =
+        PositionedDialog.defaultAnimationConfiguration,
+    EasyDialogDecoration<EasyDialog> decoration =
+        PositionedDialog.defaultDecoration,
+    Duration autoHideDuration = PositionedDialog.defaultAutoHideDuration,
+  }) =>
+      PositionedDialog(
+        content: this,
+        position: position,
+        decoration: decoration,
+        animationConfiguration: animationConfiguration,
+        autoHideDuration: autoHideDuration,
+      );
+
+  FullScreenDialog fullScreen({
+    EasyDialogAnimationConfiguration animationConfiguration =
+        FullScreenDialog.defaultAnimationConfiguration,
+    EasyDialogDecoration<EasyDialog> decoration =
+        FullScreenDialog.defaultDecoration,
+    Duration? autoHideDuration,
+  }) =>
+      FullScreenDialog(
+        content: this,
+        animationConfiguration: animationConfiguration,
+        decoration: decoration,
+        autoHideDuration: autoHideDuration,
       );
 }
 

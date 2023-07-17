@@ -106,11 +106,7 @@ abstract base class EasyDialogDecoration<D extends EasyDialog>
   D _decorate(D dialog) {
     dialog.context._registerDecoration(this);
 
-    final newDialog = dialog.clone()
-      .._content = this.call(dialog)
-      .._context = dialog._context
-      .._completer = dialog._completer
-      .._pendingResult = dialog._pendingResult;
+    final newDialog = dialog._clone().._content = this.call(dialog);
 
     return newDialog as D;
   }

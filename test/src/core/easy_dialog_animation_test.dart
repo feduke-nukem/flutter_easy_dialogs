@@ -38,6 +38,7 @@ void main() {
           await showAndHide(
             widgetTester,
             EasyDialog.positioned(
+              autoHideDuration: null,
               decoration: element,
               content: SizedBox(key: dialogKey),
             ),

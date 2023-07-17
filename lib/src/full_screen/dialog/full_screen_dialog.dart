@@ -15,6 +15,19 @@ final class FullScreenDialog extends EasyDialog
     EasyDialogAnimation.blurBackground(),
   );
   static const defaultDismissible = FullScreenDismiss.tap();
+  static const defaultDecoration =
+      EasyDialogDecoration<FullScreenDialog>.combine(
+    [
+      defaultShell,
+      defaultAnimation,
+      defaultDismissible,
+    ],
+  );
+  static const defaultAnimationConfiguration =
+      EasyDialogAnimationConfiguration.bounded(
+    duration: const Duration(milliseconds: 300),
+    reverseDuration: const Duration(milliseconds: 300),
+  );
 
   /// Callback that is invoked when the user presses the back button on Android.
   final WillPopCallback? androidWillPop;
@@ -23,16 +36,8 @@ final class FullScreenDialog extends EasyDialog
   FullScreenDialog({
     required super.content,
     this.androidWillPop,
-    super.animationConfiguration =
-        const EasyDialogAnimationConfiguration.bounded(
-      duration: const Duration(milliseconds: 300),
-      reverseDuration: const Duration(milliseconds: 300),
-    ),
-    super.decoration = const EasyDialogDecoration<FullScreenDialog>.combine([
-      defaultShell,
-      defaultAnimation,
-      defaultDismissible,
-    ]),
+    super.animationConfiguration = defaultAnimationConfiguration,
+    super.decoration = defaultDecoration,
     super.autoHideDuration,
   });
 

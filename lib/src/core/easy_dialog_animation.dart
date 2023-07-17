@@ -7,7 +7,6 @@ const _defaultBlur = 0.5;
 
 /// {@category Decorations}
 /// {@category Migration guide from 2.x to 3.x}
-/// Base class of animator for dialogs.
 ///
 /// Its main purpose is to apply an animation effect to the provided
 /// [EasyDialog].
@@ -279,7 +278,7 @@ final class _AnimationDecorator<D extends EasyDialog>
   @override
   Widget call(D dialog) {
     return target(
-      (dialog.clone().._context = contextBuilder(dialog)) as D,
+      (dialog._clone().._context = contextBuilder(dialog)) as D,
     );
   }
 }
