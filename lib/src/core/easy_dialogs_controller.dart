@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:math' as math;
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
@@ -53,7 +55,8 @@ final class EasyDialogsController {
 
     if (needStart) await entry.animationController.forward();
 
-    final result = await entry.dialog._completer.future;
+    final result = await entry.dialog._completer!.future;
+    entry.dialog._completer = null;
 
     return result as T?;
   }
@@ -167,7 +170,7 @@ final class EasyDialogsController {
           : await entry.animationController.reverse();
     }
 
-    await entry.dialog._completer.future;
+    await entry.dialog._completer!.future;
   }
 
   void _releaseEntry(_DialogEntry entry) {
@@ -177,7 +180,7 @@ final class EasyDialogsController {
         entry.animationController,
       ),
     );
-    assert(entry.dialog._completer.isCompleted);
+    assert(entry.dialog._completer!.isCompleted);
 
     entries.remove(entry.dialog.identity);
     overlay.removeDialog(entry.dialog.createRemove());
@@ -213,7 +216,7 @@ class _AnimationStatusListener {
         await Future.delayed(dialog.autoHideDuration!);
 
         if (entry.animationController.isDismissed ||
-            dialog._completer.isCompleted) return;
+            dialog._completer!.isCompleted) return;
 
         await entry.animationController.reverse();
       case AnimationStatus.reverse:
@@ -281,16 +284,17 @@ abstract base class EasyDialogIdentifier {
 abstract base class EasyDialog
     with EasyDialogLifecycle
     implements EasyDialogIdentifier {
-  late final EasyDialogContext _context;
+  EasyDialogContext? _context;
   Widget _content;
   Object? _pendingResult;
-  late final Completer<Object?> _completer;
+  Completer<Object?>? _completer;
   var _state = EasyDialogLifecycleState.created;
 
   /// {@macro easy_dialog_decoration}
-  final EasyDialogDecoration decoration;
+  EasyDialogDecoration _decoration;
+  EasyDialogDecoration get decoration => _decoration;
   EasyDialogLifecycleState get state => _state;
-  EasyDialogContext get context => _context;
+  EasyDialogContext get context => _context!;
   Widget get content => _content;
 
   /// {@macro easy_dialog_animation_configuration}
@@ -305,10 +309,11 @@ abstract base class EasyDialog
   EasyDialog({
     required Widget content,
     this.autoHideDuration,
-    this.decoration = const EasyDialogDecoration.none(),
+    EasyDialogDecoration decoration = const EasyDialogDecoration.none(),
     this.animationConfiguration =
         const EasyDialogAnimationConfiguration.bounded(),
-  }) : _content = content;
+  })  : _content = content,
+        _decoration = decoration;
 
   /// Shortcut for [FullScreenDialog].
   factory EasyDialog.fullScreen({
@@ -338,9 +343,15 @@ abstract base class EasyDialog
   @protected
   EasyOverlayBoxRemoval createRemove();
 
-  EasyDialog _clone() {
+  EasyDialog _copyWith({
+    Widget? content,
+    EasyDialogDecoration? decoration,
+    EasyDialogContext? context,
+  }) {
     final cloned = clone();
-    cloned._context = _context;
+    cloned._decoration = decoration ?? _decoration;
+    cloned._content = content ?? _content;
+    cloned._context = context ?? _context;
     cloned._pendingResult = _pendingResult;
     cloned._completer = _completer;
     cloned._state = _state;
@@ -408,7 +419,7 @@ abstract base class EasyDialog
         ),
       );
 
-  void _complete() => _completer.complete(_pendingResult);
+  void _complete() => _completer!.complete(_pendingResult);
 }
 
 /// Dialog lifecycle state.
@@ -517,8 +528,9 @@ class _DialogEntry {
         animationController = animationController;
 
   void dispose() {
-    dialog._context.dispose();
+    dialog._context!.dispose();
     dialog.dispose();
+    dialog._context = null;
 
     final needDisposeController = switch (dialog.animationConfiguration) {
       AnimationConfigurationWithController c => c.willDispose,
@@ -546,21 +558,167 @@ extension EasyDialogsX on EasyDialog {
         instantly: instantly,
         result: result,
       );
+
+  /// Decorate this dialog with [decoration].
+  EasyDialog decorate(EasyDialogDecoration decoration) => _copyWith(
+        decoration: this.decoration.chained(decoration),
+      );
+
+  /// {@macro easy_dialog_animation.fade}
+  EasyDialog fade({Curve curve = _Fade._defaultCurve}) => decorate(
+        EasyDialogAnimation.fade(curve: curve),
+      );
+
+  /// {@macro easy_dialog_animation.expansion}
+  EasyDialog expansion({Curve curve = _Expansion._defaultCurve}) => decorate(
+        EasyDialogAnimation.expansion(curve: curve),
+      );
+
+  /// {@macro easy_dialog_animation.bounce}
+  EasyDialog bounce({Curve curve = _Bounce._defaultCurve}) => decorate(
+        EasyDialogAnimation.bounce(curve: curve),
+      );
+
+  /// {@macro easy_dialog_animation.slideHorizontal}
+  EasyDialog slideHorizontal({
+    Curve curve = _SlideHorizontal._defaultCurve,
+    HorizontalSlideDirection direction = _SlideHorizontal._defaultDirection,
+  }) =>
+      decorate(
+        EasyDialogAnimation.slideHorizontal(
+          curve: curve,
+          direction: direction,
+        ),
+      );
+
+  /// {@macro easy_dialog_animation.slideVertical}
+  EasyDialog slideVertical({
+    Curve curve = _SlideVertical._defaultCurve,
+    VerticalSlideDirection direction = _SlideVertical._defaultDirection,
+  }) =>
+      decorate(
+        EasyDialogAnimation.slideVertical(
+          curve: curve,
+          direction: direction,
+        ),
+      );
+
+  /// {@macro easy_dialog_animation.blurBackground}
+  EasyDialog blurBackground({
+    Color backgroundColor = _BlurBackground._defaultBackgroundColor,
+    Curve curve = _BlurBackground._defaultCurve,
+    double amount = _BlurBackground._defaultAmount,
+  }) =>
+      decorate(
+        EasyDialogAnimation.blurBackground(
+          backgroundColor: backgroundColor,
+          curve: curve,
+          amount: amount,
+        ),
+      );
+
+  /// {@macro easy_dialog_animation.fadeBackground}
+  EasyDialog fadeBackground({
+    Color backgroundColor = _FadeBackground._defaultBackgroundColor,
+    double blur = _FadeBackground._defaultBlur,
+    Curve curve = _Bounce._defaultCurve,
+  }) =>
+      decorate(
+        EasyDialogAnimation.fadeBackground(
+          backgroundColor: backgroundColor,
+          blur: blur,
+          curve: curve,
+        ),
+      );
+
+  /// {@macro easy_dialog_dismiss.animatedTap}
+  EasyDialog animatedTap({
+    Duration duration = _AnimatedTap._defaultDuration,
+    double pressScale = _AnimatedTap._defaultPressScale,
+    Curve curve = _AnimatedTap._defaultCurve,
+    OnEasyDismissed? onDismissed,
+    EasyWillDismiss? willDismiss,
+    HitTestBehavior? behavior,
+    bool instantly = false,
+  }) =>
+      decorate(
+        EasyDialogDismiss.animatedTap(
+          duration: duration,
+          pressScale: pressScale,
+          curve: curve,
+          onDismissed: onDismissed,
+          willDismiss: willDismiss,
+          behavior: behavior,
+          instantly: instantly,
+        ),
+      );
+
+  /// {@macro easy_dialog_dismiss.tap}
+  EasyDialog tap({
+    HitTestBehavior behavior = _Tap._defaultBehavior,
+    OnEasyDismissed? onDismissed,
+    EasyWillDismiss? willDismiss,
+    bool instantly = false,
+  }) =>
+      decorate(
+        EasyDialogDismiss.tap(
+          behavior: behavior,
+          onDismissed: onDismissed,
+          willDismiss: willDismiss,
+          instantly: instantly,
+        ),
+      );
+
+  /// {@macro easy_dialog_dismiss.swipe}
+  EasyDialog swipe({
+    DismissDirection direction = _Swipe._defaultDirection,
+    OnEasyDismissed? onDismissed,
+    Widget? background,
+    Widget? secondaryBackground,
+    VoidCallback? onResize,
+    Duration? resizeDuration,
+    Map<DismissDirection, double> dismissThresholds =
+        _Swipe._defaultDismissThresholds,
+    Duration movementDuration = _Swipe._defaultMovementDuration,
+    double crossAxisEndOffset = _Swipe._defaultCrossAxisEndOffset,
+    DragStartBehavior dragStartBehavior = _Swipe._defaultDragStartBehavior,
+    HitTestBehavior behavior = _Swipe._defaultBehavior,
+    DismissUpdateCallback? onUpdate,
+    EasyWillDismiss? willDismiss,
+    bool instantly = true,
+  }) =>
+      decorate(
+        EasyDialogDismiss.swipe(
+          direction: direction,
+          onDismissed: onDismissed,
+          background: background,
+          secondaryBackground: secondaryBackground,
+          onResize: onResize,
+          resizeDuration: resizeDuration,
+          dismissThresholds: dismissThresholds,
+          movementDuration: movementDuration,
+          crossAxisEndOffset: crossAxisEndOffset,
+          dragStartBehavior: dragStartBehavior,
+          behavior: behavior,
+          onUpdate: onUpdate,
+          willDismiss: willDismiss,
+          instantly: instantly,
+        ),
+      );
 }
 
+/// {@category Getting started}
+/// Shortcuts for [Widget].
 extension EasyDialogWidgetX on Widget {
   PositionedDialog positioned({
     EasyDialogPosition position = PositionedDialog.defaultPosition,
     EasyDialogAnimationConfiguration animationConfiguration =
         PositionedDialog.defaultAnimationConfiguration,
-    EasyDialogDecoration<EasyDialog> decoration =
-        PositionedDialog.defaultDecoration,
-    Duration autoHideDuration = PositionedDialog.defaultAutoHideDuration,
+    Duration? autoHideDuration = PositionedDialog.defaultAutoHideDuration,
   }) =>
       PositionedDialog(
         content: this,
         position: position,
-        decoration: decoration,
         animationConfiguration: animationConfiguration,
         autoHideDuration: autoHideDuration,
       );
@@ -568,14 +726,11 @@ extension EasyDialogWidgetX on Widget {
   FullScreenDialog fullScreen({
     EasyDialogAnimationConfiguration animationConfiguration =
         FullScreenDialog.defaultAnimationConfiguration,
-    EasyDialogDecoration<EasyDialog> decoration =
-        FullScreenDialog.defaultDecoration,
     Duration? autoHideDuration,
   }) =>
       FullScreenDialog(
         content: this,
         animationConfiguration: animationConfiguration,
-        decoration: decoration,
         autoHideDuration: autoHideDuration,
       );
 }

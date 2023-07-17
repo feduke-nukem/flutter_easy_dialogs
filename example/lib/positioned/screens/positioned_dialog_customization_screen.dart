@@ -96,7 +96,8 @@ final class _CustomPositionedAnimation
   }
 }
 
-final class _CustomPositionedDismiss extends PositionedDismiss {
+final class _CustomPositionedDismiss
+    extends EasyDialogDismiss<PositionedDialog> {
   const _CustomPositionedDismiss({
     required super.onDismissed,
   });

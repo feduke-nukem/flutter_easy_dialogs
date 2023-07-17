@@ -13,7 +13,7 @@ const _dismissibleAnimatedTap = 'animatedTap';
 const _animations = <String, EasyDialogAnimation<PositionedDialog>>{
   _expansionAnimation: EasyDialogAnimation.expansion(),
   _fadeAnimation: EasyDialogAnimation.fade(),
-  _verticalSlideAnimation: PositionedAnimation.verticalSlide(),
+  _verticalSlideAnimation: EasyDialogAnimation.slideVertical(),
 };
 
 class PositionedDialogManagerBasicUsageScreen extends StatefulWidget {
@@ -32,14 +32,14 @@ class _PositionedDialogManagerBasicUsageScreenState
       onDismissed: () => _count++,
       willDismiss: () => true,
     ),
-    _dismissibleHorizontalSwipe: PositionedDismiss.swipe(
+    _dismissibleHorizontalSwipe: EasyDialogDismiss.swipe(
       onDismissed: () => _count++,
       willDismiss: () => true,
     ),
-    _dismissibleVerticalSwipe: PositionedDismiss.swipe(
+    _dismissibleVerticalSwipe: EasyDialogDismiss.swipe(
       onDismissed: () => _count++,
       willDismiss: () => true,
-      direction: PositionedDismissibleSwipeDirection.vertical,
+      direction: DismissDirection.vertical,
     ),
     _dismissibleAnimatedTap: EasyDialogDismiss.animatedTap(
       onDismissed: () => _count++,
@@ -178,7 +178,7 @@ class _PositionedDialogManagerBasicUsageScreenState
     final result = await FlutterEasyDialogs.show<int>(
       EasyDialog.positioned(
         position: _selectedPosition,
-        decoration: PositionedDialog.defaultShell
+        decoration: const PositionedShell.banner()
             .chained(_selectedAnimation)
             .chained(_selectedDismissible),
         autoHideDuration: _isAutoHide

@@ -72,7 +72,7 @@ FlutterEasyDialogs.show(
   EasyDialog.positioned(
     decoration: const EasyDialogDecoration.chain(
       EasyDialogAnimation.fade(),
-      PositionedDismiss.swipe(),
+      EasyDialogDismiss.swipe(),
     ),
     content: Container(
       height: 150.0,
@@ -275,7 +275,7 @@ FlutterEasyDialogs.show(
   EasyDialog.positioned(
     autoHideDuration: const Duration(milliseconds: 500),
     decoration: EasyDialogDecoration.combine([
-      const PositionedAnimation.verticalSlide(),
+      const EasyDialogAnimation.slideVertical(),
       const EasyDialogAnimation.fade(),
       EasyDialogAnimation.blurBackground(
         backgroundColor: Colors.black.withOpacity(0.2),
@@ -370,9 +370,9 @@ There are a few important things you need to know:
 final res = await FlutterEasyDialogs.show<int>(
   EasyDialog.positioned(
     decoration: const EasyDialogAnimation.fade().chained(
-      PositionedDismiss.swipe(
+      EasyDialogDismiss.swipe(
         onDismissed: () => 5,
-        direction: PositionedDismissibleSwipeDirection.vertical,
+        direction: DismissDirection.vertical,
       ),
     ),
     content: Container(
@@ -404,7 +404,7 @@ FlutterEasyDialogs.show(
       const EasyDialogAnimation.fade(),
       const EasyDialogAnimation.expansion(),
       const EasyDialogDismiss.animatedTap(),
-      const PositionedDismiss.swipe(instantly: false),
+      const EasyDialogDismiss.swipe(instantly: false),
       EasyDialogAnimation.fadeBackground(
         backgroundColor: Colors.black.withOpacity(0.6),
       ),

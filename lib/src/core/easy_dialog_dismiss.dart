@@ -42,22 +42,50 @@ abstract base class EasyDialogDismiss<D extends EasyDialog>
     this.instantly = false,
   });
 
+  /// {@template easy_dialog_dismiss.animatedTap}
   /// Tap gesture but with extra `scale in` on tap down animation.
+  /// {@endtemplate}
   const factory EasyDialogDismiss.animatedTap({
     Duration duration,
-    double pressedScale,
+    double pressScale,
     Curve curve,
     OnEasyDismissed? onDismissed,
     EasyWillDismiss? willDismiss,
     HitTestBehavior? behavior,
+    bool instantly,
   }) = _AnimatedTap<D>;
 
+  /// {@template easy_dialog_dismiss.tap}
   /// Simple gesture tap dismiss.
+  /// {@endtemplate}
   const factory EasyDialogDismiss.tap({
     HitTestBehavior behavior,
     OnEasyDismissed? onDismissed,
     EasyWillDismiss? willDismiss,
+    bool instantly,
   }) = _Tap<D>;
+
+  /// {@template easy_dialog_dismiss.swipe}
+  /// Horizontal swipe dismissible.
+  ///
+  /// Simply uses [Dismissible] under the hood.
+  /// {@endtemplate}
+  const factory EasyDialogDismiss.swipe({
+    DismissDirection direction,
+    OnEasyDismissed? onDismissed,
+    Widget? background,
+    Widget? secondaryBackground,
+    VoidCallback? onResize,
+    Duration? resizeDuration,
+    Map<DismissDirection, double> dismissThresholds,
+    Duration movementDuration,
+    double crossAxisEndOffset,
+    DragStartBehavior dragStartBehavior,
+    HitTestBehavior behavior,
+    DismissUpdateCallback? onUpdate,
+    EasyWillDismiss? willDismiss,
+    bool instantly,
+  }) = _Swipe<D>;
 
   /// ### Handler for dismissing the dialog.
   ///
@@ -88,25 +116,31 @@ extension EasyDialogDismissX on EasyDialogDismiss {
 typedef _AnimatedTapBuilder = Widget Function(bool isPressed);
 
 final class _AnimatedTap<D extends EasyDialog> extends EasyDialogDismiss<D> {
+  static const _defaultDuration = Duration(milliseconds: 200);
+  static const _defaultPressScale = 0.95;
+  static const _defaultCurve = Curves.easeOutCubic;
+  static const _defaultBehavior = HitTestBehavior.opaque;
+
   final Duration duration;
   final Curve curve;
-  final double pressedScale;
+  final double pressScale;
   final HitTestBehavior? behavior;
 
   const _AnimatedTap({
-    this.duration = const Duration(milliseconds: 200),
+    this.duration = _defaultDuration,
     super.onDismissed,
     super.willDismiss,
-    this.pressedScale = 0.95,
-    this.curve = Curves.easeOutCubic,
-    this.behavior,
+    this.pressScale = _defaultPressScale,
+    this.curve = _defaultCurve,
+    this.behavior = _defaultBehavior,
+    super.instantly,
   });
 
   @override
   Widget call(D dialog) {
     return _AnimatedTapAnimation(
       duration: duration,
-      pressedScale: pressedScale,
+      pressScale: pressScale,
       curve: curve,
       onTap: () => handleDismiss(dialog),
       behavior: behavior,
@@ -116,7 +150,7 @@ final class _AnimatedTap<D extends EasyDialog> extends EasyDialogDismiss<D> {
 }
 
 class _AnimatedTapAnimation extends StatefulWidget {
-  final double pressedScale;
+  final double pressScale;
   final GestureTapCallback? onTap;
   final Widget child;
   final Duration duration;
@@ -126,7 +160,7 @@ class _AnimatedTapAnimation extends StatefulWidget {
   const _AnimatedTapAnimation({
     required this.child,
     required this.duration,
-    required this.pressedScale,
+    required this.pressScale,
     required this.curve,
     this.onTap,
     this.behavior,
@@ -170,7 +204,7 @@ class _AnimatedTapAnimationState extends State<_AnimatedTapAnimation> {
   void didUpdateWidget(_AnimatedTapAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (oldWidget.pressedScale != widget.pressedScale) {
+    if (oldWidget.pressScale != widget.pressScale) {
       _calculateScale();
     }
   }
@@ -182,8 +216,7 @@ class _AnimatedTapAnimationState extends State<_AnimatedTapAnimation> {
     final maxSide = math.max(size.height, size.width);
 
     _resultScale =
-        ((maxSide - (1 - widget.pressedScale) * _kReferenceScaleIndent) /
-                maxSide)
+        ((maxSide - (1 - widget.pressScale) * _kReferenceScaleIndent) / maxSide)
             .clamp(0.0, 1.0);
   }
 }
@@ -223,12 +256,15 @@ class _TapDetectorState extends State<_TapDetector> {
 const _kReferenceScaleIndent = 200;
 
 final class _Tap<D extends EasyDialog> extends EasyDialogDismiss<D> {
+  static const _defaultBehavior = HitTestBehavior.opaque;
+
   final HitTestBehavior behavior;
 
   const _Tap({
-    this.behavior = HitTestBehavior.opaque,
+    this.behavior = _defaultBehavior,
     super.onDismissed,
     super.willDismiss,
+    super.instantly,
   });
 
   @override
@@ -237,4 +273,64 @@ final class _Tap<D extends EasyDialog> extends EasyDialogDismiss<D> {
         behavior: behavior,
         child: dialog.content,
       );
+}
+
+final class _Swipe<D extends EasyDialog> extends EasyDialogDismiss<D> {
+  static const _defaultDirection = DismissDirection.horizontal;
+  static const _defaultBehavior = HitTestBehavior.deferToChild;
+  static const _defaultCrossAxisEndOffset = 0.0;
+  static const _defaultDismissThresholds = <DismissDirection, double>{};
+  static const _defaultDragStartBehavior = DragStartBehavior.start;
+  static const _defaultMovementDuration = Duration(milliseconds: 200);
+
+  final Widget? background;
+  final Widget? secondaryBackground;
+  final VoidCallback? onResize;
+  final Duration? resizeDuration;
+  final Map<DismissDirection, double> dismissThresholds;
+  final Duration movementDuration;
+  final double crossAxisEndOffset;
+  final DragStartBehavior dragStartBehavior;
+  final HitTestBehavior behavior;
+  final DismissUpdateCallback? onUpdate;
+  final DismissDirection direction;
+
+  const _Swipe({
+    this.direction = _defaultDirection,
+    super.onDismissed,
+    this.background,
+    this.behavior = _defaultBehavior,
+    this.crossAxisEndOffset = _defaultCrossAxisEndOffset,
+    this.dismissThresholds = _defaultDismissThresholds,
+    this.dragStartBehavior = _defaultDragStartBehavior,
+    this.movementDuration = _defaultMovementDuration,
+    this.onResize,
+    this.onUpdate,
+    this.resizeDuration,
+    this.secondaryBackground,
+    super.willDismiss,
+    super.instantly = true,
+  });
+
+  @override
+  Widget call(D dialog) {
+    return Dismissible(
+      key: UniqueKey(),
+      background: background,
+      secondaryBackground: secondaryBackground,
+      confirmDismiss:
+          willDismiss != null ? (_) async => super.willDismiss!() : null,
+      onResize: onResize,
+      onUpdate: onUpdate,
+      onDismissed: (_) => this.handleDismiss(dialog),
+      direction: direction,
+      resizeDuration: resizeDuration,
+      dismissThresholds: dismissThresholds,
+      movementDuration: movementDuration,
+      crossAxisEndOffset: crossAxisEndOffset,
+      dragStartBehavior: dragStartBehavior,
+      behavior: behavior,
+      child: dialog.content,
+    );
+  }
 }

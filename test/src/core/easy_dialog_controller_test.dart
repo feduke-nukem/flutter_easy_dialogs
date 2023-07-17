@@ -39,7 +39,12 @@ void main() {
       );
       expect(controller.entries.length, equals(2));
 
-      controller.show(FullScreenDialog(content: Container()));
+      controller.show(
+        EasyDialog.fullScreen(
+          content: Container(),
+          decoration: FullScreenShell.modalBanner(),
+        ),
+      );
 
       await widgetTester.pumpAndSettle(const Duration(seconds: 3));
 
@@ -266,11 +271,11 @@ void main() {
       final parent = EasyDialogDismiss<PositionedDialog>.tap(
         onDismissed: () => 0,
       );
-      final child = PositionedDismiss.swipe();
-      final decoration = PositionedDialog.defaultShell.combined([
+      final child = EasyDialogDismiss<PositionedDialog>.swipe();
+      final decoration = PositionedShell.banner().combined([
         parent,
         EasyDialogAnimation<PositionedDialog>.fade().chained(
-          PositionedDialog.defaultAnimation,
+          EasyDialogAnimation.fade(),
         ),
         EasyDialogDecoration.builder(
           (context, dialog) => Padding(
@@ -459,6 +464,64 @@ void main() {
         expect(find.byKey(firsKey), findsNothing);
         expect(find.byKey(secondKey), findsOneWidget);
         expect(controller.entries.length, 1);
+      },
+    );
+
+    Future<void> showAndHideWithAllExtensions(
+        EasyDialog Function(Widget content) dialogBuilder,
+        WidgetTester widgetTester) async {
+      await widgetTester.pumpWidget(
+        MaterialApp(
+          builder: FlutterEasyDialogs.builder(),
+        ),
+      );
+      const firsKey = Key('first');
+
+      final dialog = dialogBuilder(Container(
+        color: Colors.red,
+        height: 300,
+        width: 300,
+        key: firsKey,
+      ))
+          .fade()
+          .expansion()
+          .animatedTap()
+          .fadeBackground()
+          .blurBackground()
+          .tap()
+          .swipe()
+          .slideHorizontal()
+          .slideVertical()
+          .bounce();
+
+      dialog.show();
+      await widgetTester.pumpAndSettle(const Duration(seconds: 3));
+
+      expect(find.byKey(firsKey), findsOneWidget);
+
+      dialog.hide();
+      await widgetTester.pumpAndSettle(const Duration(seconds: 3));
+    }
+
+    testWidgets(
+      'show the positioned dialog with all extensions',
+      (widgetTester) async {
+        await showAndHideWithAllExtensions(
+          (content) => EasyDialog.positioned(
+            content: content,
+            autoHideDuration: null,
+          ),
+          widgetTester,
+        );
+      },
+    );
+    testWidgets(
+      'show the positioned dialog with all extensions',
+      (widgetTester) async {
+        await showAndHideWithAllExtensions(
+          (content) => EasyDialog.fullScreen(content: content),
+          widgetTester,
+        );
       },
     );
   });

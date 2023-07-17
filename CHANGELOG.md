@@ -1,3 +1,7 @@
+## 3.1.0
+* **FEAT:** Added extensions syntax style
+* **FEAT:** All animations and dismisses are common to use
+
 ## 3.0.0+2
 * **DOC:** Improved documentation
 

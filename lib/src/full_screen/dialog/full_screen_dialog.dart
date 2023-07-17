@@ -2,27 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/core.dart';
 import 'package:flutter_easy_dialogs/src/core/android_back_button_interceptor_mixin.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/dismissible/full_screen_dismiss.dart';
-import 'package:flutter_easy_dialogs/src/full_screen/shell/full_screen_shell.dart';
 
 const _identity = '\$fullScreenDialog';
 
 /// Dialog that is intended to cover the entire screen.
 final class FullScreenDialog extends EasyDialog
     with AndroidBackButtonInterceptorMixin {
-  static const defaultShell = FullScreenShell.modalBanner();
-  static const defaultAnimation = EasyDialogDecoration<FullScreenDialog>.chain(
-    EasyDialogAnimation.bounce(),
-    EasyDialogAnimation.blurBackground(),
-  );
-  static const defaultDismissible = FullScreenDismiss.tap();
-  static const defaultDecoration =
-      EasyDialogDecoration<FullScreenDialog>.combine(
-    [
-      defaultShell,
-      defaultAnimation,
-      defaultDismissible,
-    ],
-  );
   static const defaultAnimationConfiguration =
       EasyDialogAnimationConfiguration.bounded(
     duration: const Duration(milliseconds: 300),
@@ -37,7 +22,7 @@ final class FullScreenDialog extends EasyDialog
     required super.content,
     this.androidWillPop,
     super.animationConfiguration = defaultAnimationConfiguration,
-    super.decoration = defaultDecoration,
+    super.decoration,
     super.autoHideDuration,
   });
 

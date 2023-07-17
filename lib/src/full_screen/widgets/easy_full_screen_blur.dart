@@ -30,6 +30,7 @@ class EasyFullScreenBlur extends StatelessWidget {
     final double sigmaX = blur, sigmaY = blur;
 
     return Stack(
+      alignment: Alignment.center,
       children: [
         Positioned.fill(
           child: Opacity(

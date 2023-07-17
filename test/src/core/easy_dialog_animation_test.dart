@@ -10,6 +10,8 @@ final _animations = [
   EasyDialogAnimation.blurBackground(),
   EasyDialogAnimation.fadeBackground(),
   EasyDialogAnimation.bounce(),
+  EasyDialogAnimation.slideHorizontal(),
+  EasyDialogAnimation.slideVertical(),
   EasyDialogAnimation.expansion().interval(0.0, 1.0),
   EasyDialogAnimation.expansion().reversed(),
   EasyDialogAnimation.expansion().tweenSequence(TweenSequence([
@@ -23,18 +25,21 @@ final _animations = [
   ])),
 ];
 
+final _combined = EasyDialogDecoration.combine(_animations);
+
 void main() {
+  final animations = [_combined, ..._animations];
   group('positioned animations', () {
     test('create all', () {
-      _animations.forEach((animation) {
+      animations.forEach((animation) {
         expect(() => animation, returnsNormally);
       });
     });
 
     testWidgets(
-      'show and hide',
+      'show and hide positioned',
       (widgetTester) async {
-        for (var element in _animations) {
+        for (var element in animations) {
           await showAndHide(
             widgetTester,
             EasyDialog.positioned(
@@ -43,6 +48,23 @@ void main() {
               content: SizedBox(key: dialogKey),
             ),
             PositionedDialog.identifier(position: EasyDialogPosition.top),
+            pumpAndSettleDuration: const Duration(seconds: 3),
+          );
+        }
+      },
+    );
+
+    testWidgets(
+      'show and hide full screen',
+      (widgetTester) async {
+        for (var element in animations) {
+          await showAndHide(
+            widgetTester,
+            EasyDialog.fullScreen(
+              decoration: element,
+              content: SizedBox(key: dialogKey),
+            ),
+            FullScreenDialog.identifier(),
             pumpAndSettleDuration: const Duration(seconds: 3),
           );
         }

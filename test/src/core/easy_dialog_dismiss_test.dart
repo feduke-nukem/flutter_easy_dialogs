@@ -15,6 +15,10 @@ void main() {
         () => EasyDialogDismiss.tap(),
         returnsNormally,
       );
+      expect(
+        () => EasyDialogDismiss.swipe(),
+        returnsNormally,
+      );
     },
   );
   testWidgets('show, tap, dismissed, animated tap', (widgetTester) async {
@@ -115,6 +119,78 @@ void main() {
     await widgetTester.pumpAndSettle(_pumpAndSettleDuration);
 
     expect(find.byKey(dialogKey), findsOneWidget);
+  });
+
+  group('swipe', () {
+    testWidgets('show, tap, dismissed, horizontal swipe dismissible',
+        (widgetTester) async {
+      await widgetTester.pumpWidget(
+        app(),
+      );
+      const position = EasyDialogPosition.top;
+
+      unawaited(
+        easyOverlayState.controller.show(
+          EasyDialog.positioned(
+            autoHideDuration: null,
+            decoration: EasyDialogDismiss.swipe(),
+            content: Text(
+              'BANNER',
+              key: dialogKey,
+              style: TextStyle(fontSize: 30),
+            ),
+            position: position,
+          ),
+        ),
+      );
+      await widgetTester.pumpAndSettle(_pumpAndSettleDuration);
+
+      expect(find.byKey(dialogKey), findsOneWidget);
+
+      final banner = find.byKey(dialogKey);
+
+      await widgetTester.drag(banner, const Offset(500, 0));
+
+      await widgetTester.pumpAndSettle(_pumpAndSettleDuration);
+
+      expect(find.byKey(dialogKey), findsNothing);
+    });
+
+    testWidgets('show, tap, dismissed, vertical swipe dismissible',
+        (widgetTester) async {
+      await widgetTester.pumpWidget(
+        app(),
+      );
+      const position = EasyDialogPosition.top;
+
+      unawaited(
+        easyOverlayState.controller.show(
+          EasyDialog.positioned(
+            autoHideDuration: null,
+            decoration: EasyDialogDismiss.swipe(
+              direction: DismissDirection.vertical,
+            ),
+            content: Text(
+              'BANNER',
+              key: dialogKey,
+              style: TextStyle(fontSize: 30),
+            ),
+            position: position,
+          ),
+        ),
+      );
+      await widgetTester.pumpAndSettle(_pumpAndSettleDuration);
+
+      expect(find.byKey(dialogKey), findsOneWidget);
+
+      final banner = find.byKey(dialogKey);
+
+      await widgetTester.drag(banner, const Offset(0, -500));
+
+      await widgetTester.pumpAndSettle(_pumpAndSettleDuration);
+
+      expect(find.byKey(dialogKey), findsNothing);
+    });
   });
 }
 

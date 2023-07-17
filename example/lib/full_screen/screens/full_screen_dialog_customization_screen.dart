@@ -45,7 +45,7 @@ class FullScreenDialogCustomizationScreen extends StatelessWidget {
                             ),
                           ),
                         )
-                        .chained(FullScreenDialog.defaultDismissible),
+                        .chained(const FullScreenDismiss.tap()),
                   ),
                 );
               },
@@ -60,7 +60,7 @@ class FullScreenDialogCustomizationScreen extends StatelessWidget {
                       reverseDuration: Duration(milliseconds: 50),
                     ),
                     content: _content,
-                    decoration: FullScreenDialog.defaultShell
+                    decoration: const FullScreenShell.modalBanner()
                         .chained(const CustomAnimator())
                         .chained(
                           const _Dismissible(),

@@ -1,20 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/positioned/positioned.dart';
 
 import '../../core/core.dart';
 
 /// [EasyDialog] that is shown at a specific [EasyDialogPosition].
 final class PositionedDialog extends EasyDialog {
-  static const defaultShell = PositionedShell.banner();
-  static const defaultAnimation = EasyDialogAnimation<PositionedDialog>.fade();
-  static const defaultDismissible =
-      EasyDialogDismiss<PositionedDialog>.animatedTap();
-  static const defaultDecoration =
-      EasyDialogDecoration<PositionedDialog>.combine([
-    defaultShell,
-    defaultAnimation,
-    defaultDismissible,
-  ]);
   static const defaultPosition = EasyDialogPosition.top;
   static const defaultAnimationConfiguration =
       const EasyDialogAnimationConfiguration.bounded(
@@ -30,7 +19,7 @@ final class PositionedDialog extends EasyDialog {
   PositionedDialog({
     required super.content,
     this.position = defaultPosition,
-    super.decoration = defaultDecoration,
+    super.decoration,
     super.animationConfiguration = defaultAnimationConfiguration,
     super.autoHideDuration = defaultAutoHideDuration,
   });

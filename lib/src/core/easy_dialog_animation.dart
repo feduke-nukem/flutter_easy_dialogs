@@ -1,9 +1,6 @@
 part of 'easy_dialogs_controller.dart';
 
-const _defaultCurve = Curves.fastLinearToSlowEaseIn;
-const _defaultBackgroundColor = Color.fromARGB(44, 117, 116, 116);
-const _defaultBlurCurve = Curves.easeInOut;
-const _defaultBlur = 0.5;
+const _defaultCurve = Curves.linear;
 
 /// {@category Decorations}
 /// {@category Migration guide from 2.x to 3.x}
@@ -23,25 +20,51 @@ abstract base class EasyDialogAnimation<D extends EasyDialog>
   final Curve curve;
 
   /// @nodoc
-  const EasyDialogAnimation({this.curve = Curves.linear});
+  const EasyDialogAnimation({this.curve = _defaultCurve});
 
+  /// {@template easy_dialog_animation.fade}
   /// Simple fade transition.
+  /// {@endtemplate}
   const factory EasyDialogAnimation.fade({Curve curve}) = _Fade<D>;
 
+  /// {@template easy_dialog_animation.expansion}
   /// Expansion from inside to outside.
+  /// {@endtemplate}
   const factory EasyDialogAnimation.expansion({Curve curve}) = _Expansion<D>;
 
+  /// {@template easy_dialog_animation.bounce}
   /// Applies a bouncing effect.
+  /// {@endtemplate}
   const factory EasyDialogAnimation.bounce({Curve curve}) = _Bounce<D>;
 
+  /// {@template easy_dialog_animation.slideHorizontal}
+  /// Applies a horizontal slide animation.
+  /// {@endtemplate}
+  const factory EasyDialogAnimation.slideHorizontal({
+    Curve curve,
+    HorizontalSlideDirection direction,
+  }) = _SlideHorizontal<D>;
+
+  /// {@template easy_dialog_animation.slideVertical}
+  /// Applies a vertical slide animation.
+  /// {@endtemplate}
+  const factory EasyDialogAnimation.slideVertical({
+    Curve curve,
+    VerticalSlideDirection direction,
+  }) = _SlideVertical<D>;
+
+  /// {@template easy_dialog_animation.blurBackground}
   /// Softly applies blur animation.
+  /// {@endtemplate}
   const factory EasyDialogAnimation.blurBackground({
     Color backgroundColor,
     Curve curve,
     double amount,
   }) = _BlurBackground<D>;
 
+  /// {@template easy_dialog_animation.fadeBackground}
   /// Applies fade type animation with a specific amount of [blur].
+  /// {@endtemplate}
   const factory EasyDialogAnimation.fadeBackground({
     Color backgroundColor,
     double blur,
@@ -50,6 +73,8 @@ abstract base class EasyDialogAnimation<D extends EasyDialog>
 }
 
 final class _Fade<D extends EasyDialog> extends EasyDialogAnimation<D> {
+  static const _defaultCurve = Curves.fastLinearToSlowEaseIn;
+
   const _Fade({super.curve = _defaultCurve});
 
   @override
@@ -67,6 +92,8 @@ final class _Fade<D extends EasyDialog> extends EasyDialogAnimation<D> {
 }
 
 final class _Expansion<D extends EasyDialog> extends EasyDialogAnimation<D> {
+  static const _defaultCurve = Curves.fastLinearToSlowEaseIn;
+
   const _Expansion({super.curve = _defaultCurve});
 
   @override
@@ -94,13 +121,17 @@ final class _Expansion<D extends EasyDialog> extends EasyDialogAnimation<D> {
 
 final class _BlurBackground<D extends EasyDialog>
     extends EasyDialogAnimation<D> {
+  static const _defaultAmount = 8.0;
+  static const _defaultCurve = Curves.easeInOut;
+  static const _defaultBackgroundColor = Color.fromARGB(44, 117, 116, 116);
+
   final Color backgroundColor;
   final double amount;
 
   const _BlurBackground({
     this.backgroundColor = _defaultBackgroundColor,
-    this.amount = 8.0,
-    super.curve = _defaultBlurCurve,
+    this.amount = _defaultAmount,
+    super.curve = _defaultCurve,
   });
 
   @override
@@ -143,7 +174,12 @@ final class _BlurBackground<D extends EasyDialog>
           backgroundColor: backgroundColor,
           child: child!,
         ),
-        child: dialog.content,
+        child: dialog is PositionedDialog
+            ? Align(
+                alignment: dialog.position.alignment,
+                child: dialog.content,
+              )
+            : dialog.content,
       ),
     );
   }
@@ -151,13 +187,17 @@ final class _BlurBackground<D extends EasyDialog>
 
 final class _FadeBackground<D extends EasyDialog>
     extends EasyDialogAnimation<D> {
+  static const _defaultBlur = 0.5;
+  static const _defaultCurve = Curves.easeInOut;
+  static const _defaultBackgroundColor = Color.fromARGB(44, 117, 116, 116);
+
   final double blur;
   final Color backgroundColor;
 
   const _FadeBackground({
     this.backgroundColor = _defaultBackgroundColor,
     this.blur = _defaultBlur,
-    super.curve = Curves.easeInOut,
+    super.curve = _defaultCurve,
   });
 
   @override
@@ -176,16 +216,21 @@ final class _FadeBackground<D extends EasyDialog>
           backgroundColor: backgroundColor,
           child: child!,
         ),
-        child: dialog.content,
+        child: dialog is PositionedDialog
+            ? Align(
+                alignment: dialog.position.alignment,
+                child: dialog.content,
+              )
+            : dialog.content,
       ),
     );
   }
 }
 
-const _defaultBounceCurve = Curves.linear;
-
 final class _Bounce<D extends EasyDialog> extends EasyDialogAnimation<D> {
-  const _Bounce({super.curve = _defaultBounceCurve});
+  static const _defaultCurve = Curves.linear;
+
+  const _Bounce({super.curve = _defaultCurve});
 
   @override
   Widget call(D dialog) {
@@ -229,6 +274,82 @@ final class _Bounce<D extends EasyDialog> extends EasyDialogAnimation<D> {
         ),
         child: dialog.content,
       ),
+    );
+  }
+}
+
+enum HorizontalSlideDirection {
+  rightToLeft,
+  leftToRight,
+}
+
+final class _SlideHorizontal<D extends EasyDialog>
+    extends EasyDialogAnimation<D> {
+  static const _defaultCurve = Curves.fastEaseInToSlowEaseOut;
+  static const _defaultDirection = HorizontalSlideDirection.rightToLeft;
+
+  final HorizontalSlideDirection direction;
+
+  const _SlideHorizontal({
+    this.direction = _defaultDirection,
+    super.curve = _defaultCurve,
+  });
+
+  @override
+  Widget call(D dialog) {
+    final animation = dialog.context.animation;
+    final tween = Tween<Offset>(
+      begin: Offset(
+        direction == HorizontalSlideDirection.rightToLeft ? 1.0 : -1.0,
+        0.0,
+      ),
+      end: Offset.zero,
+    );
+
+    return SlideTransition(
+      position: CurvedAnimation(
+        parent: animation,
+        curve: curve,
+      ).drive(tween),
+      child: dialog.content,
+    );
+  }
+}
+
+enum VerticalSlideDirection {
+  up,
+  down,
+}
+
+final class _SlideVertical<D extends EasyDialog>
+    extends EasyDialogAnimation<D> {
+  static const _defaultCurve = Curves.fastLinearToSlowEaseIn;
+  static const _defaultDirection = VerticalSlideDirection.up;
+
+  final VerticalSlideDirection direction;
+
+  const _SlideVertical({
+    super.curve = _defaultCurve,
+    this.direction = _defaultDirection,
+  });
+
+  @override
+  Widget call(D dialog) {
+    final tween = Tween<Offset>(
+      begin: direction == VerticalSlideDirection.down
+          ? const Offset(0.0, -1.0)
+          : const Offset(0.0, 1.0),
+      end: Offset.zero,
+    );
+    final offset = dialog.context.animation.drive(
+      tween.chain(
+        CurveTween(curve: curve),
+      ),
+    );
+
+    return SlideTransition(
+      position: offset,
+      child: dialog.content,
     );
   }
 }
@@ -278,7 +399,7 @@ final class _AnimationDecorator<D extends EasyDialog>
   @override
   Widget call(D dialog) {
     return target(
-      (dialog._clone().._context = contextBuilder(dialog)) as D,
+      (dialog._copyWith(context: contextBuilder(dialog))) as D,
     );
   }
 }

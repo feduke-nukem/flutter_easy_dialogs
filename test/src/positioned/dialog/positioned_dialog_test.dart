@@ -13,11 +13,11 @@ void main() {
     for (final position in EasyDialogPosition.values) {
       FlutterEasyDialogs.show(
         EasyDialog.positioned(
-          decoration: PositionedDialog.defaultShell
-              .chained(PositionedDialog.defaultAnimation)
-              .chained(PositionedDialog.defaultDismissible)
+          decoration: PositionedShell.banner()
+              .chained(EasyDialogAnimation.fade())
+              .chained(EasyDialogDismiss.tap())
               .chained(
-                PositionedAnimation.verticalSlide(),
+                EasyDialogAnimation.slideVertical(),
               ),
           content: Container(
             key: dialogKey,
