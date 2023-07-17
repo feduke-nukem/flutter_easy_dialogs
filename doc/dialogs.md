@@ -16,6 +16,17 @@ FlutterEasyDialogs.show(
   ),
 );
 ```
+Or:
+
+```dart
+Container(
+  height: 150.0,
+  color: Colors.amber[900],
+  alignment: Alignment.center,
+  child: Text('Dialog'),
+).positioned(position: EasyDialogPosition.top).show();
+```
+
 <div style="display:flex; flex-wrap:wrap;">
     <a style="flex:1;">
         <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/aecc16a6-ddb7-4668-b9fc-57b07b9a742c" width="170"/>
@@ -44,6 +55,17 @@ FlutterEasyDialogs.show(
     ),
   ),
 );
+```
+
+Or:
+
+```dart
+Container(
+  height: 150.0,
+  color: Colors.amber[900],
+  alignment: Alignment.center,
+  child: Text('Dialog'),
+).fullScreen().show();
 ```
 
 <div style="display:flex; flex-wrap:wrap;">
