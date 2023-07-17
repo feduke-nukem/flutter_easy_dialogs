@@ -155,6 +155,7 @@ final dialog = Container(
     .slideHorizontal()
     .slideVertical()
     .blurBackground(backgroundColor: Colors.red.withOpacity(0.5));
+
 final result = await dialog.show<int>();
 await dialog.hide(result: 5);
 ```
