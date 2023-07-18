@@ -286,7 +286,7 @@ enum HorizontalSlideDirection {
 final class _SlideHorizontal<D extends EasyDialog>
     extends EasyDialogAnimation<D> {
   static const _defaultCurve = Curves.fastEaseInToSlowEaseOut;
-  static const _defaultDirection = HorizontalSlideDirection.rightToLeft;
+  static const _defaultDirection = HorizontalSlideDirection.leftToRight;
 
   final HorizontalSlideDirection direction;
 

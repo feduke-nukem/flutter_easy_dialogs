@@ -72,14 +72,14 @@ class _FullScreenDialogManagerBasicUsageScreenState
         ),
       )
       .toList();
-  late final _dismissibles = <String, FullScreenDismiss>{
-    _dismissibleFullScreenTap: FullScreenDismiss.tap(
+  late final _dismissibles = <String, EasyDialogDismiss<FullScreenDialog>>{
+    _dismissibleFullScreenTap: EasyDialogDismiss.tap(
       onDismissed: () => _count++,
     ),
   };
   late final _dismissibleDropDownItems = _dismissibles.entries
       .map(
-        (e) => DropdownMenuItem<FullScreenDismiss>(
+        (e) => DropdownMenuItem<EasyDialogDismiss<FullScreenDialog>>(
           value: e.value,
           child: Text(e.key),
         ),
@@ -135,7 +135,7 @@ class _FullScreenDialogManagerBasicUsageScreenState
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text('Dismissible type'),
-                DropdownButton<FullScreenDismiss>(
+                DropdownButton<EasyDialogDismiss<FullScreenDialog>>(
                   items: _dismissibleDropDownItems,
                   onChanged: (type) => setState(
                     () => _selectedDismissible = type!,
@@ -147,20 +147,19 @@ class _FullScreenDialogManagerBasicUsageScreenState
             ElevatedButton(
               onPressed: () async {
                 final messenger = ScaffoldMessenger.of(context);
-                final res = await FlutterEasyDialogs.show<int>(
-                  EasyDialog.fullScreen(
-                    androidWillPop: () async => true,
-                    content: _content,
-                    decoration: FullScreenShell.modalBanner(
-                      boxDecoration: BoxDecoration(
-                        color: Colors.grey.shade200.withOpacity(0.3),
+                final res = await _content
+                    .fullScreen(androidWillPop: () async => true)
+                    .decorate(
+                      FullScreenShell.modalBanner(
+                        boxDecoration: BoxDecoration(
+                          color: Colors.grey.shade200.withOpacity(0.3),
+                        ),
                       ),
                     )
-                        .chained(_selectedForegroundAnimation)
-                        .chained(_selectedBackgroundAnimation)
-                        .chained(_selectedDismissible),
-                  ),
-                );
+                    .decorate(_selectedForegroundAnimation)
+                    .decorate(_selectedBackgroundAnimation)
+                    .decorate(_selectedDismissible)
+                    .show<int>();
 
                 if (res == null) return;
                 messenger

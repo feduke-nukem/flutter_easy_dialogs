@@ -30,43 +30,38 @@ class FullScreenDialogCustomizationScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () async {
-                await FlutterEasyDialogs.show(
-                  EasyDialog.fullScreen(
-                    content: _content,
-                    decoration: const _Shell()
-                        .chained(const _ForegroundAnimation())
-                        .chained(const _BackgroundAnimation())
-                        .chained(
-                          EasyDialogDecoration.builder(
-                            (_, dialog) => FadeTransition(
-                              opacity: dialog.context.animation,
-                              child: dialog.content,
-                            ),
-                          ),
-                        )
-                        .chained(const FullScreenDismiss.tap()),
-                  ),
-                );
+              onPressed: () {
+                _content
+                    .fullScreen()
+                    .decorate(const _Shell())
+                    .animatedTap()
+                    .decorate(const _ForegroundAnimation())
+                    .decorate(const _BackgroundAnimation())
+                    .decorate(
+                      EasyDialogDecoration.builder(
+                        (_, dialog) => FadeTransition(
+                          opacity: dialog.context.animation,
+                          child: dialog.content,
+                        ),
+                      ),
+                    )
+                    .show();
               },
               child: const Text('Show custom'),
             ),
             ElevatedButton(
-              onPressed: () async {
-                await FlutterEasyDialogs.show(
-                  EasyDialog.fullScreen(
-                    animationConfiguration:
-                        const EasyDialogAnimationConfiguration.bounded(
-                      reverseDuration: Duration(milliseconds: 50),
-                    ),
-                    content: _content,
-                    decoration: const FullScreenShell.modalBanner()
-                        .chained(const CustomAnimator())
-                        .chained(
-                          const _Dismissible(),
-                        ),
-                  ),
-                );
+              onPressed: () {
+                _content
+                    .fullScreen(
+                      animationConfiguration:
+                          const EasyDialogAnimationConfiguration.bounded(
+                        reverseDuration: Duration(milliseconds: 50),
+                      ),
+                    )
+                    .decorate(const FullScreenShell.modalBanner())
+                    .decorate(const CustomAnimation())
+                    .decorate(const _Dismissible())
+                    .show();
               },
               child: const Text('fully custom'),
             )
@@ -150,8 +145,8 @@ final class _BackgroundAnimation extends EasyDialogAnimation<FullScreenDialog> {
 }
 
 /// You can provide custom animation
-final class CustomAnimator extends EasyDialogAnimation<FullScreenDialog> {
-  const CustomAnimator();
+final class CustomAnimation extends EasyDialogAnimation<FullScreenDialog> {
+  const CustomAnimation();
 
   @override
   Widget call(FullScreenDialog dialog) {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/core.dart';
 import 'package:flutter_easy_dialogs/src/core/android_back_button_interceptor_mixin.dart';
-import 'package:flutter_easy_dialogs/src/full_screen/dismissible/full_screen_dismiss.dart';
 
 const _identity = '\$fullScreenDialog';
 
@@ -51,7 +50,7 @@ final class FullScreenDialog extends EasyDialog
 
     this.context.hideDialog(
           result: context
-              .getDecorationOfExactType<FullScreenDismiss>()
+              .getDecorationOfExactType<EasyDialogDismiss>()
               ?.onDismissed
               ?.call(),
         );
