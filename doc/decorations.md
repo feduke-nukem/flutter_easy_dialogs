@@ -299,7 +299,7 @@ FlutterEasyDialogs.show(
 
 ![ezgif-4-6738b05ec0](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/2efdf13d-3ab8-48fe-83a3-b71ba9e4d2a1)
 
-Fullscreen fade background and bounce:
+Full screen fade background and bounce:
 
 ```dart
 FlutterEasyDialogs.show(
@@ -391,6 +391,32 @@ final res = await FlutterEasyDialogs.show<int>(
 );
 ```
 
+Or:
+
+```dart
+final content = Container(
+  height: 150.0,
+  color: Colors.blue[900],
+  alignment: Alignment.center,
+  child: const Text(
+    'Dialog',
+    style: TextStyle(
+      color: Colors.white,
+      fontSize: 30.0,
+    ),
+  ),
+);
+
+final res = await content
+    .positioned()
+    .fade()
+    .swipe(
+      direction: DismissDirection.vertical,
+      onDismissed: () => 5,
+    )
+    .show<int>();
+```
+
 ![ezgif-4-2c10546796](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/06c272be-ae67-40c9-ae95-f57533effe33)
 
 #### Imagination
@@ -423,6 +449,34 @@ FlutterEasyDialogs.show(
     ),
   ),
 );
+```
+
+Or:
+
+```dart
+final content = Container(
+  height: 150.0,
+  color: Colors.blue[900],
+  alignment: Alignment.center,
+  child: const Text(
+    'Dialog',
+    style: TextStyle(
+      color: Colors.white,
+      fontSize: 30.0,
+    ),
+  ),
+);
+
+content
+    .positioned()
+    .fade()
+    .expansion()
+    .animatedTap()
+    .swipe(instantly: false)
+    .fadeBackground(
+      backgroundColor: Colors.black.withOpacity(0.6),
+    )
+    .show();
 ```
 
 ![ezgif-4-5450049742](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/b0912391-9a62-4eb3-aa75-3da8bc3d85ff)
