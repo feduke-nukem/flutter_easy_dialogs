@@ -749,7 +749,6 @@ final class _EasyDialogContextDecorator implements EasyDialogContext {
   @override
   Animation<double> get animation => _target.animation;
 
-  // coverage:ignore-start
   @override
   EasyDialogsController get _controller => _target._controller;
 
@@ -784,5 +783,4 @@ final class _EasyDialogContextDecorator implements EasyDialogContext {
 
   @override
   TickerProvider get vsync => _target.vsync;
-  // coverage:ignore-end
 }

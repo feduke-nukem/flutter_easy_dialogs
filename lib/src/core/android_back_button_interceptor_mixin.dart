@@ -2,8 +2,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
-// https://github.com/dart-lang/sdk/issues/39779
-// coverage:ignore-file
 /// For handling back button on Android.
 
 mixin AndroidBackButtonInterceptorMixin on EasyDialogLifecycle {

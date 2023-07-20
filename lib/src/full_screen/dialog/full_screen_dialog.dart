@@ -38,8 +38,7 @@ final class FullScreenDialog extends EasyDialog
 
   @override
   EasyOverlayBoxRemoval createRemove() => const FullScreenDialogRemove();
-  // this is not testable as it requires a real Android device back button event.
-  // coverage:ignore-start
+
   @override
   Future<void> onAndroidPop() async {
     if (androidWillPop == null) return;
@@ -55,7 +54,6 @@ final class FullScreenDialog extends EasyDialog
               ?.call(),
         );
   }
-  // coverage:ignore-end
 
   @override
   EasyDialog clone() {

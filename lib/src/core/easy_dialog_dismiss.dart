@@ -199,7 +199,6 @@ class _AnimatedTapAnimationState extends State<_AnimatedTapAnimation> {
     });
   }
 
-  // coverage:ignore-start
   @override
   void didUpdateWidget(_AnimatedTapAnimation oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -208,7 +207,6 @@ class _AnimatedTapAnimationState extends State<_AnimatedTapAnimation> {
       _calculateScale();
     }
   }
-  // coverage:ignore-end
 
   void _calculateScale() {
     final size = (context.findRenderObject() as RenderBox?)!.size;
@@ -245,9 +243,7 @@ class _TapDetectorState extends State<_TapDetector> {
         onTapDown: (_) => setState(() => _isPressed = true),
         onTapUp: (_) => setState(() => _isPressed = false),
         onTap: widget.onTap,
-        // coverage:ignore-start
         onTapCancel: () => setState(() => _isPressed = false),
-        // coverage:ignore-end
         behavior: widget.behavior,
         child: widget.builder(_isPressed),
       );

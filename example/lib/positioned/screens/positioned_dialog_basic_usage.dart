@@ -16,6 +16,14 @@ const _animations = <String, EasyDialogAnimation<PositionedDialog>>{
   _verticalSlideAnimation: EasyDialogAnimation.slideVertical(),
 };
 
+extension on EasyDialogPosition {
+  String get name => switch (this) {
+        EasyDialogPosition.top => 'top',
+        EasyDialogPosition.bottom => 'bottom',
+        EasyDialogPosition.center => 'center',
+      };
+}
+
 class PositionedDialogManagerBasicUsageScreen extends StatefulWidget {
   const PositionedDialogManagerBasicUsageScreen({Key? key}) : super(key: key);
 
@@ -189,7 +197,7 @@ class _PositionedDialogManagerBasicUsageScreenState
           color: Colors.blue[900],
           alignment: Alignment.center,
           child: Text(
-            '$_selectedPosition',
+            _selectedPosition.name,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 30.0,
