@@ -1,4 +1,7 @@
 ## 3.1.1
+* **DOC:** Improved documentation
+
+## 3.1.1
 * **FIX:** Fixed default slideHorizontal direction to leftToRight
 * **FIX:** Fixed androidPop method dismiss select from context
 * **FIX:** Removed FullScreenDismiss due to useless existence since introducing extensions
