@@ -83,7 +83,7 @@ Container(
 #### Basic parameters
 - [content](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialog/content.html) - [widget](https://api.flutter.dev/flutter/widgets/Widget-class.html) that is desired to be shown.
 - [animation configuration](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogAnimationConfiguration-class.html) - responsible for configuring animation duration, start value, etc. It also provides an opportunity to create a configuration with an external [AnimationController](https://api.flutter.dev/flutter/animation/AnimationController-class.html) that will drive the dialog animation.
-- [auto hide duration](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialog/autoHideDuration.html): duration after which the dialog will be automatically hidden.
+- [auto hide duration](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialog/autoHideDuration.html): duration after which the dialog will be automatically hidden. If you pass `null` the dialog won't auto hide at all.
 - [decoration](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogDecoration-class.html): a provided decoration that will be applied to the content.
 
 #### Context

@@ -15,6 +15,7 @@ part 'easy_dialog_dismiss.dart';
 /// {@category Dialogs}
 /// {@category Getting started}
 /// {@category Migration guide from 2.x to 3.x}
+/// {@category Dialogs}
 /// Core class for manipulating dialogs.
 final class EasyDialogsController {
   @visibleForTesting

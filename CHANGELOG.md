@@ -1,3 +1,5 @@
+## 3.1.1+2
+* **DOC:** Added FAQ
 ## 3.1.1+1
 * **DOC:** Improved documentation
 

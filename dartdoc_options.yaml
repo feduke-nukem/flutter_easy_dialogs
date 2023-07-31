@@ -12,11 +12,15 @@ dartdoc:
     "Migration guide from 2.x to 3.x":
       markdown: doc/migration_guide_2_to_3.md
       name: Migration guide from 2.x to 3.x
+    "FAQ":
+      markdown: doc/faq.md
+      name: FAQ
   categoryOrder:
     - "Getting started"
     - "Dialogs"
     - "Decorations"
     - "Migration guide from 2.x to 3.x"
+    - "FAQ"
   showUndocumentedCategories: true
   ignore:
     - broken-link
