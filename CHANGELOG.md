@@ -1,5 +1,10 @@
+## 3.1.2
+* **FIX:** Fixed "Concurrent modification during iteration" in `hideWhere` #20
+* **FIX:** Fixed the inability to await the result from the `show` method due to awaiting the animation controller's `forward` method when the dialog was hidden before the animation is completed.
+
 ## 3.1.1+2
 * **DOC:** Added FAQ
+
 ## 3.1.1+1
 * **DOC:** Improved documentation
 

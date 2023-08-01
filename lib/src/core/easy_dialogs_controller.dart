@@ -53,7 +53,7 @@ final class EasyDialogsController {
       _ => true,
     };
 
-    if (needStart) await entry.animationController.forward();
+    if (needStart) entry.animationController.forward();
 
     final result = await entry.dialog._completer!.future;
     entry.dialog._completer = null;
@@ -89,7 +89,7 @@ final class EasyDialogsController {
     bool instantly = false,
   }) =>
       Future.wait(
-        entries.values.where(
+        entries.values.toList().where(
           (entry) {
             final dialog = entry.dialog;
 
@@ -170,7 +170,7 @@ final class EasyDialogsController {
           : await entry.animationController.reverse();
     }
 
-    await entry.dialog._completer!.future;
+    await entry.dialog._completer?.future;
   }
 
   void _releaseEntry(_DialogEntry entry) {
