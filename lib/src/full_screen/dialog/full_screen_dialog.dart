@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/core.dart';
 import 'package:flutter_easy_dialogs/src/core/android_back_button_interceptor_mixin.dart';
 
 const _identity = '\$fullScreenDialog';
+
+typedef FullScreenWillPopCallback = FutureOr<bool> Function();
 
 /// Dialog that is intended to cover the entire screen.
 final class FullScreenDialog extends EasyDialog
@@ -14,7 +18,7 @@ final class FullScreenDialog extends EasyDialog
   );
 
   /// Callback that is invoked when the user presses the back button on Android.
-  final WillPopCallback? androidWillPop;
+  final FullScreenWillPopCallback? androidWillPop;
 
   /// Creates an instance of [FullScreenDialog].
   FullScreenDialog({
@@ -26,8 +30,8 @@ final class FullScreenDialog extends EasyDialog
   });
 
   @factory
-  static FullScreenDialogIdentifier identifier() =>
-      const FullScreenDialogIdentifier();
+  static EasyDialogIdentifier identifier() =>
+      const ValueDialogIdentifier(_identity);
 
   @override
   String get identity => _identity;
@@ -64,13 +68,6 @@ final class FullScreenDialog extends EasyDialog
       decoration: decoration,
     );
   }
-}
-
-final class FullScreenDialogIdentifier extends EasyDialogIdentifier {
-  const FullScreenDialogIdentifier();
-
-  @override
-  String get identity => _identity;
 }
 
 @visibleForTesting

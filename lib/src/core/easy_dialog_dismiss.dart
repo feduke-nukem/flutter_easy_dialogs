@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 part of 'easy_dialogs_controller.dart';
 
 /// {@category Decorations}
@@ -102,8 +104,8 @@ abstract base class EasyDialogDismiss<D extends EasyDialog>
 
     if (await effectiveWillDismiss?.call() ?? true)
       dialog.context.hideDialog(
-        result: effectiveOnDismissed?.call(),
         instantly: instantly,
+        result: effectiveOnDismissed?.call(),
       );
   }
 }

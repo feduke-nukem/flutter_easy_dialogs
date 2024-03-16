@@ -26,7 +26,7 @@ enum FullScreenDialogRoutes {
                   (element) => element != FullScreenDialogRoutes.home,
                 )
                 .toList())
-              (element).name: () => (element).route
+              (element).name: () => (element).route,
           },
         );
       case FullScreenDialogRoutes.basicUsage:

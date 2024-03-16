@@ -141,8 +141,10 @@ class _PositionedDialogManagerBasicUsageScreenState
               ],
             ),
             CheckboxListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 5.0,
+              ),
               title: const Text('Auto hide'),
               value: _isAutoHide,
               onChanged: (value) => setState(() => _isAutoHide = value!),
@@ -183,29 +185,30 @@ class _PositionedDialogManagerBasicUsageScreenState
   Future<void> _show() async {
     final messenger = ScaffoldMessenger.of(context);
 
-    final result = await FlutterEasyDialogs.show<int>(
-      EasyDialog.positioned(
-        position: _selectedPosition,
-        decoration: const PositionedShell.banner()
-            .chained(_selectedAnimation)
-            .chained(_selectedDismissible),
-        autoHideDuration: _isAutoHide
-            ? Duration(milliseconds: _autoHideDuration.toInt())
-            : null,
-        content: Container(
-          height: 150.0,
-          color: Colors.blue[900],
-          alignment: Alignment.center,
-          child: Text(
-            _selectedPosition.name,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 30.0,
-            ),
-          ),
+    final content = Container(
+      height: 150.0,
+      color: Colors.blue[900],
+      alignment: Alignment.center,
+      child: Text(
+        _selectedPosition.name,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
         ),
       ),
     );
+
+    final result = await content
+        .positioned(
+          position: _selectedPosition,
+          autoHideDuration: _isAutoHide
+              ? Duration(milliseconds: _autoHideDuration.toInt())
+              : null,
+        )
+        .decorate(const PositionedShell.banner())
+        .decorate(_selectedAnimation)
+        .decorate(_selectedDismissible)
+        .show();
 
     if (result == null) return;
     messenger

@@ -486,6 +486,7 @@ void main() {
           .fade()
           .expansion()
           .animatedTap()
+          .draggable()
           .fadeBackground()
           .blurBackground()
           .tap()
@@ -523,6 +524,19 @@ void main() {
         );
       },
     );
+  });
+
+  group('identifier', () {
+    group('value dialog identifier', () {
+      test('created instances with same identity equals', () {
+        final identity = 'test';
+        final first = ValueDialogIdentifier(identity);
+        final second = ValueDialogIdentifier(identity);
+
+        expect(first, equals(second));
+        expect(first.hashCode, equals(second.hashCode));
+      });
+    });
   });
 }
 

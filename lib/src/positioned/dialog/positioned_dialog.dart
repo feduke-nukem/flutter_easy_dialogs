@@ -25,10 +25,10 @@ final class PositionedDialog extends EasyDialog {
   });
 
   @factory
-  static PositionedIdentifier identifier({
+  static EasyDialogIdentifier identifier({
     required EasyDialogPosition position,
   }) {
-    return PositionedIdentifier(position: position);
+    return ValueDialogIdentifier(position);
   }
 
   @override
@@ -59,18 +59,6 @@ final class PositionedDialog extends EasyDialog {
       autoHideDuration: autoHideDuration,
     );
   }
-}
-
-/// @nodoc
-final class PositionedIdentifier extends EasyDialogIdentifier {
-  /// Position of the dialog for removing.
-  final EasyDialogPosition position;
-
-  /// Creates an instance of [PositionedIdentifier].
-  const PositionedIdentifier({required this.position});
-
-  @override
-  EasyDialogPosition get identity => position;
 }
 
 /// Enum that represents the position of the dialog.
