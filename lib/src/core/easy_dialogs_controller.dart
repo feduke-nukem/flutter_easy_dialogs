@@ -178,15 +178,16 @@ final class EasyDialogsController {
   }
 
   void _releaseEntry(_DialogEntry entry) {
+    final identity = entry.dialog.identity;
     assert(
       identical(
-        entries[entry.dialog.identity]?.animationController,
+        entries[identity]?.animationController,
         entry.animationController,
       ),
     );
     assert(entry.dialog._completer!.isCompleted);
 
-    entries.remove(entry.dialog.identity);
+    entries.remove(identity);
     overlay.removeDialog(entry.dialog.createRemove());
     entry.dispose();
   }
@@ -339,7 +340,7 @@ abstract base class EasyDialog
   /// Shortcut for [FullScreenDialog].
   factory EasyDialog.fullScreen({
     required Widget content,
-    WillPopCallback? androidWillPop,
+    FullScreenWillPopCallback? androidWillPop,
     EasyDialogAnimationConfiguration animationConfiguration,
     EasyDialogDecoration<EasyDialog> decoration,
     Duration? autoHideDuration,
@@ -762,7 +763,7 @@ extension EasyDialogWidgetX on Widget {
     EasyDialogAnimationConfiguration animationConfiguration =
         FullScreenDialog.defaultAnimationConfiguration,
     Duration? autoHideDuration,
-    WillPopCallback? androidWillPop,
+    FullScreenWillPopCallback? androidWillPop,
     EasyDialogDecoration decoration = const EasyDialogDecoration.none(),
   }) {
     return FullScreenDialog(

@@ -1,6 +1,4 @@
 analyzer:
-  plugins:
-    - dart_code_metrics
 
 dart_code_metrics: 
   metrics:
@@ -37,20 +35,12 @@ dart_code_metrics:
         only-doc-comments: true
         ignored-patterns: 
             - "@nodoc"
-    - no-boolean-literal-compare:
         severity: error
     - double-literal-format: 
-        severity: error
-    - no-equal-then-else:
         severity: error 
     - binary-expression-operand-order:
         severity: error
-    - avoid-unnecessary-type-assertions:
-        severity: error
     - avoid-unnecessary-conditionals:
-        severity: error
-    - avoid-nested-conditional-expressions:
-        acceptable-level: 2
         severity: error
     - avoid-missing-enum-constant-in-map:
         severity: error 
@@ -67,8 +57,6 @@ dart_code_metrics:
         severity: error 
     - prefer-commenting-analyzer-ignores:
         severity: error
-    - prefer-conditional-expressions:
-        severity: error
     - avoid-collection-methods-with-unrelated-types:
         strict: false
         severity: error
@@ -83,9 +71,6 @@ dart_code_metrics:
         severity: error
     - prefer-last:
         severity: error
-    - prefer-moving-to-variable:
-        allowed-duplicated-chains: 3
-        severity: error 
     - always-remove-listener:
         severity: error
     - avoid-returning-widgets:

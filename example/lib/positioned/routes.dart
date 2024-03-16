@@ -26,7 +26,7 @@ enum PositionedDialogRoutes {
                   (element) => element != PositionedDialogRoutes.home,
                 )
                 .toList())
-              (element).name: () => (element).route
+              (element).name: () => (element).route,
           },
         );
       case PositionedDialogRoutes.basicUsage:

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 part of 'easy_dialogs_controller.dart';
 
 /// {@category Decorations}

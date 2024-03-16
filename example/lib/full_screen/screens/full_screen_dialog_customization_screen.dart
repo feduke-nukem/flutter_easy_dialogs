@@ -64,7 +64,7 @@ class FullScreenDialogCustomizationScreen extends StatelessWidget {
                     .show();
               },
               child: const Text('fully custom'),
-            )
+            ),
           ],
         ),
       ),
