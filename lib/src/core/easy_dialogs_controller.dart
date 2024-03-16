@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
+import 'package:flutter_easy_dialogs/src/core/widget/free_positioned.dart';
 
 import 'core.dart';
 
@@ -349,7 +350,6 @@ abstract base class EasyDialog
   /// Shortcut for [PositionedDialog].
   factory EasyDialog.positioned({
     required Widget content,
-    bool isDraggable,
     EasyDialogPosition position,
     EasyDialogAnimationConfiguration animationConfiguration,
     EasyDialogDecoration<EasyDialog> decoration,
@@ -736,6 +736,16 @@ extension EasyDialogsX on EasyDialog {
       ),
     );
   }
+
+  EasyDialog draggable() {
+    return decorate(
+      EasyDialogDecoration.builder(
+        (context, dialog) => FreePositioned(
+          child: dialog.content,
+        ),
+      ),
+    );
+  }
 }
 
 /// {@category Getting started}
@@ -747,12 +757,10 @@ extension EasyDialogWidgetX on Widget {
         PositionedDialog.defaultAnimationConfiguration,
     Duration? autoHideDuration = PositionedDialog.defaultAutoHideDuration,
     EasyDialogDecoration decoration = const EasyDialogDecoration.none(),
-    bool isDraggable = false,
   }) {
     return PositionedDialog(
       content: this,
       position: position,
-      isDraggable: isDraggable,
       decoration: decoration,
       animationConfiguration: animationConfiguration,
       autoHideDuration: autoHideDuration,

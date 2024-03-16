@@ -87,7 +87,6 @@ class _PositionedDialogManagerBasicUsageScreenState
   EasyDialogPosition _selectedPosition = EasyDialogPosition.top;
   late var _selectedDismissible = _dismissibles.values.first;
   var _isAutoHide = false;
-  var _isDraggable = false;
   var _autoHideDuration = 300.0;
 
   @override
@@ -146,15 +145,6 @@ class _PositionedDialogManagerBasicUsageScreenState
                 horizontal: 20.0,
                 vertical: 5.0,
               ),
-              title: const Text('Draggable'),
-              value: _isDraggable,
-              onChanged: (value) => setState(() => _isDraggable = value!),
-            ),
-            CheckboxListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 20.0,
-                vertical: 5.0,
-              ),
               title: const Text('Auto hide'),
               value: _isAutoHide,
               onChanged: (value) => setState(() => _isAutoHide = value!),
@@ -195,30 +185,30 @@ class _PositionedDialogManagerBasicUsageScreenState
   Future<void> _show() async {
     final messenger = ScaffoldMessenger.of(context);
 
-    final result = await FlutterEasyDialogs.show<int>(
-      EasyDialog.positioned(
-        isDraggable: _isDraggable,
-        position: _selectedPosition,
-        decoration: const PositionedShell.banner()
-            .chained(_selectedAnimation)
-            .chained(_selectedDismissible),
-        autoHideDuration: _isAutoHide
-            ? Duration(milliseconds: _autoHideDuration.toInt())
-            : null,
-        content: Container(
-          height: 150.0,
-          color: Colors.blue[900],
-          alignment: Alignment.center,
-          child: Text(
-            _selectedPosition.name,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 30.0,
-            ),
-          ),
+    final content = Container(
+      height: 150.0,
+      color: Colors.blue[900],
+      alignment: Alignment.center,
+      child: Text(
+        _selectedPosition.name,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 30.0,
         ),
       ),
     );
+
+    final result = await content
+        .positioned(
+          position: _selectedPosition,
+          autoHideDuration: _isAutoHide
+              ? Duration(milliseconds: _autoHideDuration.toInt())
+              : null,
+        )
+        .decorate(const PositionedShell.banner())
+        .decorate(_selectedAnimation)
+        .decorate(_selectedDismissible)
+        .show();
 
     if (result == null) return;
     messenger

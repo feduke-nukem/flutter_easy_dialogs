@@ -1,5 +1,5 @@
 ## 3.2.0
-* **FEATURE:** Added drag ability to Positioned Dialog ([issue 23](https://github.com/feduke-nukem/flutter_easy_dialogs/issues/23))
+* **FEATURE:** Added draggable ability for the dialogs ([issue 23](https://github.com/feduke-nukem/flutter_easy_dialogs/issues/23))
 
 ## 3.1.2
 * **FIX:** Fixed "Concurrent modification during iteration" in `hideWhere` #20
