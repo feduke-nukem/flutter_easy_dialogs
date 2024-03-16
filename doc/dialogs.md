@@ -52,7 +52,11 @@ content
     .positioned(position: EasyDialogPosition.top, isDraggable: true)
     .show();
 ```
-
+<div style="display:flex; flex-wrap:wrap;">
+    <a style="flex:1;">
+        <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/319d79d1-a744-4c6b-96ad-4c20ce07dabe" width="170"/>
+    </a>
+</div>
 
 
 #### FullScreen dialogs
