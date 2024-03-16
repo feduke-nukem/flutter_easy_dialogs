@@ -1,3 +1,6 @@
+## 3.2.0
+* **FEATURE:** Added drag ability to Positioned Dialog ([issue 23](https://github.com/feduke-nukem/flutter_easy_dialogs/issues/23))
+
 ## 3.1.2
 * **FIX:** Fixed "Concurrent modification during iteration" in `hideWhere` #20
 * **FIX:** Fixed the inability to await the result from the `show` method due to awaiting the animation controller's `forward` method when the dialog was hidden before the animation is completed.
