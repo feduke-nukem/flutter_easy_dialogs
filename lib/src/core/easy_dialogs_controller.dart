@@ -784,6 +784,7 @@ extension EasyDialogWidgetX on Widget {
   }
 }
 
+// coverage:ignore-start
 final class _EasyDialogContextDecorator implements EasyDialogContext {
   final EasyDialogContext _target;
 
@@ -830,3 +831,4 @@ final class _EasyDialogContextDecorator implements EasyDialogContext {
   @override
   TickerProvider get vsync => _target.vsync;
 }
+// coverage:ignore-end

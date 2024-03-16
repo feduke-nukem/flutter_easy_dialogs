@@ -39,7 +39,7 @@ Container(
     </a>
 </div>
 
-**Since version 3.2.0** you can make Positioned Dialog draggable:
+**Since version 3.2.0** you can make dialog draggable:
 ```dart
 final content = Container(
   height: 150.0,
@@ -49,7 +49,8 @@ final content = Container(
 );
 
 content
-    .positioned(position: EasyDialogPosition.top, isDraggable: true)
+    .positioned()
+    .draggable()
     .show();
 ```
 <div style="display:flex; flex-wrap:wrap;">
