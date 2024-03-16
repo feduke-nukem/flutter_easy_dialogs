@@ -1,10 +1,7 @@
 part of 'easy_dialogs_controller.dart';
 
 typedef EasyDialogDecorationBuilder<Dialog extends EasyDialog> = Widget
-    Function(
-  BuildContext context,
-  Dialog dialog,
-);
+    Function(BuildContext context, Dialog dialog);
 
 /// {@category Decorations}
 /// {@category Migration guide from 2.x to 3.x}
@@ -96,19 +93,16 @@ abstract base class EasyDialogDecoration<D extends EasyDialog>
       maybeOf<T>(context)!;
 
   /// Get the optional decoration of type [T] from the [context].
-  static T? maybeOf<T extends EasyDialogDecoration>(
-    EasyDialogContext context,
-  ) =>
-      context.getDecorationOfExactType<T>();
+  static T? maybeOf<T extends EasyDialogDecoration>(EasyDialogContext context) {
+    return context.getDecorationOfExactType<T>();
+  }
 
   @mustCallSuper
   @protected
   D _decorate(D dialog) {
     dialog.context._registerDecoration(this);
 
-    final cloned = dialog._copyWith(
-      content: this.call(dialog),
-    );
+    final cloned = dialog._copyWith(content: this.call(dialog));
 
     return cloned as D;
   }
@@ -333,8 +327,6 @@ extension EasyDialogDecorationX<D extends EasyDialog>
       EasyDialogDecoration<D>.chain(this, other);
 
   /// {@macro easy_dialog_decoration.combine}
-  EasyDialogDecoration<D> combined(
-    List<EasyDialogDecoration<D>> others,
-  ) =>
+  EasyDialogDecoration<D> combined(List<EasyDialogDecoration<D>> others) =>
       EasyDialogDecoration<D>.combine([this, ...others]);
 }

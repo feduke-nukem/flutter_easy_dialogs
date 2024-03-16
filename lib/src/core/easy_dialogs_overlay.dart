@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
-import 'package:flutter_easy_dialogs/src/core/i_easy_overlay.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_overlay.dart';
 
 /// Overlay for storing and displaying dialogs.
 final class EasyDialogsOverlay extends Overlay {

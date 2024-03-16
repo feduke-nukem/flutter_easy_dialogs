@@ -26,8 +26,8 @@ final class FullScreenDialog extends EasyDialog
   });
 
   @factory
-  static FullScreenDialogIdentifier identifier() =>
-      const FullScreenDialogIdentifier();
+  static EasyDialogIdentifier identifier() =>
+      const ValueDialogIdentifier(_identity);
 
   @override
   String get identity => _identity;
@@ -64,13 +64,6 @@ final class FullScreenDialog extends EasyDialog
       decoration: decoration,
     );
   }
-}
-
-final class FullScreenDialogIdentifier extends EasyDialogIdentifier {
-  const FullScreenDialogIdentifier();
-
-  @override
-  String get identity => _identity;
 }
 
 @visibleForTesting

@@ -87,6 +87,7 @@ class _PositionedDialogManagerBasicUsageScreenState
   EasyDialogPosition _selectedPosition = EasyDialogPosition.top;
   late var _selectedDismissible = _dismissibles.values.first;
   var _isAutoHide = false;
+  var _isDraggable = false;
   var _autoHideDuration = 300.0;
 
   @override
@@ -141,8 +142,19 @@ class _PositionedDialogManagerBasicUsageScreenState
               ],
             ),
             CheckboxListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 5.0,
+              ),
+              title: const Text('Draggable'),
+              value: _isDraggable,
+              onChanged: (value) => setState(() => _isDraggable = value!),
+            ),
+            CheckboxListTile(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 5.0,
+              ),
               title: const Text('Auto hide'),
               value: _isAutoHide,
               onChanged: (value) => setState(() => _isAutoHide = value!),
@@ -185,6 +197,7 @@ class _PositionedDialogManagerBasicUsageScreenState
 
     final result = await FlutterEasyDialogs.show<int>(
       EasyDialog.positioned(
+        isDraggable: _isDraggable,
         position: _selectedPosition,
         decoration: const PositionedShell.banner()
             .chained(_selectedAnimation)

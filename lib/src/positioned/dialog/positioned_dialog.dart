@@ -15,20 +15,23 @@ final class PositionedDialog extends EasyDialog {
   /// The position where the dialog will be shown.
   final EasyDialogPosition position;
 
+  final bool isDraggable;
+
   /// Creates an instance of [PositionedDialog].
   PositionedDialog({
     required super.content,
     this.position = defaultPosition,
+    this.isDraggable = false,
     super.decoration,
     super.animationConfiguration = defaultAnimationConfiguration,
     super.autoHideDuration = defaultAutoHideDuration,
   });
 
   @factory
-  static PositionedIdentifier identifier({
+  static EasyDialogIdentifier identifier({
     required EasyDialogPosition position,
   }) {
-    return PositionedIdentifier(position: position);
+    return ValueDialogIdentifier(position);
   }
 
   @override
@@ -38,10 +41,15 @@ final class PositionedDialog extends EasyDialog {
   EasyOverlayBoxInsertion<EasyDialog> createInsert(Widget decorated) {
     return PositionedDialogInsert(
       position: position,
-      dialog: Align(
-        alignment: position.alignment,
-        child: decorated,
-      ),
+      dialog: isDraggable
+          ? _FreePositioned(
+              alignment: position.alignment,
+              child: decorated,
+            )
+          : Align(
+              alignment: position.alignment,
+              child: decorated,
+            ),
     );
   }
 
@@ -59,18 +67,6 @@ final class PositionedDialog extends EasyDialog {
       autoHideDuration: autoHideDuration,
     );
   }
-}
-
-/// @nodoc
-final class PositionedIdentifier extends EasyDialogIdentifier {
-  /// Position of the dialog for removing.
-  final EasyDialogPosition position;
-
-  /// Creates an instance of [PositionedIdentifier].
-  const PositionedIdentifier({required this.position});
-
-  @override
-  EasyDialogPosition get identity => position;
 }
 
 /// Enum that represents the position of the dialog.
@@ -135,5 +131,51 @@ final class PositionedDialogRemove
     if (container!.entries.isEmpty) return null;
 
     return container.remove(position);
+  }
+}
+
+class _FreePositioned extends StatefulWidget {
+  final Widget child;
+  final AlignmentGeometry alignment;
+
+  const _FreePositioned({
+    required this.child,
+    required this.alignment,
+  });
+
+  @override
+  State<_FreePositioned> createState() => _FreePositionedState();
+}
+
+class _FreePositionedState extends State<_FreePositioned> {
+  var _x = 0.0;
+  var _y = 0.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.sizeOf(context);
+
+    return Positioned(
+      left: _x,
+      top: _y,
+      child: GestureDetector(
+        onPanUpdate: (details) => setState(
+          () {
+            _x += details.delta.dx;
+            _y += details.delta.dy;
+          },
+        ),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: screenSize.width,
+            maxHeight: screenSize.height,
+          ),
+          child: Align(
+            alignment: widget.alignment,
+            child: widget.child,
+          ),
+        ),
+      ),
+    );
   }
 }

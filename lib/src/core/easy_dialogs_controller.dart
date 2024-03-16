@@ -4,12 +4,13 @@ import 'dart:math' as math;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 
 import 'core.dart';
 
-part 'easy_dialog_decoration.dart';
 part 'easy_dialog_animation.dart';
+part 'easy_dialog_decoration.dart';
 part 'easy_dialog_dismiss.dart';
 
 /// {@category Dialogs}
@@ -74,12 +75,13 @@ final class EasyDialogsController {
     EasyDialogIdentifier identifier, {
     bool instantly = false,
     Object? result,
-  }) =>
-      _hide(
-        identifier,
-        instantly: instantly,
-        result: result,
-      );
+  }) {
+    return _hide(
+      identifier,
+      instantly: instantly,
+      result: result,
+    );
+  }
 
   /// {@template easy_dialogs_controller.hideWhere}
   /// This method is used to hide all dialogs that satisfy the condition.
@@ -87,23 +89,24 @@ final class EasyDialogsController {
   Future<void> hideWhere<D extends EasyDialog>(
     bool Function(D dialog) test, {
     bool instantly = false,
-  }) =>
-      Future.wait(
-        entries.values.toList().where(
-          (entry) {
-            final dialog = entry.dialog;
+  }) {
+    return Future.wait(
+      entries.values.toList().where(
+        (entry) {
+          final dialog = entry.dialog;
 
-            if (dialog is D && test(dialog)) return true;
+          if (dialog is D && test(dialog)) return true;
 
-            return false;
-          },
-        ).map(
-          (e) => _hide(
-            e.dialog,
-            instantly: instantly,
-          ),
+          return false;
+        },
+      ).map(
+        (e) => _hide(
+          e.dialog,
+          instantly: instantly,
         ),
-      );
+      ),
+    );
+  }
 
   /// @nodoc
   void dispose() {
@@ -126,7 +129,8 @@ final class EasyDialogsController {
       dialog: dialog.._completer = Completer<T?>(),
       animationController: switch (dialog.animationConfiguration) {
         AnimationConfigurationWithController c => c.controller,
-        AnimationConfigurationWithoutController c => c.createController(overlay)
+        AnimationConfigurationWithoutController c =>
+          c.createController(overlay),
       },
     );
     assert(!entries.containsKey(dialog.identity));
@@ -273,6 +277,23 @@ abstract base class EasyDialogIdentifier {
   Object get identity;
 }
 
+final class ValueDialogIdentifier extends EasyDialogIdentifier {
+  @override
+  final Object identity;
+
+  const ValueDialogIdentifier(this.identity);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ValueDialogIdentifier && other.identity == identity;
+  }
+
+  @override
+  int get hashCode => identity.hashCode;
+}
+
 /// {@category Dialogs}
 /// {@category Getting started}
 /// Base dialog class.
@@ -327,6 +348,7 @@ abstract base class EasyDialog
   /// Shortcut for [PositionedDialog].
   factory EasyDialog.positioned({
     required Widget content,
+    bool isDraggable,
     EasyDialogPosition position,
     EasyDialogAnimationConfiguration animationConfiguration,
     EasyDialogDecoration<EasyDialog> decoration,
@@ -552,12 +574,13 @@ extension EasyDialogsX on EasyDialog {
   Future<void> hide({
     bool instantly = false,
     Object? result,
-  }) =>
-      FlutterEasyDialogs.hide(
-        this,
-        instantly: instantly,
-        result: result,
-      );
+  }) {
+    return FlutterEasyDialogs.hide(
+      this,
+      instantly: instantly,
+      result: result,
+    );
+  }
 
   /// Decorate this dialog with [decoration].
   EasyDialog decorate(EasyDialogDecoration decoration) => _copyWith(
@@ -583,53 +606,57 @@ extension EasyDialogsX on EasyDialog {
   EasyDialog slideHorizontal({
     Curve curve = _SlideHorizontal._defaultCurve,
     HorizontalSlideDirection direction = _SlideHorizontal._defaultDirection,
-  }) =>
-      decorate(
-        EasyDialogAnimation.slideHorizontal(
-          curve: curve,
-          direction: direction,
-        ),
-      );
+  }) {
+    return decorate(
+      EasyDialogAnimation.slideHorizontal(
+        curve: curve,
+        direction: direction,
+      ),
+    );
+  }
 
   /// {@macro easy_dialog_animation.slideVertical}
   EasyDialog slideVertical({
     Curve curve = _SlideVertical._defaultCurve,
     VerticalSlideDirection direction = _SlideVertical._defaultDirection,
-  }) =>
-      decorate(
-        EasyDialogAnimation.slideVertical(
-          curve: curve,
-          direction: direction,
-        ),
-      );
+  }) {
+    return decorate(
+      EasyDialogAnimation.slideVertical(
+        curve: curve,
+        direction: direction,
+      ),
+    );
+  }
 
   /// {@macro easy_dialog_animation.blurBackground}
   EasyDialog blurBackground({
     Color backgroundColor = _BlurBackground._defaultBackgroundColor,
     Curve curve = _BlurBackground._defaultCurve,
     double amount = _BlurBackground._defaultAmount,
-  }) =>
-      decorate(
-        EasyDialogAnimation.blurBackground(
-          backgroundColor: backgroundColor,
-          curve: curve,
-          amount: amount,
-        ),
-      );
+  }) {
+    return decorate(
+      EasyDialogAnimation.blurBackground(
+        backgroundColor: backgroundColor,
+        curve: curve,
+        amount: amount,
+      ),
+    );
+  }
 
   /// {@macro easy_dialog_animation.fadeBackground}
   EasyDialog fadeBackground({
     Color backgroundColor = _FadeBackground._defaultBackgroundColor,
     double blur = _FadeBackground._defaultBlur,
     Curve curve = _Bounce._defaultCurve,
-  }) =>
-      decorate(
-        EasyDialogAnimation.fadeBackground(
-          backgroundColor: backgroundColor,
-          blur: blur,
-          curve: curve,
-        ),
-      );
+  }) {
+    return decorate(
+      EasyDialogAnimation.fadeBackground(
+        backgroundColor: backgroundColor,
+        blur: blur,
+        curve: curve,
+      ),
+    );
+  }
 
   /// {@macro easy_dialog_dismiss.animatedTap}
   EasyDialog animatedTap({
@@ -640,18 +667,19 @@ extension EasyDialogsX on EasyDialog {
     EasyWillDismiss? willDismiss,
     HitTestBehavior? behavior,
     bool instantly = false,
-  }) =>
-      decorate(
-        EasyDialogDismiss.animatedTap(
-          duration: duration,
-          pressScale: pressScale,
-          curve: curve,
-          onDismissed: onDismissed,
-          willDismiss: willDismiss,
-          behavior: behavior,
-          instantly: instantly,
-        ),
-      );
+  }) {
+    return decorate(
+      EasyDialogDismiss.animatedTap(
+        duration: duration,
+        pressScale: pressScale,
+        curve: curve,
+        onDismissed: onDismissed,
+        willDismiss: willDismiss,
+        behavior: behavior,
+        instantly: instantly,
+      ),
+    );
+  }
 
   /// {@macro easy_dialog_dismiss.tap}
   EasyDialog tap({
@@ -659,15 +687,16 @@ extension EasyDialogsX on EasyDialog {
     OnEasyDismissed? onDismissed,
     EasyWillDismiss? willDismiss,
     bool instantly = false,
-  }) =>
-      decorate(
-        EasyDialogDismiss.tap(
-          behavior: behavior,
-          onDismissed: onDismissed,
-          willDismiss: willDismiss,
-          instantly: instantly,
-        ),
-      );
+  }) {
+    return decorate(
+      EasyDialogDismiss.tap(
+        behavior: behavior,
+        onDismissed: onDismissed,
+        willDismiss: willDismiss,
+        instantly: instantly,
+      ),
+    );
+  }
 
   /// {@macro easy_dialog_dismiss.swipe}
   EasyDialog swipe({
@@ -686,25 +715,26 @@ extension EasyDialogsX on EasyDialog {
     DismissUpdateCallback? onUpdate,
     EasyWillDismiss? willDismiss,
     bool instantly = true,
-  }) =>
-      decorate(
-        EasyDialogDismiss.swipe(
-          direction: direction,
-          onDismissed: onDismissed,
-          background: background,
-          secondaryBackground: secondaryBackground,
-          onResize: onResize,
-          resizeDuration: resizeDuration,
-          dismissThresholds: dismissThresholds,
-          movementDuration: movementDuration,
-          crossAxisEndOffset: crossAxisEndOffset,
-          dragStartBehavior: dragStartBehavior,
-          behavior: behavior,
-          onUpdate: onUpdate,
-          willDismiss: willDismiss,
-          instantly: instantly,
-        ),
-      );
+  }) {
+    return decorate(
+      EasyDialogDismiss.swipe(
+        direction: direction,
+        onDismissed: onDismissed,
+        background: background,
+        secondaryBackground: secondaryBackground,
+        onResize: onResize,
+        resizeDuration: resizeDuration,
+        dismissThresholds: dismissThresholds,
+        movementDuration: movementDuration,
+        crossAxisEndOffset: crossAxisEndOffset,
+        dragStartBehavior: dragStartBehavior,
+        behavior: behavior,
+        onUpdate: onUpdate,
+        willDismiss: willDismiss,
+        instantly: instantly,
+      ),
+    );
+  }
 }
 
 /// {@category Getting started}
@@ -716,14 +746,17 @@ extension EasyDialogWidgetX on Widget {
         PositionedDialog.defaultAnimationConfiguration,
     Duration? autoHideDuration = PositionedDialog.defaultAutoHideDuration,
     EasyDialogDecoration decoration = const EasyDialogDecoration.none(),
-  }) =>
-      PositionedDialog(
-        content: this,
-        position: position,
-        decoration: decoration,
-        animationConfiguration: animationConfiguration,
-        autoHideDuration: autoHideDuration,
-      );
+    bool isDraggable = false,
+  }) {
+    return PositionedDialog(
+      content: this,
+      position: position,
+      isDraggable: isDraggable,
+      decoration: decoration,
+      animationConfiguration: animationConfiguration,
+      autoHideDuration: autoHideDuration,
+    );
+  }
 
   FullScreenDialog fullScreen({
     EasyDialogAnimationConfiguration animationConfiguration =
@@ -731,14 +764,15 @@ extension EasyDialogWidgetX on Widget {
     Duration? autoHideDuration,
     WillPopCallback? androidWillPop,
     EasyDialogDecoration decoration = const EasyDialogDecoration.none(),
-  }) =>
-      FullScreenDialog(
-        content: this,
-        androidWillPop: androidWillPop,
-        animationConfiguration: animationConfiguration,
-        decoration: decoration,
-        autoHideDuration: autoHideDuration,
-      );
+  }) {
+    return FullScreenDialog(
+      content: this,
+      androidWillPop: androidWillPop,
+      animationConfiguration: animationConfiguration,
+      decoration: decoration,
+      autoHideDuration: autoHideDuration,
+    );
+  }
 }
 
 final class _EasyDialogContextDecorator implements EasyDialogContext {
@@ -761,26 +795,28 @@ final class _EasyDialogContextDecorator implements EasyDialogContext {
   EasyDialog get _dialog => _target._dialog;
 
   @override
-  void _registerDecoration<T extends EasyDialogDecoration<EasyDialog>>(
-    T decoration,
-  ) =>
-      _target._registerDecoration(decoration);
+  void _registerDecoration<T extends EasyDialogDecoration>(T decoration) {
+    return _target._registerDecoration(decoration);
+  }
 
   @override
-  void dispose() => _target.dispose();
+  T? getDecorationOfExactType<T extends EasyDialogDecoration>() {
+    return _target.getDecorationOfExactType<T>();
+  }
 
   @override
-  T? getDecorationOfExactType<T extends EasyDialogDecoration<EasyDialog>>() =>
-      _target.getDecorationOfExactType<T>();
-  @override
-  T? getParentDecorationOfType<T extends EasyDialogDecoration<EasyDialog>>(
+  T? getParentDecorationOfType<T extends EasyDialogDecoration>(
     EasyDialogDecoration<EasyDialog> child,
-  ) =>
-      _target.getParentDecorationOfType(child);
+  ) {
+    return _target.getParentDecorationOfType(child);
+  }
 
   @override
   Future<void> hideDialog({bool instantly = false, Object? result}) =>
       _target.hideDialog(instantly: instantly, result: result);
+
+  @override
+  void dispose() => _target.dispose();
 
   @override
   TickerProvider get vsync => _target.vsync;

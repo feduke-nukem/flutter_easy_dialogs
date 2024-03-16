@@ -38,7 +38,22 @@ Container(
         <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/a241b14a-764c-4c4d-b863-e146a0496f1b" width="170"/>
     </a>
 </div>
- 
+
+**Since version 3.2.0** you can make Positioned Dialog draggable:
+```dart
+final content = Container(
+  height: 150.0,
+  color: Colors.amber[900],
+  alignment: Alignment.center,
+  child: Text('Dialog'),
+);
+
+content
+    .positioned(position: EasyDialogPosition.top, isDraggable: true)
+    .show();
+```
+
+
 
 #### FullScreen dialogs
 
