@@ -1,7 +1,5 @@
 part of 'easy_dialogs_controller.dart';
 
-const _defaultCurve = Curves.linear;
-
 /// {@category Decorations}
 /// {@category Migration guide from 2.x to 3.x}
 ///
@@ -16,11 +14,13 @@ const _defaultCurve = Curves.linear;
 /// * [EasyDialogDismiss].
 abstract base class EasyDialogAnimation<D extends EasyDialog>
     extends EasyDialogDecoration<D> {
+  static const defaultCurve = Curves.linear;
+
   /// Desired curve to be applied to the animation.
   final Curve curve;
 
   /// @nodoc
-  const EasyDialogAnimation({this.curve = _defaultCurve});
+  const EasyDialogAnimation({this.curve = defaultCurve});
 
   /// {@template easy_dialog_animation.fade}
   /// Simple fade transition.
@@ -73,9 +73,7 @@ abstract base class EasyDialogAnimation<D extends EasyDialog>
 }
 
 final class _Fade<D extends EasyDialog> extends EasyDialogAnimation<D> {
-  static const _defaultCurve = Curves.fastLinearToSlowEaseIn;
-
-  const _Fade({super.curve = _defaultCurve});
+  const _Fade({super.curve = EasyDialogAnimation.defaultCurve});
 
   @override
   Widget call(D dialog) {
@@ -92,9 +90,7 @@ final class _Fade<D extends EasyDialog> extends EasyDialogAnimation<D> {
 }
 
 final class _Expansion<D extends EasyDialog> extends EasyDialogAnimation<D> {
-  static const _defaultCurve = Curves.fastLinearToSlowEaseIn;
-
-  const _Expansion({super.curve = _defaultCurve});
+  const _Expansion({super.curve = EasyDialogAnimation.defaultCurve});
 
   @override
   Widget call(D dialog) {
@@ -122,7 +118,6 @@ final class _Expansion<D extends EasyDialog> extends EasyDialogAnimation<D> {
 final class _BlurBackground<D extends EasyDialog>
     extends EasyDialogAnimation<D> {
   static const _defaultAmount = 8.0;
-  static const _defaultCurve = Curves.easeInOut;
   static const _defaultBackgroundColor = Color.fromARGB(44, 117, 116, 116);
 
   final Color backgroundColor;
@@ -131,7 +126,7 @@ final class _BlurBackground<D extends EasyDialog>
   const _BlurBackground({
     this.backgroundColor = _defaultBackgroundColor,
     this.amount = _defaultAmount,
-    super.curve = _defaultCurve,
+    super.curve = EasyDialogAnimation.defaultCurve,
   });
 
   @override
@@ -188,7 +183,6 @@ final class _BlurBackground<D extends EasyDialog>
 final class _FadeBackground<D extends EasyDialog>
     extends EasyDialogAnimation<D> {
   static const _defaultBlur = 0.5;
-  static const _defaultCurve = Curves.easeInOut;
   static const _defaultBackgroundColor = Color.fromARGB(44, 117, 116, 116);
 
   final double blur;
@@ -197,7 +191,7 @@ final class _FadeBackground<D extends EasyDialog>
   const _FadeBackground({
     this.backgroundColor = _defaultBackgroundColor,
     this.blur = _defaultBlur,
-    super.curve = _defaultCurve,
+    super.curve = EasyDialogAnimation.defaultCurve,
   });
 
   @override
@@ -228,9 +222,7 @@ final class _FadeBackground<D extends EasyDialog>
 }
 
 final class _Bounce<D extends EasyDialog> extends EasyDialogAnimation<D> {
-  static const _defaultCurve = Curves.linear;
-
-  const _Bounce({super.curve = _defaultCurve});
+  const _Bounce({super.curve = EasyDialogAnimation.defaultCurve});
 
   @override
   Widget call(D dialog) {
@@ -285,14 +277,13 @@ enum HorizontalSlideDirection {
 
 final class _SlideHorizontal<D extends EasyDialog>
     extends EasyDialogAnimation<D> {
-  static const _defaultCurve = Curves.fastEaseInToSlowEaseOut;
   static const _defaultDirection = HorizontalSlideDirection.leftToRight;
 
   final HorizontalSlideDirection direction;
 
   const _SlideHorizontal({
     this.direction = _defaultDirection,
-    super.curve = _defaultCurve,
+    super.curve = EasyDialogAnimation.defaultCurve,
   });
 
   @override
@@ -323,13 +314,12 @@ enum VerticalSlideDirection {
 
 final class _SlideVertical<D extends EasyDialog>
     extends EasyDialogAnimation<D> {
-  static const _defaultCurve = Curves.fastLinearToSlowEaseIn;
   static const _defaultDirection = VerticalSlideDirection.up;
 
   final VerticalSlideDirection direction;
 
   const _SlideVertical({
-    super.curve = _defaultCurve,
+    super.curve = EasyDialogAnimation.defaultCurve,
     this.direction = _defaultDirection,
   });
 

@@ -102,11 +102,12 @@ abstract base class EasyDialogDismiss<D extends EasyDialog>
     final effectiveWillDismiss = willDismiss ?? parentDismiss?.willDismiss;
     final effectiveOnDismissed = onDismissed ?? parentDismiss?.onDismissed;
 
-    if (await effectiveWillDismiss?.call() ?? true)
+    if (await effectiveWillDismiss?.call() ?? true) {
       dialog.context.hideDialog(
         instantly: instantly,
         result: effectiveOnDismissed?.call(),
       );
+    }
   }
 }
 

@@ -8,9 +8,7 @@ void main() {
   group('easy dialog controller', () {
     testWidgets('show different dialogs. entries correctly reflect',
         (widgetTester) async {
-      await widgetTester.pumpWidget(
-        app(),
-      );
+      await widgetTester.pumpWidget(app());
 
       final controller = easyOverlayState.controller;
 
@@ -51,10 +49,9 @@ void main() {
       expect(controller.entries.length, equals(3));
       expect(controller.entries.values.last.dialog, isA<FullScreenDialog>());
     });
+
     testWidgets('show different and hide where type', (widgetTester) async {
-      await widgetTester.pumpWidget(
-        app(),
-      );
+      await widgetTester.pumpWidget(app());
 
       final controller = easyOverlayState.controller;
 
@@ -88,9 +85,7 @@ void main() {
     });
 
     testWidgets('show different and hide where', (widgetTester) async {
-      await widgetTester.pumpWidget(
-        app(),
-      );
+      await widgetTester.pumpWidget(app());
 
       final controller = easyOverlayState.controller;
 
@@ -126,16 +121,15 @@ void main() {
       expect(controller.entries.length, equals(2));
       expect(controller.entries.values.first.dialog, isA<PositionedDialog>());
       expect(
-          (controller.entries.values.first.dialog as PositionedDialog).position,
-          EasyDialogPosition.top);
+        (controller.entries.values.first.dialog as PositionedDialog).position,
+        EasyDialogPosition.top,
+      );
       expect(controller.entries.values.last.dialog, isA<FullScreenDialog>());
     });
 
     testWidgets('show three positions and hide two of them',
         (widgetTester) async {
-      await widgetTester.pumpWidget(
-        app(),
-      );
+      await widgetTester.pumpWidget(app());
 
       final controller = easyOverlayState.controller;
       final topDialog = EasyDialog.positioned(
@@ -202,9 +196,7 @@ void main() {
     });
 
     testWidgets('show dialog and dismiss with result', (widgetTester) async {
-      await widgetTester.pumpWidget(
-        app(),
-      );
+      await widgetTester.pumpWidget(app());
 
       int? result;
       final controller = easyOverlayState.controller;
@@ -250,7 +242,7 @@ void main() {
 
       await widgetTester.pumpAndSettle(const Duration(seconds: 3));
 
-      controller.hide(dialog);
+      controller.hide(id: dialog.id);
 
       await widgetTester.pumpAndSettle(const Duration(seconds: 3));
 
@@ -422,9 +414,7 @@ void main() {
     testWidgets(
       'show the dialog with the same identity, previous hid => new shown',
       (widgetTester) async {
-        await widgetTester.pumpWidget(
-          app(),
-        );
+        await widgetTester.pumpWidget(app());
         const firsKey = Key('first');
         const secondKey = Key('second');
 
@@ -432,6 +422,7 @@ void main() {
 
         controller.show(
           EasyDialog.positioned(
+            id: 'id',
             content: Container(
               color: Colors.red,
               height: 300,
@@ -449,6 +440,7 @@ void main() {
 
         controller.show(
           EasyDialog.positioned(
+            id: 'id',
             content: Container(
               color: Colors.black12,
               height: 300,
@@ -524,19 +516,6 @@ void main() {
         );
       },
     );
-  });
-
-  group('identifier', () {
-    group('value dialog identifier', () {
-      test('created instances with same identity equals', () {
-        final identity = 'test';
-        final first = ValueDialogIdentifier(identity);
-        final second = ValueDialogIdentifier(identity);
-
-        expect(first, equals(second));
-        expect(first.hashCode, equals(second.hashCode));
-      });
-    });
   });
 }
 

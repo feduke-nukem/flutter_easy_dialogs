@@ -33,7 +33,7 @@ void main() {
       expect(easyOverlayState.box.get(FullScreenDialog),
           isA<EasyDialogsOverlayEntry>());
 
-      easyOverlayState.controller.hide(FullScreenDialog.identifier());
+      easyOverlayState.controller.hide(id: FullScreenDialog.defaultId);
 
       await widgetTester.pumpAndSettle();
 

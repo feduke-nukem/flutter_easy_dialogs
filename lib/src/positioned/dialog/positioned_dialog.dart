@@ -22,17 +22,8 @@ final class PositionedDialog extends EasyDialog {
     super.decoration,
     super.animationConfiguration = defaultAnimationConfiguration,
     super.autoHideDuration = defaultAutoHideDuration,
-  });
-
-  @factory
-  static EasyDialogIdentifier identifier({
-    required EasyDialogPosition position,
-  }) {
-    return ValueDialogIdentifier(position);
-  }
-
-  @override
-  EasyDialogPosition get identity => position;
+    Object? id,
+  }) : super(id: id ?? position);
 
   @override
   EasyOverlayBoxInsertion<EasyDialog> createInsert(Widget decorated) {

@@ -54,13 +54,8 @@ class _PositionedDialogFlutterAnimateState
                     children: [
                       const Text('Hello World'),
                       ElevatedButton(
-                        onPressed: () {
-                          FlutterEasyDialogs.hide(
-                            PositionedDialog.identifier(
-                              position: EasyDialogPosition.top,
-                            ),
-                          );
-                        },
+                        onPressed: () =>
+                            FlutterEasyDialogs.hide(id: EasyDialogPosition.top),
                         child: const Text('Close'),
                       ),
                     ],

@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/core.dart';
 import 'package:flutter_easy_dialogs/src/core/android_back_button_interceptor_mixin.dart';
 
-const _identity = '\$fullScreenDialog';
-
 typedef FullScreenWillPopCallback = FutureOr<bool> Function();
 
 /// Dialog that is intended to cover the entire screen.
 final class FullScreenDialog extends EasyDialog
     with AndroidBackButtonInterceptorMixin {
+  static const defaultId = '\$fullScreenDialog';
+
   static const defaultAnimationConfiguration =
       EasyDialogAnimationConfiguration.bounded(
     duration: const Duration(milliseconds: 300),
@@ -23,18 +23,12 @@ final class FullScreenDialog extends EasyDialog
   /// Creates an instance of [FullScreenDialog].
   FullScreenDialog({
     required super.content,
+    super.id = defaultId,
     this.androidWillPop,
     super.animationConfiguration = defaultAnimationConfiguration,
     super.decoration,
     super.autoHideDuration,
   });
-
-  @factory
-  static EasyDialogIdentifier identifier() =>
-      const ValueDialogIdentifier(_identity);
-
-  @override
-  String get identity => _identity;
 
   @override
   EasyOverlayBoxInsertion createInsert(Widget decorated) =>
