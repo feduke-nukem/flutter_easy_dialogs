@@ -37,8 +37,7 @@ AnimationController createTestController() => AnimationController(
 
 Future<void> showAndHide(
   WidgetTester widgetTester,
-  EasyDialog dialog,
-  EasyDialogIdentifier identifier, {
+  EasyDialog dialog, {
   Duration pumpAndSettleDuration = const Duration(seconds: 3),
 }) async {
   await widgetTester.pumpWidget(
@@ -51,7 +50,7 @@ Future<void> showAndHide(
 
   expect(find.byKey(dialogKey), findsOneWidget);
 
-  easyOverlayState.controller.hide(identifier);
+  easyOverlayState.controller.hide(id: dialog.id);
 
   await widgetTester.pumpAndSettle(pumpAndSettleDuration);
 

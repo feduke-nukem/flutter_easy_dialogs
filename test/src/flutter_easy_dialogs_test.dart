@@ -31,9 +31,7 @@ void main() {
 
     expect(find.byKey(_key), findsOneWidget);
 
-    controller.hide(
-      PositionedDialog.identifier(position: EasyDialogPosition.top),
-    );
+    controller.hide(id: EasyDialogPosition.top);
 
     await widgetTester.pumpAndSettle(const Duration(seconds: 5));
 
@@ -190,13 +188,14 @@ void main() {
 
       FlutterEasyDialogs.show<int>(
         EasyDialog.fullScreen(
+          id: 'full',
           content: Container(),
         ),
       ).then((value) => result = value);
 
       await widgetTester.pumpAndSettle(const Duration(seconds: 3));
 
-      FlutterEasyDialogs.hide(FullScreenDialog.identifier(), result: 9);
+      FlutterEasyDialogs.hide(id: 'full', result: 9);
 
       await widgetTester.pumpAndSettle(const Duration(seconds: 3));
 

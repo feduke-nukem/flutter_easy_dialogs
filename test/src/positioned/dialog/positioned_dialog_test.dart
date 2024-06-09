@@ -6,13 +6,16 @@ import '../../../helper.dart';
 
 void main() {
   testWidgets('show and hide all positions', (widgetTester) async {
-    await widgetTester.pumpWidget(MaterialApp(
-      builder: FlutterEasyDialogs.builder(),
-    ));
+    await widgetTester.pumpWidget(
+      MaterialApp(
+        builder: FlutterEasyDialogs.builder(),
+      ),
+    );
 
     for (final position in EasyDialogPosition.values) {
       FlutterEasyDialogs.show(
         EasyDialog.positioned(
+          id: position,
           decoration: PositionedShell.banner()
               .chained(EasyDialogAnimation.fade())
               .chained(EasyDialogDismiss.tap())
@@ -28,9 +31,7 @@ void main() {
       );
       await widgetTester.pumpAndSettle(const Duration(seconds: 3));
       expect(find.byKey(dialogKey), findsOneWidget);
-      FlutterEasyDialogs.hide(
-        PositionedDialog.identifier(position: position),
-      );
+      FlutterEasyDialogs.hide(id: position);
       await widgetTester.pumpAndSettle(const Duration(seconds: 3));
       expect(find.byKey(dialogKey), findsNothing);
     }

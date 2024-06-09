@@ -43,11 +43,11 @@ void main() {
           await showAndHide(
             widgetTester,
             EasyDialog.positioned(
+              id: EasyDialogPosition.top,
               autoHideDuration: null,
               decoration: element,
               content: SizedBox(key: dialogKey),
             ),
-            PositionedDialog.identifier(position: EasyDialogPosition.top),
             pumpAndSettleDuration: const Duration(seconds: 3),
           );
         }
@@ -64,7 +64,6 @@ void main() {
               decoration: element,
               content: SizedBox(key: dialogKey),
             ),
-            FullScreenDialog.identifier(),
             pumpAndSettleDuration: const Duration(seconds: 3),
           );
         }

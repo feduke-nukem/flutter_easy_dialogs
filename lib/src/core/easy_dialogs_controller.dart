@@ -42,7 +42,7 @@ final class EasyDialogsController {
   Future<T?> show<T extends Object?>(EasyDialog dialog) async {
     assert(dialog.state == EasyDialogLifecycleState.created);
 
-    final oldEntry = entries[dialog.identity];
+    final oldEntry = entries[dialog.id];
 
     if (oldEntry != null) await _hide(oldEntry.dialog);
 
@@ -66,19 +66,19 @@ final class EasyDialogsController {
   /// {@template easy_dialogs_controller.hide}
   /// This method is used to [hide] a dialog.
   ///
-  /// [EasyDialogIdentifier] is used to identify the specific dialog.
+  /// [EasyDialog.id] is used to identify the specific dialog.
   ///
   /// [instantly] is used to hide the dialog instantly without animation.
   ///
   /// [result] is used to return a value to the [show] method.
   /// {@endtemplate}
-  Future<void> hide(
-    EasyDialogIdentifier identifier, {
+  Future<void> hide({
+    required Object id,
     bool instantly = false,
     Object? result,
   }) {
     return _hide(
-      identifier,
+      id is EasyDialog ? id.id : id,
       instantly: instantly,
       result: result,
     );
@@ -92,7 +92,7 @@ final class EasyDialogsController {
     bool instantly = false,
   }) {
     return Future.wait(
-      entries.values.toList().where(
+      entries.values.where(
         (entry) {
           final dialog = entry.dialog;
 
@@ -102,11 +102,33 @@ final class EasyDialogsController {
         },
       ).map(
         (e) => _hide(
-          e.dialog,
+          e.dialog.id,
           instantly: instantly,
         ),
       ),
     );
+  }
+
+  /// {@template easy_dialogs_controller.isShown}
+  /// Whether a [EasyDialog] with [id] is shown at the moment.
+  /// {@endtemplate}
+  bool isShown({required Object id}) => entries.containsKey(id);
+
+  /// {@template easy_dialogs_controller.get}
+  /// Returns the [EasyDialog] with [id].
+  ///
+  /// Throws an error if the dialog is not registered.
+  /// {@endtemplate}
+  EasyDialog get(Object id) {
+    final dialog = entries[id]?.dialog;
+
+    if (dialog == null) {
+      throw FlutterError(
+        'dialog with id: $id is not registered in this conversation',
+      );
+    }
+
+    return dialog;
   }
 
   /// @nodoc
@@ -116,13 +138,13 @@ final class EasyDialogsController {
   }
 
   @protected
-  AnimationController _getAnimationController(EasyDialogIdentifier identifier) {
+  AnimationController _getAnimationController(Object id) {
     assert(
-      entries.containsKey(identifier.identity),
+      entries.containsKey(id),
       'dialog is not registered in this conversation',
     );
 
-    return entries[identifier.identity]!.animationController;
+    return entries[id]!.animationController;
   }
 
   _DialogEntry _createEntry<T extends Object?>(EasyDialog dialog) {
@@ -134,9 +156,9 @@ final class EasyDialogsController {
           c.createController(overlay),
       },
     );
-    assert(!entries.containsKey(dialog.identity));
+    assert(!entries.containsKey(dialog.id));
 
-    entries[dialog.identity] = entry;
+    entries[dialog.id] = entry;
     dialog._context = EasyDialogContext._(
       dialog: dialog,
       controller: this,
@@ -145,23 +167,24 @@ final class EasyDialogsController {
     dialog.init();
 
     entry.animationController.addStatusListener(
-      _AnimationStatusListener(controller: this, entry: entry),
+      _AnimationStatusListener(controller: this, entry: entry).call,
     );
 
     return entry;
   }
 
   Future<void> _hide(
-    EasyDialogIdentifier identifier, {
+    Object id, {
     bool instantly = false,
     Object? result,
   }) async {
+    final effectiveId = id is EasyDialog ? id.id : id;
     assert(
-      entries[identifier.identity] != null,
+      entries[effectiveId] != null,
       'dialog is not registered in this conversation',
     );
 
-    final entry = entries[identifier.identity]!;
+    final entry = entries[effectiveId]!;
     entry.dialog._pendingResult = result;
 
     final needReverseAnimation = switch (entry.dialog.animationConfiguration) {
@@ -179,16 +202,16 @@ final class EasyDialogsController {
   }
 
   void _releaseEntry(_DialogEntry entry) {
-    final identity = entry.dialog.identity;
+    final id = entry.dialog.id;
     assert(
       identical(
-        entries[identity]?.animationController,
+        entries[id]?.animationController,
         entry.animationController,
       ),
     );
     assert(entry.dialog._completer!.isCompleted);
 
-    entries.remove(identity);
+    entries.remove(id);
     overlay.removeDialog(entry.dialog.createRemove());
     entry.dispose();
   }
@@ -230,7 +253,7 @@ class _AnimationStatusListener {
       case AnimationStatus.dismissed:
         assert(
           identical(
-            controller.entries[dialog.identity]?.animationController,
+            controller.entries[dialog.id]?.animationController,
             entry.animationController,
           ),
         );
@@ -270,32 +293,6 @@ abstract mixin class EasyDialogLifecycle {
   void dispose() {}
 }
 
-/// Identifier to recognize dialogs withing [EasyDialogsController].
-abstract base class EasyDialogIdentifier {
-  /// @nodoc
-  const EasyDialogIdentifier();
-
-  /// The identity of the dialog.
-  Object get identity;
-}
-
-final class ValueDialogIdentifier extends EasyDialogIdentifier {
-  @override
-  final Object identity;
-
-  const ValueDialogIdentifier(this.identity);
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is ValueDialogIdentifier && other.identity == identity;
-  }
-
-  @override
-  int get hashCode => identity.hashCode;
-}
-
 /// {@category Dialogs}
 /// {@category Getting started}
 /// Base dialog class.
@@ -304,11 +301,7 @@ final class ValueDialogIdentifier extends EasyDialogIdentifier {
 ///
 /// It is useful when there is a need to describe a dialog, its properties,
 /// and behaviors.
-abstract base class EasyDialog
-    with EasyDialogLifecycle
-    implements EasyDialogIdentifier {
-  EasyDialogContext? _context;
-  Widget _content;
+abstract base class EasyDialog with EasyDialogLifecycle {
   Object? _pendingResult;
   Completer<Object?>? _completer;
   var _state = EasyDialogLifecycleState.created;
@@ -316,8 +309,13 @@ abstract base class EasyDialog
   /// {@macro easy_dialog_decoration}
   EasyDialogDecoration _decoration;
   EasyDialogDecoration get decoration => _decoration;
+
   EasyDialogLifecycleState get state => _state;
+
+  EasyDialogContext? _context;
   EasyDialogContext get context => _context!;
+
+  Widget _content;
   Widget get content => _content;
 
   /// {@macro easy_dialog_animation_configuration}
@@ -328,9 +326,17 @@ abstract base class EasyDialog
   /// If this is `null`, the dialog will not be automatically hidden.
   final Duration? autoHideDuration;
 
+  /// Identifier of the dialog.
+  ///
+  /// If the dialog with the same [id] will be requested to show - the previous one will be hidden.
+  ///
+  /// [id] could be any unique value.
+  final Object id;
+
   /// Creates an instance of [EasyDialog].
   EasyDialog({
     required Widget content,
+    required this.id,
     this.autoHideDuration,
     EasyDialogDecoration decoration = const EasyDialogDecoration.none(),
     this.animationConfiguration =
@@ -341,6 +347,7 @@ abstract base class EasyDialog
   /// Shortcut for [FullScreenDialog].
   factory EasyDialog.fullScreen({
     required Widget content,
+    Object id,
     FullScreenWillPopCallback? androidWillPop,
     EasyDialogAnimationConfiguration animationConfiguration,
     EasyDialogDecoration<EasyDialog> decoration,
@@ -351,6 +358,7 @@ abstract base class EasyDialog
   factory EasyDialog.positioned({
     required Widget content,
     EasyDialogPosition position,
+    Object? id,
     EasyDialogAnimationConfiguration animationConfiguration,
     EasyDialogDecoration<EasyDialog> decoration,
     Duration? autoHideDuration,
@@ -492,7 +500,7 @@ final class EasyDialogContext {
 
   /// Associated with dialog animation.
   Animation<double> get animation =>
-      _controller._getAnimationController(_dialog);
+      _controller._getAnimationController(_dialog.id);
 
   /// Hide associated dialog.
   Future<void> hideDialog({
@@ -500,7 +508,7 @@ final class EasyDialogContext {
     Object? result,
   }) =>
       _controller._hide(
-        _dialog,
+        _dialog.id,
         instantly: instantly,
         result: result,
       );
@@ -577,11 +585,14 @@ extension EasyDialogsX on EasyDialog {
     Object? result,
   }) {
     return FlutterEasyDialogs.hide(
-      this,
+      id: id,
       instantly: instantly,
       result: result,
     );
   }
+
+  /// {@macro easy_dialogs_controller.isShown}
+  bool get isShown => FlutterEasyDialogs.isShown(id: id);
 
   /// Decorate this dialog with [decoration].
   EasyDialog decorate(EasyDialogDecoration decoration) => _copyWith(
@@ -589,23 +600,25 @@ extension EasyDialogsX on EasyDialog {
       );
 
   /// {@macro easy_dialog_animation.fade}
-  EasyDialog fade({Curve curve = _Fade._defaultCurve}) => decorate(
+  EasyDialog fade({Curve curve = EasyDialogAnimation.defaultCurve}) => decorate(
         EasyDialogAnimation.fade(curve: curve),
       );
 
   /// {@macro easy_dialog_animation.expansion}
-  EasyDialog expansion({Curve curve = _Expansion._defaultCurve}) => decorate(
+  EasyDialog expansion({Curve curve = EasyDialogAnimation.defaultCurve}) =>
+      decorate(
         EasyDialogAnimation.expansion(curve: curve),
       );
 
   /// {@macro easy_dialog_animation.bounce}
-  EasyDialog bounce({Curve curve = _Bounce._defaultCurve}) => decorate(
+  EasyDialog bounce({Curve curve = EasyDialogAnimation.defaultCurve}) =>
+      decorate(
         EasyDialogAnimation.bounce(curve: curve),
       );
 
   /// {@macro easy_dialog_animation.slideHorizontal}
   EasyDialog slideHorizontal({
-    Curve curve = _SlideHorizontal._defaultCurve,
+    Curve curve = EasyDialogAnimation.defaultCurve,
     HorizontalSlideDirection direction = _SlideHorizontal._defaultDirection,
   }) {
     return decorate(
@@ -618,7 +631,7 @@ extension EasyDialogsX on EasyDialog {
 
   /// {@macro easy_dialog_animation.slideVertical}
   EasyDialog slideVertical({
-    Curve curve = _SlideVertical._defaultCurve,
+    Curve curve = EasyDialogAnimation.defaultCurve,
     VerticalSlideDirection direction = _SlideVertical._defaultDirection,
   }) {
     return decorate(
@@ -632,7 +645,7 @@ extension EasyDialogsX on EasyDialog {
   /// {@macro easy_dialog_animation.blurBackground}
   EasyDialog blurBackground({
     Color backgroundColor = _BlurBackground._defaultBackgroundColor,
-    Curve curve = _BlurBackground._defaultCurve,
+    Curve curve = EasyDialogAnimation.defaultCurve,
     double amount = _BlurBackground._defaultAmount,
   }) {
     return decorate(
@@ -648,7 +661,7 @@ extension EasyDialogsX on EasyDialog {
   EasyDialog fadeBackground({
     Color backgroundColor = _FadeBackground._defaultBackgroundColor,
     double blur = _FadeBackground._defaultBlur,
-    Curve curve = _Bounce._defaultCurve,
+    Curve curve = EasyDialogAnimation.defaultCurve,
   }) {
     return decorate(
       EasyDialogAnimation.fadeBackground(

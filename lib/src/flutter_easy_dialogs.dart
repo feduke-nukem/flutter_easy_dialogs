@@ -27,17 +27,20 @@ final class FlutterEasyDialogs extends StatelessWidget {
       controller.show<T>(dialog);
 
   /// {@macro easy_dialogs_controller.hide}
-  static Future<void> hide(
-    EasyDialogIdentifier identifier, {
+  static Future<void> hide({
+    required Object id,
     bool instantly = false,
     Object? result,
   }) {
     return controller.hide(
-      identifier,
+      id: id,
       instantly: instantly,
       result: result,
     );
   }
+
+  /// {@macro easy_dialogs_controller.get}
+  static EasyDialog get(Object id) => controller.get(id);
 
   /// {@macro easy_dialogs_controller.hideWhere}
   static Future<void> hideWhere<T extends EasyDialog>(
@@ -46,6 +49,9 @@ final class FlutterEasyDialogs extends StatelessWidget {
   }) {
     return controller.hideWhere<T>(test, instantly: instantly);
   }
+
+  /// {@macro easy_dialogs_controller.isShown}
+  static bool isShown({required Object id}) => controller.isShown(id: id);
 
   /// For using in [MaterialApp.builder].
   static const builder = _builder;

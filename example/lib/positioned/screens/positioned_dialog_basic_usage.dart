@@ -168,11 +168,7 @@ class _PositionedDialogManagerBasicUsageScreenState
             ),
             ElevatedButton(
               onPressed: () {
-                FlutterEasyDialogs.hide(
-                  PositionedDialog.identifier(
-                    position: EasyDialogPosition.top,
-                  ),
-                );
+                FlutterEasyDialogs.hide(id: EasyDialogPosition.top);
               },
               child: const Text('Hide by position'),
             ),

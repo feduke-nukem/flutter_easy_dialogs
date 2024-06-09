@@ -70,14 +70,10 @@ Container(
 
 ![ezgif-1-c274042f92](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/2d632324-cb62-40b2-a757-bd9e96b8af4e)
 
-Or to hide with the help of specific dialog [identifier](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogIdentifier-class.html):
+Or to hide with the help of specific dialog `id`:
 
 ```dart
-FlutterEasyDialogs.hide(
-  PositionedDialog.identifier(
-    position: EasyDialogPosition.top,
-  ),
-);
+FlutterEasyDialogs.hide(id: EasyDialogPosition.top);
 ```
 
 You can await and and finish dialog showing with some result:
@@ -96,9 +92,7 @@ final result = await FlutterEasyDialogs.show<int>(
 );
 
 await FlutterEasyDialogs.hide(
-  PositionedDialog.identifier(
-    position: EasyDialogPosition.bottom,
-  ),
+  id: EasyDialogPosition.bottom,
   result: 5,
 );
 ```
@@ -114,9 +108,7 @@ final result = await Container(
 ).positioned(position: EasyDialogPosition.bottom).show<int>();
 
 await FlutterEasyDialogs.hide(
-  PositionedDialog.identifier(
-    position: EasyDialogPosition.bottom,
-  ),
+  id: EasyDialogPosition.bottom,
   result: 5,
 );
 ```
