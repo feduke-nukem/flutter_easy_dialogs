@@ -114,6 +114,23 @@ final class EasyDialogsController {
   /// {@endtemplate}
   bool isShown({required Object id}) => entries.containsKey(id);
 
+  /// {@template easy_dialogs_controller.get}
+  /// Returns the [EasyDialog] with [id].
+  ///
+  /// Throws an error if the dialog is not registered.
+  /// {@endtemplate}
+  EasyDialog get(Object id) {
+    final dialog = entries[id]?.dialog;
+
+    if (dialog == null) {
+      throw FlutterError(
+        'dialog with id: $id is not registered in this conversation',
+      );
+    }
+
+    return dialog;
+  }
+
   /// @nodoc
   void dispose() {
     entries.values.forEach((entry) => entry.dispose());

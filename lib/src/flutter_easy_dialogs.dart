@@ -39,6 +39,9 @@ final class FlutterEasyDialogs extends StatelessWidget {
     );
   }
 
+  /// {@macro easy_dialogs_controller.get}
+  static EasyDialog get(Object id) => controller.get(id);
+
   /// {@macro easy_dialogs_controller.hideWhere}
   static Future<void> hideWhere<T extends EasyDialog>(
     bool Function(T dialog) test, {
