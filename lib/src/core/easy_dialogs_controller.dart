@@ -770,6 +770,7 @@ extension EasyDialogWidgetX on Widget {
         PositionedDialog.defaultAnimationConfiguration,
     Duration? autoHideDuration = PositionedDialog.defaultAutoHideDuration,
     EasyDialogDecoration decoration = const EasyDialogDecoration.none(),
+    Object? id,
   }) {
     return PositionedDialog(
       content: this,
@@ -777,6 +778,7 @@ extension EasyDialogWidgetX on Widget {
       decoration: decoration,
       animationConfiguration: animationConfiguration,
       autoHideDuration: autoHideDuration,
+      id: id,
     );
   }
 
@@ -786,9 +788,11 @@ extension EasyDialogWidgetX on Widget {
     Duration? autoHideDuration,
     FullScreenWillPopCallback? androidWillPop,
     EasyDialogDecoration decoration = const EasyDialogDecoration.none(),
+    Object id = FullScreenDialog.defaultId,
   }) {
     return FullScreenDialog(
       content: this,
+      id: id,
       androidWillPop: androidWillPop,
       animationConfiguration: animationConfiguration,
       decoration: decoration,
