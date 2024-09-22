@@ -3,8 +3,6 @@ library flutter_easy_dialogs;
 export 'src/core/core.dart'
     hide
         EasyDialogsOverlayBox,
-        EasyDialogsOverlay,
-        EasyDialogsOverlayState,
         AnimationConfigurationWithoutController,
         AnimationConfigurationWithController,
         AnimationConfigurationBounded,

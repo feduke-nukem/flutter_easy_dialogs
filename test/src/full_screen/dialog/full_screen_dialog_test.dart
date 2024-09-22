@@ -30,8 +30,10 @@ void main() {
       expect(find.byKey(dialogKey), findsOneWidget);
 
       expect(easyOverlayState.box.currentEntries.isNotEmpty, isTrue);
-      expect(easyOverlayState.box.get(FullScreenDialog),
-          isA<EasyDialogsOverlayEntry>());
+      expect(
+        easyOverlayState.box.get(FullScreenDialog),
+        isA<EasyDialogsOverlayEntry>(),
+      );
 
       easyOverlayState.controller.hide(id: FullScreenDialog.defaultId);
 

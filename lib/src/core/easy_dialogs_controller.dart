@@ -24,7 +24,7 @@ final class EasyDialogsController {
   final entries = <Object, _DialogEntry>{};
 
   /// [IEasyOverlay] is used for providing [Ticker]
-  /// for creating animations and inserting dialogs into [EasyDialogsOverlay].
+  /// for creating animations and inserting dialogs.
   @visibleForTesting
   final IEasyOverlay overlay;
 
