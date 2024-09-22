@@ -13,7 +13,8 @@ const _dismissibleAnimatedTap = 'animatedTap';
 const _animations = <String, EasyDialogAnimation<PositionedDialog>>{
   _expansionAnimation: EasyDialogAnimation.expansion(),
   _fadeAnimation: EasyDialogAnimation.fade(),
-  _verticalSlideAnimation: EasyDialogAnimation.slideVertical(),
+  _verticalSlideAnimation:
+      EasyDialogAnimation.slideVertical(direction: VerticalSlideDirection.down),
 };
 
 extension on EasyDialogPosition {

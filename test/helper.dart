@@ -1,34 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/core.dart';
+import 'package:flutter_easy_dialogs/src/core/widget/overlay_provider.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-final _key = GlobalKey<EasyDialogsOverlayState>();
+final _key = GlobalKey<OverlayProviderState>();
 
-EasyDialogsOverlayState get easyOverlayState => _key.currentState!;
+OverlayProviderState get easyOverlayState => _key.currentState!;
 
 const dialogKey = ValueKey('dialog');
 const testCurve = Curves.linear;
 
 Widget app({Widget? child}) => MaterialApp(
-      builder: (context, child) {
-        return Material(
-          child: EasyDialogsOverlay(
-            key: _key,
-            initialEntries: [
-              EasyOverlayAppEntry(
-                builder: (context) => child ?? const SizedBox.shrink(),
-              ),
-            ],
-          ),
-        );
-      },
-      home: child != null
-          ? Builder(
-              builder: (context) {
-                return child;
-              },
-            )
-          : null,
+      builder: (context, child) => OverlayProvider(
+        child: child ?? const SizedBox(),
+        key: _key,
+      ),
+      home: child != null ? Builder(builder: (context) => child) : null,
     );
 
 AnimationController createTestController() => AnimationController(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialogs_controller.dart';
-import 'package:flutter_easy_dialogs/src/core/easy_dialogs_overlay.dart';
+import 'package:flutter_easy_dialogs/src/core/core.dart';
+import 'package:flutter_easy_dialogs/src/core/widget/overlay_provider.dart';
 
 /// {@category Dialogs}
 /// {@category Getting started}
@@ -17,10 +17,9 @@ final class FlutterEasyDialogs extends StatelessWidget {
     super.key,
   });
 
-  static final _key = GlobalKey<EasyDialogsOverlayState>();
-
   @visibleForTesting
-  static EasyDialogsController get controller => _key.currentState!.controller;
+  static EasyDialogsController get controller =>
+      OverlayProvider.stateKey.currentState!.controller;
 
   /// {@macro easy_dialogs_controller.show}
   static Future<T?> show<T extends Object?>(EasyDialog dialog) =>
@@ -56,21 +55,10 @@ final class FlutterEasyDialogs extends StatelessWidget {
   /// For using in [MaterialApp.builder].
   static const builder = _builder;
 
-  static TransitionBuilder _builder() {
-    return (context, child) => FlutterEasyDialogs(
-          child: child ?? const SizedBox.shrink(),
-        );
-  }
+  static TransitionBuilder _builder() => (context, child) =>
+      FlutterEasyDialogs(child: child ?? const SizedBox.shrink());
 
   @override
-  Widget build(BuildContext context) {
-    return Material(
-      child: EasyDialogsOverlay(
-        initialEntries: [
-          EasyOverlayAppEntry(builder: (context) => child),
-        ],
-        key: _key,
-      ),
-    );
-  }
+  Widget build(BuildContext context) =>
+      OverlayProvider(key: OverlayProvider.stateKey, child: child);
 }

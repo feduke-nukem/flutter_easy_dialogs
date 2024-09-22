@@ -32,9 +32,6 @@ final class EasyDialogsOverlayBox {
   @visibleForTesting
   final currentEntries = <Object, Object?>{};
 
-  /// Indicator for understanding if app entry is already inserted.
-  EasyOverlayAppEntry? appEntry;
-
   T putIfAbsent<T>(Object key, T Function() ifAbsent) =>
       currentEntries.putIfAbsent(key, ifAbsent) as T;
 
