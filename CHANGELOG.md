@@ -1,10 +1,12 @@
+## 4.0.2
+* **FIX:** Fixed https://github.com/feduke-nukem/flutter_easy_dialogs/issues/33
+
 ## 4.0.1
 * **FIX:** Fixed https://github.com/feduke-nukem/flutter_easy_dialogs/issues/29
 
 ## 4.0.0
 * **BREAKING:** Every dialog now has it's own id and could be shown with more control ([issue 27](https://github.com/feduke-nukem/flutter_easy_dialogs/issues/27))
 * **BREAKING** The default curve for all animations are now `Curves.linear` ([issue 25](https://github.com/feduke-nukem/flutter_easy_dialogs/issues/25))
-
 
 ## 3.2.0
 * **FEATURE:** Added draggable ability for the dialogs ([issue 23](https://github.com/feduke-nukem/flutter_easy_dialogs/issues/23))
