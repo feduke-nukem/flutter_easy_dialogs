@@ -1,3 +1,5 @@
+// ignore_for_file: member-ordering
+
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -391,7 +393,7 @@ abstract base class EasyDialog with EasyDialogLifecycle {
   }
 
   /// @nodoc
-  @protected
+  @visibleForTesting
   EasyDialog clone();
 
   @override
