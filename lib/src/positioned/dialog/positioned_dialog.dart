@@ -48,6 +48,7 @@ final class PositionedDialog extends EasyDialog {
       decoration: decoration,
       animationConfiguration: animationConfiguration,
       autoHideDuration: autoHideDuration,
+      id: id,
     );
   }
 }

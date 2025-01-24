@@ -60,6 +60,8 @@ final class FullScreenDialog extends EasyDialog
       androidWillPop: androidWillPop,
       animationConfiguration: animationConfiguration,
       decoration: decoration,
+      autoHideDuration: autoHideDuration,
+      id: id,
     );
   }
 }
