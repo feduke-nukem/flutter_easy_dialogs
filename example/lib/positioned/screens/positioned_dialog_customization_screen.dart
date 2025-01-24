@@ -81,8 +81,8 @@ final class _CustomPositionedAnimation
         children: [
           Positioned.fill(
             child: ColoredBox(
-              color: Colors.black.withOpacity(
-                animation.value.clamp(0.0, 0.6),
+              color: Colors.black.withValues(
+                alpha: animation.value.clamp(0.0, 0.6),
               ),
             ),
           ),

@@ -38,10 +38,10 @@ final _foregroundAnimations = <String, EasyDialogDecoration<FullScreenDialog>>{
 final _backgroundAnimations = <String, EasyDialogAnimation<FullScreenDialog>>{
   _backgroundBlur: EasyDialogAnimation.blurBackground(
     amount: 10.0,
-    backgroundColor: Colors.black.withOpacity(0.5),
+    backgroundColor: Colors.black.withValues(alpha: 0.5),
   ),
   _backgroundFade: EasyDialogAnimation.fadeBackground(
-    backgroundColor: Colors.black.withOpacity(0.5),
+    backgroundColor: Colors.black.withValues(alpha: 0.5),
   ),
 };
 
@@ -152,7 +152,7 @@ class _FullScreenDialogManagerBasicUsageScreenState
                     .decorate(
                       FullScreenShell.modalBanner(
                         boxDecoration: BoxDecoration(
-                          color: Colors.grey.shade200.withOpacity(0.3),
+                          color: Colors.grey.shade200.withValues(alpha: 0.3),
                         ),
                       ),
                     )

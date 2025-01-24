@@ -132,7 +132,7 @@ final class _BackgroundAnimation extends EasyDialogAnimation<FullScreenDialog> {
         width: double.infinity,
         color: Color.lerp(
           Colors.transparent,
-          Colors.purple.withOpacity(0.6),
+          Colors.purple.withValues(alpha: 0.6),
           animation.value,
         ),
         padding: const EdgeInsets.all(20.0),
@@ -182,7 +182,7 @@ final class CustomAnimation extends EasyDialogAnimation<FullScreenDialog> {
             ),
           ),
           child: Container(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withValues(alpha: 0.3),
             height: double.infinity,
             width: double.infinity,
             child: dialog.content,
@@ -201,7 +201,7 @@ final class _Shell extends EasyDialogDecoration<FullScreenDialog> {
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        color: Colors.cyanAccent.withOpacity(0.5),
+        color: Colors.cyanAccent.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: dialog.content,
