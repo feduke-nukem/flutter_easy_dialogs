@@ -166,8 +166,8 @@ final class _BlurBackground<D extends EasyDialog>
               )
               .value,
           opacity: fadeAnimation.value,
-          backgroundColor: backgroundColor,
           child: child!,
+          backgroundColor: backgroundColor,
         ),
         child: dialog is PositionedDialog
             ? Align(
@@ -207,8 +207,8 @@ final class _FadeBackground<D extends EasyDialog>
             parent: animation,
             curve: super.curve,
           ).value,
-          backgroundColor: backgroundColor,
           child: child!,
+          backgroundColor: backgroundColor,
         ),
         child: dialog is PositionedDialog
             ? Align(

@@ -60,5 +60,5 @@ final class FlutterEasyDialogs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      OverlayProvider(key: OverlayProvider.stateKey, child: child);
+      OverlayProvider(child: child, key: OverlayProvider.stateKey);
 }

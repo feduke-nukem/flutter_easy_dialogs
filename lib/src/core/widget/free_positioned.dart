@@ -24,12 +24,6 @@ class _FreePositionedState extends State<FreePositioned> {
           left: _x,
           top: _y,
           child: GestureDetector(
-            onPanUpdate: (details) => setState(
-              () {
-                _x += details.delta.dx;
-                _y += details.delta.dy;
-              },
-            ),
             child: ConstrainedBox(
               constraints: BoxConstraints(
                 maxWidth: screenSize.width,
@@ -43,6 +37,12 @@ class _FreePositionedState extends State<FreePositioned> {
                       alignment: _alignment!,
                       child: widget.child,
                     ),
+            ),
+            onPanUpdate: (details) => setState(
+              () {
+                _x += details.delta.dx;
+                _y += details.delta.dy;
+              },
             ),
           ),
         ),

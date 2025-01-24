@@ -142,12 +142,12 @@ final class _AnimatedTap<D extends EasyDialog> extends EasyDialogDismiss<D> {
   @override
   Widget call(D dialog) {
     return _AnimatedTapAnimation(
+      child: dialog.content,
       duration: duration,
       pressScale: pressScale,
       curve: curve,
       onTap: () => handleDismiss(dialog),
       behavior: behavior,
-      child: dialog.content,
     );
   }
 }
@@ -243,12 +243,12 @@ class _TapDetectorState extends State<_TapDetector> {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
+        child: widget.builder(_isPressed),
         onTapDown: (_) => setState(() => _isPressed = true),
         onTapUp: (_) => setState(() => _isPressed = false),
         onTap: widget.onTap,
         onTapCancel: () => setState(() => _isPressed = false),
         behavior: widget.behavior,
-        child: widget.builder(_isPressed),
       );
 }
 
@@ -268,9 +268,9 @@ final class _Tap<D extends EasyDialog> extends EasyDialogDismiss<D> {
 
   @override
   Widget call(D dialog) => GestureDetector(
+        child: dialog.content,
         onTap: () => handleDismiss(dialog),
         behavior: behavior,
-        child: dialog.content,
       );
 }
 
@@ -315,9 +315,12 @@ final class _Swipe<D extends EasyDialog> extends EasyDialogDismiss<D> {
   Widget call(D dialog) {
     return Dismissible(
       key: UniqueKey(),
+      child: dialog.content,
       background: background,
       secondaryBackground: secondaryBackground,
       confirmDismiss:
+          // Silly linter
+          // ignore: avoid-redundant-async
           willDismiss != null ? (_) async => super.willDismiss!() : null,
       onResize: onResize,
       onUpdate: onUpdate,
@@ -329,7 +332,6 @@ final class _Swipe<D extends EasyDialog> extends EasyDialogDismiss<D> {
       crossAxisEndOffset: crossAxisEndOffset,
       dragStartBehavior: dragStartBehavior,
       behavior: behavior,
-      child: dialog.content,
     );
   }
 }

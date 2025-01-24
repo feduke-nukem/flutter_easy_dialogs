@@ -73,7 +73,7 @@ class FullScreenDialogCustomizationScreen extends StatelessWidget {
 }
 
 final class _Dismissible extends EasyDialogDismiss<FullScreenDialog> {
-  const _Dismissible({super.onDismissed});
+  const _Dismissible();
 
   @override
   Widget call(FullScreenDialog dialog) {
