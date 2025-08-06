@@ -87,7 +87,7 @@ void main() {
         );
 
       expect(
-        easyOverlayState.box.currentEntries[FullScreenDialog],
+        easyOverlayState.box.currentEntries[FullScreenDialog.defaultId],
         isNull,
       );
 
