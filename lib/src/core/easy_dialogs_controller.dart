@@ -6,7 +6,6 @@ import 'dart:math' as math;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
 import 'package:flutter_easy_dialogs/src/core/widget/free_positioned.dart';
 
@@ -93,8 +92,10 @@ final class EasyDialogsController {
     bool Function(D dialog) test, {
     bool instantly = false,
   }) {
+    final entries = this.entries.values.toList();
+
     return Future.wait(
-      entries.values.where(
+      entries.where(
         (entry) {
           final dialog = entry.dialog;
 
@@ -181,12 +182,18 @@ final class EasyDialogsController {
     Object? result,
   }) async {
     final effectiveId = id is EasyDialog ? id.id : id;
-    assert(
-      entries[effectiveId] != null,
-      'dialog is not registered in this conversation',
-    );
 
-    final entry = entries[effectiveId]!;
+    final entry = entries[effectiveId];
+
+    if (entry == null) {
+      assert(
+        false,
+        'dialog is not shown or was hidden with id: $effectiveId',
+      );
+
+      return;
+    }
+
     entry.dialog._pendingResult = result;
 
     final needReverseAnimation = switch (entry.dialog.animationConfiguration) {
@@ -369,12 +376,13 @@ abstract base class EasyDialog with EasyDialogLifecycle {
   /// @nodoc
   @factory
   @protected
-  EasyOverlayBoxInsertion createInsert(Widget decorated);
+  EasyOverlayBoxInsertion createInsert(Widget decorated) =>
+      DefaultEasyOverlayBoxInsertion(id: id, dialog: decorated);
 
   /// @nodoc
   @factory
   @protected
-  EasyOverlayBoxRemoval createRemove();
+  EasyOverlayBoxRemoval createRemove() => DefaultEasyOverlayBoxRemoval(id: id);
 
   EasyDialog _copyWith({
     Widget? content,
