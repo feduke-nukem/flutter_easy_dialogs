@@ -1,3 +1,7 @@
+## 4.0.4
+* **FIX:** Fixed https://github.com/feduke-nukem/flutter_easy_dialogs/issues/37
+* **FIX:** Fixed https://github.com/feduke-nukem/flutter_easy_dialogs/issues/38
+
 ## 4.0.3
 * **FIX:** Adds necessary fields to clone methods.
 

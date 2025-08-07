@@ -136,6 +136,11 @@ void main() {
         content: Container(),
         autoHideDuration: null,
       );
+
+      expect(() => controller.hide(id: topDialog.id), throwsAssertionError);
+      expect(controller.isShown(id: topDialog.id), isFalse);
+      expect(() => controller.get(topDialog.id), throwsA(isA<FlutterError>()));
+
       controller.show(topDialog);
       final bottomDialog = EasyDialog.positioned(
         content: Container(),
@@ -151,6 +156,9 @@ void main() {
       );
       controller.show(centerDialog);
       await widgetTester.pumpAndSettle(const Duration(seconds: 3));
+
+      expect(controller.isShown(id: topDialog.id), isTrue);
+      expect(() => controller.get(topDialog.id), returnsNormally);
 
       controller.hideWhere<PositionedDialog>(
         (element) =>

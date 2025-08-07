@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/flutter_easy_dialogs.dart';
-import 'package:flutter_easy_dialogs/src/positioned/dialog/positioned_dialog.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../helper.dart';
@@ -13,8 +12,8 @@ void main() {
       );
 
       const position = EasyDialogPosition.top;
-      const strategy = PositionedDialogInsert(
-        position: position,
+      const strategy = DefaultEasyOverlayBoxInsertion(
+        id: position,
         dialog: SizedBox.shrink(
           key: dialogKey,
         ),
@@ -22,23 +21,14 @@ void main() {
 
       easyOverlayState.insertDialog(strategy);
 
-      var entries = easyOverlayState.box.currentEntries[PositionedDialog];
+      final dialogEntry = easyOverlayState.box.currentEntries[position];
 
       expect(
-        entries,
+        dialogEntry,
         isNotNull,
       );
 
-      expect(
-        entries,
-        isNotNull,
-      );
-
-      expect(entries!, isA<Map<EasyDialogPosition, OverlayEntry>>());
-
-      entries = entries as Map<EasyDialogPosition, OverlayEntry>;
-
-      expect(entries.length, greaterThan(0));
+      expect(dialogEntry!, isA<EasyDialogsOverlayEntry>());
 
       await widgetTester.pump();
 
@@ -46,11 +36,11 @@ void main() {
     });
 
     testWidgets(
-      'insert the same position',
+      'insert the same id - throws assertion error',
       (widgetTester) async {
         await widgetTester.pumpWidget(app());
-        const strategy = PositionedDialogInsert(
-          position: EasyDialogPosition.bottom,
+        const strategy = DefaultEasyOverlayBoxInsertion(
+          id: EasyDialogPosition.bottom,
           dialog: SizedBox.shrink(),
         );
 
@@ -69,8 +59,8 @@ void main() {
         await widgetTester.pumpWidget(app());
 
         final strategies = EasyDialogPosition.values.map(
-          (e) => PositionedDialogInsert(
-            position: e,
+          (e) => DefaultEasyOverlayBoxInsertion(
+            id: e,
             dialog: SizedBox.shrink(
               key: ValueKey(e),
             ),
@@ -82,9 +72,7 @@ void main() {
         }
 
         expect(
-          easyOverlayState.box
-              .get<Map<EasyDialogPosition, EasyOverlayEntry>>(PositionedDialog)!
-              .length,
+          easyOverlayState.box.currentEntries.length,
           EasyDialogPosition.values.length,
         );
 
@@ -103,11 +91,11 @@ void main() {
 
       expect(
         () => easyOverlayState.removeDialog(
-          const PositionedDialogRemove(
-            position: EasyDialogPosition.bottom,
+          const DefaultEasyOverlayBoxRemoval(
+            id: EasyDialogPosition.bottom,
           ),
         ),
-        throwsAssertionError,
+        returnsNormally,
       );
     });
     testWidgets('insert one and remove one', (widgetTester) async {
@@ -115,8 +103,8 @@ void main() {
 
       const position = EasyDialogPosition.bottom;
       easyOverlayState.insertDialog(
-        const PositionedDialogInsert(
-          position: position,
+        const DefaultEasyOverlayBoxInsertion(
+          id: position,
           dialog: SizedBox.shrink(
             key: dialogKey,
           ),
@@ -128,20 +116,18 @@ void main() {
       expect(find.byKey(dialogKey), findsOneWidget);
 
       easyOverlayState.removeDialog(
-        const PositionedDialogRemove(
-          position: position,
+        const DefaultEasyOverlayBoxRemoval(
+          id: position,
         ),
       );
 
       expect(
-        easyOverlayState.box.currentEntries[PositionedDialog],
-        isNotNull,
+        easyOverlayState.box.currentEntries[position],
+        isNull,
       );
 
       expect(
-        easyOverlayState.box
-            .get<Map<EasyDialogPosition, EasyOverlayEntry>>(PositionedDialog)!
-            .length,
+        easyOverlayState.box.currentEntries.length,
         isZero,
       );
 
@@ -156,12 +142,15 @@ void main() {
         await widgetTester.pumpWidget(app());
 
         final insertStrategies = EasyDialogPosition.values.map(
-          (e) => PositionedDialogInsert(position: e, dialog: Container()),
+          (e) => DefaultEasyOverlayBoxInsertion(
+            id: e,
+            dialog: Container(),
+          ),
         );
 
         final removeStrategies = EasyDialogPosition.values.map(
-          (e) => PositionedDialogRemove(
-            position: e,
+          (e) => DefaultEasyOverlayBoxRemoval(
+            id: e,
           ),
         );
 
@@ -185,15 +174,9 @@ void main() {
           find.byType(Container),
           findsNothing,
         );
-        expect(
-          easyOverlayState.box.currentEntries[PositionedDialog],
-          isNotNull,
-        );
 
         expect(
-          easyOverlayState.box
-              .get<Map<EasyDialogPosition, EasyOverlayEntry>>(PositionedDialog)!
-              .length,
+          easyOverlayState.box.currentEntries.length,
           isZero,
         );
       },

@@ -40,6 +40,8 @@ final class EasyDialogsOverlayBox {
   void put(Object key, Object value) => currentEntries[key] = value;
 
   T? remove<T>(Object key) => currentEntries.remove(key) as T?;
+
+  bool containsKey(Object key) => currentEntries.containsKey(key);
 }
 
 /// {@category Overlay}
@@ -49,18 +51,10 @@ final class EasyDialogsOverlayBox {
 /// It is intended to be used as a base class for
 /// creating custom mutation operations.
 ///
-/// This class has two generic type parameters:
-///
-/// [D] represents the type of [EasyDialog] that this mutation
-/// associates to with the [dialogType] getter.
-///
 /// [R] represents the type of the return value for the [call] method,
 /// it should extends [EasyOverlayEntry] which can bu nullable.
-abstract interface class EasyOverlayBoxMutation<D extends EasyDialog,
-    R extends EasyOverlayEntry?> {
+abstract interface class EasyOverlayBoxMutation<R extends EasyOverlayEntry?> {
   const EasyOverlayBoxMutation();
-
-  Type get dialogType => D;
 
   /// Apply mutation to provided [box].
   ///
@@ -71,8 +65,8 @@ abstract interface class EasyOverlayBoxMutation<D extends EasyDialog,
 /// {@category Overlay}
 /// {@category Custom}
 /// Insertion mutation.
-abstract base class EasyOverlayBoxInsertion<D extends EasyDialog>
-    extends EasyOverlayBoxMutation<D, EasyOverlayEntry> {
+abstract base class EasyOverlayBoxInsertion
+    extends EasyOverlayBoxMutation<EasyOverlayEntry> {
   final Widget dialog;
 
   /// @nodoc
@@ -82,8 +76,8 @@ abstract base class EasyOverlayBoxInsertion<D extends EasyDialog>
 /// {@category Overlay}
 /// {@category Custom}
 /// Removal mutation.
-abstract base class EasyOverlayBoxRemoval<D extends EasyDialog>
-    extends EasyOverlayBoxMutation<D, EasyOverlayEntry?> {
+abstract base class EasyOverlayBoxRemoval
+    extends EasyOverlayBoxMutation<EasyOverlayEntry?> {
   const EasyOverlayBoxRemoval();
 }
 
@@ -127,4 +121,42 @@ abstract base class EasyOverlayEntry extends OverlayEntry {
 base class EasyDialogsOverlayEntry extends EasyOverlayEntry {
   /// Creates an instance of [EasyDialogsOverlayEntry].
   EasyDialogsOverlayEntry({required super.builder});
+}
+
+/// {@category Overlay}
+/// Default insertion for the [EasyDialogsOverlayBox] based on [id].
+final class DefaultEasyOverlayBoxInsertion extends EasyOverlayBoxInsertion {
+  final Object id;
+  const DefaultEasyOverlayBoxInsertion({
+    required this.id,
+    required super.dialog,
+  });
+
+  @override
+  EasyOverlayEntry call(EasyDialogsOverlayBox box) {
+    assert(
+      !box.containsKey(id),
+      'only single one $EasyDialogsOverlayEntry with the same $id can be inserted at the same time',
+    );
+
+    final entry = EasyDialogsOverlayEntry(
+      builder: (_) => dialog,
+    );
+
+    box.put(id, entry);
+
+    return entry;
+  }
+}
+
+/// {@category Overlay}
+/// Default removal for the [EasyDialogsOverlayBox] based on [id].
+final class DefaultEasyOverlayBoxRemoval extends EasyOverlayBoxRemoval {
+  final Object id;
+
+  const DefaultEasyOverlayBoxRemoval({required this.id});
+
+  @override
+  EasyOverlayEntry? call(EasyDialogsOverlayBox box) =>
+      box.remove<EasyDialogsOverlayEntry>(id);
 }

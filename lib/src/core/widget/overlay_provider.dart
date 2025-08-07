@@ -46,10 +46,9 @@ class OverlayProviderState extends State<OverlayProvider>
       _overlayKey.currentState!.createTicker(onTick);
 
   @override
-  void insertDialog(EasyOverlayBoxInsertion<EasyDialog> insertion) =>
+  void insertDialog(EasyOverlayBoxInsertion insertion) =>
       _overlayKey.currentState!.insert(insertion(box));
 
   @override
-  void removeDialog(EasyOverlayBoxRemoval<EasyDialog> removal) =>
-      (removal(box))?.remove();
+  void removeDialog(EasyOverlayBoxRemoval removal) => (removal(box))?.remove();
 }

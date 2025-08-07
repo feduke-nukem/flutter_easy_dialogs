@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easy_dialogs/src/core/easy_overlay.dart';
 import 'package:flutter_easy_dialogs/src/full_screen/dialog/full_screen_dialog.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -15,7 +16,8 @@ void main() {
       );
 
       easyOverlayState.insertDialog(
-        const FullScreenDialogInsert(
+        const DefaultEasyOverlayBoxInsertion(
+          id: FullScreenDialog.defaultId,
           dialog: SizedBox.shrink(
             key: dialogKey,
           ),
@@ -23,7 +25,7 @@ void main() {
       );
 
       expect(
-        easyOverlayState.box.currentEntries[FullScreenDialog],
+        easyOverlayState.box.currentEntries[FullScreenDialog.defaultId],
         isNotNull,
       );
 
@@ -39,7 +41,8 @@ void main() {
       await widgetTester.pumpWidget(app());
 
       easyOverlayState.insertDialog(
-        const FullScreenDialogInsert(
+        const DefaultEasyOverlayBoxInsertion(
+          id: FullScreenDialog.defaultId,
           dialog: SizedBox.shrink(
             key: dialogKey,
           ),
@@ -48,7 +51,8 @@ void main() {
 
       expect(
         () => easyOverlayState.insertDialog(
-          const FullScreenDialogInsert(
+          const DefaultEasyOverlayBoxInsertion(
+            id: FullScreenDialog.defaultId,
             dialog: SizedBox.shrink(
               key: dialogKey,
             ),
@@ -69,16 +73,21 @@ void main() {
 
       easyOverlayState
         ..insertDialog(
-          const FullScreenDialogInsert(
+          const DefaultEasyOverlayBoxInsertion(
+            id: FullScreenDialog.defaultId,
             dialog: SizedBox.shrink(
               key: dialogKey,
             ),
           ),
         )
-        ..removeDialog(const FullScreenDialogRemove());
+        ..removeDialog(
+          const DefaultEasyOverlayBoxRemoval(
+            id: FullScreenDialog.defaultId,
+          ),
+        );
 
       expect(
-        easyOverlayState.box.currentEntries[FullScreenDialog],
+        easyOverlayState.box.currentEntries[FullScreenDialog.defaultId],
         isNull,
       );
 

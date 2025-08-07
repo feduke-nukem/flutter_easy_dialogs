@@ -31,7 +31,7 @@ void main() {
 
       expect(easyOverlayState.box.currentEntries.isNotEmpty, isTrue);
       expect(
-        easyOverlayState.box.get(FullScreenDialog),
+        easyOverlayState.box.get(FullScreenDialog.defaultId),
         isA<EasyDialogsOverlayEntry>(),
       );
 
@@ -42,7 +42,7 @@ void main() {
       expect(find.byKey(dialogKey), findsNothing);
 
       expect(easyOverlayState.box.currentEntries.isEmpty, isTrue);
-      expect(easyOverlayState.box.get(FullScreenDialog), isNull);
+      expect(easyOverlayState.box.get(FullScreenDialog.defaultId), isNull);
     });
 
     testWidgets('show one, then show another', (widgetTester) async {
@@ -70,7 +70,7 @@ void main() {
       expect(find.byKey(const Key('value')), findsOneWidget);
 
       expect(easyOverlayState.box.currentEntries.isNotEmpty, isTrue);
-      expect(easyOverlayState.box.get(FullScreenDialog), isNotNull);
+      expect(easyOverlayState.box.get(FullScreenDialog.defaultId), isNotNull);
     });
   });
 
