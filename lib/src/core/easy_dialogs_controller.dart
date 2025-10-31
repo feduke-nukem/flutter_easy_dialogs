@@ -760,11 +760,14 @@ extension EasyDialogsX on EasyDialog {
     );
   }
 
-  EasyDialog draggable() {
+  EasyDialog draggable({
+    Rect? bounds,
+  }) {
     return decorate(
       EasyDialogDecoration.builder(
-        (context, dialog) => FreePositioned(
+        (_, dialog) => FreePositioned(
           child: dialog.content,
+          bounds: bounds,
         ),
       ),
     );

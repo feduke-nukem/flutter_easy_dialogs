@@ -40,6 +40,7 @@ class _PositionedDialogManagerBasicUsageScreenState
     _dismissibleTap: EasyDialogDismiss.tap(
       onDismissed: () => _count++,
       willDismiss: () => true,
+      behavior: HitTestBehavior.deferToChild,
     ),
     _dismissibleHorizontalSwipe: EasyDialogDismiss.swipe(
       onDismissed: () => _count++,
@@ -53,6 +54,7 @@ class _PositionedDialogManagerBasicUsageScreenState
     _dismissibleAnimatedTap: EasyDialogDismiss.animatedTap(
       onDismissed: () => _count++,
       willDismiss: () => true,
+      behavior: HitTestBehavior.translucent,
     ),
   };
   final _animatorsDropDownItems = _animations.entries
@@ -88,6 +90,7 @@ class _PositionedDialogManagerBasicUsageScreenState
   EasyDialogPosition _selectedPosition = EasyDialogPosition.top;
   late var _selectedDismissible = _dismissibles.values.first;
   var _isAutoHide = false;
+  var _isDraggable = false;
   var _autoHideDuration = 300.0;
 
   @override
@@ -158,6 +161,15 @@ class _PositionedDialogManagerBasicUsageScreenState
                 onChanged: (value) => setState(() => _autoHideDuration = value),
               ),
             ],
+            CheckboxListTile(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 5.0,
+              ),
+              title: const Text('Draggable'),
+              value: _isDraggable,
+              onChanged: (value) => setState(() => _isDraggable = value!),
+            ),
             ElevatedButton(
               onPressed: _show,
               child: const Text('Show'),
@@ -182,30 +194,45 @@ class _PositionedDialogManagerBasicUsageScreenState
   Future<void> _show() async {
     final messenger = ScaffoldMessenger.of(context);
 
-    final content = Container(
-      height: 150.0,
-      color: Colors.blue[900],
-      alignment: Alignment.center,
-      child: Text(
-        _selectedPosition.name,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 30.0,
+    final content = ColoredBox(
+      color: Colors.blue[900]!,
+      child: SizedBox(
+        height: 150.0,
+        width: 50,
+        child: Text(
+          _selectedPosition.name,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 30.0,
+          ),
         ),
       ),
     );
 
-    final result = await content
+    var dialog = content
         .positioned(
           position: _selectedPosition,
           autoHideDuration: _isAutoHide
               ? Duration(milliseconds: _autoHideDuration.toInt())
               : null,
         )
-        .decorate(const PositionedShell.banner())
-        .decorate(_selectedAnimation)
-        .decorate(_selectedDismissible)
-        .show();
+        .decorate(const PositionedShell.banner());
+
+    if (_isDraggable) {
+      final screenSize = MediaQuery.sizeOf(context);
+      dialog = dialog.draggable(
+        bounds: Rect.fromLTWH(
+          0,
+          0,
+          screenSize.width,
+          screenSize.height,
+        ),
+      );
+    }
+
+    dialog = dialog.decorate(_selectedAnimation).decorate(_selectedDismissible);
+
+    final result = await dialog.show();
 
     if (result == null) return;
     messenger
