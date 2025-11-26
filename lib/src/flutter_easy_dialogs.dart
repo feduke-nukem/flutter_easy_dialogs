@@ -7,7 +7,7 @@ import 'package:flutter_easy_dialogs/src/core/widget/overlay_provider.dart';
 /// {@category Migration guide from 2.x to 3.x}
 /// {@category FAQ}
 /// Wrapper for providing an easy use of different custom dialogs.
-final class FlutterEasyDialogs extends StatelessWidget {
+class FlutterEasyDialogs extends StatelessWidget {
   /// Child widget.
   final Widget child;
 
