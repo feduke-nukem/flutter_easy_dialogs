@@ -15,6 +15,9 @@ final class PositionedDialog extends EasyDialog {
   /// The position where the dialog will be shown.
   final EasyDialogPosition position;
 
+  static EasyDialogPosition? maybeOf(BuildContext context) =>
+      _PositionedDialogScope.maybeOf(context)?.position;
+
   /// Creates an instance of [PositionedDialog].
   PositionedDialog({
     required super.content,
@@ -28,9 +31,12 @@ final class PositionedDialog extends EasyDialog {
   @override
   EasyOverlayBoxInsertion createInsert(Widget decorated) {
     return super.createInsert(
-      Align(
-        alignment: position.alignment,
-        child: decorated,
+      _PositionedDialogScope(
+        child: Align(
+          alignment: position.alignment,
+          child: decorated,
+        ),
+        position: position,
       ),
     );
   }
@@ -57,4 +63,21 @@ enum EasyDialogPosition {
   final AlignmentGeometry alignment;
 
   const EasyDialogPosition(this.alignment);
+}
+
+class _PositionedDialogScope extends InheritedWidget {
+  final EasyDialogPosition position;
+  const _PositionedDialogScope({
+    required super.child,
+    required this.position,
+  });
+
+  static _PositionedDialogScope? maybeOf(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<_PositionedDialogScope>();
+  }
+
+  @override
+  bool updateShouldNotify(_PositionedDialogScope oldWidget) {
+    return oldWidget.position != position;
+  }
 }

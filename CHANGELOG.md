@@ -1,3 +1,6 @@
+## 4.0.5
+* **FEAT:** https://github.com/feduke-nukem/flutter_easy_dialogs/issues/40
+
 ## 4.0.4
 * **FIX:** Fixed https://github.com/feduke-nukem/flutter_easy_dialogs/issues/37
 * **FIX:** Fixed https://github.com/feduke-nukem/flutter_easy_dialogs/issues/38
