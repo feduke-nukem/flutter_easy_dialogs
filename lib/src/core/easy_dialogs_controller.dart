@@ -20,7 +20,7 @@ part 'easy_dialog_dismiss.dart';
 /// {@category Migration guide from 2.x to 3.x}
 /// {@category Dialogs}
 /// Core class for manipulating dialogs.
-final class EasyDialogsController {
+class EasyDialogsController {
   @visibleForTesting
   final entries = <Object, _DialogEntry>{};
 
