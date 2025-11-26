@@ -17,7 +17,6 @@ final class FlutterEasyDialogs extends StatelessWidget {
     super.key,
   });
 
-  @visibleForTesting
   static EasyDialogsController get controller =>
       OverlayProvider.stateKey.currentState!.controller;
 
