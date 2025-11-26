@@ -1,7 +1,9 @@
+## 4.0.6
+* **FIX:** Removed `final` modifier from `EasyDialogsController` class to enable mocking ([issue 45](https://github.com/feduke-nukem/flutter_easy_dialogs/issues/45))
+
 ## 4.0.5
 * **FEAT:** https://github.com/feduke-nukem/flutter_easy_dialogs/issues/40
 * **FEAT:** Made `FlutterEasyDialogs.controller` public API by removing `@visibleForTesting` annotation ([issue 42](https://github.com/feduke-nukem/flutter_easy_dialogs/issues/42))
-
 
 ## 4.0.4
 * **FIX:** Fixed https://github.com/feduke-nukem/flutter_easy_dialogs/issues/37
