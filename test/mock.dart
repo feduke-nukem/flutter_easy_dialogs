@@ -7,7 +7,6 @@ class FakeAnimation<T> extends Animation<T> {
   @override
   AnimationStatus get status => AnimationStatus.completed;
 
-  @override
   const FakeAnimation(this.value);
 
   @override

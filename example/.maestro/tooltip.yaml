@@ -1,0 +1,141 @@
+appId: com.example.example
+---
+- launchApp:
+    clearState: true
+- tapOn: "Tooltip dialogs example"
+- assertVisible: "Item #0"
+
+# Show by tap on the target.
+- tapOn: "Item #0"
+- assertVisible: "Tooltip #0"
+- takeScreenshot: 01_top_center
+
+# Tap on the tooltip itself dismisses it (animatedTap).
+- tapOn: "Tooltip #0"
+- assertNotVisible: "Tooltip #0"
+
+# Tap outside on an empty area dismisses it.
+- tapOn: "Item #0"
+- assertVisible: "Tooltip #0"
+- tapOn:
+    point: "10%,70%"
+- assertNotVisible: "Tooltip #0"
+
+# Tap on the target again toggles it off.
+- tapOn: "Item #1"
+- assertVisible: "Tooltip #1"
+- tapOn: "Item #1"
+- assertNotVisible: "Tooltip #1"
+
+# Tap outside passes through: tapping another target hides the first one
+# and shows the second one.
+- tapOn: "Item #0"
+- assertVisible: "Tooltip #0"
+- tapOn: "Item #2"
+- assertNotVisible: "Tooltip #0"
+- assertVisible: "Tooltip #2"
+
+# Tooltip follows its target while scrolling.
+- swipe:
+    start: "10%,80%"
+    end: "10%,65%"
+    duration: 1500
+- assertVisible: "Tooltip #2"
+- takeScreenshot: 02_scrolled
+
+# Target scrolled away and disposed: the tooltip is hidden by itself,
+# so the next tap on the target shows it again instead of toggling it off.
+- swipe:
+    start: "10%,90%"
+    end: "10%,30%"
+    duration: 300
+- swipe:
+    start: "10%,90%"
+    end: "10%,30%"
+    duration: 300
+- swipe:
+    start: "10%,90%"
+    end: "10%,30%"
+    duration: 300
+- scrollUntilVisible:
+    element: "Item #2"
+    direction: UP
+- assertNotVisible: "Tooltip #2"
+- tapOn: "Item #2"
+- assertVisible: "Tooltip #2"
+- tapOn: "Hide all"
+- assertNotVisible: "Tooltip #2"
+
+# Start aligned placement: above the target, left edges aligned.
+- tapOn: "topCenter"
+- tapOn: "topLeft"
+- tapOn: "Item #3"
+- assertVisible: "Tooltip #3"
+- takeScreenshot: 03_top_left
+- tapOn:
+    point: "10%,70%"
+- assertNotVisible: "Tooltip #3"
+
+# Long content to the left wraps and stays within the screen.
+- tapOn: "topLeft"
+- tapOn: "centerLeft"
+- tapOn: "short content"
+- tapOn: "long content"
+- tapOn: "Item #3"
+- assertVisible: "Tooltip #3.*"
+- takeScreenshot: 04_long_center_left
+
+# Expansion keeps the tooltip next to the target.
+- tapOn:
+    point: "10%,70%"
+- assertNotVisible: "Tooltip #3.*"
+- tapOn: "fade"
+- tapOn: "expansion"
+- tapOn: "Item #3"
+- assertVisible: "Tooltip #3.*"
+- takeScreenshot: 05_expansion_center_left
+- tapOn:
+    point: "10%,70%"
+- assertNotVisible: "Tooltip #3.*"
+
+# Long content at the screen edge is shifted, the arrow still points
+# at the target.
+- tapOn: "centerLeft"
+- tapOn: "bottomCenter"
+- tapOn:
+    point: "94%,10%"
+- assertVisible: "App bar tooltip.*"
+- takeScreenshot: 06_app_bar_shifted
+- tapOn:
+    point: "10%,70%"
+- assertNotVisible: "App bar tooltip.*"
+
+# Rich content with a button inside.
+- tapOn: "long content"
+- tapOn: "rich content"
+- tapOn: "Item #3"
+- assertVisible: "Got it"
+- takeScreenshot: 07_rich
+- tapOn: "Got it"
+- assertNotVisible: "Got it"
+
+# Full screen background animation: tap on the background is outside.
+- tapOn: "expansion"
+- tapOn: "blurBackground"
+- tapOn: "Item #3"
+- assertVisible: "Got it"
+- takeScreenshot: 08_blur_background
+- tapOn:
+    point: "10%,70%"
+- assertNotVisible: "Got it"
+
+# Tap outside disabled: tap on an empty area keeps the tooltip.
+- tapOn: "blurBackground"
+- tapOn: "fade"
+- tapOn: "Tap outside"
+- tapOn: "Item #3"
+- assertVisible: "Got it"
+- tapOn:
+    point: "10%,70%"
+- assertVisible: "Got it"
+- takeScreenshot: 09_tap_outside_disabled

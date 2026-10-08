@@ -100,6 +100,77 @@ Container(
     </a>
 </div>
 
+#### Tooltip dialogs
+
+**Since version 4.1.0** you can show a tooltip next to a specific widget.
+
+Wrap the widget with [EasyTooltipTarget](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyTooltipTarget-class.html) and give it an `id`. It must be placed below `FlutterEasyDialogs`:
+
+```dart
+EasyTooltipTarget(
+  id: 'profile',
+  child: IconButton(
+    icon: const Icon(Icons.person),
+    onPressed: () {},
+  ),
+);
+```
+
+Then show a [TooltipDialog](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/TooltipDialog-class.html) with the same `targetId`:
+
+```dart
+FlutterEasyDialogs.show(
+  EasyDialog.tooltip(
+    targetId: 'profile',
+    alignment: Alignment.bottomCenter,
+    decoration: const TooltipShell.bubble().chained(
+      const EasyDialogAnimation.fade(),
+    ),
+    content: const Text('Your profile'),
+  ),
+);
+```
+
+Or:
+
+```dart
+const Text('Your profile')
+    .tooltip(targetId: 'profile', alignment: Alignment.bottomCenter)
+    .decorate(const TooltipShell.bubble())
+    .tapOutside()
+    .fade()
+    .show();
+```
+
+<div style="display:flex; flex-wrap:wrap;">
+    <a style="flex:1;">
+        <img src="https://github.com/user-attachments/assets/8712c5cf-e665-49ae-bcc9-e1a11957d529" width="170"/>
+    </a>
+</div>
+
+The `id` of the dialog is the `targetId` unless provided, so it can be hidden like so:
+
+```dart
+FlutterEasyDialogs.hide(id: 'profile');
+```
+
+`alignment` defines where the tooltip is placed relative to the target:
+- `Alignment.topCenter` (default) - above the target, centered.
+- `Alignment.topLeft` / `Alignment.topRight` - above the target, left / right edges are aligned.
+- `Alignment.centerLeft` / `Alignment.centerRight` - to the left / right of the target.
+- `Alignment.center` - over the target.
+
+The same goes for the bottom ones. An additional `offset` can be provided as well.
+
+The tooltip:
+- follows the target, e.g. while scrolling;
+- stays within the screen: it is shifted along the target's side, and its width is limited by the space next to the target, so long content wraps;
+- is hidden instantly when the target is unmounted (e.g. scrolled away in a lazy list).
+
+[TooltipShell.bubble](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/TooltipShell-class.html) is a ready to use bubble with an arrow pointing at the target. Its color, padding, border radius, border, arrow size, shadows and text style can be customized. The content can be any widget.
+
+`TooltipDialog` supports all animations and dismisses. Use [EasyDialogDismiss.tapOutside](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogDismiss/EasyDialogDismiss.tapOutside.html) to dismiss the tooltip on tap outside of it. Apply it before full screen background animations (`blurBackground`, `fadeBackground`), so a tap on the background counts as outside.
+
 #### Basic parameters
 - [content](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialog/content.html) - [widget](https://api.flutter.dev/flutter/widgets/Widget-class.html) that is desired to be shown.
 - [animation configuration](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogAnimationConfiguration-class.html) - responsible for configuring animation duration, start value, etc. It also provides an opportunity to create a configuration with an external [AnimationController](https://api.flutter.dev/flutter/animation/AnimationController-class.html) that will drive the dialog animation.

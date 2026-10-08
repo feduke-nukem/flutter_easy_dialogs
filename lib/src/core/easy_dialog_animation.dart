@@ -106,6 +106,12 @@ final class _Expansion<D extends EasyDialog> extends EasyDialogAnimation<D> {
       animation: animation,
       builder: (_, child) => ClipRect(
         child: Align(
+          // Expands from the side attached to the target.
+          alignment: dialog is TooltipDialog
+              ? dialog.followerAnchor
+              : Alignment.center,
+          // Keep the content width instead of taking all available space.
+          widthFactor: 1.0,
           heightFactor: heightFactor.value,
           child: child!,
         ),
@@ -169,16 +175,21 @@ final class _BlurBackground<D extends EasyDialog>
           child: child!,
           backgroundColor: backgroundColor,
         ),
-        child: dialog is PositionedDialog
-            ? Align(
-                alignment: dialog.position.alignment,
-                child: dialog.content,
-              )
-            : dialog.content,
+        child: _fullScreenContent(dialog),
       ),
     );
   }
 }
+
+/// Keeps the dialog's own placement inside a full screen decoration.
+Widget _fullScreenContent(EasyDialog dialog) => switch (dialog) {
+      PositionedDialog d => Align(
+          alignment: d.position.alignment,
+          child: d.content,
+        ),
+      TooltipDialog d => d.follow(d.content),
+      _ => dialog.content,
+    };
 
 final class _FadeBackground<D extends EasyDialog>
     extends EasyDialogAnimation<D> {
@@ -210,12 +221,7 @@ final class _FadeBackground<D extends EasyDialog>
           child: child!,
           backgroundColor: backgroundColor,
         ),
-        child: dialog is PositionedDialog
-            ? Align(
-                alignment: dialog.position.alignment,
-                child: dialog.content,
-              )
-            : dialog.content,
+        child: _fullScreenContent(dialog),
       ),
     );
   }

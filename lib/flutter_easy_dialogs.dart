@@ -10,4 +10,5 @@ export 'src/core/core.dart'
 export 'src/util/multiply_animation.dart';
 export 'src/positioned/positioned.dart';
 export 'src/full_screen/full_screen.dart';
+export 'src/tooltip/tooltip.dart' hide TooltipTargetsScope;
 export 'src/flutter_easy_dialogs.dart';

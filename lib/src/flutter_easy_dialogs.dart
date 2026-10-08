@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/core.dart';
 import 'package:flutter_easy_dialogs/src/core/widget/overlay_provider.dart';
+import 'package:flutter_easy_dialogs/src/tooltip/tooltip.dart';
 
 /// {@category Dialogs}
 /// {@category Getting started}
@@ -58,6 +59,10 @@ final class FlutterEasyDialogs extends StatelessWidget {
       FlutterEasyDialogs(child: child ?? const SizedBox.shrink());
 
   @override
-  Widget build(BuildContext context) =>
-      OverlayProvider(child: child, key: OverlayProvider.stateKey);
+  Widget build(BuildContext context) => TooltipTargetsScope(
+        child: OverlayProvider(
+          key: OverlayProvider.stateKey,
+          child: child,
+        ),
+      );
 }
