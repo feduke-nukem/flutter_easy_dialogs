@@ -373,6 +373,18 @@ abstract base class EasyDialog with EasyDialogLifecycle {
     Duration? autoHideDuration,
   }) = PositionedDialog;
 
+  /// Shortcut for [TooltipDialog].
+  factory EasyDialog.tooltip({
+    required Widget content,
+    required Object targetId,
+    Alignment alignment,
+    Offset offset,
+    Object? id,
+    EasyDialogAnimationConfiguration animationConfiguration,
+    EasyDialogDecoration<EasyDialog> decoration,
+    Duration? autoHideDuration,
+  }) = TooltipDialog;
+
   /// @nodoc
   @factory
   @protected
@@ -722,6 +734,21 @@ extension EasyDialogsX on EasyDialog {
     );
   }
 
+  /// {@macro easy_dialog_dismiss.tapOutside}
+  EasyDialog tapOutside({
+    OnEasyDismissed? onDismissed,
+    EasyWillDismiss? willDismiss,
+    bool instantly = false,
+  }) {
+    return decorate(
+      EasyDialogDismiss.tapOutside(
+        onDismissed: onDismissed,
+        willDismiss: willDismiss,
+        instantly: instantly,
+      ),
+    );
+  }
+
   /// {@macro easy_dialog_dismiss.swipe}
   EasyDialog swipe({
     DismissDirection direction = _Swipe._defaultDirection,
@@ -791,6 +818,28 @@ extension EasyDialogWidgetX on Widget {
       decoration: decoration,
       animationConfiguration: animationConfiguration,
       autoHideDuration: autoHideDuration,
+      id: id,
+    );
+  }
+
+  TooltipDialog tooltip({
+    required Object targetId,
+    Alignment alignment = TooltipDialog.defaultAlignment,
+    Offset offset = Offset.zero,
+    EasyDialogAnimationConfiguration animationConfiguration =
+        TooltipDialog.defaultAnimationConfiguration,
+    Duration? autoHideDuration,
+    EasyDialogDecoration decoration = const EasyDialogDecoration.none(),
+    Object? id,
+  }) {
+    return TooltipDialog(
+      content: this,
+      targetId: targetId,
+      alignment: alignment,
+      offset: offset,
+      animationConfiguration: animationConfiguration,
+      autoHideDuration: autoHideDuration,
+      decoration: decoration,
       id: id,
     );
   }

@@ -1,3 +1,10 @@
+## 4.1.0
+* **FEAT:** Added `TooltipDialog`: a tooltip shown next to an `EasyTooltipTarget` by its id. It follows the target (e.g. while scrolling), stays within the screen, and is hidden when the target is unmounted. Supports all existing animations and dismisses.
+* **FEAT:** Added `TooltipShell.bubble`: a ready to use tooltip bubble with an arrow pointing at the target.
+* **FEAT:** Added `EasyDialogDismiss.tapOutside` (and the `tapOutside()` shortcut) to dismiss a dialog on tap outside of it.
+* **FIX:** `EasyDialogAnimation.expansion` keeps the content width instead of taking all available width.
+* **CHORE:** Minimum Flutter version is now 3.29.0.
+
 ## 4.0.6
 * **FIX:** Removed `final` modifier from `EasyDialogsController` class to enable mocking ([issue 45](https://github.com/feduke-nukem/flutter_easy_dialogs/issues/45))
 

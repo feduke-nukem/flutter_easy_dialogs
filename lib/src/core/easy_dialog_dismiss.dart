@@ -67,6 +67,19 @@ abstract base class EasyDialogDismiss<D extends EasyDialog>
     bool instantly,
   }) = _Tap<D>;
 
+  /// {@template easy_dialog_dismiss.tapOutside}
+  /// Dismiss on tap outside of the dialog content.
+  ///
+  /// Drags (e.g. scrolling) outside are not treated as taps.
+  ///
+  /// The tap is not consumed, so widgets below still receive it.
+  /// {@endtemplate}
+  const factory EasyDialogDismiss.tapOutside({
+    OnEasyDismissed? onDismissed,
+    EasyWillDismiss? willDismiss,
+    bool instantly,
+  }) = _TapOutside<D>;
+
   /// {@template easy_dialog_dismiss.swipe}
   /// Horizontal swipe dismissible.
   ///
@@ -272,6 +285,56 @@ final class _Tap<D extends EasyDialog> extends EasyDialogDismiss<D> {
         onTap: () => handleDismiss(dialog),
         behavior: behavior,
       );
+}
+
+final class _TapOutside<D extends EasyDialog> extends EasyDialogDismiss<D> {
+  const _TapOutside({
+    super.onDismissed,
+    super.willDismiss,
+    super.instantly,
+  });
+
+  @override
+  Widget call(D dialog) => _TapOutsideDetector(
+        onTapOutside: () => handleDismiss(dialog),
+        child: dialog.content,
+      );
+}
+
+class _TapOutsideDetector extends StatefulWidget {
+  final VoidCallback onTapOutside;
+  final Widget child;
+
+  const _TapOutsideDetector({
+    required this.onTapOutside,
+    required this.child,
+  });
+
+  @override
+  State<_TapOutsideDetector> createState() => _TapOutsideDetectorState();
+}
+
+class _TapOutsideDetectorState extends State<_TapOutsideDetector> {
+  PointerDownEvent? _down;
+
+  @override
+  Widget build(BuildContext context) {
+    return TapRegion(
+      onTapOutside: (event) => _down = event,
+      onTapUpOutside: (event) {
+        final down = _down;
+        _down = null;
+
+        if (down?.pointer != event.pointer ||
+            (event.position - down!.position).distance > kTouchSlop) {
+          return;
+        }
+
+        widget.onTapOutside();
+      },
+      child: widget.child,
+    );
+  }
 }
 
 final class _Swipe<D extends EasyDialog> extends EasyDialogDismiss<D> {

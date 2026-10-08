@@ -30,6 +30,9 @@
      <a style="flex:1;">
         <img src="https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/b0912391-9a62-4eb3-aa75-3da8bc3d85ff" width="170"/>
     </a>
+    <a style="flex:1;">
+        <img src="https://github.com/user-attachments/assets/8712c5cf-e665-49ae-bcc9-e1a11957d529" width="170"/>
+    </a>
 </div>
 
 

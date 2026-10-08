@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easy_dialogs/src/core/core.dart';
 import 'package:flutter_easy_dialogs/src/core/widget/overlay_provider.dart';
+import 'package:flutter_easy_dialogs/src/tooltip/tooltip.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 final _key = GlobalKey<OverlayProviderState>();
@@ -11,9 +12,11 @@ const dialogKey = ValueKey('dialog');
 const testCurve = Curves.linear;
 
 Widget app({Widget? child}) => MaterialApp(
-      builder: (context, child) => OverlayProvider(
-        child: child ?? const SizedBox(),
-        key: _key,
+      builder: (context, child) => TooltipTargetsScope(
+        child: OverlayProvider(
+          child: child ?? const SizedBox(),
+          key: _key,
+        ),
       ),
       home: child != null ? Builder(builder: (context) => child) : null,
     );

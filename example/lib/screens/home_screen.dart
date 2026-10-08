@@ -1,5 +1,6 @@
 import 'package:example/full_screen/routes.dart';
 import 'package:example/positioned/routes.dart';
+import 'package:example/tooltip/screens/tooltip_dialog_basic_usage_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -24,6 +25,14 @@ class HomeScreen extends StatelessWidget {
               onPressed: () =>
                   Navigator.of(context).push(FullScreenDialogRoutes.home.route),
               child: const Text('Full screen dialogs example'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const TooltipDialogBasicUsageScreen(),
+                ),
+              ),
+              child: const Text('Tooltip dialogs example'),
             ),
           ],
         ),

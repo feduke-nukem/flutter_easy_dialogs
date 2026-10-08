@@ -419,6 +419,16 @@ final res = await content
 
 ![ezgif-4-2c10546796](https://github.com/feduke-nukem/flutter_easy_dialogs/assets/72284940/06c272be-ae67-40c9-ae95-f57533effe33)
 
+To dismiss a dialog on tap outside of it, use [EasyDialogDismiss.tapOutside](https://pub.dev/documentation/flutter_easy_dialogs/latest/flutter_easy_dialogs/EasyDialogDismiss/EasyDialogDismiss.tapOutside.html). The tap is not consumed, so widgets below still receive it. Drags (e.g. scrolling) are not treated as taps.
+
+```dart
+const Text('Tooltip')
+    .tooltip(targetId: 'profile')
+    .decorate(const TooltipShell.bubble())
+    .tapOutside(onDismissed: () => 5)
+    .show<int>();
+```
+
 #### Imagination
 
 You can achieve fascinating results; you are only limited by your imagination!

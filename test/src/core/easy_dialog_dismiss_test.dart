@@ -19,6 +19,10 @@ void main() {
         () => EasyDialogDismiss.swipe(),
         returnsNormally,
       );
+      expect(
+        () => EasyDialogDismiss.tapOutside(),
+        returnsNormally,
+      );
     },
   );
   testWidgets('show, tap, dismissed, animated tap', (widgetTester) async {
@@ -119,6 +123,68 @@ void main() {
     await widgetTester.pumpAndSettle(_pumpAndSettleDuration);
 
     expect(find.byKey(dialogKey), findsOneWidget);
+  });
+
+  group('tap outside', () {
+    Future<Future<Object?>> show(
+      WidgetTester widgetTester, {
+      EasyWillDismiss? willDismiss,
+    }) async {
+      await widgetTester.pumpWidget(app());
+      final result = easyOverlayState.controller.show(
+        const ColoredBox(
+          key: dialogKey,
+          color: Colors.red,
+          child: SizedBox.square(dimension: 50.0),
+        )
+            .positioned(
+              position: EasyDialogPosition.center,
+              autoHideDuration: null,
+            )
+            .tapOutside(onDismissed: () => 1, willDismiss: willDismiss),
+      );
+      await widgetTester.pumpAndSettle();
+
+      return result;
+    }
+
+    testWidgets('tap inside - not dismissed', (widgetTester) async {
+      await show(widgetTester);
+
+      await widgetTester.tap(find.byKey(dialogKey), warnIfMissed: false);
+      await widgetTester.pumpAndSettle();
+
+      expect(find.byKey(dialogKey), findsOneWidget);
+    });
+
+    testWidgets('tap outside - dismissed with result', (widgetTester) async {
+      final result = await show(widgetTester);
+
+      await widgetTester.tapAt(Offset.zero);
+      await widgetTester.pumpAndSettle();
+
+      expect(find.byKey(dialogKey), findsNothing);
+      expect(await result, 1);
+    });
+
+    testWidgets('drag outside - not dismissed', (widgetTester) async {
+      await show(widgetTester);
+
+      await widgetTester.dragFrom(Offset.zero, const Offset(0.0, 100.0));
+      await widgetTester.pumpAndSettle();
+
+      expect(find.byKey(dialogKey), findsOneWidget);
+    });
+
+    testWidgets('tap outside, will dismiss false - not dismissed',
+        (widgetTester) async {
+      await show(widgetTester, willDismiss: () => false);
+
+      await widgetTester.tapAt(Offset.zero);
+      await widgetTester.pumpAndSettle();
+
+      expect(find.byKey(dialogKey), findsOneWidget);
+    });
   });
 
   group('swipe', () {
